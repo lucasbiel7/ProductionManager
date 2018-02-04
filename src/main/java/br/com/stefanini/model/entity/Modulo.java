@@ -10,6 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -18,25 +20,37 @@ import org.hibernate.annotations.GenericGenerator;
  * @author lucas
  */
 @Entity
-@Table(name="TB_PROJETO",schema="production_manager")
-public class Projeto extends BaseEntity<String>{
-   
-    @Override
+@Table(name = "TB_MODULO",schema = "production_manager")
+public class Modulo extends BaseEntity<String>{
+
+    private String descricao;
+    private Projeto projeto;
+    
     @Id
-    @GenericGenerator(name = "uuid",strategy = "uuid2")
+    @GenericGenerator(name= "uuid",strategy = "uuid2")
     @GeneratedValue(generator = "uuid")
-    @Column(name="ID_PROJETO",unique=true)
+    @Column(name="ID_MODULO")
+    @Override
     public String getId() {
         return super.getId();
     }
-    private String descricao;
-
-    @Column(name="TX_DESCRICAO")
+    
+    @Column(name = "TX_DESCRICAO")
     public String getDescricao() {
         return descricao;
     }
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    } 
+    }
+
+    @ManyToOne(targetEntity = Projeto.class,optional = false)
+    @JoinColumn(name = "ID_PROJETO",referencedColumnName = "ID_PROJETO")
+    public Projeto getProjeto() {
+        return projeto;
+    }
+
+    public void setProjeto(Projeto projeto) {
+        this.projeto = projeto;
+    }
 }

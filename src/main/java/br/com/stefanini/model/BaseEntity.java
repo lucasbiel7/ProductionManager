@@ -7,15 +7,18 @@ package br.com.stefanini.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 
 /**
  *
  * @author lucas
  * @param <Type>
  */
-public class BaseEntity<Type extends Serializable> implements Serializable{
+public abstract class BaseEntity<Type extends Serializable> implements Serializable{
     
-    private Type id;
+    @Access(AccessType.PROPERTY)
+    protected Type id;
 
     public Type getId() {
         return id;
