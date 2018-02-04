@@ -1,3 +1,18 @@
 .button {
     -fx-font-weight: bold;
 }
+
+.title-label{
+    -fx-text-align: center;
+    -fx-font-size: 20px;
+    -fx-alignment: CENTER;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #0000ff;
+    -fx-border-radius: 10 10 0 0;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.meses-component{
+    -fx-border-radius: 10 10 0 0;
+    -fx-background-radius: 10 10 0 0;
+}
