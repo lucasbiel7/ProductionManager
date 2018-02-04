@@ -5,7 +5,7 @@
  */
 package br.com.stefanini.control.dao;
 
-import br.com.stefanini.control.GenericaDAO;
+import br.com.stefanini.control.database.GenericaDAO;
 import br.com.stefanini.model.entity.Projeto;
 
 /**

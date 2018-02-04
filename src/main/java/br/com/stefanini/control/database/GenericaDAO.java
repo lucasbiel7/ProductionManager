@@ -3,9 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package br.com.stefanini.control;
-
+package br.com.stefanini.control.database;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -17,6 +15,7 @@ import org.hibernate.Session;
 /**
  *
  * @author lucas
+ * @param <Entity>
  */
 public class GenericaDAO<Entity> {
 
@@ -72,5 +71,4 @@ public class GenericaDAO<Entity> {
             session.close();
         }
     }
-
 }

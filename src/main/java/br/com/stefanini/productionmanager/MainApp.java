@@ -1,25 +1,26 @@
 package br.com.stefanini.productionmanager;
 
+import br.com.stefanini.control.GerenciadorDeJanela;
+import br.com.stefanini.control.database.Banco;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.application.Platform;
 import javafx.stage.Stage;
-
+import javafx.stage.WindowEvent;
 
 public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-        
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");
-        
-        stage.setTitle("JavaFX and Maven");
-        stage.setScene(scene);
-        stage.show();
+        //Starting database now
+        Banco.getSessionFactory().openSession().close();
+        GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
+        stage.setOnCloseRequest((WindowEvent event) -> {
+            Platform.exit();
+            System.exit(0);
+        });
+        stage.setMaximized(true);
+        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("PainelDeControle"), "Início").show();
     }
 
     /**

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="363.0" prefWidth="251.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="br.com.stefanini.control.StatusMensalComponentController">
+    <stylesheets>
+        <URL value="@/br/com/stefanini/view/styles/Styles.css" />
+    </stylesheets>
+   <children>
+      <TitledPane animated="false" layoutX="5.0" layoutY="69.0" prefHeight="150.0" prefWidth="242.0" text="Estimada" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </TitledPane>
+      <TitledPane layoutX="14.0" layoutY="218.0" prefHeight="150.0" prefWidth="251.0" text="Detalhada" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Label layoutY="6.0" prefHeight="59.0" prefWidth="251.0" text="Label" />
+   </children>
+</AnchorPane>
