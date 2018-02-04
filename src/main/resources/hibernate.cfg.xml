@@ -13,6 +13,7 @@
         <property name="hibernate.c3p0.timeout">1800</property>
         <property name="hibernate.c3p0.max_statements">50</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.show_sql">true</property>
         <mapping class="br.com.stefanini.model.entity.Atividade"/>
         <mapping class="br.com.stefanini.model.entity.Modulo"/>
         <mapping class="br.com.stefanini.model.entity.OrdemServico"/>

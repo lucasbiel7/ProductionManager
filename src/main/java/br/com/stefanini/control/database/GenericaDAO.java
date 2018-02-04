@@ -5,6 +5,7 @@
  */
 package br.com.stefanini.control.database;
 
+import br.com.stefanini.model.BaseEntity;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import org.hibernate.Session;
  * @author lucas
  * @param <Entity>
  */
-public class GenericaDAO<Entity> {
+public class GenericaDAO<Entity extends BaseEntity> {
 
     protected Session session;
     protected Class<Entity> classe;

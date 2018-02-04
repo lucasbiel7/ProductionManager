@@ -5,6 +5,7 @@
  */
 package br.com.stefanini.model.entity;
 
+import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,25 +21,24 @@ import org.hibernate.annotations.GenericGenerator;
  * @author lucas
  */
 @Entity
-@Table(name = "TB_ATIVIDADE",schema = "production_manager")
-public class Atividade extends BaseEntity<String>{
+@Table(name = "TB_ATIVIDADE", schema = Config.SCHEMA)
+public class Atividade extends BaseEntity<String> {
 
-    
     private String descricao;
     private long contagemEstimada;
     private long contagemDetalhada;
     private OrdemServico ordemServico;
-    
+
     @Override
     @Id
-    @GenericGenerator(name = "uuid",strategy = "uuid2")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @GeneratedValue(generator = "uuid")
-    @Column(name="ID_ATIVIDADE")
+    @Column(name = "ID_ATIVIDADE")
     public String getId() {
         return super.getId(); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    @Column(name ="TX_DESCRICAO")
+
+    @Column(name = "TX_DESCRICAO")
     public String getDescricao() {
         return descricao;
     }
@@ -46,6 +46,7 @@ public class Atividade extends BaseEntity<String>{
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
     @Column(name = "VL_ESTIMADA")
     public long getContagemEstimada() {
         return contagemEstimada;
@@ -55,8 +56,8 @@ public class Atividade extends BaseEntity<String>{
         this.contagemEstimada = contagemEstimada;
     }
 
-    @ManyToOne(targetEntity = OrdemServico.class,optional = false)
-    @JoinColumn(name = "ID_ORDEM_SERVICO",referencedColumnName = "ID_ORDEM_SERVICO")
+    @ManyToOne(targetEntity = OrdemServico.class, optional = false)
+    @JoinColumn(name = "ID_ORDEM_SERVICO", referencedColumnName = "ID_ORDEM_SERVICO")
     public OrdemServico getOrdemServico() {
         return ordemServico;
     }
@@ -65,7 +66,7 @@ public class Atividade extends BaseEntity<String>{
         this.ordemServico = ordemServico;
     }
 
-    @Column(name="VL_DETALHADA")
+    @Column(name = "VL_DETALHADA")
     public long getContagemDetalhada() {
         return contagemDetalhada;
     }
@@ -73,5 +74,5 @@ public class Atividade extends BaseEntity<String>{
     public void setContagemDetalhada(long contagemDetalhada) {
         this.contagemDetalhada = contagemDetalhada;
     }
-    
+
 }

@@ -5,6 +5,7 @@
  */
 package br.com.stefanini.model.entity;
 
+import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import java.util.Date;
@@ -24,25 +25,24 @@ import org.hibernate.annotations.GenericGenerator;
  * @author lucas
  */
 @Entity
-@Table(name ="TB_PROGRESSO_ATIVIDADE")
-public class ProgressoAtividade extends BaseEntity<String>{
+@Table(name = "TB_PROGRESSO_ATIVIDADE", schema = Config.SCHEMA)
+public class ProgressoAtividade extends BaseEntity<String> {
 
     @Override
     @Id
-    @GenericGenerator(name = "uuid",strategy = "uuid2")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @GeneratedValue(generator = "uuid")
     @Column(name = "ID_PROGRESSO_ATIVIDADE")
     public String getId() {
         return super.getId(); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     private TipoAtividade tipoAtividade;
-    
+
     private Date dataDoProgresso;
-    
+
     private double progresso;
 
-   
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "TP_ATIVIDADE")
     public TipoAtividade getTipoAtividade() {
@@ -53,9 +53,8 @@ public class ProgressoAtividade extends BaseEntity<String>{
         this.tipoAtividade = tipoAtividade;
     }
 
-  
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="TM_PROGRESSO")
+    @Column(name = "TM_PROGRESSO")
     public Date getDataDoProgresso() {
         return dataDoProgresso;
     }
@@ -64,8 +63,7 @@ public class ProgressoAtividade extends BaseEntity<String>{
         this.dataDoProgresso = dataDoProgresso;
     }
 
-   
-    @Column(name = "VL_PROGRESSO",precision = 2)
+    @Column(name = "VL_PROGRESSO", precision = 2)
     public double getProgresso() {
         return progresso;
     }
@@ -73,6 +71,5 @@ public class ProgressoAtividade extends BaseEntity<String>{
     public void setProgresso(double progresso) {
         this.progresso = progresso;
     }
-    
-    
+
 }
