@@ -79,4 +79,13 @@ public class PainelDeControleController implements Initializable {
         stage.initOwner(apPrincipal.getScene().getWindow());
         stage.showAndWait();
     }
+
+    @FXML
+    private void miModuloActionEvent(ActionEvent ae) {
+        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterModulo"), "Manter modulos");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(apPrincipal.getScene().getWindow());
+        stage.showAndWait();
+    }
+
 }

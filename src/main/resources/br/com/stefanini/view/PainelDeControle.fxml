@@ -20,11 +20,12 @@
           <Menu mnemonicParsing="false" text="Gerenciar">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#miProjetosActionEvent" text="Projetos" />
+                  <MenuItem mnemonicParsing="false" onAction="#miModuloActionEvent" text="Modulos" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
-      <Spinner fx:id="spAno" editable="true" layoutX="21.0" layoutY="107.0" prefHeight="25.0" prefWidth="152.0" />
+      <Spinner fx:id="spAno" layoutX="21.0" layoutY="107.0" prefHeight="25.0" prefWidth="152.0" />
       <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="21.0" layoutY="155.0" prefHeight="236.0" prefWidth="573.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="155.0">
          <content>
             <GridPane fx:id="gpMeses" hgap="8.0" vgap="8.0">
