@@ -58,7 +58,7 @@ public class ManterProjetosController implements Initializable {
     private void btSalvarActionEvent(ActionEvent ae) {
         projeto.setDescricao(tfDescricao.getText());
         if (projeto.getId() == null) {
-            new ProjetoDAO().cadastrar(projeto);
+            new ProjetoDAO().salvar(projeto);
             new Alert(Alert.AlertType.INFORMATION, "Projeto cadastrado com sucesso.").show();
             atualizarTabela();
         } else {

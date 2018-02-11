@@ -1,7 +1,6 @@
 package br.com.stefanini.productionmanager;
 
 import br.com.stefanini.control.GerenciadorDeJanela;
-import br.com.stefanini.control.database.Banco;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.application.Platform;
@@ -13,14 +12,17 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //Starting database now
-        Banco.getSessionFactory().openSession().close();
         GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
         stage.setOnCloseRequest((WindowEvent event) -> {
             Platform.exit();
             System.exit(0);
         });
-        stage.setMaximized(true);
-        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("PainelDeControle"), "Início").show();
+//        
+        //Atalho para entrar direto no projeot
+//        stage.setMaximized(true);
+//        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("PainelDeControle"), "Início").show();
+        //
+        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("Login"), "Autenticação").show();
     }
 
     /**

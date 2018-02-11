@@ -5,10 +5,8 @@
  */
 package br.com.stefanini.control.database;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * Hibernate Utility class with a convenient method to get Session Factory
@@ -18,21 +16,14 @@ import org.hibernate.service.ServiceRegistry;
  */
 public class Banco {
 
-    private static final SessionFactory sessionFactory;
+    private static EntityManagerFactory entityManagerFactory;
 
     static {
-        try {
-            Configuration cfg = new Configuration().configure();
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
-            sessionFactory = cfg.buildSessionFactory(serviceRegistry);
-        } catch (Throwable ex) {
-            // Log the exception.
-            System.err.println("Initial SessionFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
+        entityManagerFactory = Persistence.createEntityManagerFactory("production-manager");
     }
 
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
+    public static EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactory;
     }
+
 }

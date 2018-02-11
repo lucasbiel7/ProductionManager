@@ -5,71 +5,79 @@
  */
 package br.com.stefanini.control.database;
 
-import br.com.stefanini.model.BaseEntity;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
  * @author lucas
  * @param <Entity>
+ *
  */
-public class GenericaDAO<Entity extends BaseEntity> {
+public class GenericaDAO<Entity> {
 
-    protected Session session;
-    protected Class<Entity> classe;
-    protected Criteria criteria;
+    private EntityManager entityManager;
     protected Entity entity;
     protected List<Entity> entitys;
+    protected Class<Entity> classe;
+
+    protected CriteriaBuilder criteriaBuilder;
+    protected CriteriaQuery<Entity> criteriaQuery;
+    protected Root<Entity> root;
 
     public GenericaDAO() {
+
+        entityManager = Banco.getEntityManagerFactory().createEntityManager();
         classe = (Class<Entity>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        entitys = new ArrayList<>();
-        session = Banco.getSessionFactory().openSession();
-        criteria = session.createCriteria(classe);
+        criteriaBuilder = entityManager.getCriteriaBuilder();
+        criteriaQuery = criteriaBuilder.createQuery(classe);
+        root = criteriaQuery.from(classe);
     }
 
-    public void cadastrar(Entity entity) {
-        session.beginTransaction();
-        session.save(entity);
-        closeSession();
+    public void salvar(Entity entity) {
+        entityManager.getTransaction().begin();
+        entityManager.persist(entity);
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     public void editar(Entity entity) {
-        session.beginTransaction();
-        session.update(entity);
-        closeSession();
+        entityManager.getTransaction().begin();
+        entityManager.merge(entity);
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     public void excluir(Entity entity) {
-        session.beginTransaction();
-        session.delete(entity);
-        closeSession();
+        entityManager.getTransaction().begin();
+        entityManager.remove(entity);
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     public Entity pegarPorId(Serializable id) {
-        entity = (Entity) session.get(classe, id);
-        closeSession();
+        entity = entityManager.find(classe, id);
+        entityManager.close();
         return entity;
     }
 
     public List<Entity> pegarTodos() {
-        entitys = criteria.list();
-        closeSession();
+        entitys = entityManager.createQuery(criteriaQuery).getResultList();
+        entityManager.close();
         return entitys;
     }
 
-    private void closeSession() {
-        if (session.isOpen()) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().commit();
-            }
-            session.flush();
-            session.close();
-        }
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
 }

@@ -12,6 +12,6 @@ import br.com.stefanini.model.entity.Modulo;
  *
  * @author lucas
  */
-public class ModuloDAO extends GenericaDAO<Modulo>{
-    
+public class ModuloDAO extends GenericaDAO<Modulo> {
+
 }

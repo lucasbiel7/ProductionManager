@@ -1,3 +1,12 @@
+mainFxmlClass{
+    -fx-background-color: white;
+}
+
+.login{
+    -fx-background-image: url(../image/stefanini.jpg);
+    -fx-background-repeat: no-repeat; 
+}
+
 .button {
     -fx-font-weight: bold;
 }
@@ -15,4 +24,12 @@
 .meses-component{
     -fx-border-radius: 10 10 0 0;
     -fx-background-radius: 10 10 0 0;
+}
+.logo{
+    -fx-text-fill:white;
+    -fx-font-size:30px;
+}
+
+.font-image{
+    -fx-text-fill:white;
 }

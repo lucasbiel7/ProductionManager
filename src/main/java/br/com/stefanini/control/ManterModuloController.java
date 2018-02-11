@@ -83,7 +83,7 @@ public class ManterModuloController implements Initializable {
         modulo.setDescricao(tfDescricao.getText());
         modulo.setProjeto(cbProjeto.getValue());
         if (modulo.getId() == null) {
-            new ModuloDAO().cadastrar(modulo);
+            new ModuloDAO().salvar(modulo);
             new Alert(Alert.AlertType.INFORMATION, "Modulo cadastro com sucesso.").show();
             atualizarTabelas();
         } else {
