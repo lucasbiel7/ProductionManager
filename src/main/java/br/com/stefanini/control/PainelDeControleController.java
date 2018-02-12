@@ -8,16 +8,18 @@ package br.com.stefanini.control;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -34,13 +36,26 @@ public class PainelDeControleController implements Initializable {
     @FXML
     private GridPane gpMeses;
 
+    @FXML
+    private ScrollPane spContainer;
+
     private GerenciadorDeJanela gerenciadorDeJanela;
+
+    @FXML
+    private AnchorPane apMeses;
+
+    private Stage stage;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Platform.runLater(() -> {
+            stage = (Stage) apPrincipal.getScene().getWindow();
+            stage.setResizable(true);
+            stage.setMaximized(true);
+        });
         Calendar calendar = Calendar.getInstance();
         spAno.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, calendar.get(Calendar.YEAR)));
         spAno.getValueFactory().valueProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) -> {
@@ -73,19 +88,23 @@ public class PainelDeControleController implements Initializable {
     }
 
     @FXML
+    private void cabecalhoMouseEvent(MouseEvent mouseEvent) {
+        spContainer.setContent(apMeses);
+    }
+
+    @FXML
     private void miProjetosActionEvent(ActionEvent ae) {
-        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterProjetos"), "Manter projetos");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(apPrincipal.getScene().getWindow());
-        stage.showAndWait();
+        spContainer.setContent(gerenciadorDeJanela.carregarComponente("ManterProjetos"));
     }
 
     @FXML
     private void miModuloActionEvent(ActionEvent ae) {
-        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterModulo"), "Manter modulos");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(apPrincipal.getScene().getWindow());
-        stage.showAndWait();
+        spContainer.setContent(gerenciadorDeJanela.carregarComponente("ManterModulo"));
+    }
+
+    @FXML
+    private void miCadastrarUsuariosActionEvent(ActionEvent ae) {
+        spContainer.setContent(gerenciadorDeJanela.carregarComponente("ManterUsuario"));
     }
 
 }

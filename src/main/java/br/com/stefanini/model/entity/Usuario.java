@@ -38,6 +38,7 @@ public class Usuario extends BaseEntity<String> {
     private String senha;
     private Perfil perfil;
     private Pessoa pessoa;
+    private boolean ativado;
 
     @Column(name = "TX_SENHA")
     public String getSenha() {
@@ -66,6 +67,15 @@ public class Usuario extends BaseEntity<String> {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    @Column(name = "ST_ATIVO")
+    public boolean isAtivado() {
+        return ativado;
+    }
+
+    public void setAtivado(boolean ativado) {
+        this.ativado = ativado;
     }
 
 }

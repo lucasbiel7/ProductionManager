@@ -132,5 +132,10 @@
             <version>4.3.1.Final</version>
             <scope>provided</scope>
         </dependency>
+       <dependency>
+            <groupId>com.jidesoft</groupId>
+            <artifactId>jidefx-fields</artifactId>
+            <version>0.9.1-b128</version>
+        </dependency>
     </dependencies>
 </project>

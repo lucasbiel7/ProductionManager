@@ -1,7 +1,14 @@
-mainFxmlClass{
+.mainFxmlClass{
     -fx-background-color: white;
 }
 
+.scroll-pane{
+   -fx-background-color:transparent;
+}
+
+.scroll-pane > .viewport { 
+   -fx-background-color: transparent;
+}
 .login{
     -fx-background-image: url(../image/stefanini.jpg);
     -fx-background-repeat: no-repeat; 
@@ -10,7 +17,7 @@ mainFxmlClass{
 .button {
     -fx-font-weight: bold;
 }
-
+/*Usado para componente de data */
 .title-label{
     -fx-text-align: center;
     -fx-font-size: 20px;

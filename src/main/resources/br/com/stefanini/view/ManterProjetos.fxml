@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="br.com.stefanini.control.ManterProjetosController">
+<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.ManterProjetosController">
     <stylesheets>
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
@@ -19,7 +19,7 @@
       <TextField fx:id="tfDescricao" layoutX="94.0" layoutY="35.0" />
       <Button layoutX="157.0" layoutY="80.0" mnemonicParsing="false" onAction="#btSalvarActionEvent" text="Salvar" />
       <Button layoutX="94.0" layoutY="80.0" mnemonicParsing="false" onAction="#btNovoActionEvent" text="Novo" />
-      <TableView fx:id="tvProjeto" layoutX="17.0" layoutY="125.0" prefHeight="262.0" prefWidth="573.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="10.0">
+      <TableView fx:id="tvProjeto" layoutX="17.0" layoutY="125.0" prefHeight="262.0" prefWidth="573.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="128.0">
         <columns>
           <TableColumn fx:id="tcDescricao" prefWidth="75.0" text="Descrição" />
         </columns>

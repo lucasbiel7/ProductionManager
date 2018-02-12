@@ -19,8 +19,8 @@ import javafx.util.Duration;
  * @author lucas
  */
 public class GerenciadorDeJanela {
-    
-    public static final String PACOTE_VIEW="/br/com/stefanini/view/";
+
+    public static final String PACOTE_VIEW = "/br/com/stefanini/view/";
     private Scene scene;
 
     public GerenciadorDeJanela() {
@@ -29,24 +29,23 @@ public class GerenciadorDeJanela {
     public GerenciadorDeJanela(Scene scene) {
         this.scene = scene;
     }
-    
-    
-    public Stage mostrarJanela(Stage primaryStage,Parent parent,String title){
+
+    public Stage mostrarJanela(Stage primaryStage, Parent parent, String title) {
         primaryStage.setTitle(title);
-        scene=new Scene(parent);
+        scene = new Scene(parent);
         primaryStage.setScene(scene);
         return primaryStage;
     }
-    
+
     public void trocarCena(Parent parent) {
-        if(parent!=null){
-            FadeTransition fadeTransition=new FadeTransition(Duration.seconds(1));
+        if (parent != null) {
+            FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1));
             fadeTransition.setNode(scene.getRoot());
             fadeTransition.setFromValue(1);
             fadeTransition.setToValue(0);
             fadeTransition.play();
             fadeTransition.setOnFinished((ActionEvent event) -> {
-                FadeTransition transition=new FadeTransition(Duration.seconds(1));
+                FadeTransition transition = new FadeTransition(Duration.seconds(1));
                 transition.setNode(parent);
                 transition.setFromValue(0);
                 transition.setToValue(1);
@@ -55,18 +54,18 @@ public class GerenciadorDeJanela {
             });
         }
     }
-    
+
     public Parent carregarComponente(String tela) {
-        try{
-            return FXMLLoader.load(getClass().getResource(PACOTE_VIEW+""+tela+".fxml")); 
-        }catch(IOException e){
+        try {
+            return FXMLLoader.load(getClass().getResource(PACOTE_VIEW + "" + tela + ".fxml"));
+        } catch (IOException e) {
             return null;
         }
     }
-    
-    public Parent carregarComponente(String tela,Object object){
-        Parent parent=carregarComponente(tela);
-        if(parent!=null){
+
+    public Parent carregarComponente(String tela, Object object) {
+        Parent parent = carregarComponente(tela);
+        if (parent != null) {
             parent.setUserData(object);
         }
         return parent;

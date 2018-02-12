@@ -53,18 +53,18 @@ public class LoginController implements Initializable {
             stage.setHeight(720);
             System.out.println(new ModuloDAO().pegarTodos());
         });
-
-        lbDataVersao.setText(DateUtil.toDateFormater(new Date()) + " Versão: ");
+        lbDataVersao.setText("Data atual: " + DateUtil.toDateFormater(new Date()) + " Versão: ");
     }
 
     @FXML
     private void btLoginActionEvent(ActionEvent ae) {
 
         Usuario usuario = new UsuarioDAO().login(tfCPF.getText(), pfUSenha.getText());
-        if (usuario == null) {
+        if (usuario != null) {
             MessageUtil.messageError("Usuário ou senha incorretos!");
         } else {
-
+            GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
+            gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("PainelDeControle"), "Início").show();
         }
     }
 }

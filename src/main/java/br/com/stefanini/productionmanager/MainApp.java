@@ -21,7 +21,7 @@ public class MainApp extends Application {
         //Atalho para entrar direto no projeot
 //        stage.setMaximized(true);
 //        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("PainelDeControle"), "Início").show();
-        //
+        //Profile de produção
         gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("Login"), "Autenticação").show();
     }
 
