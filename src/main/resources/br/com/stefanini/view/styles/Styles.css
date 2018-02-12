@@ -40,3 +40,6 @@
 .font-image{
     -fx-text-fill:white;
 }
+.obrigatorio{
+    -fx-text-fill:red;
+}

@@ -7,6 +7,8 @@ package br.com.stefanini.model.entity;
 
 import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
@@ -39,6 +42,12 @@ public class Usuario extends BaseEntity<String> {
     private Perfil perfil;
     private Pessoa pessoa;
     private boolean ativado;
+
+    public Usuario() {
+        atuando = new ArrayList<>();
+    }
+
+    private List<Atuando> atuando;
 
     @Column(name = "TX_SENHA")
     public String getSenha() {
@@ -76,6 +85,15 @@ public class Usuario extends BaseEntity<String> {
 
     public void setAtivado(boolean ativado) {
         this.ativado = ativado;
+    }
+
+    @OneToMany(mappedBy = "id.usuario", cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = Atuando.class)
+    public List<Atuando> getAtuando() {
+        return atuando;
+    }
+
+    public void setAtuando(List<Atuando> atuando) {
+        this.atuando = atuando;
     }
 
 }

@@ -5,6 +5,7 @@
  */
 package br.com.stefanini.control.database;
 
+import br.com.stefanini.model.BaseEntity;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -19,9 +20,9 @@ import javax.persistence.criteria.Root;
  * @param <Entity>
  *
  */
-public class GenericaDAO<Entity> {
+public class GenericaDAO<Entity extends BaseEntity> {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
     protected Entity entity;
     protected List<Entity> entitys;
     protected Class<Entity> classe;
@@ -31,7 +32,6 @@ public class GenericaDAO<Entity> {
     protected Root<Entity> root;
 
     public GenericaDAO() {
-
         entityManager = Banco.getEntityManagerFactory().createEntityManager();
         classe = (Class<Entity>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -55,6 +55,7 @@ public class GenericaDAO<Entity> {
 
     public void excluir(Entity entity) {
         entityManager.getTransaction().begin();
+        entity = entityManager.merge(entity);
         entityManager.remove(entity);
         entityManager.getTransaction().commit();
         entityManager.close();
@@ -72,12 +73,7 @@ public class GenericaDAO<Entity> {
         return entitys;
     }
 
-    public EntityManager getEntityManager() {
+    protected EntityManager getEntityManager() {
         return entityManager;
     }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
 }

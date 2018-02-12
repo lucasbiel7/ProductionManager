@@ -22,9 +22,10 @@
         <menus>
           <Menu mnemonicParsing="false" text="Gerenciar">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#miPerfilActionEvent" text="Perfil" />
+                  <MenuItem mnemonicParsing="false" onAction="#miCadastrarUsuariosActionEvent" text="Usuários" />
               <MenuItem mnemonicParsing="false" onAction="#miProjetosActionEvent" text="Projetos" />
                   <MenuItem mnemonicParsing="false" onAction="#miModuloActionEvent" text="Modulos" />
-                  <MenuItem mnemonicParsing="false" onAction="#miCadastrarUsuariosActionEvent" text="Usuários" />
             </items>
           </Menu>
         </menus>

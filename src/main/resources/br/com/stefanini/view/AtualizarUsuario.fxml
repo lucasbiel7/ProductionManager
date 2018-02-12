@@ -1,14 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import jidefx.scene.control.field.MaskTextField?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.AtualizarUsuarioController">
+<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="526.0" prefWidth="831.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="br.com.stefanini.control.AtualizarUsuarioController">
     <stylesheets>
-        <URL value="@/br/com/stefanini/view/styles/Styles.css"/>
+        <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
+   <children>
+      <GridPane layoutX="68.0" layoutY="48.0">
+        <columnConstraints>
+          <ColumnConstraints />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="91.0" minWidth="9.0" prefWidth="15.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="109.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="259.0" minWidth="10.0" prefWidth="251.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label styleClass="obrigatorio" text="*" GridPane.columnIndex="1" />
+            <Label text="Perfil:" GridPane.columnIndex="2" />
+            <Label styleClass="obrigatorio" text="*" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label styleClass="obrigatorio" text="*" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Nome:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label text="CPF:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label text="E-mail" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label styleClass="obrigatorio" text="*" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ComboBox fx:id="cbPerfil" prefWidth="150.0" GridPane.columnIndex="3" />
+            <TextField fx:id="tfNome" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <MaskTextField fx:id="mtfCPF" inputMask="999.999.999-99" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <TextField fx:id="tfEmail" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Label styleClass="obrigatorio" text="*" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="Atuação" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+         </children>
+      </GridPane>
+      <Label layoutX="156.0" layoutY="233.0" text="Disponíveis" />
+      <Label layoutX="446.0" layoutY="233.0" text="Selecionados" />
+      <ListView fx:id="lvAtuacao" layoutX="156.0" layoutY="258.0" prefHeight="150.0" prefWidth="200.0" />
+      <ListView fx:id="lvAtuacaoSelecionado" layoutX="433.0" layoutY="258.0" prefHeight="150.0" prefWidth="200.0" />
+      <Label layoutX="433.0" layoutY="233.0" styleClass="obrigatorio" text="*" />
+      <VBox alignment="CENTER" layoutX="361.0" layoutY="258.0" prefHeight="150.0" prefWidth="61.0" spacing="5.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#btAdicionarActionEvent" prefWidth="50.0" text="&gt;" />
+            <Button mnemonicParsing="false" onAction="#btAdicionarTodosActionEvent" prefWidth="50.0" text="&gt;&gt;" />
+            <Button mnemonicParsing="false" onAction="#btRemoverTodosActionEvent" prefWidth="50.0" text="&lt;&lt;" />
+            <Button mnemonicParsing="false" onAction="#btRemoverActionEvent" prefWidth="50.0" text="&lt;" />
+         </children>
+      </VBox>
+      <AnchorPane layoutX="15.0" layoutY="433.0" prefHeight="27.0" prefWidth="798.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+         <children>
+            <Line endX="700.0" startX="-100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label layoutY="9.5" styleClass="obrigatorio" text="*" />
+            <Label layoutX="18.0" layoutY="9.5" text="Campos(s) Obrigatório(s)" />
+         </children>
+      </AnchorPane>
+      <Button layoutX="676.0" layoutY="470.0" mnemonicParsing="false" onAction="#btConfirmarActionEvent" text="Confirmar" AnchorPane.rightAnchor="86.0" />
+      <Button layoutX="755.0" layoutY="470.0" mnemonicParsing="false" onAction="#btCancelarActionEvent" text="Cancelar" AnchorPane.rightAnchor="14.0" />
+   </children>
 </AnchorPane>

@@ -107,4 +107,9 @@ public class PainelDeControleController implements Initializable {
         spContainer.setContent(gerenciadorDeJanela.carregarComponente("ManterUsuario"));
     }
 
+    @FXML
+    private void miPerfilActionEvent(ActionEvent ae) {
+        spContainer.setContent(gerenciadorDeJanela.carregarComponente("ManterPerfil"));
+    }
+
 }
