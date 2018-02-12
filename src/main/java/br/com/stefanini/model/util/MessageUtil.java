@@ -14,6 +14,8 @@ import javafx.scene.control.ButtonType;
  */
 public class MessageUtil {
 
+    public static String CAMPOS_OBRIGATORIOS = "É necessário preencher todos os campos obrigatórios!";
+
     public static void messageInformation(String msg) {
         new Alert(Alert.AlertType.INFORMATION, msg).showAndWait();
     }

@@ -61,7 +61,7 @@ public class ManterPerfilController implements Initializable {
             }
             btNovoActionEvent(ae);
         } else {
-            MessageUtil.messageError("É necessário preencher todos os campos");
+            MessageUtil.messageError(MessageUtil.CAMPOS_OBRIGATORIOS);
         }
         tvPerfil.getItems().setAll(new PerfilDAO().pegarTodos());
     }

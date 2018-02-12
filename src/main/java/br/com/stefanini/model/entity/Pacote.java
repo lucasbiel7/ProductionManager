@@ -21,19 +21,19 @@ import org.hibernate.annotations.GenericGenerator;
  * @author lucas
  */
 @Entity
-@Table(name = "TB_MODULO", schema = Config.SCHEMA)
-public class Modulo extends BaseEntity<String> {
+@Table(name = "TB_PACOTE", schema = Config.SCHEMA)
+public class Pacote extends BaseEntity<String> {
 
     private String descricao;
-    private Projeto projeto;
+    private Modulo modulo;
 
+    @Override
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @GeneratedValue(generator = "uuid")
-    @Column(name = "ID_MODULO")
-    @Override
+    @Column(name = "ID_PACOTE")
     public String getId() {
-        return super.getId();
+        return super.getId(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Column(name = "TX_DESCRICAO")
@@ -45,19 +45,14 @@ public class Modulo extends BaseEntity<String> {
         this.descricao = descricao;
     }
 
-    @ManyToOne(targetEntity = Projeto.class, optional = false)
-    @JoinColumn(name = "ID_PROJETO", referencedColumnName = "ID_PROJETO")
-    public Projeto getProjeto() {
-        return projeto;
+    @ManyToOne(targetEntity = Modulo.class, optional = false)
+    @JoinColumn(name = "ID_MODULO", referencedColumnName = "ID_MODULO")
+    public Modulo getModulo() {
+        return modulo;
     }
 
-    public void setProjeto(Projeto projeto) {
-        this.projeto = projeto;
-    }
-
-    @Override
-    public String toString() {
-        return getDescricao();
+    public void setModulo(Modulo modulo) {
+        this.modulo = modulo;
     }
 
 }

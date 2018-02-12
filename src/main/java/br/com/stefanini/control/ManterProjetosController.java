@@ -7,6 +7,8 @@ package br.com.stefanini.control;
 
 import br.com.stefanini.control.dao.ProjetoDAO;
 import br.com.stefanini.model.entity.Projeto;
+import br.com.stefanini.model.util.MessageUtil;
+import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -57,7 +59,9 @@ public class ManterProjetosController implements Initializable {
     @FXML
     private void btSalvarActionEvent(ActionEvent ae) {
         projeto.setDescricao(tfDescricao.getText());
-        if (projeto.getId() == null) {
+        if (StringUtil.isEmpty(projeto.getDescricao())) {
+            MessageUtil.messageError("É necessário preencher todos os campos obrigatórios!");
+        } else if (projeto.getId() == null) {
             new ProjetoDAO().salvar(projeto);
             new Alert(Alert.AlertType.INFORMATION, "Projeto cadastrado com sucesso.").show();
             atualizarTabela();

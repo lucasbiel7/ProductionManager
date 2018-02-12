@@ -26,6 +26,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#miCadastrarUsuariosActionEvent" text="Usuários" />
               <MenuItem mnemonicParsing="false" onAction="#miProjetosActionEvent" text="Projetos" />
                   <MenuItem mnemonicParsing="false" onAction="#miModuloActionEvent" text="Modulos" />
+                  <MenuItem mnemonicParsing="false" onAction="#miManterPacotesActionEvent" text="Pacotes" />
             </items>
           </Menu>
         </menus>

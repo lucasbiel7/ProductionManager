@@ -7,11 +7,20 @@ package br.com.stefanini.control.dao;
 
 import br.com.stefanini.control.database.GenericaDAO;
 import br.com.stefanini.model.entity.Modulo;
+import br.com.stefanini.model.entity.Projeto;
+import java.util.List;
 
 /**
  *
  * @author lucas
  */
 public class ModuloDAO extends GenericaDAO<Modulo> {
+
+    public List<Modulo> pegarPorProjeto(Projeto projeto) {
+        criteriaQuery.where(criteriaBuilder.equal(root.get("projeto"), projeto));
+        entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
+        getEntityManager().close();
+        return entitys;
+    }
 
 }

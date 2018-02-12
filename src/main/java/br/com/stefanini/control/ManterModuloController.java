@@ -9,6 +9,8 @@ import br.com.stefanini.control.dao.ModuloDAO;
 import br.com.stefanini.control.dao.ProjetoDAO;
 import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.Projeto;
+import br.com.stefanini.model.util.MessageUtil;
+import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -69,6 +71,7 @@ public class ManterModuloController implements Initializable {
 
         });
         btNovoActionEvent(null);
+        atualizarTabelas();
     }
 
     @FXML
@@ -82,7 +85,9 @@ public class ManterModuloController implements Initializable {
     private void btSalvarActionEvent(ActionEvent ae) {
         modulo.setDescricao(tfDescricao.getText());
         modulo.setProjeto(cbProjeto.getValue());
-        if (modulo.getId() == null) {
+        if (StringUtil.isEmpty(modulo.getDescricao()) || modulo.getProjeto() == null) {
+            MessageUtil.messageError("É necessário preencher todos campos obrigatórios!");
+        } else if (modulo.getId() == null) {
             new ModuloDAO().salvar(modulo);
             new Alert(Alert.AlertType.INFORMATION, "Modulo cadastro com sucesso.").show();
             atualizarTabelas();
@@ -96,7 +101,6 @@ public class ManterModuloController implements Initializable {
     private void carregarDados() {
         cbProjeto.getSelectionModel().select(modulo.getProjeto());
         tfDescricao.setText(modulo.getDescricao());
-
     }
 
     private void atualizarTabelas() {
@@ -106,11 +110,16 @@ public class ManterModuloController implements Initializable {
 
     @FXML
     private void miEditarActionEvent(ActionEvent ae) {
-
+        modulo = tvModulo.getSelectionModel().getSelectedItem();
+        carregarDados();
     }
 
     @FXML
     private void miExcluirActionEvent(ActionEvent ae) {
-
+        if (MessageUtil.confirmMessage("Você realmente deseja excluir esse modulo?")) {
+            modulo = tvModulo.getSelectionModel().getSelectedItem();
+            new ModuloDAO().excluir(modulo);
+            atualizarTabelas();
+        }
     }
 }
