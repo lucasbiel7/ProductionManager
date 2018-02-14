@@ -121,4 +121,9 @@ public class PainelDeControleController implements Initializable {
     private void miManterAtuacaoActionEvent(ActionEvent ae) {
         spContainer.setContent(gerenciadorDeJanela.carregarComponente("ManterAtuacao"));
     }
+
+    @FXML
+    private void miOrdemServicoActionEvent(ActionEvent ae) {
+        spContainer.setContent(gerenciadorDeJanela.carregarComponente("ManterOrdemServico"));
+    }
 }

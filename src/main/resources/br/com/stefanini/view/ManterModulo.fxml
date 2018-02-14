@@ -53,7 +53,7 @@
          <children>
             <Label text="Projeto" GridPane.columnIndex="1" />
             <Label text="Descrição" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ComboBox fx:id="cbProjeto" prefHeight="25.0" prefWidth="214.0" GridPane.columnIndex="2" />
+            <ComboBox fx:id="cbProjeto" prefHeight="25.0" prefWidth="214.0" promptText="Selecione..." GridPane.columnIndex="2" />
             <TextField fx:id="tfDescricao" prefHeight="25.0" prefWidth="214.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Label styleClass="obrigatorio" text="*" />
             <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="1" />
