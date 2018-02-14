@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 <?import jidefx.scene.control.field.MaskTextField?>
 
 <AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="584.0" prefWidth="844.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.ManterUsuarioController">
@@ -22,7 +23,7 @@
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
    <children>
-      <GridPane layoutX="27.0" layoutY="30.0" prefHeight="118.0" prefWidth="413.0">
+      <GridPane layoutX="15.0" layoutY="86.0" prefHeight="118.0" prefWidth="413.0" AnchorPane.leftAnchor="15.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.0" minWidth="10.0" prefWidth="80.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.0" minWidth="10.0" prefWidth="218.0" />
@@ -44,8 +45,8 @@
             <TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
-      <Button layoutX="706.0" layoutY="169.0" mnemonicParsing="false" onAction="#btPesquisarActionEvent" text="Pesquisar Usuário" AnchorPane.rightAnchor="28.0" />
-      <TableView fx:id="tvUsuario" layoutX="27.0" layoutY="200.0" prefHeight="200.0" prefWidth="562.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="200.0">
+      <Button layoutX="796.0" layoutY="231.0" mnemonicParsing="false" onAction="#btPesquisarActionEvent" text="Pesquisar Usuário" />
+      <TableView fx:id="tvUsuario" layoutX="27.0" layoutY="270.0" prefHeight="299.0" prefWidth="814.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="270.0">
         <columns>
           <TableColumn fx:id="tcCPF" prefWidth="75.0" text="CPF" />
           <TableColumn fx:id="tcNome" prefWidth="75.0" text="Nome" />
@@ -75,6 +76,11 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Line endX="700.0" layoutX="116.0" layoutY="161.0" startX="-100.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <Line endX="790.0" layoutX="115.5" layoutY="216.0" startX="-100.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <Label layoutX="15.0" layoutY="14.0" styleClass="titulo-manutencao" text="Manutenção de usuários" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

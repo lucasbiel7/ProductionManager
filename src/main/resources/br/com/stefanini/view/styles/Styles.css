@@ -43,3 +43,9 @@
 .obrigatorio{
     -fx-text-fill:red;
 }
+
+.titulo-manutencao{
+    -fx-font-size:25px;
+    -fx-font-style:italic;
+    -fx-font-weight:bold;
+}
