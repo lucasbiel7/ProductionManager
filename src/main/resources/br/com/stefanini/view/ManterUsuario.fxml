@@ -14,9 +14,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import jidefx.scene.control.field.MaskTextField?>
 
-<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.ManterUsuarioController">
+<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="584.0" prefWidth="844.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.ManterUsuarioController">
     <stylesheets>
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
@@ -43,7 +44,7 @@
             <TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
-      <Button layoutX="501.0" layoutY="162.0" mnemonicParsing="false" onAction="#btPesquisarActionEvent" text="Pesquisar Usuário" AnchorPane.rightAnchor="15.0" />
+      <Button layoutX="706.0" layoutY="169.0" mnemonicParsing="false" onAction="#btPesquisarActionEvent" text="Pesquisar Usuário" AnchorPane.rightAnchor="28.0" />
       <TableView fx:id="tvUsuario" layoutX="27.0" layoutY="200.0" prefHeight="200.0" prefWidth="562.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="200.0">
         <columns>
           <TableColumn fx:id="tcCPF" prefWidth="75.0" text="CPF" />
@@ -74,5 +75,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <Line endX="700.0" layoutX="116.0" layoutY="161.0" startX="-100.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
    </children>
 </AnchorPane>

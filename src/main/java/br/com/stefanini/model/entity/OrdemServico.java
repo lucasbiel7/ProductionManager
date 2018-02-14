@@ -11,8 +11,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -25,7 +23,6 @@ import org.hibernate.annotations.GenericGenerator;
 public class OrdemServico extends BaseEntity<String> {
 
     private String descricao;
-    private Modulo modulo;
 
     @Override
     @Id
@@ -44,15 +41,4 @@ public class OrdemServico extends BaseEntity<String> {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-    @ManyToOne(targetEntity = Modulo.class, optional = false)
-    @JoinColumn(name = "ID_MODULO", referencedColumnName = "ID_MODULO")
-    public Modulo getModulo() {
-        return modulo;
-    }
-
-    public void setModulo(Modulo modulo) {
-        this.modulo = modulo;
-    }
-
 }

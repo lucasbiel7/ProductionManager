@@ -28,6 +28,7 @@ public class Atividade extends BaseEntity<String> {
     private long contagemEstimada;
     private long contagemDetalhada;
     private OrdemServico ordemServico;
+    private Pacote pacote;
 
     @Override
     @Id
@@ -73,6 +74,16 @@ public class Atividade extends BaseEntity<String> {
 
     public void setContagemDetalhada(long contagemDetalhada) {
         this.contagemDetalhada = contagemDetalhada;
+    }
+
+    @ManyToOne(targetEntity = Pacote.class, optional = false)
+    @JoinColumn(name = "ID_PACOTE", referencedColumnName = "ID_PACOTE")
+    public Pacote getPacote() {
+        return pacote;
+    }
+
+    public void setPacote(Pacote pacote) {
+        this.pacote = pacote;
     }
 
 }

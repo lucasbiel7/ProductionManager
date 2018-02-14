@@ -13,6 +13,7 @@ import java.util.Objects;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -31,6 +32,12 @@ public class Atuando extends BaseEntity<AtuadoID> {
         return super.getId(); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public Atuando() {
+        if (getId() == null) {
+            setId(new AtuadoID());
+        }
+    }
+
     @Embeddable
     public static class AtuadoID implements Serializable {
 
@@ -47,7 +54,7 @@ public class Atuando extends BaseEntity<AtuadoID> {
             this.atuacao = atuacao;
         }
 
-        @ManyToOne(targetEntity = Usuario.class, optional = false)
+        @ManyToOne(targetEntity = Usuario.class, optional = false, fetch = FetchType.LAZY)
         @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
         public Usuario getUsuario() {
             return usuario;

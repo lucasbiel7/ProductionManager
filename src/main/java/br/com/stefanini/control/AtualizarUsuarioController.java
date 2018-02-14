@@ -7,18 +7,28 @@ package br.com.stefanini.control;
 
 import br.com.stefanini.control.dao.AtuacaoDAO;
 import br.com.stefanini.control.dao.PerfilDAO;
+import br.com.stefanini.control.dao.UsuarioDAO;
 import br.com.stefanini.model.entity.Atuacao;
 import br.com.stefanini.model.entity.Atuando;
+import br.com.stefanini.model.entity.Atuando.AtuadoID;
 import br.com.stefanini.model.entity.Perfil;
+import br.com.stefanini.model.entity.Pessoa;
 import br.com.stefanini.model.entity.Usuario;
+import br.com.stefanini.model.util.MessageUtil;
+import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -43,7 +53,11 @@ public class AtualizarUsuarioController implements Initializable {
     @FXML
     private ListView<Atuacao> lvAtuacao;
     @FXML
-    private ListView<Atuando> lvAtuacaoSelecionado;
+    private ListView<Atuacao> lvAtuando;
+    @FXML
+    private PasswordField pfSenha;
+    @FXML
+    private PasswordField pfConfirmarSenha;
 
     @FXML
     private AnchorPane apPrincipal;
@@ -56,14 +70,20 @@ public class AtualizarUsuarioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         usuario = new Usuario();
+        usuario.setAtuando(new ArrayList<>());
         cbPerfil.getItems().setAll(new PerfilDAO().pegarTodos());
         Platform.runLater(() -> {
             stage = (Stage) apPrincipal.getScene().getWindow();
             if (apPrincipal.getUserData() instanceof Usuario) {
-
+                pfSenha.setPromptText("Para manter sua senha deixe este campo vazio");
+                usuario = (Usuario) apPrincipal.getUserData();
+                usuario = new UsuarioDAO().pegarAtuacoes(usuario);
+                carregarDados();
             }
         });
         lvAtuacao.getItems().setAll(new AtuacaoDAO().pegarTodos());
+        lvAtuacao.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        lvAtuando.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     @FXML
@@ -73,26 +93,97 @@ public class AtualizarUsuarioController implements Initializable {
 
     @FXML
     private void btConfirmarActionEvent(ActionEvent ae) {
-
+        //Cadastrar usuario
+        if (usuario.getPessoa() == null) {
+            usuario.setPessoa(new Pessoa());
+        }
+        usuario.getPessoa().setCpf(mtfCPF.getText());
+        usuario.getPessoa().setEmail(tfEmail.getText());
+        usuario.getPessoa().setNome(tfNome.getText());
+        usuario.setPerfil(cbPerfil.getSelectionModel().getSelectedItem());
+        usuario.setSenha(pfSenha.getText());
+        List<Atuando> atuandoLista = new ArrayList<>();
+        for (Atuacao atuacao : lvAtuando.getItems()) {
+            Atuando atuando = new Atuando();
+            atuando.getId().setAtuacao(atuacao);
+            atuando.getId().setUsuario(usuario);
+            atuandoLista.add(atuando);
+        }
+        usuario.setAtuando(atuandoLista);
+        System.out.println(usuario.getPerfil());
+        if (StringUtil.isEmpty(usuario.getPessoa().getCpf().replaceAll("[.-]", "").trim())
+                || StringUtil.isEmpty(usuario.getPessoa().getEmail())
+                || StringUtil.isEmpty(usuario.getPessoa().getNome())
+                || usuario.getPerfil() == null) {
+            MessageUtil.messageError(MessageUtil.CAMPOS_OBRIGATORIOS);
+        } else if (usuario.getId() == null) {
+            //Para novos usuários validar se a senha foi digitada
+            if (StringUtil.isEmpty(pfSenha.getText())) {
+                MessageUtil.messageError("É necessário digitar a senha para um novo usuário.");
+                return;
+            }
+            if (!pfSenha.getText().equals(pfConfirmarSenha.getText())) {
+                MessageUtil.messageError("Sua confirmação de senha deve ser igual a sua senha.");
+                return;
+            }
+            usuario.setSenha(pfSenha.getText());
+            usuario.setAtivado(true);
+            new UsuarioDAO().salvar(usuario);
+            MessageUtil.messageInformation("Usuario foi cadastrado com sucesso!");
+            stage.close();
+        } else {
+            if (!StringUtil.isEmpty(pfSenha.getText())) {
+                if (!pfSenha.getText().equals(pfConfirmarSenha.getText())) {
+                    MessageUtil.messageError("Sua confirmação de senha deve ser igual a sua senha.");
+                    return;
+                }
+                usuario.setSenha(pfSenha.getText());
+            }
+            new UsuarioDAO().editar(usuario);
+            MessageUtil.messageInformation("Usuário foi editado com sucesso!");
+            stage.close();
+        }
     }
 
     @FXML
     private void btAdicionarActionEvent(ActionEvent ae) {
-
+        if (!lvAtuacao.getSelectionModel().getSelectedItems().isEmpty()) {
+            lvAtuando.getItems().addAll(lvAtuacao.getSelectionModel().getSelectedItems());
+            lvAtuacao.getItems().removeAll(lvAtuacao.getSelectionModel().getSelectedItems());
+        }
     }
 
     @FXML
     private void btAdicionarTodosActionEvent(ActionEvent ae) {
-
+        lvAtuando.getItems().addAll(lvAtuacao.getItems().stream().collect(Collectors.toList()));
+        lvAtuacao.getItems().clear();
     }
 
     @FXML
     private void btRemoverTodosActionEvent(ActionEvent ae) {
-
+        lvAtuacao.getItems().addAll(lvAtuando.getItems().stream().collect(Collectors.toList()));
+        lvAtuando.getItems().clear();
     }
 
     @FXML
     private void btRemoverActionEvent(ActionEvent ae) {
+        if (!lvAtuando.getSelectionModel().getSelectedItems().isEmpty()) {
+            lvAtuacao.getItems().addAll(lvAtuando.getSelectionModel().getSelectedItems());
+            lvAtuando.getItems().removeAll(lvAtuando.getSelectionModel().getSelectedItems());
+        }
+    }
+
+    private void carregarDados() {
+        if (usuario.getPessoa() != null) {
+            tfNome.setText(usuario.getPessoa().getNome());
+            mtfCPF.setText(usuario.getPessoa().getCpf());
+            tfEmail.setText(usuario.getPessoa().getEmail());
+            cbPerfil.getSelectionModel().select(usuario.getPerfil());
+            lvAtuacao.getItems().removeAll(usuario.getAtuando().stream().map(Atuando::getId).map(AtuadoID::getAtuacao).collect(Collectors.toList()));
+            lvAtuando.getItems().addAll(usuario.getAtuando().stream().map(Atuando::getId).map(AtuadoID::getAtuacao).collect(Collectors.toList()));
+        } else {
+            tfNome.setText("");
+        }
 
     }
 }

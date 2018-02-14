@@ -7,6 +7,7 @@ package br.com.stefanini.model.entity;
 
 import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
+import br.com.stefanini.model.util.SecurityUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -42,12 +43,16 @@ public class Usuario extends BaseEntity<String> {
     private Perfil perfil;
     private Pessoa pessoa;
     private boolean ativado;
+    private List<Atuando> atuando;
 
     public Usuario() {
-        atuando = new ArrayList<>();
+        if (atuando == null) {
+            atuando = new ArrayList<>();
+        }
+        if (pessoa == null) {
+            pessoa = new Pessoa();
+        }
     }
-
-    private List<Atuando> atuando;
 
     @Column(name = "TX_SENHA")
     public String getSenha() {
@@ -55,7 +60,7 @@ public class Usuario extends BaseEntity<String> {
     }
 
     public void setSenha(String senha) {
-        this.senha = senha;
+        this.senha = SecurityUtil.encript(senha);
     }
 
     @ManyToOne(targetEntity = Perfil.class, optional = false)
