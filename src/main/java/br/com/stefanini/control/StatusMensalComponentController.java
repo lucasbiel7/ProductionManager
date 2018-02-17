@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -47,7 +48,7 @@ public class StatusMensalComponentController implements Initializable {
     @FXML
     private void labelAtividadeActionEvent() {
         GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
-        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("PesquisarAtividade", inicio), "Início").show();
+        ScrollPane scrollPane = (ScrollPane) apPrincipal.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
+        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("PesquisarAtividade", inicio));
     }
-
 }
