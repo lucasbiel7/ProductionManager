@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="282.0" prefWidth="251.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="br.com.stefanini.control.StatusMensalComponentController">
+<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="282.0" prefWidth="251.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.StatusMensalComponentController">
     <stylesheets>
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
@@ -34,7 +34,7 @@
             </VBox>
          </content>
       </TitledPane>
-      <Label fx:id="lbTitulo" prefHeight="68.0" prefWidth="251.0" styleClass="title-label" text="Title" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Label fx:id="lbTitulo" onMouseClicked="#labelAtividadeActionEvent" onTouchPressed="#labelAtividadeActionEvent" prefHeight="68.0" prefWidth="251.0" styleClass="title-label" text="Title" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
    <styleClass>
       <String fx:value="mainFxmlClass" />

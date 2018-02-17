@@ -15,6 +15,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,6 +45,8 @@ public class ProgressoAtividade extends BaseEntity<String> {
 
     private double progresso;
 
+    private Atividade atividade;
+
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "TP_ATIVIDADE")
     public TipoAtividade getTipoAtividade() {
@@ -70,6 +74,16 @@ public class ProgressoAtividade extends BaseEntity<String> {
 
     public void setProgresso(double progresso) {
         this.progresso = progresso;
+    }
+
+    @ManyToOne(targetEntity = Atividade.class)
+    @JoinColumn(name = "ID_ATIVIDADE", referencedColumnName = "ID_ATIVIDADE")
+    public Atividade getAtividade() {
+        return atividade;
+    }
+
+    public void setAtividade(Atividade atividade) {
+        this.atividade = atividade;
     }
 
 }
