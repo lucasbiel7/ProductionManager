@@ -251,5 +251,8 @@ public class PesquisarAtividadeController implements Initializable {
         }
     }
     
-    
+    @FXML
+    private void btAdicionarAction(){
+        //TODO adicionar
+    }
 }
