@@ -105,11 +105,6 @@ public class PesquisarAtividadeController implements Initializable {
 
     @FXML
     private Label lbTotalDetalhada;
-//    @FXML
-//    private Text txTotalEstimada;
-//    
-//    @FXML
-//    private Text txTotalDetalhada;
 
     /**
      * Initializes the controller class.
@@ -131,6 +126,7 @@ public class PesquisarAtividadeController implements Initializable {
         cbFaturamento.getItems().setAll(Faturamento.values());
 
         tvAtividade.getItems().setAll(new AtividadeDAO().pegarTodos());
+
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colOs.setCellValueFactory(new PropertyValueFactory<>("ordemServico"));
         colAtividade.setCellValueFactory(new PropertyValueFactory<>("descricao"));
@@ -214,5 +210,10 @@ public class PesquisarAtividadeController implements Initializable {
         } else {
             cbPacote.getItems().clear();
         }
+    }
+
+    @FXML
+    private void btAdicionarAction() {
+        //TODO adicionar
     }
 }
