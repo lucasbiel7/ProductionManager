@@ -5,6 +5,7 @@
  */
 package br.com.stefanini.control;
 
+import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.ModuloDAO;
 import br.com.stefanini.control.dao.PacoteDAO;
 import br.com.stefanini.control.dao.ProjetoDAO;
@@ -14,6 +15,9 @@ import br.com.stefanini.model.entity.OrdemServico;
 import br.com.stefanini.model.entity.Pacote;
 import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.Artefato;
+import br.com.stefanini.model.enuns.SituacaoAtividade;
+import br.com.stefanini.model.util.MessageUtil;
+import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -82,6 +86,7 @@ public class ManterAtividadeController implements Initializable {
         Platform.runLater(() -> {
             if (apPrincipal.getUserData() instanceof Atividade) {
                 ManterAtividadeController.this.atividade = (Atividade) apPrincipal.getUserData();
+                carregarDados();
             } else {
                 ManterAtividadeController.this.atividade = new Atividade();
             }
@@ -146,6 +151,28 @@ public class ManterAtividadeController implements Initializable {
 
     @FXML
     private void btConfirmarActionEvent(ActionEvent ae) {
+        atividade.setDescricao(tfAtividade.getText());
+        atividade.setContagemDetalhada(spDetalhada.getValue());
+        atividade.setContagemEstimada(spEstimada.getValue());
+        atividade.setOrdemServico(cbOrdemServico.getValue());
+        atividade.setPacote(cbPacote.getValue());
+        atividade.setSituacaoAtividade(SituacaoAtividade.L);
+        if (StringUtil.isEmpty(atividade.getDescricao())
+                || atividade.getOrdemServico() == null
+                || atividade.getPacote() == null) {
+            MessageUtil.messageError(MessageUtil.CAMPOS_OBRIGATORIOS);
+        } else if (atividade.getId() == null) {
+            new AtividadeDAO().salvar(atividade);
+            MessageUtil.messageInformation("Atividade foi cadastrada com sucesso!");
+            stage.close();
+        } else {
+            new AtividadeDAO().editar(atividade);
+            MessageUtil.messageInformation("Atividade foi editada com sucesso!");
+            stage.close();
+        }
+    }
+
+    public void carregarDados() {
 
     }
 }

@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -31,6 +32,7 @@ public class StatusMensalComponentController implements Initializable {
     private Date inicio;
 
     private Stage stage;
+
     /**
      * Initializes the controller class.
      */
@@ -39,16 +41,15 @@ public class StatusMensalComponentController implements Initializable {
         Platform.runLater(() -> {
             stage = (Stage) apPrincipal.getScene().getWindow();
             stage.setResizable(false);
-            stage.setWidth(1300);
-            stage.setHeight(780);
             inicio = (Date) apPrincipal.getUserData();
             lbTitulo.setText(new SimpleDateFormat("MM - MMMM").format(inicio));
         });
     }
-    @FXML
-    private void labelAtividadeActionEvent(){
-        GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
-        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("PesquisarAtividade",inicio), "Início").show();
-    }
 
+    @FXML
+    private void labelAtividadeActionEvent() {
+        GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
+        ScrollPane scrollPane = (ScrollPane) apPrincipal.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
+        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("PesquisarAtividade", inicio));
+    }
 }
