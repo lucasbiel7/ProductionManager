@@ -10,7 +10,7 @@ package br.com.stefanini.model.enuns;
  * @author rkkitagawa
  */
 public enum Faturamento {
-    AGUARDANDO_FATURAMENTO("Aguardando Faturamento"),FATURAMENTO("Em Faturamento"),FATURADO("Faturado");
+    AF("Aguardando Faturamento"),EF("Em Faturamento"),FO("Faturado");
     private String descricao;
 
     private Faturamento(String descricao) {

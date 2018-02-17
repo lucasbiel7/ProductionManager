@@ -7,8 +7,12 @@ package br.com.stefanini.model.entity;
 
 import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
+import br.com.stefanini.model.enuns.Faturamento;
+import br.com.stefanini.model.enuns.SituacaoAtividade;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -28,7 +32,10 @@ public class Atividade extends BaseEntity<String> {
     private long contagemEstimada;
     private long contagemDetalhada;
     private OrdemServico ordemServico;
-//    private Pacote pacote;
+    private Pacote pacote;
+    private Faturamento faturamento;
+    private SituacaoAtividade situacaoAtividade;
+    
 
     @Override
     @Id
@@ -76,14 +83,46 @@ public class Atividade extends BaseEntity<String> {
         this.contagemDetalhada = contagemDetalhada;
     }
 
-//    @ManyToOne(targetEntity = Pacote.class, optional = false)
-//    @JoinColumn(name = "ID_PACOTE", referencedColumnName = "ID_PACOTE")
-//    public Pacote getPacote() {
-//        return pacote;
-//    }
-//
-//    public void setPacote(Pacote pacote) {
-//        this.pacote = pacote;
-//    }
+    @ManyToOne(targetEntity = Pacote.class, optional = false)
+    @JoinColumn(name = "ID_PACOTE", referencedColumnName = "ID_PACOTE")
+    public Pacote getPacote() {
+        return pacote;
+    }
+
+    public void setPacote(Pacote pacote) {
+        this.pacote = pacote;
+    }
+
+    /**
+     * @return the faturamento
+     */
+    @Column(name="FL_FATURAMENTO",length = 2)
+    @Enumerated(EnumType.STRING)
+    public Faturamento getFaturamento() {
+        return faturamento;
+    }
+
+    /**
+     * @param faturamento the faturamento to set
+     */
+    public void setFaturamento(Faturamento faturamento) {
+        this.faturamento = faturamento;
+    }
+
+    /**
+     * @return the situacaoAtividade
+     */
+    @Column(name="FL_SITUACAO_ATIVIDADE")
+    @Enumerated(EnumType.STRING)
+    public SituacaoAtividade getSituacaoAtividade() {
+        return situacaoAtividade;
+    }
+
+    /**
+     * @param situacaoAtividade the situacaoAtividade to set
+     */
+    public void setSituacaoAtividade(SituacaoAtividade situacaoAtividade) {
+        this.situacaoAtividade = situacaoAtividade;
+    }
 
 }
