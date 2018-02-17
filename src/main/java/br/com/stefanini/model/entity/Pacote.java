@@ -54,5 +54,9 @@ public class Pacote extends BaseEntity<String> {
     public void setModulo(Modulo modulo) {
         this.modulo = modulo;
     }
-
+    
+    @Override
+    public String toString() {
+        return getDescricao();
+    }
 }

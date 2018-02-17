@@ -36,7 +36,6 @@ public class Atividade extends BaseEntity<String> {
     private OrdemServico ordemServico;
     private Pacote pacote;
     private Date previsaoInicio;
-
     private List<AtividadeArtefatos> atividadeArtefatos;
 
     @Override
