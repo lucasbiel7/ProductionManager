@@ -10,7 +10,7 @@ package br.com.stefanini.model.enuns;
  * @author rkkitagawa
  */
 public enum SituacaoAtividade {
-    LEVANTAMENTO("Em Levantamento"),DESENVOLVIMENTO("Em Desenvolvimento"),TESTE("Em Teste e Homologação"),PENDENCIA("Pendência"),FINALIZADO("Finalizado");
+    L("Em Levantamento"),D("Em Desenvolvimento"),T("Em Teste e Homologação"),P("Pendência"),F("Finalizado");
     private String descricao;
 
     private SituacaoAtividade(String descricao) {

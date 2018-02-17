@@ -18,9 +18,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="747.0" prefWidth="1257.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.PesquisarAtividadeController">
+<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="692.0" prefWidth="1257.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.PesquisarAtividadeController">
     <stylesheets>
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
@@ -65,41 +64,41 @@
                         <Label text="Atividade:" GridPane.rowIndex="3" />
                         <Label text="Situação da Atividade:" GridPane.rowIndex="4" />
                         <Label text="Faturamento:" GridPane.rowIndex="5" />
-                        <ComboBox fx:id="cbProjeto" onAction="#cbProjetoAction" prefWidth="150.0" promptText="Selecione..." GridPane.columnIndex="1" />
-                        <ComboBox fx:id="cbModulo" onAction="#cbModuloAction" prefWidth="150.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <ComboBox fx:id="cbPacote" prefWidth="150.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <ComboBox fx:id="cbSituacao" prefWidth="150.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <ComboBox fx:id="cbFaturamento" prefWidth="150.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <ComboBox fx:id="cbProjeto" onAction="#cbProjetoAction" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="1" />
+                        <ComboBox fx:id="cbModulo" onAction="#cbModuloAction" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="cbPacote" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="cbSituacao" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <ComboBox fx:id="cbFaturamento" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
                   <Label fx:id="lbPesquisa" layoutX="28.0" layoutY="14.0" text="Atividade(s) de &lt;&lt;mes&gt;&gt;/&lt;&lt;ano&gt;&gt;" />
-                  <TableView layoutX="15.0" layoutY="265.0" prefHeight="294.0" prefWidth="1200.0">
+                  <TableView fx:id="tvAtividade" layoutX="15.0" layoutY="265.0" prefHeight="241.0" prefWidth="1200.0">
                     <columns>
-                      <TableColumn prefWidth="43.0" text="Id" />
-                      <TableColumn prefWidth="157.0" text="Ordem Serviço" />
-                        <TableColumn prefWidth="316.0" text="Atividade" />
+                      <TableColumn fx:id="colId" prefWidth="43.0" text="Id" />
+                      <TableColumn fx:id="colOs" prefWidth="157.0" text="Ordem Serviço" />
+                        <TableColumn fx:id="colAtividade" prefWidth="316.0" text="Atividade" />
                         <TableColumn minWidth="0.0" prefWidth="198.0" text="Contagem de Pontos de Função">
                            <columns>
-                              <TableColumn prefWidth="99.0" text="Estimada" />
-                              <TableColumn prefWidth="99.0" text="Detalhada" />
+                              <TableColumn fx:id="colEstimada" prefWidth="99.0" text="Estimada" />
+                              <TableColumn fx:id="colDetalhada" prefWidth="99.0" text="Detalhada" />
                            </columns>
                         </TableColumn>
                         <TableColumn prefWidth="282.0" text="Conclusão da Fase (%)">
                            <columns>
-                              <TableColumn prefWidth="94.0" text="Levantamento" />
-                              <TableColumn prefWidth="110.0" text="Desenvolvimento" />
-                              <TableColumn prefWidth="94.0" text="Homologação" />
+                              <TableColumn fx:id="colLevantamento" prefWidth="94.0" text="Levantamento" />
+                              <TableColumn fx:id="colDesenvolvimento" prefWidth="110.0" text="Desenvolvimento" />
+                              <TableColumn fx:id="colHomologacao" prefWidth="94.0" text="Homologação" />
                            </columns>
                         </TableColumn>
-                        <TableColumn minWidth="0.0" prefWidth="197.0" text="Ações" />
+                        <TableColumn fx:id="colAcoes" minWidth="0.0" prefWidth="197.0" text="Ações" />
                     </columns>
                   </TableView>
-                  <Button layoutX="1149.0" layoutY="233.0" mnemonicParsing="false" text="Pesquisar" />
-                  <Button layoutX="1075.0" layoutY="599.0" mnemonicParsing="false" text="Visualizar" />
-                  <Button layoutX="1148.0" layoutY="599.0" mnemonicParsing="false" text="Gerar PDF" />
+                  <Button layoutX="1149.0" layoutY="233.0" mnemonicParsing="false" onAction="#btPesquisarAction" text="Pesquisar" />
+                  <Button layoutX="1075.0" layoutY="540.0" mnemonicParsing="false" text="Visualizar" />
+                  <Button layoutX="1148.0" layoutY="540.0" mnemonicParsing="false" text="Gerar PDF" />
                   <Line endX="1100.0" layoutX="115.0" layoutY="223.0" startX="-100.0" />
-                  <Line endX="1100.0" layoutX="115.0" layoutY="590.0" startX="-100.0" />
-                  <GridPane layoutX="15.0" layoutY="559.0" prefHeight="30.0" prefWidth="714.0">
+                  <Line endX="1100.0" layoutX="115.0" layoutY="535.0" startX="-100.0" />
+                  <GridPane fx:id="txTotalEstimada" layoutX="14.0" layoutY="506.0" prefHeight="30.0" prefWidth="714.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="516.0" minWidth="516.0" prefWidth="516.0" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="99.0" prefWidth="99.0" />
@@ -109,9 +108,9 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                         <Label text="Total:" GridPane.halignment="RIGHT" />
+                        <Label fx:id="lbTotalEstimada" text="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                        <Label fx:id="lbTotalDetalhada" text="0" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
                      </children>
                   </GridPane>
                </children>
