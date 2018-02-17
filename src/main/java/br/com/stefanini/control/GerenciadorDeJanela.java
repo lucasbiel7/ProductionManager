@@ -7,7 +7,6 @@ package br.com.stefanini.control;
 
 import java.io.IOException;
 import javafx.animation.FadeTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -39,19 +38,12 @@ public class GerenciadorDeJanela {
 
     public void trocarCena(Parent parent) {
         if (parent != null) {
+            scene.setRoot(parent);
             FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1));
             fadeTransition.setNode(scene.getRoot());
-            fadeTransition.setFromValue(1);
-            fadeTransition.setToValue(0);
+            fadeTransition.setFromValue(0);
+            fadeTransition.setToValue(1);
             fadeTransition.play();
-            fadeTransition.setOnFinished((ActionEvent event) -> {
-                FadeTransition transition = new FadeTransition(Duration.seconds(1));
-                transition.setNode(parent);
-                transition.setFromValue(0);
-                transition.setToValue(1);
-                transition.play();
-                scene.setRoot(parent);
-            });
         }
     }
 

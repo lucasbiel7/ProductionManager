@@ -63,8 +63,8 @@ public class LoginController implements Initializable {
         if (usuario != null) {
             MessageUtil.messageError("Usuário ou senha incorretos!");
         } else {
-            GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
-            gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("PainelDeControle"), "Início").show();
+            GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela(apPrincipal.getScene());
+            gerenciadorDeJanela.trocarCena(gerenciadorDeJanela.carregarComponente("PainelDeControle"));
         }
     }
 }

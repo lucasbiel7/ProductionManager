@@ -31,6 +31,7 @@ public class StatusMensalComponentController implements Initializable {
     private Date inicio;
 
     private Stage stage;
+
     /**
      * Initializes the controller class.
      */
@@ -43,10 +44,11 @@ public class StatusMensalComponentController implements Initializable {
             lbTitulo.setText(new SimpleDateFormat("MM - MMMM").format(inicio));
         });
     }
+
     @FXML
-    private void labelAtividadeActionEvent(){
+    private void labelAtividadeActionEvent() {
         GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
-        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("PesquisarAtividade",inicio), "Início").show();
+        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("PesquisarAtividade", inicio), "Início").show();
     }
 
 }

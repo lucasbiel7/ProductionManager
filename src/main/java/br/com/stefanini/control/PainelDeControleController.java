@@ -51,11 +51,6 @@ public class PainelDeControleController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Platform.runLater(() -> {
-            stage = (Stage) apPrincipal.getScene().getWindow();
-            stage.setResizable(true);
-            stage.setMaximized(true);
-        });
         Calendar calendar = Calendar.getInstance();
         spAno.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, calendar.get(Calendar.YEAR)));
         spAno.getValueFactory().valueProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) -> {
@@ -64,6 +59,11 @@ public class PainelDeControleController implements Initializable {
         gerenciadorDeJanela = new GerenciadorDeJanela();
         //Carregar os meses quando inicia os componente
         carregarMeses();
+        Platform.runLater(() -> {
+            stage = (Stage) apPrincipal.getScene().getWindow();
+            stage.setResizable(true);
+            stage.setMaximized(true);
+        });
     }
 
     private void carregarMeses() {
@@ -72,7 +72,6 @@ public class PainelDeControleController implements Initializable {
         calendar.set(Calendar.YEAR, spAno.getValue());
         calendar.set(Calendar.MONTH, 0);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
         int linha = 0;
         int coluna = 0;
         while (calendar.get(Calendar.YEAR) <= spAno.getValue()) {
