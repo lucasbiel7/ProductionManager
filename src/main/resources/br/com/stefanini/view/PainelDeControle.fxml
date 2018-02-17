@@ -29,6 +29,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#miModuloActionEvent" text="Modulos" />
                   <MenuItem mnemonicParsing="false" onAction="#miManterPacotesActionEvent" text="Pacotes" />
                   <MenuItem mnemonicParsing="false" onAction="#miOrdemServicoActionEvent" text="Ordem de serviço" />
+                  <MenuItem mnemonicParsing="false" onAction="#miManterParametroActionEvent" text="Parâmetros" />
             </items>
           </Menu>
         </menus>
