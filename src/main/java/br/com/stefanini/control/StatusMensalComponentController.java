@@ -31,6 +31,7 @@ public class StatusMensalComponentController implements Initializable {
     private Date inicio;
 
     private Stage stage;
+
     /**
      * Initializes the controller class.
      */
@@ -38,17 +39,15 @@ public class StatusMensalComponentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(() -> {
             stage = (Stage) apPrincipal.getScene().getWindow();
-            stage.setResizable(false);
-            stage.setWidth(1300);
-            stage.setHeight(780);
             inicio = (Date) apPrincipal.getUserData();
             lbTitulo.setText(new SimpleDateFormat("MM - MMMM").format(inicio));
         });
     }
+
     @FXML
-    private void labelAtividadeActionEvent(){
+    private void labelAtividadeActionEvent() {
         GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
-        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("PesquisarAtividade",inicio), "Início").show();
+        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("PesquisarAtividade", inicio), "Início").show();
     }
 
 }
