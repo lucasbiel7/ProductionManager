@@ -39,8 +39,6 @@ public class StatusMensalComponentController implements Initializable {
         Platform.runLater(() -> {
             stage = (Stage) apPrincipal.getScene().getWindow();
             stage.setResizable(false);
-            stage.setWidth(1300);
-            stage.setHeight(780);
             inicio = (Date) apPrincipal.getUserData();
             lbTitulo.setText(new SimpleDateFormat("MM - MMMM").format(inicio));
         });

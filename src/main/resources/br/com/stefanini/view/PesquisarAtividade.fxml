@@ -90,7 +90,7 @@
                               <TableColumn fx:id="colHomologacao" prefWidth="94.0" text="Homologação" />
                            </columns>
                         </TableColumn>
-                        <TableColumn fx:id="colAcoes" minWidth="0.0" prefWidth="197.0" text="Ações" />
+                        <TableColumn fx:id="colAcoes" minWidth="0.0" prefWidth="187.0" text="Ações" />
                     </columns>
                   </TableView>
                   <Button layoutX="1149.0" layoutY="233.0" mnemonicParsing="false" onAction="#btPesquisarAction" text="Pesquisar" />

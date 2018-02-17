@@ -19,18 +19,13 @@ import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -40,10 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import jdk.nashorn.internal.objects.NativeArray;
 
 /**
  * FXML Controller class
@@ -100,7 +92,7 @@ public class PesquisarAtividadeController implements Initializable {
     private TableColumn<Atividade, String> colDetalhada;
        
     @FXML
-    private TableColumn<Atividade, String> colLevantamento;
+    private TableColumn<Atividade, Double> colLevantamento;
     
     @FXML
     private TableColumn<Atividade, String> colDesenvolvimento;
@@ -116,11 +108,6 @@ public class PesquisarAtividadeController implements Initializable {
     
     @FXML
     private Label lbTotalDetalhada;
-//    @FXML
-//    private Text txTotalEstimada;
-//    
-//    @FXML
-//    private Text txTotalDetalhada;
     
     
     /**
@@ -144,14 +131,14 @@ public class PesquisarAtividadeController implements Initializable {
         cbSituacao.getItems().setAll(SituacaoAtividade.values());
         cbFaturamento.getItems().setAll(Faturamento.values());
         
-//        tvAtividade.getItems().setAll(new AtividadeDAO().pegarTodos());
+
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colOs.setCellValueFactory(new PropertyValueFactory<>("ordemServico"));
         colAtividade.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         colEstimada.setCellValueFactory(new PropertyValueFactory<>("contagemDetalhada"));
         colDetalhada.setCellValueFactory(new PropertyValueFactory<>("contagemEstimada"));
         
-
+       
     }    
     
     @FXML
@@ -273,4 +260,6 @@ public class PesquisarAtividadeController implements Initializable {
             cbPacote.getItems().clear();
         }
     }
+    
+    
 }
