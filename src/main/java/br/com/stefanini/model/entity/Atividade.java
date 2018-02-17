@@ -9,6 +9,9 @@ import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
 import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,7 +20,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -35,7 +41,8 @@ public class Atividade extends BaseEntity<String> {
     private Pacote pacote;
     private Faturamento faturamento;
     private SituacaoAtividade situacaoAtividade;
-    
+    private Date previsaoInicio;
+    private List<AtividadeArtefatos> atividadeArtefatos;
 
     @Override
     @Id
@@ -125,4 +132,22 @@ public class Atividade extends BaseEntity<String> {
         this.situacaoAtividade = situacaoAtividade;
     }
 
+    @Column(name = "DT_PREVISAO_INICIO")
+    @Temporal(TemporalType.DATE)
+    public Date getPrevisaoInicio() {
+        return previsaoInicio;
+    }
+
+    public void setPrevisaoInicio(Date previsaoInicio) {
+        this.previsaoInicio = previsaoInicio;
+    }
+
+    @OneToMany(mappedBy = "id.atividade", orphanRemoval = true, cascade = CascadeType.ALL)
+    public List<AtividadeArtefatos> getAtividadeArtefatos() {
+        return atividadeArtefatos;
+    }
+
+    public void setAtividadeArtefatos(List<AtividadeArtefatos> atividadeArtefatos) {
+        this.atividadeArtefatos = atividadeArtefatos;
+    }
 }
