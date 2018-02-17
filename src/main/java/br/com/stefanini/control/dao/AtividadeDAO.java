@@ -22,15 +22,15 @@ public class AtividadeDAO extends GenericaDAO<Atividade>{
     
     public List<Atividade> pegarPorAtividade(Atividade atividade) {
         List<Predicate> criterios = new ArrayList<>();
-        if (atividade.getPacote().getModulo().getProjeto() != null) {
+        if (atividade.getPacote().getModulo().getProjeto().getId() != null) {
             criterios.add(criteriaBuilder.equal(root.get("pacote").get("modulo").get("projeto"), atividade.getPacote().getModulo().getProjeto()));
         }
         
-        if (atividade.getPacote().getModulo() != null) {
+        if (atividade.getPacote().getModulo().getId() != null) {
             criterios.add(criteriaBuilder.equal(root.get("pacote").get("modulo"), atividade.getPacote().getModulo()));
         }
         
-        if (atividade.getPacote() != null) {
+        if (atividade.getPacote().getId() != null) {
             criterios.add(criteriaBuilder.equal(root.get("pacote"), atividade.getPacote()));
         }
         

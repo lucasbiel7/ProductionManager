@@ -172,8 +172,6 @@ public class PesquisarAtividadeController implements Initializable {
         }
         lbTotalEstimada.setText(String.valueOf(countEstimada));
         lbTotalDetalhada.setText(String.valueOf(countDetalhada));
-//        txTotalEstimada.setText(String.valueOf(countEstimada));
-//        txTotalDetalhada.setText(String.valueOf(countDetalhada));
         
     }
     
