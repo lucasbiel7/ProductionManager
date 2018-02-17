@@ -6,12 +6,21 @@
 package br.com.stefanini.control.dao;
 
 import br.com.stefanini.control.database.GenericaDAO;
+import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.Pacote;
+import java.util.List;
 
 /**
  *
  * @author lucas
  */
 public class PacoteDAO extends GenericaDAO<Pacote> {
+
+    public List<Pacote> pegarPorModulo(Modulo modulo) {
+        criteriaQuery.where(criteriaBuilder.equal(root.get("modulo"), modulo));
+        entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
+        getEntityManager().close();
+        return entitys;
+    }
 
 }
