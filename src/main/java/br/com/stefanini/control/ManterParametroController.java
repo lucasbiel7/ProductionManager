@@ -45,6 +45,12 @@ public class ManterParametroController implements Initializable {
     @FXML
     private TableView<Parametro> gridParametro;
     
+    @FXML
+    private TableColumn<Parametro, TipoParametro> colunaParametro;
+    
+    @FXML
+    private TableColumn<Parametro, Long> colunaValor;
+    
     private Parametro parametro; 
     
     /**
@@ -53,12 +59,19 @@ public class ManterParametroController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tpParametro.getItems().setAll(TipoParametro.values());
+        colunaParametro.setCellValueFactory(new PropertyValueFactory<>("tipoParametro"));
+        colunaValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
     }
     
     @FXML
     private void salvarParametro(ActionEvent ae) {
-        parametro.setTipoParametro(tpParametro.getValue());
+        parametro = new Parametro();
+        if(idValor.getText().isEmpty()){
+            idValor.setText(null);
+        }
         parametro.setValor(Long.parseLong(idValor.getText()));
+        parametro.setTipoParametro(tpParametro.getValue());
+        
         if(parametro.getTipoParametro() == null || parametro.getValor() == null){
             MessageUtil.messageError("É necessário preencher todos campos obrigatórios!");
         }else{
