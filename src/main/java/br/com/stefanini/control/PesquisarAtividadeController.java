@@ -31,6 +31,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -41,7 +43,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -135,7 +140,8 @@ public class PesquisarAtividadeController implements Initializable {
         txAtividade.setText("");
         cbSituacao.getItems().setAll(SituacaoAtividade.values());
         cbFaturamento.getItems().setAll(Faturamento.values());
-        tvAtividade.getItems().setAll(new AtividadeDAO().pegarTodos());
+        carregarTabela();
+
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colOs.setCellValueFactory(new PropertyValueFactory<>("ordemServico"));
         colAtividade.setCellValueFactory(new PropertyValueFactory<>("descricao"));
@@ -149,7 +155,21 @@ public class PesquisarAtividadeController implements Initializable {
         colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TESTE));
         colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LEVANTAMENTO));
         colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DESENVOLVIMENTO));
+        colAcoes.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCell<Atividade, Atividade>() {
+            @Override
+            protected void updateItem(Atividade item, boolean empty) {
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    VBox vBox = new VBox();
+                    vBox.setAlignment(Pos.CENTER);
+                    Button btEditar = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/editar.png"), 15, 15, true, true)));
 
+                    vBox.getChildren().addAll(btEditar);
+                    setGraphic(vBox);
+                }
+            }
+        });
     }
 
     @FXML
@@ -236,7 +256,12 @@ public class PesquisarAtividadeController implements Initializable {
         stage.initOwner(this.stage);
         stage.initModality(Modality.WINDOW_MODAL);
         stage.showAndWait();
+        carregarTabela();
+    }
 
+    private void carregarTabela() {
+        tvAtividade.getItems().setAll(new AtividadeDAO().pegarTodos());
+        buildTotais(tvAtividade.getItems());
     }
 
     private class TableCellFases extends TableCell<Atividade, Atividade> {

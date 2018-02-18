@@ -10,7 +10,6 @@ import br.com.stefanini.model.BaseEntity;
 import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.Mes;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -84,7 +83,7 @@ public class Atividade extends BaseEntity<String> {
         this.ordemServico = ordemServico;
     }
 
-    @Column(name = "VL_DETALHADA") 
+    @Column(name = "VL_DETALHADA")
     public Double getContagemDetalhada() {
         return contagemDetalhada;
     }
@@ -106,7 +105,7 @@ public class Atividade extends BaseEntity<String> {
     /**
      * @return the faturamento
      */
-    @Column(name="FL_FATURAMENTO",length = 2)
+    @Column(name = "FL_FATURAMENTO", length = 2)
     @Enumerated(EnumType.STRING)
     public Faturamento getFaturamento() {
         return faturamento;
@@ -122,7 +121,7 @@ public class Atividade extends BaseEntity<String> {
     /**
      * @return the situacaoAtividade
      */
-    @Column(name="FL_SITUACAO_ATIVIDADE")
+    @Column(name = "FL_SITUACAO_ATIVIDADE")
     @Enumerated(EnumType.STRING)
     public SituacaoAtividade getSituacaoAtividade() {
         return situacaoAtividade;

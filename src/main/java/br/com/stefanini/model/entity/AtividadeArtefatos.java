@@ -42,13 +42,12 @@ public class AtividadeArtefatos extends BaseEntity<AtividadeArtefatosId> {
     @Embeddable
     public static class AtividadeArtefatosId implements Serializable {
 
-        @ManyToOne(targetEntity = Atividade.class, fetch = FetchType.LAZY)
-        @JoinColumn(name = "ID_ATIVIDADE", referencedColumnName = "ID_ATIVIDADE")
         private Atividade atividade;
-        @Column(name = "TP_ARTEFATO")
-        @Enumerated(EnumType.STRING)
+
         private Artefato artefato;
 
+        @ManyToOne(targetEntity = Atividade.class, fetch = FetchType.LAZY)
+        @JoinColumn(name = "ID_ATIVIDADE", referencedColumnName = "ID_ATIVIDADE")
         public Atividade getAtividade() {
             return atividade;
         }
@@ -57,6 +56,8 @@ public class AtividadeArtefatos extends BaseEntity<AtividadeArtefatosId> {
             this.atividade = atividade;
         }
 
+        @Column(name = "TP_ARTEFATO")
+        @Enumerated(EnumType.STRING)
         public Artefato getArtefato() {
             return artefato;
         }
