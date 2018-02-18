@@ -19,6 +19,7 @@ import br.com.stefanini.model.entity.Pacote;
 import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.Artefato;
+import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.Mes;
 import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.DoubleConverter;
@@ -347,6 +348,7 @@ public class ManterAtividadeController implements Initializable {
     private void btConfirmarActionEvent(ActionEvent ae) {
         atividade = buildAtividade();
         atividade.setSituacaoAtividade(SituacaoAtividade.L);
+        atividade.setFaturamento(Faturamento.AF);
         if (StringUtil.isEmpty(atividade.getDescricao())
                 || atividade.getOrdemServico() == null
                 || atividade.getPacote() == null) {
