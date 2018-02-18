@@ -16,6 +16,7 @@ import br.com.stefanini.model.entity.Pacote;
 import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
+import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -141,10 +142,10 @@ public class PesquisarAtividadeController implements Initializable {
     }
 
     private void buildTotais(List<Atividade> atividades) {
-        long countEstimada = 0;
-        long countDetalhada = 0;
+        Double countEstimada = 0.0;
+        Double countDetalhada = 0.0;
         if (atividades != null) {
-            for (Atividade atividade : atividades) {
+            for (Atividade atividade : atividades) {                
                 countEstimada += atividade.getContagemEstimada();
                 countDetalhada += atividade.getContagemDetalhada();
             }
@@ -174,8 +175,8 @@ public class PesquisarAtividadeController implements Initializable {
         } else {
             ativ.getPacote().getModulo().setProjeto(new Projeto());
         }
-
-        if (!"".equals(txAtividade.getText().trim())) {
+        
+        if (StringUtil.isEmpty(txAtividade.getText())) {
             ativ.setDescricao(txAtividade.getText());
         }
         if (cbSituacao.getValue() != null) {
@@ -252,7 +253,7 @@ public class PesquisarAtividadeController implements Initializable {
     }
     
     @FXML
-    private void btAdicionarAction(){
-        //TODO adicionar
+    private void btAdicionarAction(){        
+        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("ManterAtividade"), "Início").show();
     }
 }
