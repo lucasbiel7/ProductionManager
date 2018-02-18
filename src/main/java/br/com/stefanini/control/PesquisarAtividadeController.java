@@ -42,6 +42,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -139,8 +140,8 @@ public class PesquisarAtividadeController implements Initializable {
         colOs.setCellValueFactory(new PropertyValueFactory<>("ordemServico"));
         colAtividade.setCellValueFactory(new PropertyValueFactory<>("descricao"));
 
-        colEstimada.setCellValueFactory(new PropertyValueFactory<>("contagemDetalhada"));
-        colDetalhada.setCellValueFactory(new PropertyValueFactory<>("contagemEstimada"));
+        colEstimada.setCellValueFactory(new PropertyValueFactory<>("contagemEstimada"));
+        colDetalhada.setCellValueFactory(new PropertyValueFactory<>("contagemDetalhada"));
         colLevantamento.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
         colDesenvolvimento.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
         colHomologacao.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
@@ -231,7 +232,10 @@ public class PesquisarAtividadeController implements Initializable {
 
     @FXML
     private void btAdicionarAction() {
-        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("ManterAtividade"), "Início").show();
+        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade"), "Início");
+        stage.initOwner(this.stage);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.showAndWait();
 
     }
 

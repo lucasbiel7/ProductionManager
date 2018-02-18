@@ -34,9 +34,11 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -343,11 +345,7 @@ public class ManterAtividadeController implements Initializable {
     
     @FXML
     private void btConfirmarActionEvent(ActionEvent ae) {
-        atividade.setDescricao(tfAtividade.getText());
-        atividade.setContagemDetalhada(spDetalhada.getValue());
-        atividade.setContagemEstimada(spEstimada.getValue());
-        atividade.setOrdemServico(cbOrdemServico.getValue());
-        atividade.setPacote(cbPacote.getValue());
+        atividade = buildAtividade();
         atividade.setSituacaoAtividade(SituacaoAtividade.L);
         if (StringUtil.isEmpty(atividade.getDescricao())
                 || atividade.getOrdemServico() == null
@@ -355,6 +353,19 @@ public class ManterAtividadeController implements Initializable {
             MessageUtil.messageError(MessageUtil.CAMPOS_OBRIGATORIOS);
         } else if (atividade.getId() == null) {
             new AtividadeDAO().salvar(atividade);
+            if(atividade.getId()!=null){
+                ProgressoAtividade levantamento = buildLevantamento();
+                levantamento.setAtividade(atividade);
+                new ProgressoAtividadeDAO().salvar(levantamento);
+
+                ProgressoAtividade desenvolvimento = buildDesenvolvimento();
+                desenvolvimento.setAtividade(atividade);
+                new ProgressoAtividadeDAO().salvar(desenvolvimento);
+
+                ProgressoAtividade teste = buildTeste();
+                teste.setAtividade(atividade);
+                new ProgressoAtividadeDAO().salvar(teste);            
+            }  
             MessageUtil.messageInformation("Atividade foi cadastrada com sucesso!");
             stage.close();
         } else {
@@ -367,24 +378,23 @@ public class ManterAtividadeController implements Initializable {
     public void carregarDados() {
 
         atividade = buildAtividade();
-        new AtividadeDAO().salvar(atividade);
-        System.out.println(atividade.getId());
-        if(atividade.getId()!=null){
-            ProgressoAtividade levantamento = buildLevantamento();
-            levantamento.setAtividade(atividade);
-            new ProgressoAtividadeDAO().salvar(levantamento);
-            
-            ProgressoAtividade desenvolvimento = buildDesenvolvimento();
-            desenvolvimento.setAtividade(atividade);
-            new ProgressoAtividadeDAO().salvar(desenvolvimento);
-            
-            ProgressoAtividade teste = buildTeste();
-            teste.setAtividade(atividade);
-            new ProgressoAtividadeDAO().salvar(teste);
-            
-        }        
+//        new AtividadeDAO().salvar(atividade);
+//        System.out.println(atividade.getId());
+//        if(atividade.getId()!=null){
+//            ProgressoAtividade levantamento = buildLevantamento();
+//            levantamento.setAtividade(atividade);
+//            new ProgressoAtividadeDAO().salvar(levantamento);
+//            
+//            ProgressoAtividade desenvolvimento = buildDesenvolvimento();
+//            desenvolvimento.setAtividade(atividade);
+//            new ProgressoAtividadeDAO().salvar(desenvolvimento);
+//            
+//            ProgressoAtividade teste = buildTeste();
+//            teste.setAtividade(atividade);
+//            new ProgressoAtividadeDAO().salvar(teste);            
+//        }     
         
-        
+
         
     }
 }
