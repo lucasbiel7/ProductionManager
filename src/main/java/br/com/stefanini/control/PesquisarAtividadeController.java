@@ -131,8 +131,8 @@ public class PesquisarAtividadeController implements Initializable {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colOs.setCellValueFactory(new PropertyValueFactory<>("ordemServico"));
         colAtividade.setCellValueFactory(new PropertyValueFactory<>("descricao"));
-        colEstimada.setCellValueFactory(new PropertyValueFactory<>("contagemDetalhada"));
-        colDetalhada.setCellValueFactory(new PropertyValueFactory<>("contagemEstimada"));
+        colEstimada.setCellValueFactory(new PropertyValueFactory<>("contagemEstimada"));
+        colDetalhada.setCellValueFactory(new PropertyValueFactory<>("contagemDetalhada"));
     }
 
     @FXML
