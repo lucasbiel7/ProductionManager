@@ -23,7 +23,7 @@
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
    <children>
-      <Accordion layoutX="63.0" layoutY="274.0" prefHeight="256.0" prefWidth="668.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Accordion layoutX="63.0" layoutY="274.0" prefHeight="223.0" prefWidth="668.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <panes>
           <TitledPane animated="false" text="Detalhes da atividade">
                <content>
@@ -50,18 +50,17 @@
                               <Label text="Módulo:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label text="Pacote:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <Label text="Atividade: " GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <ComboBox fx:id="cbProjeto" onAction="#cbProjetoActionEvent" prefWidth="150.0" promptText="Selecione..." GridPane.columnIndex="2" />
-                              <ComboBox fx:id="cbModulo" onAction="#cbModuloActionEvent" prefWidth="150.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                              <ComboBox fx:id="cbPacote" prefWidth="150.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <ComboBox fx:id="cbProjeto" onAction="#cbProjetoActionEvent" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" />
+                              <ComboBox fx:id="cbModulo" onAction="#cbModuloActionEvent" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <ComboBox fx:id="cbPacote" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="2" />
                               <TextField fx:id="tfAtividade" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                               <Label text="Ordem de serviço:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <ComboBox fx:id="cbOrdemServico" prefWidth="150.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <ComboBox fx:id="cbOrdemServico" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="4" />
                               <Label text="Pontos de função - Estimada:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                              <Spinner fx:id="spEstimada" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                              <Spinner fx:id="spEstimada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                               <Label text="Pontos de função - Detalhada:" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                              <Spinner fx:id="spDetalhada" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                              <Spinner fx:id="spDetalhada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                               <Label text="Mês" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                              <TextField fx:id="tfMes" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                               <Label styleClass="obrigatorio" text="*" />
                               <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="1" />
                               <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="2" />
@@ -69,6 +68,7 @@
                               <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="4" />
                               <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="5" />
                               <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="6" />
+                              <ComboBox fx:id="cbMes" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="7" />
                            </children>
                         </GridPane>
                      </children>
@@ -91,8 +91,8 @@
                            <children>
                               <Label text="Data de início" />
                               <Label text="Data de Término" GridPane.rowIndex="1" />
-                              <DatePicker fx:id="dpInicioLevantamento" prefHeight="25.0" prefWidth="223.0" GridPane.columnIndex="1" />
-                              <DatePicker fx:id="dpFimLevantamento" prefHeight="25.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <DatePicker fx:id="dpInicioLevantamento" prefHeight="25.0" prefWidth="225.0" GridPane.columnIndex="1" />
+                              <DatePicker fx:id="dpFimLevantamento" prefHeight="25.0" prefWidth="225.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                         <Label layoutX="25.0" layoutY="108.0" text="Artefatos" />
@@ -131,10 +131,27 @@
                            <children>
                               <Label text="Data de início" />
                               <Label text="Data de Término" GridPane.rowIndex="1" />
-                              <DatePicker fx:id="dpInicioDesenvolvimento" prefHeight="25.0" prefWidth="223.0" GridPane.columnIndex="1" />
-                              <DatePicker fx:id="dpFimDesenvolvimento" prefHeight="25.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <DatePicker fx:id="dpInicioDesenvolvimento" prefHeight="25.0" prefWidth="225.0" GridPane.columnIndex="1" />
+                              <DatePicker fx:id="dpFimDesenvolvimento" prefHeight="25.0" prefWidth="225.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
+                        <Label layoutX="25.0" layoutY="108.0" text="Artefatos" />
+                        <HBox layoutX="160.0" layoutY="147.0" spacing="5.0">
+                           <children>
+                              <ListView fx:id="lvArtefatosDisponiveisDev" prefHeight="175.0" prefWidth="200.0" />
+                              <VBox alignment="CENTER" prefHeight="175.0" prefWidth="69.0" spacing="5.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#btAdicionarDevActionEvent" prefHeight="30.0" prefWidth="50.0" text="&gt;" />
+                                    <Button mnemonicParsing="false" onAction="#btAdicionarTodosDevActionEvent" prefHeight="30.0" prefWidth="50.0" text="&gt;&gt;" />
+                                    <Button mnemonicParsing="false" onAction="#btRemoverTodosDevActionEvent" prefHeight="30.0" prefWidth="50.0" text="&lt;&lt;" />
+                                    <Button mnemonicParsing="false" onAction="#btRemoverDevActionEvent" prefHeight="30.0" prefWidth="50.0" text="&lt;" />
+                                 </children>
+                              </VBox>
+                              <ListView fx:id="lvArtefatosSelecionadosDev" prefHeight="175.0" prefWidth="200.0" />
+                           </children>
+                        </HBox>
+                        <Label layoutX="160.0" layoutY="108.0" text="Disponíveis" />
+                        <Label layoutX="438.0" layoutY="108.0" text="Selecionados" />
                      </children></AnchorPane>
             </content>
           </TitledPane>
@@ -154,10 +171,27 @@
                            <children>
                               <Label text="Data de início" />
                               <Label text="Data de Término" GridPane.rowIndex="1" />
-                              <DatePicker fx:id="dpInicioTeste" prefHeight="25.0" prefWidth="223.0" GridPane.columnIndex="1" />
-                              <DatePicker fx:id="dpFimTeste" prefHeight="25.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <DatePicker fx:id="dpInicioTeste" prefHeight="25.0" prefWidth="225.0" GridPane.columnIndex="1" />
+                              <DatePicker fx:id="dpFimTeste" prefHeight="25.0" prefWidth="225.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
+                        <Label layoutX="25.0" layoutY="108.0" text="Artefatos" />
+                        <HBox layoutX="160.0" layoutY="147.0" spacing="5.0">
+                           <children>
+                              <ListView fx:id="lvArtefatosDisponiveisTeste" prefHeight="175.0" prefWidth="200.0" />
+                              <VBox alignment="CENTER" prefHeight="175.0" prefWidth="69.0" spacing="5.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#btAdicionarTesteActionEvent" prefHeight="30.0" prefWidth="50.0" text="&gt;" />
+                                    <Button mnemonicParsing="false" onAction="#btAdicionarTodosTesteActionEvent" prefHeight="30.0" prefWidth="50.0" text="&gt;&gt;" />
+                                    <Button mnemonicParsing="false" onAction="#btRemoverTodosTesteActionEvent" prefHeight="30.0" prefWidth="50.0" text="&lt;&lt;" />
+                                    <Button mnemonicParsing="false" onAction="#btRemoverTesteActionEvent" prefHeight="30.0" prefWidth="50.0" text="&lt;" />
+                                 </children>
+                              </VBox>
+                              <ListView fx:id="lvArtefatosSelecionadosTeste" prefHeight="175.0" prefWidth="200.0" />
+                           </children>
+                        </HBox>
+                        <Label layoutX="160.0" layoutY="108.0" text="Disponíveis" />
+                        <Label layoutX="438.0" layoutY="108.0" text="Selecionados" />
                      </children></AnchorPane>
                </content>
             </TitledPane>

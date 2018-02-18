@@ -6,9 +6,12 @@
 package br.com.stefanini.control;
 
 import br.com.stefanini.control.dao.ModuloDAO;
+import br.com.stefanini.control.dao.ParametroDAO;
 import br.com.stefanini.control.dao.ProjetoDAO;
 import br.com.stefanini.model.entity.Modulo;
+import br.com.stefanini.model.entity.Parametro;
 import br.com.stefanini.model.entity.Projeto;
+import br.com.stefanini.model.enuns.TipoParametro;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
@@ -18,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -31,11 +35,54 @@ import javafx.scene.layout.AnchorPane;
  * @author higo
  */
 public class ManterParametroController implements Initializable {
+    
+    @FXML
+    private ComboBox<TipoParametro> tpParametro;
+    
+    @FXML
+    private TextField idValor;
+    
+    @FXML
+    private TableView<Parametro> gridParametro;
+    
+    @FXML
+    private TableColumn<Parametro, TipoParametro> colunaParametro;
+    
+    @FXML
+    private TableColumn<Parametro, Long> colunaValor;
+    
+    private Parametro parametro; 
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        tpParametro.getItems().setAll(TipoParametro.values());
+        colunaParametro.setCellValueFactory(new PropertyValueFactory<>("tipoParametro"));
+        colunaValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
+    }
+    
+    @FXML
+    private void salvarParametro(ActionEvent ae) {
+        parametro = new Parametro();
+        if(idValor.getText().isEmpty()){
+            idValor.setText(null);
+        }
+        parametro.setValor(Long.parseLong(idValor.getText()));
+        parametro.setTipoParametro(tpParametro.getValue());
         
+        if(parametro.getTipoParametro() == null || parametro.getValor() == null){
+            MessageUtil.messageError("É necessário preencher todos campos obrigatórios!");
+        }else{
+            new ParametroDAO().salvar(parametro);
+            new Alert(Alert.AlertType.INFORMATION, "Parâmetro cadastro com sucesso.").show();
+            atualizarTabelas();
+        }
+    }
+        
+    private void atualizarTabelas() {
+        gridParametro.getItems().setAll(new ParametroDAO().pegarTodos());
     }
 }
+

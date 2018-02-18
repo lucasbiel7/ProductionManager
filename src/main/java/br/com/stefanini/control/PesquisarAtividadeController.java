@@ -20,6 +20,7 @@ import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.util.MessageUtil;
+import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -137,6 +138,7 @@ public class PesquisarAtividadeController implements Initializable {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colOs.setCellValueFactory(new PropertyValueFactory<>("ordemServico"));
         colAtividade.setCellValueFactory(new PropertyValueFactory<>("descricao"));
+
         colEstimada.setCellValueFactory(new PropertyValueFactory<>("contagemDetalhada"));
         colDetalhada.setCellValueFactory(new PropertyValueFactory<>("contagemEstimada"));
         colLevantamento.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
@@ -146,6 +148,7 @@ public class PesquisarAtividadeController implements Initializable {
         colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TESTE));
         colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LEVANTAMENTO));
         colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DESENVOLVIMENTO));
+
     }
 
     @FXML
@@ -156,8 +159,8 @@ public class PesquisarAtividadeController implements Initializable {
     }
 
     private void buildTotais(List<Atividade> atividades) {
-        long countEstimada = 0;
-        long countDetalhada = 0;
+        Double countEstimada = 0.0;
+        Double countDetalhada = 0.0;
         if (atividades != null) {
             for (Atividade atividade : atividades) {
                 countEstimada += atividade.getContagemEstimada();
@@ -190,7 +193,7 @@ public class PesquisarAtividadeController implements Initializable {
             ativ.getPacote().getModulo().setProjeto(new Projeto());
         }
 
-        if (!"".equals(txAtividade.getText().trim())) {
+        if (StringUtil.isEmpty(txAtividade.getText())) {
             ativ.setDescricao(txAtividade.getText());
         }
         if (cbSituacao.getValue() != null) {
@@ -228,7 +231,8 @@ public class PesquisarAtividadeController implements Initializable {
 
     @FXML
     private void btAdicionarAction() {
-        //TODO adicionar
+        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("ManterAtividade"), "Início").show();
+
     }
 
     private class TableCellFases extends TableCell<Atividade, Atividade> {
