@@ -40,7 +40,6 @@ public class StatusMensalComponentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(() -> {
             stage = (Stage) apPrincipal.getScene().getWindow();
-            stage.setResizable(false);
             inicio = (Date) apPrincipal.getUserData();
             lbTitulo.setText(new SimpleDateFormat("MM - MMMM").format(inicio));
         });

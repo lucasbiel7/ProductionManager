@@ -8,6 +8,7 @@ package br.com.stefanini.model.entity;
 import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
 import br.com.stefanini.model.enuns.Faturamento;
+import br.com.stefanini.model.enuns.Mes;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import java.util.Date;
 import java.util.List;
@@ -35,14 +36,15 @@ import org.hibernate.annotations.GenericGenerator;
 public class Atividade extends BaseEntity<String> {
 
     private String descricao;
-    private long contagemEstimada;
-    private long contagemDetalhada;
+    private Double contagemEstimada;
+    private Double contagemDetalhada;
     private OrdemServico ordemServico;
     private Pacote pacote;
     private Faturamento faturamento;
     private SituacaoAtividade situacaoAtividade;
     private Date previsaoInicio;
     private List<AtividadeArtefatos> atividadeArtefatos;
+    private Mes mes;
 
     @Override
     @Id
@@ -63,11 +65,11 @@ public class Atividade extends BaseEntity<String> {
     }
 
     @Column(name = "VL_ESTIMADA")
-    public long getContagemEstimada() {
+    public Double getContagemEstimada() {
         return contagemEstimada;
     }
 
-    public void setContagemEstimada(long contagemEstimada) {
+    public void setContagemEstimada(Double contagemEstimada) {
         this.contagemEstimada = contagemEstimada;
     }
 
@@ -82,11 +84,11 @@ public class Atividade extends BaseEntity<String> {
     }
 
     @Column(name = "VL_DETALHADA")
-    public long getContagemDetalhada() {
+    public Double getContagemDetalhada() {
         return contagemDetalhada;
     }
 
-    public void setContagemDetalhada(long contagemDetalhada) {
+    public void setContagemDetalhada(Double contagemDetalhada) {
         this.contagemDetalhada = contagemDetalhada;
     }
 
@@ -103,7 +105,7 @@ public class Atividade extends BaseEntity<String> {
     /**
      * @return the faturamento
      */
-    @Column(name="FL_FATURAMENTO",length = 2)
+    @Column(name = "FL_FATURAMENTO", length = 2)
     @Enumerated(EnumType.STRING)
     public Faturamento getFaturamento() {
         return faturamento;
@@ -119,7 +121,7 @@ public class Atividade extends BaseEntity<String> {
     /**
      * @return the situacaoAtividade
      */
-    @Column(name="FL_SITUACAO_ATIVIDADE")
+    @Column(name = "FL_SITUACAO_ATIVIDADE")
     @Enumerated(EnumType.STRING)
     public SituacaoAtividade getSituacaoAtividade() {
         return situacaoAtividade;
@@ -149,5 +151,21 @@ public class Atividade extends BaseEntity<String> {
 
     public void setAtividadeArtefatos(List<AtividadeArtefatos> atividadeArtefatos) {
         this.atividadeArtefatos = atividadeArtefatos;
+    }
+
+    /**
+     * @return the mes
+     */
+    @Column(name = "FL_MES")
+    @Enumerated(EnumType.STRING)
+    public Mes getMes() {
+        return mes;
+    }
+
+    /**
+     * @param mes the mes to set
+     */
+    public void setMes(Mes mes) {
+        this.mes = mes;
     }
 }
