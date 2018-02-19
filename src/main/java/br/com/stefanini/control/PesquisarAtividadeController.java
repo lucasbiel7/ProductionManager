@@ -29,6 +29,7 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -42,11 +43,12 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -161,12 +163,33 @@ public class PesquisarAtividadeController implements Initializable {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    VBox vBox = new VBox();
-                    vBox.setAlignment(Pos.CENTER);
+                    HBox hBox = new HBox();
+                    hBox.setAlignment(Pos.CENTER);
+                    hBox.setSpacing(5d);
                     Button btEditar = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/editar.png"), 15, 15, true, true)));
+                    Button btAlteracaoEscopo = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/bandeira.png"), 15, 15, true, true)));
+                    Button btIncluirPendencia = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/sino.png"), 15, 15, true, true)));
+                    Button btRemoverPendencia = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/block.png"), 15, 15, true, true)));
+                    Button btVisualizarPendencia = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/visualizar.png"), 15, 15, true, true)));
+                    Button btEnviarParaFaturamento = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/enviar.png"), 15, 15, true, true)));
+                    Button btExcluir = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/excluir.png"), 15, 15, true, true)));
+                    btEditar.setTooltip(new Tooltip("Editar Atividade"));
+                    btAlteracaoEscopo.setTooltip(new Tooltip("Alteração de Escopo Após aprovação"));
+                    btIncluirPendencia.setTooltip(new Tooltip("Incluir Pendência na atividade"));
+                    btRemoverPendencia.setTooltip(new Tooltip("Remover Pendência da atividade"));
+                    btVisualizarPendencia.setTooltip(new Tooltip("Visualizar Pendências da Atividade"));
+                    btEnviarParaFaturamento.setTooltip(new Tooltip("Enviar para faturamento"));
+                    btExcluir.setTooltip(new Tooltip("Excluir atividade"));
 
-                    vBox.getChildren().addAll(btEditar);
-                    setGraphic(vBox);
+                    btEditar.setOnAction((ActionEvent event) -> {
+                        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade", item), "Início");
+                        stage.initOwner(PesquisarAtividadeController.this.stage);
+                        stage.initModality(Modality.WINDOW_MODAL);
+                        stage.showAndWait();
+                        carregarTabela();
+                    });
+                    hBox.getChildren().addAll(btEditar, btAlteracaoEscopo, btIncluirPendencia, btRemoverPendencia, btVisualizarPendencia, btEnviarParaFaturamento, btExcluir);
+                    setGraphic(hBox);
                 }
             }
         });

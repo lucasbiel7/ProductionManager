@@ -68,7 +68,7 @@
                   <TableColumn fx:id="colHomologacao" prefWidth="94.0" text="Homologação" />
                </columns>
             </TableColumn>
-            <TableColumn fx:id="colAcoes" minWidth="0.0" prefWidth="197.0">
+            <TableColumn fx:id="colAcoes" minWidth="175.0" prefWidth="175.0">
                <graphic>
                   <VBox alignment="CENTER">
                      <children>
