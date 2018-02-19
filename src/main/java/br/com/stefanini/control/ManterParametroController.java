@@ -5,12 +5,8 @@
  */
 package br.com.stefanini.control;
 
-import br.com.stefanini.control.dao.ModuloDAO;
 import br.com.stefanini.control.dao.ParametroDAO;
-import br.com.stefanini.control.dao.ProjetoDAO;
-import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.Parametro;
-import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.TipoParametro;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
@@ -21,13 +17,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -58,6 +51,7 @@ public class ManterParametroController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        atualizarTabelas();
         tpParametro.getItems().setAll(TipoParametro.values());
         colunaParametro.setCellValueFactory(new PropertyValueFactory<>("tipoParametro"));
         colunaValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
@@ -67,9 +61,10 @@ public class ManterParametroController implements Initializable {
     private void salvarParametro(ActionEvent ae) {
         parametro = new Parametro();
         if(idValor.getText().isEmpty()){
-            idValor.setText(null);
+            parametro.setValor(null);
+        }else{
+            parametro.setValor(Double.parseDouble(idValor.getText()));
         }
-        parametro.setValor(Long.parseLong(idValor.getText()));
         parametro.setTipoParametro(tpParametro.getValue());
         
         if(parametro.getTipoParametro() == null || parametro.getValor() == null){
@@ -79,6 +74,13 @@ public class ManterParametroController implements Initializable {
             new Alert(Alert.AlertType.INFORMATION, "Parâmetro cadastro com sucesso.").show();
             atualizarTabelas();
         }
+    }
+    
+    @FXML
+    private void novoParametro(){
+        parametro = new Parametro();
+        idValor.setText("");
+        tpParametro.setValue(parametro.getTipoParametro());
     }
         
     private void atualizarTabelas() {

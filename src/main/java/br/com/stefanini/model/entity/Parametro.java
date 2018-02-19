@@ -26,7 +26,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class Parametro extends BaseEntity<String> {
 
     private TipoParametro tipoParametro;
-    private Long valor;
+    private Double valor;
 
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -48,11 +48,11 @@ public class Parametro extends BaseEntity<String> {
     }
 
     @Column(name = "VL_PARAMETRO")
-    public Long getValor() {
+    public Double getValor() {
         return valor;
     }
     
-    public void setValor(Long valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 
