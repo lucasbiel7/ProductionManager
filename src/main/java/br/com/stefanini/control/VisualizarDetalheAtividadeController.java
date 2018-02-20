@@ -5,15 +5,35 @@
  */
 package br.com.stefanini.control;
 
+import br.com.stefanini.model.entity.Atividade;
+import br.com.stefanini.model.entity.OrdemServico;
+import br.com.stefanini.model.entity.Pacote;
+import br.com.stefanini.model.entity.ProgressoAtividade;
+import br.com.stefanini.model.util.DoubleConverter;
+import com.sun.javafx.collections.ObservableListWrapper;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Observable;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.util.Callback;
 /**
  * FXML Controller class
  *
@@ -22,7 +42,7 @@ import javafx.scene.layout.AnchorPane;
 public class VisualizarDetalheAtividadeController implements Initializable {
 
     @FXML
-    private AnchorPane lbProjetoModulo;
+    private Label lbProjetoModulo;
 
     @FXML
     private Label lbDetalhamento;
@@ -52,37 +72,37 @@ public class VisualizarDetalheAtividadeController implements Initializable {
     private Label lbTotalDetalhadoRepasse;
 
     @FXML
-    private TableView<?> tvLev;
+    private TableView<ProgressoAtividade> tvLev;
 
     @FXML
-    private TableColumn<?, ?> colIdLev;
+    private TableColumn<ProgressoAtividade, String> colIdLev;
 
     @FXML
-    private TableColumn<?, ?> colOsLev;
+    private TableColumn<ProgressoAtividade, OrdemServico> colOsLev;
 
     @FXML
-    private TableColumn<?, ?> colPacoteLev;
+    private TableColumn<ProgressoAtividade, Pacote> colPacoteLev;
 
     @FXML
-    private TableColumn<?, ?> colAtividadeLev;
+    private TableColumn<ProgressoAtividade, Atividade> colAtividadeLev;
 
     @FXML
-    private TableColumn<?, ?> colEstimativaPFLev;
+    private TableColumn<ProgressoAtividade, String> colEstimativaPFLev;
 
     @FXML
-    private TableColumn<?, ?> colDetalhadaPFLev;
+    private TableColumn<ProgressoAtividade, String> colDetalhadaPFLev;
 
     @FXML
-    private TableColumn<?, ?> colEstimativaContratoLev;
+    private TableColumn<ProgressoAtividade, String> colEstimativaContratoLev;
+    
+    @FXML
+    private TableColumn<ProgressoAtividade, String> colEstimativaRepasseLev;
 
     @FXML
-    private TableColumn<?, ?> colEstimativaRepasseLev;
+    private TableColumn<ProgressoAtividade, String> colDetalhadaContratoLev;
 
     @FXML
-    private TableColumn<?, ?> colDetalhadaContratoLev;
-
-    @FXML
-    private TableColumn<?, ?> colDetalhadaRepasseLev;
+    private TableColumn<ProgressoAtividade, String> colDetalhadaRepasseLev;   
 
     @FXML
     private TableColumn<?, ?> colAcoesLev;
@@ -106,7 +126,7 @@ public class VisualizarDetalheAtividadeController implements Initializable {
     private Label lbTotalDetalhadaRepasseLev;
 
     @FXML
-    private TableView<?> tvDev;
+    private TableView<ProgressoAtividade> tvDev;
 
     @FXML
     private TableColumn<?, ?> colIdDev;
@@ -160,7 +180,7 @@ public class VisualizarDetalheAtividadeController implements Initializable {
     private Label lbTotalDetalhadaRepasseDev;
 
     @FXML
-    private TableView<?> tvTst;
+    private TableView<ProgressoAtividade> tvTst;
 
     @FXML
     private TableColumn<?, ?> colIdTst;
@@ -212,12 +232,56 @@ public class VisualizarDetalheAtividadeController implements Initializable {
 
     @FXML
     private Label lbTotalDetalhadaRepasseTst;
+    
+    @FXML
+    private AnchorPane apPrincipal;
+    private GerenciadorDeJanela gerenciadorDeJanela;
+    private Stage stage;
+    
+    private Map<String,Object> paramsMap;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        Platform.runLater(() -> {
+            paramsMap = (Map<String,Object>) apPrincipal.getUserData();
+            lbDetalhamento.setText(buildLabelDetalhamento((Date)paramsMap.get("data")));
+            List<Atividade> atividades = (List)paramsMap.get("atividades");
+            lbProjetoModulo.setText(buildProjetoModulo(atividades));
+        });
+        
+        colIdLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param1) -> {
+            return new SimpleStringProperty(String.valueOf(tvLev.getItems().indexOf(param1.getValue()) + 1));
+        });
+        colOsLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, OrdemServico> param) -> new SimpleObjectProperty<>(param.getValue().getAtividade().getOrdemServico()));
+        colPacoteLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, Pacote> param) -> new SimpleObjectProperty<>(param.getValue().getAtividade().getPacote()));
+        colAtividadeLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, Atividade> param) -> new SimpleObjectProperty<>(param.getValue().getAtividade()));
+        colEstimativaPFLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getAtividade().getContagemEstimada()*.35)));
+        colDetalhadaPFLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getAtividade().getContagemDetalhada()*.35)));
+        colEstimativaContratoLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(""));
+        colEstimativaRepasseLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(""));
+        colDetalhadaContratoLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(""));
+        colDetalhadaRepasseLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(""));
+       
     }    
+    
+    private String buildProjetoModulo(List<Atividade> atividades){
+        if(!atividades.isEmpty() && atividades.size()>0){
+            StringBuilder sb = new StringBuilder();
+            sb.append(atividades.get(0).getPacote().getModulo().getProjeto().getDescricao());            
+            sb.append(" - ");
+            sb.append(atividades.get(0).getPacote().getModulo().getDescricao());            
+            return sb.toString();
+        }else{
+            return "<<Projeto>> - <<Módulo>>";
+        }
+    }
+    
+    private String buildLabelDetalhamento(Date date) {
+        StringBuilder sb = new StringBuilder("Detalhamento de ");
+        sb.append(new SimpleDateFormat("MM/YYYY").format(date));
+        return sb.toString();
+    }
     
 }

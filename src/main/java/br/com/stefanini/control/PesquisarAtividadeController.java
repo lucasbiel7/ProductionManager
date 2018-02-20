@@ -25,8 +25,11 @@ import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -307,7 +310,10 @@ public class PesquisarAtividadeController implements Initializable {
     @FXML
     private void visualizarAction() {
         ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
-        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade"));
+        Map<String,Object> paramsMap = new HashMap<String,Object>();
+        paramsMap.put("data", param);        
+        paramsMap.put("atividades", tvAtividade.getItems().stream().collect(Collectors.toList()));
+        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade",paramsMap));
     }
 
     private class TableCellFases extends TableCell<Atividade, Atividade> {

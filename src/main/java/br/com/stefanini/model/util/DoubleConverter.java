@@ -23,4 +23,12 @@ public class DoubleConverter extends StringConverter<Double> {
     public Double fromString(String string) {
         return Double.parseDouble(string);
     }
+    
+    public static String doubleToString(Double object) {       
+        return String.format(Locale.US,"%.2f", object);
+    }
+    
+    public static Double stringToDouble(String string) {        
+        return Double.parseDouble(string);
+    }
 }
