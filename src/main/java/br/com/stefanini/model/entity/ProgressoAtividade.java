@@ -10,6 +10,7 @@ import br.com.stefanini.model.BaseEntity;
 import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -53,6 +55,10 @@ public class ProgressoAtividade extends BaseEntity<String> {
     private Atividade atividade;
 
     private Faturamento faturamento = Faturamento.AF;
+    
+    private Parametro parametroContrato;
+    
+    private Parametro parametroRepasse;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "TP_ATIVIDADE")
@@ -134,5 +140,24 @@ public class ProgressoAtividade extends BaseEntity<String> {
     public void setFaturamento(Faturamento faturamento) {
         this.faturamento = faturamento;
     }
+    
+    @ManyToOne(targetEntity = Parametro.class, optional = false)
+    @JoinColumn(name = "ID_PARAMETRO", referencedColumnName = "ID_PARAMETRO")
+    public Parametro getParametroContrato() {
+        return parametroContrato;
+    }
 
+    public void setParametroContrato(Parametro parametroContrato) {
+        this.parametroContrato = parametroContrato;
+    }
+
+//    @ManyToOne(targetEntity = Parametro.class, optional = false)
+//    @JoinColumn(name = "ID_PARAMETRO", referencedColumnName = "ID_PARAMETRO")
+//    public Parametro getParametroRepasse() {
+//        return parametroRepasse;
+//    }
+//
+//    public void setParametroRepasse(Parametro parametroRepasse) {
+//        this.parametroRepasse = parametroRepasse;
+//    }
 }
