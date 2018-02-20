@@ -5,14 +5,14 @@
  */
 package br.com.stefanini.control;
 
+import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.ModuloDAO;
 import br.com.stefanini.control.dao.PacoteDAO;
 import br.com.stefanini.control.dao.ProjetoDAO;
+import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.Pacote;
 import br.com.stefanini.model.entity.Projeto;
-import br.com.stefanini.model.util.MessageUtil;
-import com.mysql.cj.x.io.MessageBuilder;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -89,8 +89,43 @@ public class PainelDeControleController implements Initializable {
     }
     
     @FXML
+    private void buttonLimpar(){
+        filtroPacote.setValue(null);
+        filtroProjeto.setValue(null);
+        filtroModulo.setValue(null);
+    }  
+            
+    @FXML
     private void buttonPesquisar(){
+        ArrayList<Atividade> atividades = new ArrayList<>();
+
+        String idProjeto;
+        String idModulo;
+        String idPacote;
         
+        if(filtroProjeto.getValue() != null){
+            idProjeto = filtroProjeto.getValue().getId();
+        }else{
+            idProjeto = "";
+        }
+        
+        if(filtroModulo.getValue() != null){
+            idModulo = filtroModulo.getValue().getId();
+        }else{
+            idModulo = "";
+        }
+        
+        if(filtroPacote.getValue() != null){
+            idPacote = filtroPacote.getValue().getId();
+        }else{
+            idPacote = "";
+        }
+        
+        AtividadeDAO dao = new AtividadeDAO();
+        atividades.addAll(dao.buscarAtividade(idProjeto, idModulo, idPacote));
+        for(Atividade atv : atividades){
+            System.out.println(atv.getDescricao());
+        }
     }
     
     @FXML

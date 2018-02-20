@@ -5,11 +5,13 @@
  */
 package br.com.stefanini.control.dao;
 
+import br.com.stefanini.control.database.Banco;
 import br.com.stefanini.control.database.GenericaDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Query;
 import javax.persistence.criteria.Predicate;
 
 /**
@@ -48,5 +50,31 @@ public class AtividadeDAO extends GenericaDAO<Atividade>{
         entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
         getEntityManager().close();
         return entitys;
+    }
+    
+    public List<Atividade> buscarAtividade(String idProjeto, String idModulo, String idPacote){
+        StringBuilder hql = new StringBuilder("SELECT a FROM " + Atividade.class.getName()).append(" a ");
+        
+        if(!StringUtil.isEmpty(idProjeto) && !StringUtil.isEmpty(idModulo) && !StringUtil.isEmpty(idPacote)){
+            hql.append(" WHERE a.pacote.id = :idPacote AND a.pacote.modulo.id = :idModulo AND a.pacote.modulo.projeto.id = :idProjeto");
+        }
+        else if(!StringUtil.isEmpty(idModulo) && !StringUtil.isEmpty(idProjeto)) {
+            hql.append(" WHERE a.pacote.modulo.id = :idModulo AND a.pacote.modulo.projeto.id = :idProjeto");
+        }
+        else if(!StringUtil.isEmpty(idProjeto)){
+            hql.append(" WHERE a.pacote.modulo.projeto.id = :idProjeto");
+        }
+        
+        Query query = getEntityManager().createQuery(hql.toString());
+        if(!StringUtil.isEmpty(idPacote)){
+            query.setParameter("idPacote", idPacote);
+        }
+        if(!StringUtil.isEmpty(idModulo)){
+            query.setParameter("idModulo", idModulo);
+        }
+        if(!StringUtil.isEmpty(idProjeto)){
+            query.setParameter("idProjeto", idProjeto);
+        }
+        return query.getResultList();
     }
 }
