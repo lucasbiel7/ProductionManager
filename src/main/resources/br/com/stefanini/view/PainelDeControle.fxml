@@ -75,7 +75,8 @@
                      </children>
                   </GridPane>
                   <Line endX="1095.0" layoutX="115.0" layoutY="122.0" startX="-100.0" />
-                  <Button fx:id="idPesquisar" layoutX="1144.0" layoutY="129.0" mnemonicParsing="false" text="Pesquisar" />
+                  <Button fx:id="idPesquisar" layoutX="1144.0" layoutY="129.0" mnemonicParsing="false" onAction="#buttonPesquisar" text="Pesquisar" />
+                  <Button fx:id="idLimpar" layoutX="1048.0" layoutY="129.0" mnemonicParsing="false" onAction="#buttonLimpar" text="Limpar Filtros" />
                </children>
             </AnchorPane>
          </content>
