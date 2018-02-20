@@ -62,4 +62,12 @@ public class GerenciadorDeJanela {
         }
         return parent;
     }
+
+    public Parent procurarComponente(String id, Parent component) {
+        if (id.equals(component.getId())) {
+            return component;
+        } else {
+            return procurarComponente(id, component.getParent());
+        }
+    }
 }

@@ -48,7 +48,7 @@ public class StatusMensalComponentController implements Initializable {
     @FXML
     private void labelAtividadeActionEvent() {
         GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
-        ScrollPane scrollPane = (ScrollPane) apPrincipal.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
+        ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
         scrollPane.setContent(gerenciadorDeJanela.carregarComponente("PesquisarAtividade", inicio));
     }
 }

@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -144,7 +145,9 @@ public class PesquisarAtividadeController implements Initializable {
         cbFaturamento.getItems().setAll(Faturamento.values());
         carregarTabela();
 
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colId.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, String> param1) -> {
+            return new SimpleStringProperty(String.valueOf(tvAtividade.getItems().indexOf(param1.getValue()) + 1));
+        });
         colOs.setCellValueFactory(new PropertyValueFactory<>("ordemServico"));
         colAtividade.setCellValueFactory(new PropertyValueFactory<>("descricao"));
 
@@ -188,9 +191,16 @@ public class PesquisarAtividadeController implements Initializable {
                         stage.showAndWait();
                         carregarTabela();
                     });
+                    btExcluir.setOnAction((ActionEvent event) -> {
+                        if (MessageUtil.confirmMessage("Deseja realmente excluir a atividade?")) {
+                            new AtividadeDAO().excluir(item);
+                            carregarTabela();
+                        }
+                    });
                     hBox.getChildren().addAll(btEditar, btAlteracaoEscopo, btIncluirPendencia, btRemoverPendencia, btVisualizarPendencia, btEnviarParaFaturamento, btExcluir);
                     setGraphic(hBox);
                 }
+
             }
         });
     }
@@ -275,7 +285,9 @@ public class PesquisarAtividadeController implements Initializable {
 
     @FXML
     private void btAdicionarAction() {
-        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade"), "Início");
+        Atividade atividade = new Atividade();
+        atividade.setPrevisaoInicio(param);
+        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade", atividade), "Início");
         stage.initOwner(this.stage);
         stage.initModality(Modality.WINDOW_MODAL);
         stage.showAndWait();
