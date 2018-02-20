@@ -25,7 +25,7 @@
    <children>
       <Accordion layoutX="63.0" layoutY="274.0" prefHeight="223.0" prefWidth="668.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <panes>
-          <TitledPane animated="false" text="Detalhes da atividade">
+          <TitledPane text="Detalhes da atividade">
                <content>
                   <AnchorPane>
                      <children>
@@ -75,7 +75,7 @@
                   </AnchorPane>
                </content>
           </TitledPane>
-          <TitledPane animated="false" text="Levantamento">
+          <TitledPane expanded="false" text="Levantamento">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -115,7 +115,7 @@
                      </children></AnchorPane>
             </content>
           </TitledPane>
-          <TitledPane animated="false" text="Desenvolvimento">
+          <TitledPane expanded="false" text="Desenvolvimento">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -155,7 +155,7 @@
                      </children></AnchorPane>
             </content>
           </TitledPane>
-            <TitledPane animated="false" text="Teste e Homologação">
+            <TitledPane expanded="false" text="Teste e Homologação">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
