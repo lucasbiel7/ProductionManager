@@ -5,7 +5,16 @@
  */
 package br.com.stefanini.control;
 
+import br.com.stefanini.control.dao.ModuloDAO;
+import br.com.stefanini.control.dao.PacoteDAO;
+import br.com.stefanini.control.dao.ProjetoDAO;
+import br.com.stefanini.model.entity.Modulo;
+import br.com.stefanini.model.entity.Pacote;
+import br.com.stefanini.model.entity.Projeto;
+import br.com.stefanini.model.util.MessageUtil;
+import com.mysql.cj.x.io.MessageBuilder;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -14,6 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -31,8 +41,10 @@ public class PainelDeControleController implements Initializable {
 
     @FXML
     private AnchorPane apPrincipal;
+    
     @FXML
     private Spinner<Integer> spAno;
+    
     @FXML
     private GridPane gpMeses;
 
@@ -43,6 +55,15 @@ public class PainelDeControleController implements Initializable {
 
     @FXML
     private AnchorPane apMeses;
+    
+    @FXML
+    private ComboBox<Projeto> filtroProjeto;
+    
+    @FXML
+    private ComboBox<Modulo> filtroModulo;
+    
+    @FXML
+    private ComboBox<Pacote> filtroPacote;
 
     private Stage stage;
 
@@ -64,7 +85,31 @@ public class PainelDeControleController implements Initializable {
             stage.setResizable(true);
             stage.setMaximized(true);
         });
+        filtroProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
     }
+    
+    @FXML
+    private void buttonPesquisar(){
+        
+    }
+    
+    @FXML
+    private void carregaModulos(){
+        if(filtroProjeto.getValue() != null){
+            filtroModulo.getItems().setAll(new ModuloDAO().pegarPorProjeto(filtroProjeto.getValue()));
+        }else{
+            filtroModulo.getItems().setAll(new ArrayList<Modulo>());
+        }
+    }
+    
+    @FXML
+    private void carregaPacotes(){
+        if(filtroModulo.getValue() != null){
+            filtroPacote.getItems().setAll(new PacoteDAO().pegarPorModulo(filtroModulo.getValue()));
+        }else{
+            filtroPacote.getItems().setAll(new ArrayList<Pacote>());
+        }
+    } 
 
     private void carregarMeses() {
         gpMeses.getChildren().clear();
