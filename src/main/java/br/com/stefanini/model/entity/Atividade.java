@@ -21,18 +21,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
+
 /**
  *
  * @author lucas
  */
 @Entity
 @Table(name = "TB_ATIVIDADE", schema = Config.SCHEMA)
+@NamedQuery(name = Atividade.PEGAR_POR_DIA, query = "select a from Atividade a where a.previsaoInicio=:previsaoInicio")
 public class Atividade extends BaseEntity<String> {
+
+    public static final String PEGAR_POR_DIA = "Atividade.pegarPorMes";
 
     private String descricao;
     private Double contagemEstimada;
@@ -167,7 +172,7 @@ public class Atividade extends BaseEntity<String> {
     public void setMes(Mes mes) {
         this.mes = mes;
     }
-    
+
     @Override
     public String toString() {
         return getDescricao();

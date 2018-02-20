@@ -170,8 +170,10 @@ public class ManterAtividadeController implements Initializable {
         stage.close();
     }
 
-    private Atividade buildAtividade() {
-        Atividade ativ = new Atividade();
+    private Atividade buildAtividade(Atividade ativ) {
+        if (atividade == null) {
+            ativ = new Atividade();
+        }
         if (cbPacote.getValue() != null) {
             ativ.setPacote(cbPacote.getValue());
         }
@@ -217,7 +219,7 @@ public class ManterAtividadeController implements Initializable {
 
     @FXML
     private void btConfirmarActionEvent(ActionEvent ae) {
-        atividade = buildAtividade();
+        atividade = buildAtividade(atividade);
         atividade.setSituacaoAtividade(SituacaoAtividade.L);
         atividade.setFaturamento(Faturamento.AF);
         atividade.setAtividadeArtefatos(lvArtefatosSelecionados.getItems().stream().map(t -> {

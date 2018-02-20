@@ -9,7 +9,6 @@ import br.com.stefanini.control.database.GenericaDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.util.StringUtil;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.criteria.JoinType;
@@ -22,12 +21,7 @@ import javax.persistence.criteria.Predicate;
 public class AtividadeDAO extends GenericaDAO<Atividade> {
 
     public List<Atividade> pegarPorMes(Date data) {
-        if (data != null) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(data);
-            calendar.add(Calendar.MONTH, 1);
-            criteriaQuery.where(criteriaBuilder.between(root.get("previsaoInicio"), data, calendar.getTime()));
-        }
+        criteriaQuery.where(criteriaBuilder.equal(root.<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
         entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
         getEntityManager().close();
         return entitys;
