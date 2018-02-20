@@ -8,8 +8,12 @@ package br.com.stefanini.control.dao;
 import br.com.stefanini.control.database.GenericaDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.ProgressoAtividade;
+import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.TipoAtividade;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.persistence.criteria.Predicate;
 
 /**
  *
@@ -20,6 +24,19 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
     public List<ProgressoAtividade> pegarPorAtividadeTipo(Atividade atividade, TipoAtividade tipoAtividade) {
         criteriaQuery.where(criteriaBuilder.and(criteriaBuilder.equal(root.get("atividade"), atividade), criteriaBuilder.equal(root.get("tipoAtividade"), tipoAtividade)));
         criteriaQuery.orderBy(criteriaBuilder.desc(root.get("dataDoProgresso")));
+        entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
+        getEntityManager().close();
+        return entitys;
+    }
+    
+    
+    public List<ProgressoAtividade> pegarEmFaturamentoPorDataTipoAtividade(Date data,TipoAtividade tipoAtividade ) {
+        List<Predicate> criterios = new ArrayList<>();
+        //TODO ISSUE DO LUCAS (se der bug)
+        criterios.add(criteriaBuilder.equal(root.get("atividade").get("previsaoInicio"), data));
+        criterios.add(criteriaBuilder.equal(root.get("tipoAtividade"), tipoAtividade));
+        criterios.add(criteriaBuilder.equal(root.get("atividade").get("faturamento"), Faturamento.AF));
+        criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
         entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
         getEntityManager().close();
         return entitys;

@@ -5,7 +5,6 @@
  */
 package br.com.stefanini.model.util;
 
-import java.text.DecimalFormat;
 import java.util.Locale;
 import javafx.util.StringConverter;
 
@@ -13,14 +12,23 @@ import javafx.util.StringConverter;
  *
  * @author rkkitagawa
  */
-public class DoubleConverter extends StringConverter<Double>{  
+public class DoubleConverter extends StringConverter<Double> {
+
     @Override
-    public String toString(Double object) {       
-        return String.format(Locale.US,"%.1f", object);
+    public String toString(Double object) {
+        return String.format(Locale.US, "%.1f", object);
     }
 
     @Override
-    public Double fromString(String string) {        
+    public Double fromString(String string) {
+        return Double.parseDouble(string);
+    }
+    
+    public static String doubleToString(Double object) {       
+        return String.format(Locale.US,"%.2f", object);
+    }
+    
+    public static Double stringToDouble(String string) {        
         return Double.parseDouble(string);
     }
 }

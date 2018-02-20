@@ -9,9 +9,9 @@ import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.ModuloDAO;
 import br.com.stefanini.control.dao.OrdemServicoDAO;
 import br.com.stefanini.control.dao.PacoteDAO;
-import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
 import br.com.stefanini.control.dao.ProjetoDAO;
 import br.com.stefanini.model.entity.Atividade;
+import br.com.stefanini.model.entity.AtividadeArtefatos;
 import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.OrdemServico;
 import br.com.stefanini.model.entity.Pacote;
@@ -28,6 +28,7 @@ import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -72,14 +73,6 @@ public class ManterAtividadeController implements Initializable {
     @FXML
     private ListView<Artefato> lvArtefatosSelecionados;
     @FXML
-    private ListView<Artefato> lvArtefatosDisponiveisDev;
-    @FXML
-    private ListView<Artefato> lvArtefatosSelecionadosDev;
-    @FXML
-    private ListView<Artefato> lvArtefatosDisponiveisTeste;
-    @FXML
-    private ListView<Artefato> lvArtefatosSelecionadosTeste;
-    @FXML
     private DatePicker dpInicioLevantamento;
     @FXML
     private DatePicker dpFimLevantamento;
@@ -103,6 +96,9 @@ public class ManterAtividadeController implements Initializable {
         Platform.runLater(() -> {
             if (apPrincipal.getUserData() instanceof Atividade) {
                 ManterAtividadeController.this.atividade = (Atividade) apPrincipal.getUserData();
+                if (atividade.getId() != null) {
+                    atividade = new AtividadeDAO().carregarArtefatos(atividade);
+                }
                 carregarDados();
             } else {
                 ManterAtividadeController.this.atividade = new Atividade();
@@ -121,12 +117,6 @@ public class ManterAtividadeController implements Initializable {
         lvArtefatosDisponiveis.getItems().setAll(Artefato.values());
         lvArtefatosDisponiveis.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         lvArtefatosSelecionados.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        lvArtefatosDisponiveisDev.getItems().setAll(Artefato.values());
-        lvArtefatosDisponiveisDev.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        lvArtefatosSelecionadosDev.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        lvArtefatosDisponiveisTeste.getItems().setAll(Artefato.values());
-        lvArtefatosDisponiveisTeste.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        lvArtefatosSelecionadosTeste.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     @FXML
@@ -176,68 +166,14 @@ public class ManterAtividadeController implements Initializable {
     }
 
     @FXML
-    private void btAdicionarDevActionEvent(ActionEvent ae) {
-        if (!lvArtefatosDisponiveisDev.getSelectionModel().getSelectedItems().isEmpty()) {
-            lvArtefatosSelecionadosDev.getItems().addAll(lvArtefatosDisponiveisDev.getSelectionModel().getSelectedItems());
-            lvArtefatosDisponiveisDev.getItems().removeAll(lvArtefatosDisponiveisDev.getSelectionModel().getSelectedItems());
-        }
-    }
-
-    @FXML
-    private void btAdicionarTodosDevActionEvent(ActionEvent ae) {
-        lvArtefatosSelecionadosDev.getItems().addAll(lvArtefatosDisponiveisDev.getItems());
-        lvArtefatosDisponiveisDev.getItems().clear();
-    }
-
-    @FXML
-    private void btRemoverTodosDevActionEvent(ActionEvent ae) {
-        lvArtefatosDisponiveisDev.getItems().addAll(lvArtefatosSelecionadosDev.getItems());
-        lvArtefatosSelecionadosDev.getItems().clear();
-    }
-
-    @FXML
-    private void btRemoverDevActionEvent(ActionEvent ae) {
-        if (!lvArtefatosSelecionadosDev.getSelectionModel().getSelectedItems().isEmpty()) {
-            lvArtefatosDisponiveisDev.getItems().addAll(lvArtefatosSelecionadosDev.getSelectionModel().getSelectedItems());
-            lvArtefatosSelecionadosDev.getItems().removeAll(lvArtefatosSelecionadosDev.getSelectionModel().getSelectedItems());
-        }
-    }
-
-    @FXML
-    private void btAdicionarTesteActionEvent(ActionEvent ae) {
-        if (!lvArtefatosDisponiveisTeste.getSelectionModel().getSelectedItems().isEmpty()) {
-            lvArtefatosSelecionadosTeste.getItems().addAll(lvArtefatosDisponiveisTeste.getSelectionModel().getSelectedItems());
-            lvArtefatosDisponiveisTeste.getItems().removeAll(lvArtefatosDisponiveisTeste.getSelectionModel().getSelectedItems());
-        }
-    }
-
-    @FXML
-    private void btAdicionarTodosTesteActionEvent(ActionEvent ae) {
-        lvArtefatosSelecionadosTeste.getItems().addAll(lvArtefatosDisponiveisTeste.getItems());
-        lvArtefatosDisponiveisTeste.getItems().clear();
-    }
-
-    @FXML
-    private void btRemoverTodosTesteActionEvent(ActionEvent ae) {
-        lvArtefatosDisponiveisTeste.getItems().addAll(lvArtefatosSelecionadosTeste.getItems());
-        lvArtefatosSelecionadosTeste.getItems().clear();
-    }
-
-    @FXML
-    private void btRemoverTesteActionEvent(ActionEvent ae) {
-        if (!lvArtefatosSelecionadosTeste.getSelectionModel().getSelectedItems().isEmpty()) {
-            lvArtefatosDisponiveisTeste.getItems().addAll(lvArtefatosSelecionadosTeste.getSelectionModel().getSelectedItems());
-            lvArtefatosSelecionadosTeste.getItems().removeAll(lvArtefatosSelecionadosTeste.getSelectionModel().getSelectedItems());
-        }
-    }
-
-    @FXML
     private void btCancelarActionEvent(ActionEvent ae) {
         stage.close();
     }
 
-    private Atividade buildAtividade() {
-        Atividade ativ = new Atividade();
+    private Atividade buildAtividade(Atividade ativ) {
+        if (atividade == null) {
+            ativ = new Atividade();
+        }
         if (cbPacote.getValue() != null) {
             ativ.setPacote(cbPacote.getValue());
         }
@@ -281,72 +217,24 @@ public class ManterAtividadeController implements Initializable {
         return levantamento;
     }
 
-    private ProgressoAtividade buildDesenvolvimento() {
-        ProgressoAtividade desenvolvimento = null;
-        if (dpInicioDesenvolvimento.getValue() != null || dpFimDesenvolvimento != null
-                || !lvArtefatosSelecionadosDev.getItems().isEmpty()) {
-            desenvolvimento = new ProgressoAtividade();
-
-            if (dpInicioDesenvolvimento.getValue() != null) {
-                desenvolvimento.setDataInicio(DateUtil.asDate(dpInicioDesenvolvimento.getValue()));
-            }
-
-            if (dpFimDesenvolvimento.getValue() != null) {
-                desenvolvimento.setDataFim(DateUtil.asDate(dpFimDesenvolvimento.getValue()));
-            }
-
-            if (!lvArtefatosSelecionadosDev.getItems().isEmpty()) {
-//                desenvolvimento.setAtividadeArtefatos(lvArtefatosSelecionadosDev.getItems().stream().collect(Collectors.toList()));
-            }
-        }
-        return desenvolvimento;
-    }
-
-    private ProgressoAtividade buildTeste() {
-        ProgressoAtividade teste = null;
-        if (dpInicioTeste.getValue() != null || dpFimTeste != null
-                || !lvArtefatosSelecionadosTeste.getItems().isEmpty()) {
-            teste = new ProgressoAtividade();
-
-            if (dpInicioTeste.getValue() != null) {
-                teste.setDataInicio(DateUtil.asDate(dpInicioTeste.getValue()));
-            }
-
-            if (dpFimTeste.getValue() != null) {
-                teste.setDataFim(DateUtil.asDate(dpFimTeste.getValue()));
-            }
-
-            if (!lvArtefatosSelecionadosTeste.getItems().isEmpty()) {
-//                teste.setAtividadeArtefatos(lvArtefatosSelecionadosTeste.getItems().stream().collect(Collectors.toList()));
-            }
-        }
-        return teste;
-    }
-
     @FXML
     private void btConfirmarActionEvent(ActionEvent ae) {
-        atividade = buildAtividade();
+        atividade = buildAtividade(atividade);
         atividade.setSituacaoAtividade(SituacaoAtividade.L);
         atividade.setFaturamento(Faturamento.AF);
+        atividade.setAtividadeArtefatos(lvArtefatosSelecionados.getItems().stream().map(t -> {
+            AtividadeArtefatos atividadeArtefatos = new AtividadeArtefatos();
+            atividadeArtefatos.setId(new AtividadeArtefatos.AtividadeArtefatosId());
+            atividadeArtefatos.getId().setAtividade(atividade);
+            atividadeArtefatos.getId().setArtefato(t);
+            return atividadeArtefatos;
+        }).collect(Collectors.toList()));
         if (StringUtil.isEmpty(atividade.getDescricao())
                 || atividade.getOrdemServico() == null
                 || atividade.getPacote() == null) {
             MessageUtil.messageError(MessageUtil.CAMPOS_OBRIGATORIOS);
         } else if (atividade.getId() == null) {
             new AtividadeDAO().salvar(atividade);
-            if (atividade.getId() != null) {
-                ProgressoAtividade levantamento = buildLevantamento();
-                levantamento.setAtividade(atividade);
-                new ProgressoAtividadeDAO().salvar(levantamento);
-
-                ProgressoAtividade desenvolvimento = buildDesenvolvimento();
-                desenvolvimento.setAtividade(atividade);
-                new ProgressoAtividadeDAO().salvar(desenvolvimento);
-
-                ProgressoAtividade teste = buildTeste();
-                teste.setAtividade(atividade);
-                new ProgressoAtividadeDAO().salvar(teste);
-            }
             MessageUtil.messageInformation("Atividade foi cadastrada com sucesso!");
             stage.close();
         } else {
@@ -362,6 +250,15 @@ public class ManterAtividadeController implements Initializable {
             calendar.setTime(atividade.getPrevisaoInicio());
             cbMes.getSelectionModel().select(Mes.values()[calendar.get(Calendar.MONTH)]);
             cbMes.setEditable(false);
+            tfAtividade.setText(atividade.getDescricao());
+            cbOrdemServico.getSelectionModel().select(atividade.getOrdemServico());
+            spDetalhada.getValueFactory().setValue(atividade.getContagemDetalhada() == null ? 0d : atividade.getContagemDetalhada());
+            spEstimada.getValueFactory().setValue(atividade.getContagemEstimada() == null ? 0d : atividade.getContagemEstimada());
+            if (atividade.getId() != null) {
+                lvArtefatosSelecionados.getItems().setAll(atividade.getAtividadeArtefatos().stream().map(AtividadeArtefatos::getId).map(AtividadeArtefatos.AtividadeArtefatosId::getArtefato).collect(Collectors.toList()));
+                lvArtefatosDisponiveis.getItems().removeAll(lvArtefatosSelecionados.getItems());
+                lvArtefatosDisponiveis.getItems().removeAll(lvArtefatosSelecionados.getItems());
+            }
             if (atividade.getPacote() != null) {
                 cbPacote.getSelectionModel().select(atividade.getPacote());
                 if (atividade.getPacote().getModulo() != null) {

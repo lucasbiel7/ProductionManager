@@ -52,7 +52,7 @@ public class GerenciadorDeJanela {
         try {
             return FXMLLoader.load(getClass().getResource(PACOTE_VIEW + "" + tela + ".fxml"));
         } catch (IOException e) {
-            LoggerFactory.logger(this.getClass()).debug(e);
+            LoggerFactory.logger(this.getClass()).error(e);
             return null;
         }
     }

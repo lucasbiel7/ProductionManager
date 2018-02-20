@@ -19,13 +19,17 @@ import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import br.com.stefanini.model.enuns.TipoAtividade;
+import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -134,6 +138,7 @@ public class PesquisarAtividadeController implements Initializable {
             stage = (Stage) apPrincipal.getScene().getWindow();
             param = (Date) apPrincipal.getUserData();
             lbPesquisa.setText(buildLabel(param));
+            carregarTabela();
         });
         gerenciadorDeJanela = new GerenciadorDeJanela();
         cbPacote.setValue(null);
@@ -143,8 +148,6 @@ public class PesquisarAtividadeController implements Initializable {
         txAtividade.setText("");
         cbSituacao.getItems().setAll(SituacaoAtividade.values());
         cbFaturamento.getItems().setAll(Faturamento.values());
-        carregarTabela();
-
         colId.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, String> param1) -> {
             return new SimpleStringProperty(String.valueOf(tvAtividade.getItems().indexOf(param1.getValue()) + 1));
         });
@@ -157,9 +160,9 @@ public class PesquisarAtividadeController implements Initializable {
         colDesenvolvimento.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
         colHomologacao.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
         colAcoes.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
-        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TESTE));
-        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LEVANTAMENTO));
-        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DESENVOLVIMENTO));
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE));
         colAcoes.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCell<Atividade, Atividade>() {
             @Override
             protected void updateItem(Atividade item, boolean empty) {
@@ -185,6 +188,10 @@ public class PesquisarAtividadeController implements Initializable {
                     btExcluir.setTooltip(new Tooltip("Excluir atividade"));
 
                     btEditar.setOnAction((ActionEvent event) -> {
+                        if (item.getPrevisaoInicio() == null) {
+                            item.setPrevisaoInicio(param);
+                            new AtividadeDAO().editar(item);
+                        }
                         Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade", item), "Início");
                         stage.initOwner(PesquisarAtividadeController.this.stage);
                         stage.initModality(Modality.WINDOW_MODAL);
@@ -295,14 +302,18 @@ public class PesquisarAtividadeController implements Initializable {
     }
 
     private void carregarTabela() {
-        tvAtividade.getItems().setAll(new AtividadeDAO().pegarTodos());
+        new AtividadeDAO().pegarTodos();
+        tvAtividade.getItems().setAll(new AtividadeDAO().pegarPorMes(DateUtil.truncateDate(param)));
         buildTotais(tvAtividade.getItems());
     }
 
     @FXML
     private void visualizarAction() {
         ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
-        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade"));
+        Map<String,Object> paramsMap = new HashMap<String,Object>();
+        paramsMap.put("data", param);        
+        paramsMap.put("atividades", tvAtividade.getItems().stream().collect(Collectors.toList()));
+        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade",paramsMap));
     }
 
     private class TableCellFases extends TableCell<Atividade, Atividade> {

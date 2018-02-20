@@ -12,16 +12,22 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="lbProjetoModulo" prefHeight="970.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.VisualizarDetalheAtividadeController">
+<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="970.0" prefWidth="1316.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.VisualizarDetalheAtividadeController">
    <children>
-      <Label fx:id="lbDetalhamento" layoutX="14.0" layoutY="14.0" text="Detalhamento de &lt;&lt;mês&gt;&gt;/&lt;&lt;ano&gt;&gt;" />
-      <Line endX="1351.0" layoutY="35.0" startX="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-      <Label layoutX="14.0" layoutY="47.0" text="&lt;&lt;Projeto&gt;&gt; - &lt;&lt;Módulo&gt;&gt;" />
-      <Button fx:id="btPlanilhaBDMG" layoutX="546.0" layoutY="43.0" mnemonicParsing="false" text="Gerar Planilha - BDMG" />
-      <Button fx:id="btPlanilhaSTEAFNINI" layoutX="702.0" layoutY="43.0" mnemonicParsing="false" text="Gerar Planilha - STEFANINI" />
-      <Button fx:id="btFaturar" layoutX="1228.0" layoutY="43.0" mnemonicParsing="false" text="Faturar" />
-      <Button fx:id="btCancelar" layoutX="1290.0" layoutY="43.0" mnemonicParsing="false" text="Cancelar" />
-      <Line endX="1351.0" layoutY="75.0" startX="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <Label fx:id="lbDetalhamento" layoutX="14.0" layoutY="7.0" text="Detalhamento de &lt;&lt;mês&gt;&gt;/&lt;&lt;ano&gt;&gt;">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font></Label>
+      <Line endX="1301.0" layoutY="35.0" startX="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <Label fx:id="lbProjetoModulo" layoutX="14.0" layoutY="41.0" text="&lt;&lt;Projeto&gt;&gt; - &lt;&lt;Módulo&gt;&gt;">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font></Label>
+      <Button fx:id="btPlanilhaBDMG" layoutX="497.0" layoutY="43.0" mnemonicParsing="false" text="Gerar Planilha - BDMG" />
+      <Button fx:id="btPlanilhaSTEAFNINI" layoutX="659.0" layoutY="43.0" mnemonicParsing="false" text="Gerar Planilha - STEFANINI" />
+      <Button fx:id="btFaturar" layoutX="1175.0" layoutY="43.0" mnemonicParsing="false" text="Faturar" />
+      <Button fx:id="btCancelar" layoutX="1240.0" layoutY="43.0" mnemonicParsing="false" text="Cancelar" />
+      <Line endX="1301.0" layoutY="75.0" startX="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
       <GridPane layoutX="14.0" layoutY="76.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="334.0" />
@@ -78,7 +84,7 @@
           <TableColumn fx:id="colIdLev" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
           <TableColumn fx:id="colOsLev" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Ordem de Serviço" />
             <TableColumn fx:id="colPacoteLev" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Pacote" />
-            <TableColumn fx:id="colAtividadeLev" maxWidth="246.0" minWidth="246.0" prefWidth="246.0" text="Atividade" />
+            <TableColumn fx:id="colAtividadeLev" maxWidth="201.0" minWidth="201.0" prefWidth="201.0" text="Atividade" />
             <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Contagem PF">
                <columns>
                   <TableColumn fx:id="colEstimativaPFLev" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Estimativa" />
@@ -102,7 +108,7 @@
       </TableView>
       <GridPane layoutX="18.0" layoutY="378.0" AnchorPane.leftAnchor="15.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="536.0" minWidth="536.0" prefWidth="536.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="491.0" minWidth="491.0" prefWidth="491.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
@@ -133,7 +139,7 @@
             <TableColumn fx:id="colIdDev" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
             <TableColumn fx:id="colOsDev" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Ordem de Serviço" />
             <TableColumn fx:id="colPacoteDev" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Pacote" />
-            <TableColumn fx:id="colAtividadeDev" maxWidth="246.0" minWidth="246.0" prefWidth="246.0" text="Atividade" />
+            <TableColumn fx:id="colAtividadeDev" maxWidth="201.0" minWidth="201.0" prefWidth="201.0" text="Atividade" />
             <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Contagem PF">
                <columns>
                   <TableColumn fx:id="colEstimativaPFDev" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Estimativa" />
@@ -157,7 +163,7 @@
       </TableView>
       <GridPane layoutX="15.0" layoutY="651.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="536.0" minWidth="536.0" prefWidth="536.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="491.0" minWidth="491.0" prefWidth="491.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
@@ -182,13 +188,13 @@
             <Label fx:id="lbTotalDetalhadaRepasseDev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="154.0" textAlignment="CENTER" GridPane.columnIndex="6" />
          </children>
       </GridPane>
-      <Label layoutX="20.0" layoutY="691.0" styleClass="title-label-left-bold" stylesheets="@styles/Styles.css" text="     Teste e Homologação - Calculo: 25%" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <Label layoutX="20.0" layoutY="691.0" styleClass="title-label-left-bold" stylesheets="@styles/Styles.css" text="Teste e Homologação - Calculo: 25%" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
       <TableView fx:id="tvTst" layoutX="20.0" layoutY="724.0" prefHeight="200.0" prefWidth="599.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <columns>
             <TableColumn fx:id="colIdTst" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
             <TableColumn fx:id="colOsTst" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Ordem de Serviço" />
             <TableColumn fx:id="colPacoteTst" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Pacote" />
-            <TableColumn fx:id="colAtividadeTst" maxWidth="246.0" minWidth="246.0" prefWidth="246.0" text="Atividade" />
+            <TableColumn fx:id="colAtividadeTst" maxWidth="201.0" minWidth="201.0" prefWidth="201.0" text="Atividade" />
             <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Contagem PF">
                <columns>
                   <TableColumn fx:id="colEstimativaPFTst" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Estimativa" />
@@ -212,7 +218,7 @@
       </TableView>
       <GridPane layoutX="15.0" layoutY="924.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="536.0" minWidth="536.0" prefWidth="536.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="491.0" minWidth="491.0" prefWidth="491.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
