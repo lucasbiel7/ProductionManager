@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
 
 /**
  *
@@ -51,6 +52,7 @@ public class GerenciadorDeJanela {
         try {
             return FXMLLoader.load(getClass().getResource(PACOTE_VIEW + "" + tela + ".fxml"));
         } catch (IOException e) {
+            LoggerFactory.logger(this.getClass()).debug(e);
             return null;
         }
     }

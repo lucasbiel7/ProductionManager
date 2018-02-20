@@ -299,6 +299,12 @@ public class PesquisarAtividadeController implements Initializable {
         buildTotais(tvAtividade.getItems());
     }
 
+    @FXML
+    private void visualizarAction() {
+        ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
+        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade"));
+    }
+
     private class TableCellFases extends TableCell<Atividade, Atividade> {
 
         private TipoAtividade tipoAtividade;
@@ -307,13 +313,6 @@ public class PesquisarAtividadeController implements Initializable {
             this.tipoAtividade = tipoAtividade;
         }
 
-        @FXML
-        private void visualizarAction() {
-//            GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
-//            ScrollPane scrollPane = (ScrollPane) apPrincipal.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
-//            scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade"));
-        }
-        
         @Override
         protected void updateItem(Atividade item, boolean empty) {
             if (empty) {

@@ -362,7 +362,24 @@ public class ManterAtividadeController implements Initializable {
             calendar.setTime(atividade.getPrevisaoInicio());
             cbMes.getSelectionModel().select(Mes.values()[calendar.get(Calendar.MONTH)]);
             cbMes.setEditable(false);
-
+            if (atividade.getPacote() != null) {
+                cbPacote.getSelectionModel().select(atividade.getPacote());
+                if (atividade.getPacote().getModulo() != null) {
+                    cbModulo.getSelectionModel().select(atividade.getPacote().getModulo());
+                    if (atividade.getPacote().getModulo().getProjeto() != null) {
+                        cbProjeto.getSelectionModel().select(atividade.getPacote().getModulo().getProjeto());
+                    } else {
+                        cbProjeto.getSelectionModel().clearSelection();
+                    }
+                } else {
+                    cbProjeto.getSelectionModel().clearSelection();
+                    cbModulo.getSelectionModel().clearSelection();
+                }
+            } else {
+                cbProjeto.getSelectionModel().clearSelection();
+                cbProjeto.getSelectionModel().clearSelection();
+                cbModulo.getSelectionModel().clearSelection();
+            }
         }
     }
 }
