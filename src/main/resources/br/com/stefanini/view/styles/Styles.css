@@ -28,6 +28,18 @@
     -fx-background-radius: 10 10 0 0;
 }
 
+.title-label-left-bold{
+    -fx-text-align: center;
+    -fx-font-size: 20px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #0000ff;
+    -fx-border-radius: 10 10 0 0;
+    -fx-background-radius: 10 10 0 0;
+    -fx-padding: 0 0 0 10;
+    -fx-font-weight: bold;
+}
+
 .meses-component{
     -fx-border-radius: 10 10 0 0;
     -fx-background-radius: 10 10 0 0;

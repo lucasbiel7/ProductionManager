@@ -295,6 +295,13 @@ public class PesquisarAtividadeController implements Initializable {
             this.tipoAtividade = tipoAtividade;
         }
 
+        @FXML
+        private void visualizarAction() {
+//            GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
+//            ScrollPane scrollPane = (ScrollPane) apPrincipal.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
+//            scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade"));
+        }
+        
         @Override
         protected void updateItem(Atividade item, boolean empty) {
             if (empty) {
