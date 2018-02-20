@@ -9,7 +9,6 @@ import br.com.stefanini.control.dao.ParametroDAO;
 import br.com.stefanini.model.entity.Parametro;
 import br.com.stefanini.model.enuns.TipoParametro;
 import br.com.stefanini.model.util.MessageUtil;
-import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;

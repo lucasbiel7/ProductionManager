@@ -160,9 +160,9 @@ public class PesquisarAtividadeController implements Initializable {
         colDesenvolvimento.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
         colHomologacao.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
         colAcoes.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
-        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TESTE));
-        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LEVANTAMENTO));
-        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DESENVOLVIMENTO));
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE));
         colAcoes.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCell<Atividade, Atividade>() {
             @Override
             protected void updateItem(Atividade item, boolean empty) {
@@ -188,6 +188,10 @@ public class PesquisarAtividadeController implements Initializable {
                     btExcluir.setTooltip(new Tooltip("Excluir atividade"));
 
                     btEditar.setOnAction((ActionEvent event) -> {
+                        if (item.getPrevisaoInicio() == null) {
+                            item.setPrevisaoInicio(param);
+                            new AtividadeDAO().editar(item);
+                        }
                         Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade", item), "Início");
                         stage.initOwner(PesquisarAtividadeController.this.stage);
                         stage.initModality(Modality.WINDOW_MODAL);
@@ -298,7 +302,7 @@ public class PesquisarAtividadeController implements Initializable {
     }
 
     private void carregarTabela() {
-        tvAtividade.getItems().setAll(new AtividadeDAO().pegarTodos());
+        tvAtividade.getItems().setAll(new AtividadeDAO().pegarPorMes(param));
         buildTotais(tvAtividade.getItems());
     }
 

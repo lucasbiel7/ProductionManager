@@ -12,14 +12,15 @@ import javafx.util.StringConverter;
  *
  * @author rkkitagawa
  */
-public class DoubleConverter extends StringConverter<Double>{  
+public class DoubleConverter extends StringConverter<Double> {
+
     @Override
-    public String toString(Double object) {       
-        return String.format(Locale.US,"%.1f", object);
+    public String toString(Double object) {
+        return String.format(Locale.US, "%.1f", object);
     }
 
     @Override
-    public Double fromString(String string) {        
+    public Double fromString(String string) {
         return Double.parseDouble(string);
     }
     
