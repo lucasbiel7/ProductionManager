@@ -42,6 +42,7 @@ public class GenericaDAO<Entity extends BaseEntity> {
     public void salvar(Entity entity) {
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
+        entityManager.flush();
         entityManager.getTransaction().commit();
         entityManager.close();
     }
@@ -49,6 +50,7 @@ public class GenericaDAO<Entity extends BaseEntity> {
     public void editar(Entity entity) {
         entityManager.getTransaction().begin();
         entityManager.merge(entity);
+        entityManager.flush();
         entityManager.getTransaction().commit();
         entityManager.close();
     }
@@ -57,6 +59,7 @@ public class GenericaDAO<Entity extends BaseEntity> {
         entityManager.getTransaction().begin();
         entity = entityManager.merge(entity);
         entityManager.remove(entity);
+        entityManager.flush();
         entityManager.getTransaction().commit();
         entityManager.close();
     }
