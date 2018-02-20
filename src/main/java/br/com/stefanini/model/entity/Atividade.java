@@ -26,7 +26,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-
 /**
  *
  * @author lucas
@@ -167,5 +166,10 @@ public class Atividade extends BaseEntity<String> {
      */
     public void setMes(Mes mes) {
         this.mes = mes;
+    }
+    
+    @Override
+    public String toString() {
+        return getDescricao();
     }
 }

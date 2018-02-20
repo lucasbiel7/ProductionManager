@@ -49,4 +49,6 @@ public class AtividadeDAO extends GenericaDAO<Atividade>{
         getEntityManager().close();
         return entitys;
     }
+    
+    
 }
