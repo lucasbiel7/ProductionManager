@@ -97,7 +97,6 @@ public class ManterAtividadeController implements Initializable {
             if (apPrincipal.getUserData() instanceof Atividade) {
                 ManterAtividadeController.this.atividade = (Atividade) apPrincipal.getUserData();
                 if (atividade.getId() != null) {
-                    System.out.println(atividade.getId());
                     atividade = new AtividadeDAO().carregarArtefatos(atividade);
                 }
                 carregarDados();
@@ -246,16 +245,18 @@ public class ManterAtividadeController implements Initializable {
     public void carregarDados() {
         if (atividade != null) {
             Calendar calendar = Calendar.getInstance();
-            System.out.println(atividade.getPrevisaoInicio());
             calendar.setTime(atividade.getPrevisaoInicio());
             cbMes.getSelectionModel().select(Mes.values()[calendar.get(Calendar.MONTH)]);
             cbMes.setEditable(false);
             tfAtividade.setText(atividade.getDescricao());
             cbOrdemServico.getSelectionModel().select(atividade.getOrdemServico());
-            spDetalhada.getValueFactory().setValue(atividade.getContagemDetalhada());
-            spEstimada.getValueFactory().setValue(atividade.getContagemEstimada());
-            lvArtefatosSelecionados.getItems().setAll(atividade.getAtividadeArtefatos().stream().map(AtividadeArtefatos::getId).map(AtividadeArtefatos.AtividadeArtefatosId::getArtefato).collect(Collectors.toList()));
-            lvArtefatosDisponiveis.getItems().removeAll(lvArtefatosSelecionados.getItems());
+            spDetalhada.getValueFactory().setValue(atividade.getContagemDetalhada() == null ? 0d : atividade.getContagemDetalhada());
+            spEstimada.getValueFactory().setValue(atividade.getContagemEstimada() == null ? 0d : atividade.getContagemEstimada());
+            if (atividade.getId() != null) {
+                lvArtefatosSelecionados.getItems().setAll(atividade.getAtividadeArtefatos().stream().map(AtividadeArtefatos::getId).map(AtividadeArtefatos.AtividadeArtefatosId::getArtefato).collect(Collectors.toList()));
+                lvArtefatosDisponiveis.getItems().removeAll(lvArtefatosSelecionados.getItems());
+                lvArtefatosDisponiveis.getItems().removeAll(lvArtefatosSelecionados.getItems());
+            }
             if (atividade.getPacote() != null) {
                 cbPacote.getSelectionModel().select(atividade.getPacote());
                 if (atividade.getPacote().getModulo() != null) {

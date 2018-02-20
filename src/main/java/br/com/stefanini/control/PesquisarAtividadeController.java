@@ -19,6 +19,7 @@ import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import br.com.stefanini.model.enuns.TipoAtividade;
+import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
@@ -134,6 +135,7 @@ public class PesquisarAtividadeController implements Initializable {
             stage = (Stage) apPrincipal.getScene().getWindow();
             param = (Date) apPrincipal.getUserData();
             lbPesquisa.setText(buildLabel(param));
+            carregarTabela();
         });
         gerenciadorDeJanela = new GerenciadorDeJanela();
         cbPacote.setValue(null);
@@ -143,8 +145,6 @@ public class PesquisarAtividadeController implements Initializable {
         txAtividade.setText("");
         cbSituacao.getItems().setAll(SituacaoAtividade.values());
         cbFaturamento.getItems().setAll(Faturamento.values());
-        carregarTabela();
-
         colId.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, String> param1) -> {
             return new SimpleStringProperty(String.valueOf(tvAtividade.getItems().indexOf(param1.getValue()) + 1));
         });
@@ -299,7 +299,8 @@ public class PesquisarAtividadeController implements Initializable {
     }
 
     private void carregarTabela() {
-        tvAtividade.getItems().setAll(new AtividadeDAO().pegarPorMes(param));
+        new AtividadeDAO().pegarTodos();
+        tvAtividade.getItems().setAll(new AtividadeDAO().pegarPorMes(DateUtil.truncateDate(param)));
         buildTotais(tvAtividade.getItems());
     }
 
