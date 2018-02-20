@@ -83,54 +83,64 @@
         <columns>
           <TableColumn fx:id="colIdLev" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
           <TableColumn fx:id="colOsLev" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Ordem de Serviço" />
+            <TableColumn fx:id="colModLev" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Módulo" />
+            <TableColumn fx:id="colProLev" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Projeto" />
             <TableColumn fx:id="colPacoteLev" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Pacote" />
             <TableColumn fx:id="colAtividadeLev" maxWidth="201.0" minWidth="201.0" prefWidth="201.0" text="Atividade" />
-            <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Contagem PF">
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Contagem PF">
                <columns>
-                  <TableColumn fx:id="colEstimativaPFLev" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Estimativa" />
-                  <TableColumn fx:id="colDetalhadaPFLev" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Detalhada" />
+                  <TableColumn fx:id="colEstimativaPFLev" maxWidth="80.0" minWidth="80.0" text="Estimativa" />
+                  <TableColumn fx:id="colDetalhadaPFLev" maxWidth="80.0" minWidth="80.0" text="Detalhada" />
                </columns>
             </TableColumn>
-            <TableColumn maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Estimativa">
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Estimativa">
                <columns>
-                  <TableColumn fx:id="colEstimativaContratoLev" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Contrato R$" />
-                  <TableColumn fx:id="colEstimativaRepasseLev" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Repasse R$" />
+                  <TableColumn fx:id="colEstimativaContratoLev" maxWidth="80.0" minWidth="80.0" text="Contrato R$" />
+                  <TableColumn fx:id="colEstimativaRepasseLev" maxWidth="80.0" minWidth="80.0" text="Repasse R$" />
                </columns>
             </TableColumn>
-            <TableColumn maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Detalhada">
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Detalhada">
                <columns>
-                  <TableColumn fx:id="colDetalhadaContratoLev" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Contrato R$" />
-                  <TableColumn fx:id="colDetalhadaRepasseLev" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Repasse R$" />
+                  <TableColumn fx:id="colDetalhadaContratoLev" maxWidth="80.0" minWidth="80.0" text="Contrato R$" />
+                  <TableColumn fx:id="colDetalhadaRepasseLev" maxWidth="80.0" minWidth="80.0" text="Repasse R$" />
                </columns>
             </TableColumn>
-            <TableColumn fx:id="colAcoesLev" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Ações" />
+            <TableColumn fx:id="colAcoesLev" maxWidth="58.0" minWidth="58.0" prefWidth="58.0" text="Ação" />
         </columns>
       </TableView>
       <GridPane layoutX="18.0" layoutY="378.0" AnchorPane.leftAnchor="15.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="491.0" minWidth="491.0" prefWidth="491.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="260.0" prefWidth="260.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="321.0" minWidth="321.0" prefWidth="321.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="556.0" text="Total" textAlignment="RIGHT">
+            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="556.0" text="Total" textAlignment="RIGHT" GridPane.columnIndex="2">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lbTotalPfEstimadaLev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="111.0" textAlignment="CENTER" GridPane.columnIndex="1" />
-            <Label fx:id="lbTotalPfDetalhadaLev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="133.0" textAlignment="CENTER" GridPane.columnIndex="2" />
-            <Label fx:id="lbTotalEstimativaContratoLev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="148.0" textAlignment="CENTER" GridPane.columnIndex="3" />
-            <Label fx:id="lbTotalEstimativaRepasseLev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="156.0" textAlignment="CENTER" GridPane.columnIndex="4" />
-            <Label fx:id="lbTotalDetalhadaContratoLev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="151.0" textAlignment="CENTER" GridPane.columnIndex="5" />
-            <Label fx:id="lbTotalDetalhadaRepasseLev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="154.0" textAlignment="CENTER" GridPane.columnIndex="6" />
+            <Label fx:id="lbTotalPfEstimadaLev" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="111.0" textAlignment="CENTER" GridPane.columnIndex="3" />
+            <Label fx:id="lbTotalPfDetalhadaLev" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="133.0" textAlignment="CENTER" GridPane.columnIndex="4" />
+            <Label fx:id="lbTotalEstimativaContratoLev" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="148.0" textAlignment="CENTER" GridPane.columnIndex="5" />
+            <Label fx:id="lbTotalEstimativaRepasseLev" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="156.0" textAlignment="CENTER" GridPane.columnIndex="6" />
+            <Label fx:id="lbTotalDetalhadaContratoLev" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="151.0" textAlignment="CENTER" GridPane.columnIndex="7" />
+            <Label fx:id="lbTotalDetalhadaRepasseLev" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="154.0" textAlignment="CENTER" GridPane.columnIndex="8" />
+            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="222.0" text="Quantidade de Registros">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbQtdLev" alignment="CENTER" prefHeight="17.0" prefWidth="267.0" textAlignment="CENTER" GridPane.columnIndex="1" />
          </children>
       </GridPane>
       <Label layoutX="20.0" layoutY="418.0" styleClass="title-label-left-bold" stylesheets="@styles/Styles.css" text="Desenvolvimento - Calculo: 40%" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
@@ -138,109 +148,129 @@
          <columns>
             <TableColumn fx:id="colIdDev" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
             <TableColumn fx:id="colOsDev" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Ordem de Serviço" />
+            <TableColumn fx:id="colModDev" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Módulo" />
+            <TableColumn fx:id="colProDev" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Projeto" />
             <TableColumn fx:id="colPacoteDev" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Pacote" />
             <TableColumn fx:id="colAtividadeDev" maxWidth="201.0" minWidth="201.0" prefWidth="201.0" text="Atividade" />
-            <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Contagem PF">
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Contagem PF">
                <columns>
-                  <TableColumn fx:id="colEstimativaPFDev" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Estimativa" />
-                  <TableColumn fx:id="colDetalhadaPFDev" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Detalhada" />
+                  <TableColumn fx:id="colEstimativaPFDev" maxWidth="80.0" minWidth="80.0" text="Estimativa" />
+                  <TableColumn fx:id="colDetalhadaPFDev" maxWidth="80.0" minWidth="80.0" text="Detalhada" />
                </columns>
             </TableColumn>
-            <TableColumn maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Estimativa">
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Estimativa">
                <columns>
-                  <TableColumn fx:id="colEstimativaContratoDev" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Contrato R$" />
-                  <TableColumn fx:id="colEstimativaRepasseDev" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Repasse R$" />
+                  <TableColumn fx:id="colEstimativaContratoDev" maxWidth="80.0" minWidth="80.0" text="Contrato R$" />
+                  <TableColumn fx:id="colEstimativaRepasseDev" maxWidth="80.0" minWidth="80.0" text="Repasse R$" />
                </columns>
             </TableColumn>
-            <TableColumn maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Detalhada">
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Detalhada">
                <columns>
-                  <TableColumn fx:id="colDetalhadaContratoDev" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Contrato R$" />
-                  <TableColumn fx:id="colDetalhadaRepasseDev" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Repasse R$" />
+                  <TableColumn fx:id="colDetalhadaContratoDev" maxWidth="80.0" minWidth="80.0" text="Contrato R$" />
+                  <TableColumn fx:id="colDetalhadaRepasseDev" maxWidth="80.0" minWidth="80.0" text="Repasse R$" />
                </columns>
             </TableColumn>
-            <TableColumn fx:id="colAcoesDev" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Ações" />
+            <TableColumn fx:id="colAcoesDev" maxWidth="58.0" minWidth="58.0" prefWidth="58.0" text="Ação" />
          </columns>
       </TableView>
       <GridPane layoutX="15.0" layoutY="651.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="491.0" minWidth="491.0" prefWidth="491.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="260.0" prefWidth="260.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="321.0" minWidth="321.0" prefWidth="321.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="556.0" text="Total" textAlignment="RIGHT">
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="556.0" text="Total" textAlignment="RIGHT" GridPane.columnIndex="2">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lbTotalPfEstimadaDev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="111.0" textAlignment="CENTER" GridPane.columnIndex="1" />
-            <Label fx:id="lbTotalPfDetalhadaDev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="133.0" textAlignment="CENTER" GridPane.columnIndex="2" />
-            <Label fx:id="lbTotalEstimativaContratoDev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="148.0" textAlignment="CENTER" GridPane.columnIndex="3" />
-            <Label fx:id="lbTotalEstimativaRepasseDev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="156.0" textAlignment="CENTER" GridPane.columnIndex="4" />
-            <Label fx:id="lbTotalDetalhadaContratoDev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="151.0" textAlignment="CENTER" GridPane.columnIndex="5" />
-            <Label fx:id="lbTotalDetalhadaRepasseDev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="154.0" textAlignment="CENTER" GridPane.columnIndex="6" />
+            <Label fx:id="lbTotalPfEstimadaDev" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="111.0" textAlignment="CENTER" GridPane.columnIndex="3" />
+            <Label fx:id="lbTotalPfDetalhadaDev" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="133.0" textAlignment="CENTER" GridPane.columnIndex="4" />
+            <Label fx:id="lbTotalEstimativaContratoDev" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="148.0" textAlignment="CENTER" GridPane.columnIndex="5" />
+            <Label fx:id="lbTotalEstimativaRepasseDev" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="156.0" textAlignment="CENTER" GridPane.columnIndex="6" />
+            <Label fx:id="lbTotalDetalhadaContratoDev" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="151.0" textAlignment="CENTER" GridPane.columnIndex="7" />
+            <Label fx:id="lbTotalDetalhadaRepasseDev" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="154.0" textAlignment="CENTER" GridPane.columnIndex="8" />
+            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="509.0" text="Quantidade de Registros">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbQtdDev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="285.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
-      <Label layoutX="20.0" layoutY="691.0" styleClass="title-label-left-bold" stylesheets="@styles/Styles.css" text="Teste e Homologação - Calculo: 25%" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <Label layoutX="-46.0" layoutY="694.0" styleClass="title-label-left-bold" stylesheets="@styles/Styles.css" text="Teste e Homologação - Calculo: 25%" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
       <TableView fx:id="tvTst" layoutX="20.0" layoutY="724.0" prefHeight="200.0" prefWidth="599.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <columns>
             <TableColumn fx:id="colIdTst" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
             <TableColumn fx:id="colOsTst" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Ordem de Serviço" />
+            <TableColumn fx:id="colModTst" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Módulo" />
+            <TableColumn fx:id="colProTst" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Projeto" />
             <TableColumn fx:id="colPacoteTst" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Pacote" />
             <TableColumn fx:id="colAtividadeTst" maxWidth="201.0" minWidth="201.0" prefWidth="201.0" text="Atividade" />
-            <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Contagem PF">
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Contagem PF">
                <columns>
-                  <TableColumn fx:id="colEstimativaPFTst" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Estimativa" />
-                  <TableColumn fx:id="colDetalhadaPFTst" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Detalhada" />
+                  <TableColumn fx:id="colEstimativaPFTst" maxWidth="80.0" minWidth="80.0" text="Estimativa" />
+                  <TableColumn fx:id="colDetalhadaPFTst" maxWidth="80.0" minWidth="80.0" text="Detalhada" />
                </columns>
             </TableColumn>
-            <TableColumn maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Estimativa">
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Estimativa">
                <columns>
-                  <TableColumn fx:id="colEstimativaContratoTst" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Contrato R$" />
-                  <TableColumn fx:id="colEstimativaRepasseTst" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Repasse R$" />
+                  <TableColumn fx:id="colEstimativaContratoTst" maxWidth="80.0" minWidth="80.0" text="Contrato R$" />
+                  <TableColumn fx:id="colEstimativaRepasseTst" maxWidth="80.0" minWidth="80.0" text="Repasse R$" />
                </columns>
             </TableColumn>
-            <TableColumn maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Detalhada">
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Detalhada">
                <columns>
-                  <TableColumn fx:id="colDetalhadaContratoTst" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Contrato R$" />
-                  <TableColumn fx:id="colDetalhadaRepasseTst" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Repasse R$" />
+                  <TableColumn fx:id="colDetalhadaContratoTst" maxWidth="80.0" minWidth="80.0" text="Contrato R$" />
+                  <TableColumn fx:id="colDetalhadaRepasseTst" maxWidth="80.0" minWidth="80.0" text="Repasse R$" />
                </columns>
             </TableColumn>
-            <TableColumn fx:id="colAcoesTst" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Ações" />
+            <TableColumn fx:id="colAcoesTst" maxWidth="58.0" minWidth="58.0" prefWidth="58.0" text="Ação" />
          </columns>
       </TableView>
       <GridPane layoutX="15.0" layoutY="924.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="491.0" minWidth="491.0" prefWidth="491.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="260.0" prefWidth="260.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="321.0" minWidth="321.0" prefWidth="321.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="556.0" text="Total" textAlignment="RIGHT">
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="556.0" text="Total" textAlignment="RIGHT" GridPane.columnIndex="2">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lbTotalPfEstimadaTst" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="111.0" textAlignment="CENTER" GridPane.columnIndex="1" />
-            <Label fx:id="lbTotalPfDetalhadaTst" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="133.0" textAlignment="CENTER" GridPane.columnIndex="2" />
-            <Label fx:id="lbTotalEstimativaContratoTst" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="148.0" textAlignment="CENTER" GridPane.columnIndex="3" />
-            <Label fx:id="lbTotalEstimativaRepasseTst" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="156.0" textAlignment="CENTER" GridPane.columnIndex="4" />
-            <Label fx:id="lbTotalDetalhadaContratoTst" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="151.0" textAlignment="CENTER" GridPane.columnIndex="5" />
-            <Label fx:id="lbTotalDetalhadaRepasseTst" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="154.0" textAlignment="CENTER" GridPane.columnIndex="6" />
+            <Label fx:id="lbTotalPfEstimadaTst" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="111.0" textAlignment="CENTER" GridPane.columnIndex="3" />
+            <Label fx:id="lbTotalPfDetalhadaTst" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="133.0" textAlignment="CENTER" GridPane.columnIndex="4" />
+            <Label fx:id="lbTotalEstimativaContratoTst" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="148.0" textAlignment="CENTER" GridPane.columnIndex="5" />
+            <Label fx:id="lbTotalEstimativaRepasseTst" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="156.0" textAlignment="CENTER" GridPane.columnIndex="6" />
+            <Label fx:id="lbTotalDetalhadaContratoTst" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="151.0" textAlignment="CENTER" GridPane.columnIndex="7" />
+            <Label fx:id="lbTotalDetalhadaRepasseTst" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="154.0" textAlignment="CENTER" GridPane.columnIndex="8" />
+            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="517.0" text="Quantidade de Registros">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbQtdTst" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="331.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </children>
