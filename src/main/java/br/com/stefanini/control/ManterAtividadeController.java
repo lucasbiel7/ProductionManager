@@ -33,6 +33,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
@@ -84,6 +85,10 @@ public class ManterAtividadeController implements Initializable {
     private DatePicker dpInicioTeste;
     @FXML
     private DatePicker dpFimTeste;
+    @FXML
+    private Spinner<Integer> spAno;
+    @FXML
+    private Accordion aPaineis;
 
     private Atividade atividade;
     private Stage stage;
@@ -98,19 +103,23 @@ public class ManterAtividadeController implements Initializable {
                 ManterAtividadeController.this.atividade = (Atividade) apPrincipal.getUserData();
                 if (atividade.getId() != null) {
                     atividade = new AtividadeDAO().carregarArtefatos(atividade);
+
                 }
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(atividade.getPrevisaoInicio());
+                ((SpinnerValueFactory.IntegerSpinnerValueFactory) spAno.getValueFactory()).setMin(calendar.get(Calendar.YEAR));
                 carregarDados();
             } else {
                 ManterAtividadeController.this.atividade = new Atividade();
             }
             stage = (Stage) apPrincipal.getScene().getWindow();
         });
-
         spEstimada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
         spDetalhada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
         spEstimada.getValueFactory().setConverter(new DoubleConverter());
         spDetalhada.getValueFactory().setConverter(new DoubleConverter());
-
+        Calendar calendar = Calendar.getInstance();
+        spAno.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(calendar.get(Calendar.YEAR), Integer.MAX_VALUE, calendar.get(Calendar.YEAR)));
         cbProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
         cbOrdemServico.getItems().setAll(new OrdemServicoDAO().pegarTodos());
         cbMes.getItems().setAll(Mes.values());
@@ -229,6 +238,11 @@ public class ManterAtividadeController implements Initializable {
             atividadeArtefatos.getId().setArtefato(t);
             return atividadeArtefatos;
         }).collect(Collectors.toList()));
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, spAno.getValue());
+        calendar.set(Calendar.MONTH, cbMes.getSelectionModel().getSelectedIndex());
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        atividade.setPrevisaoInicio(calendar.getTime());
         if (StringUtil.isEmpty(atividade.getDescricao())
                 || atividade.getOrdemServico() == null
                 || atividade.getPacote() == null) {
@@ -249,6 +263,7 @@ public class ManterAtividadeController implements Initializable {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(atividade.getPrevisaoInicio());
             cbMes.getSelectionModel().select(Mes.values()[calendar.get(Calendar.MONTH)]);
+            spAno.getValueFactory().setValue(calendar.get(Calendar.YEAR));
             cbMes.setEditable(false);
             tfAtividade.setText(atividade.getDescricao());
             cbOrdemServico.getSelectionModel().select(atividade.getOrdemServico());

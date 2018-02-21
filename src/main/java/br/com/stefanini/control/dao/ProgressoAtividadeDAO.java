@@ -28,12 +28,11 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         getEntityManager().close();
         return entitys;
     }
-    
-    
-    public List<ProgressoAtividade> pegarEmFaturamentoPorDataTipoAtividade(Date data,TipoAtividade tipoAtividade ) {
+
+    public List<ProgressoAtividade> pegarEmFaturamentoPorDataTipoAtividade(Date data, TipoAtividade tipoAtividade) {
         List<Predicate> criterios = new ArrayList<>();
         //TODO ISSUE DO LUCAS (se der bug)
-//        criterios.add(criteriaBuilder.equal(root.get("atividade").get("previsaoInicio"), data));
+        criterios.add(criteriaBuilder.equal(root.get("atividade").<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
         criterios.add(criteriaBuilder.equal(root.get("tipoAtividade"), tipoAtividade));
         criterios.add(criteriaBuilder.equal(root.get("faturamento"), Faturamento.EF));
         criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
