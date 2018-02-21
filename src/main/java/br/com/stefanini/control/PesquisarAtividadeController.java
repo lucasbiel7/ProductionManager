@@ -165,7 +165,7 @@ public class PesquisarAtividadeController implements Initializable {
         colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE));
         colAcoes.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCell<Atividade, Atividade>() {
             @Override
-            protected void updateItem(Atividade item, boolean empty) {
+            protected void updateItem(Atividade atividade, boolean empty) {
                 if (empty) {
                     setGraphic(null);
                 } else {
@@ -187,12 +187,19 @@ public class PesquisarAtividadeController implements Initializable {
                     btEnviarParaFaturamento.setTooltip(new Tooltip("Enviar para faturamento"));
                     btExcluir.setTooltip(new Tooltip("Excluir atividade"));
 
+                    btEnviarParaFaturamento.setOnAction((ActionEvent event) -> {
+                        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("FaturarAtividade", atividade), "Faturar atividade");
+                        stage.initOwner(PesquisarAtividadeController.this.stage);
+                        stage.initModality(Modality.WINDOW_MODAL);
+                        stage.showAndWait();
+                        carregarTabela();
+                    });
                     btEditar.setOnAction((ActionEvent event) -> {
-                        if (item.getPrevisaoInicio() == null) {
-                            item.setPrevisaoInicio(param);
-                            new AtividadeDAO().editar(item);
+                        if (atividade.getPrevisaoInicio() == null) {
+                            atividade.setPrevisaoInicio(param);
+                            new AtividadeDAO().editar(atividade);
                         }
-                        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade", item), "Início");
+                        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade", atividade), "Início");
                         stage.initOwner(PesquisarAtividadeController.this.stage);
                         stage.initModality(Modality.WINDOW_MODAL);
                         stage.showAndWait();
@@ -200,7 +207,7 @@ public class PesquisarAtividadeController implements Initializable {
                     });
                     btExcluir.setOnAction((ActionEvent event) -> {
                         if (MessageUtil.confirmMessage("Deseja realmente excluir a atividade?")) {
-                            new AtividadeDAO().excluir(item);
+                            new AtividadeDAO().excluir(atividade);
                             carregarTabela();
                         }
                     });
@@ -302,7 +309,6 @@ public class PesquisarAtividadeController implements Initializable {
     }
 
     private void carregarTabela() {
-        new AtividadeDAO().pegarTodos();
         tvAtividade.getItems().setAll(new AtividadeDAO().pegarPorMes(DateUtil.truncateDate(param)));
         buildTotais(tvAtividade.getItems());
     }
@@ -310,10 +316,10 @@ public class PesquisarAtividadeController implements Initializable {
     @FXML
     private void visualizarAction() {
         ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
-        Map<String,Object> paramsMap = new HashMap<String,Object>();
-        paramsMap.put("data", param);        
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("data", param);
         paramsMap.put("atividades", tvAtividade.getItems().stream().collect(Collectors.toList()));
-        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade",paramsMap));
+        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade", paramsMap));
     }
 
     private class TableCellFases extends TableCell<Atividade, Atividade> {
@@ -341,6 +347,7 @@ public class PesquisarAtividadeController implements Initializable {
                     progressoAtividade.setTipoAtividade(this.tipoAtividade);
                     if (newValue == 100d) {
                         if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade?")) {
+
                             new ProgressoAtividadeDAO().salvar(progressoAtividade);
                             ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getProgresso());
                         } else {
