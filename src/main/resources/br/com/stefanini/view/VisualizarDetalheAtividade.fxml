@@ -23,7 +23,7 @@
          <font>
             <Font name="System Bold" size="20.0" />
          </font></Label>
-      <Button fx:id="btPlanilhaBDMG" layoutX="497.0" layoutY="43.0" mnemonicParsing="false" text="Gerar Planilha - BDMG" />
+      <Button fx:id="btPlanilhaBDMG" layoutX="497.0" layoutY="43.0" mnemonicParsing="false" onAction="#gerarPlanilhaBDMGAction" text="Gerar Planilha - BDMG" />
       <Button fx:id="btPlanilhaSTEAFNINI" layoutX="659.0" layoutY="43.0" mnemonicParsing="false" text="Gerar Planilha - STEFANINI" />
       <Button fx:id="btFaturar" layoutX="1175.0" layoutY="43.0" mnemonicParsing="false" text="Faturar" />
       <Button fx:id="btCancelar" layoutX="1240.0" layoutY="43.0" mnemonicParsing="false" text="Cancelar" />

@@ -32,6 +32,14 @@ public class Parametro extends BaseEntity<String> {
     private Double valor;
     private Date dtInclusao;
 
+    public Parametro() {
+    }
+
+    public Parametro(Double valor, TipoParametro tipoParametro) {
+        this.tipoParametro = tipoParametro;
+        this.valor = valor;
+    }
+    
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @GeneratedValue(generator = "uuid")

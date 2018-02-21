@@ -10,6 +10,7 @@ import br.com.stefanini.model.entity.Parametro;
 import br.com.stefanini.model.enuns.TipoParametro;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 /**
@@ -25,4 +26,18 @@ public class ParametroDAO extends GenericaDAO<Parametro> {
         parametroRecente.add(parametros.get(0));
         return parametroRecente;
     }
+    
+    public Parametro buscaParametroRecente(TipoParametro tipoParametro){
+        StringBuilder hql = new StringBuilder("SELECT param FROM " + Parametro.class.getName()).append(" param WHERE param.tipoParametro= :tipoParametro ORDER BY param.dtInclusao DESC");
+        Query query = getEntityManager().createQuery(hql.toString());
+        query.setParameter("tipoParametro", tipoParametro);
+        query.setMaxResults(1); 
+        try{
+            return (Parametro) query.getSingleResult();
+        }catch(NoResultException nre){
+            return new Parametro(0.0, tipoParametro);
+        }
+        
+    }
 }
+

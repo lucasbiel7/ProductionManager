@@ -312,7 +312,7 @@ public class PesquisarAtividadeController implements Initializable {
         ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
         Map<String,Object> paramsMap = new HashMap<String,Object>();
         paramsMap.put("data", param);        
-        paramsMap.put("atividades", tvAtividade.getItems().stream().collect(Collectors.toList()));
+//        paramsMap.put("atividades", tvAtividade.getItems().stream().collect(Collectors.toList()));
         scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade",paramsMap));
     }
 

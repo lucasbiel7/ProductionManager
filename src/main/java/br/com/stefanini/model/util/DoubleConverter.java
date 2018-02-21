@@ -5,6 +5,8 @@
  */
 package br.com.stefanini.model.util;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import javafx.util.StringConverter;
 
@@ -14,6 +16,7 @@ import javafx.util.StringConverter;
  */
 public class DoubleConverter extends StringConverter<Double> {
 
+    private static DecimalFormat df = new DecimalFormat ("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR")));
     @Override
     public String toString(Double object) {
         return String.format(Locale.US, "%.1f", object);
@@ -24,8 +27,8 @@ public class DoubleConverter extends StringConverter<Double> {
         return Double.parseDouble(string);
     }
     
-    public static String doubleToString(Double object) {       
-        return String.format(Locale.US,"%.2f", object);
+    public static String doubleToString(Double object) { 
+        return df.format(object);
     }
     
     public static Double stringToDouble(String string) {        
