@@ -74,7 +74,6 @@ public class ManterParametroController implements Initializable {
             new Alert(Alert.AlertType.INFORMATION, "Parâmetro cadastro com sucesso.").show();
             atualizarTabelas();
         }
-        System.out.println(parametro.getValor());
     }
     
     @FXML
@@ -85,7 +84,7 @@ public class ManterParametroController implements Initializable {
     }
         
     private void atualizarTabelas() {
-       gridParametro.getItems().setAll(new ParametroDAO().buscaParametroContratoRecente());
+       gridParametro.getItems().setAll(new ParametroDAO().buscaParametrosRecentes());
     }
 }
 

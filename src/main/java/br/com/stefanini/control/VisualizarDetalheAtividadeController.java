@@ -21,6 +21,7 @@ import br.com.stefanini.model.util.GeradorPlanilha;
 import br.com.stefanini.model.util.MessageUtil;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +30,8 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -42,7 +43,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import org.apache.poi.ss.usermodel.Workbook;
+
 /**
  * FXML Controller class
  *
@@ -88,10 +89,10 @@ public class VisualizarDetalheAtividadeController implements Initializable {
 
     @FXML
     private TableColumn<ProgressoAtividade, OrdemServico> colOsLev;
-    
+
     @FXML
     private TableColumn<ProgressoAtividade, Modulo> colModLev;
-            
+
     @FXML
     private TableColumn<ProgressoAtividade, Projeto> colProLev;
 
@@ -109,7 +110,7 @@ public class VisualizarDetalheAtividadeController implements Initializable {
 
     @FXML
     private TableColumn<ProgressoAtividade, String> colEstimativaContratoLev;
-    
+
     @FXML
     private TableColumn<ProgressoAtividade, String> colEstimativaRepasseLev;
 
@@ -117,7 +118,7 @@ public class VisualizarDetalheAtividadeController implements Initializable {
     private TableColumn<ProgressoAtividade, String> colDetalhadaContratoLev;
 
     @FXML
-    private TableColumn<ProgressoAtividade, String> colDetalhadaRepasseLev;   
+    private TableColumn<ProgressoAtividade, String> colDetalhadaRepasseLev;
 
     @FXML
     private TableColumn<ProgressoAtividade, ProgressoAtividade> colAcoesLev;
@@ -151,10 +152,10 @@ public class VisualizarDetalheAtividadeController implements Initializable {
 
     @FXML
     private TableColumn<ProgressoAtividade, Modulo> colModDev;
-            
+
     @FXML
     private TableColumn<ProgressoAtividade, Projeto> colProDev;
-    
+
     @FXML
     private TableColumn<ProgressoAtividade, Pacote> colPacoteDev;
 
@@ -211,10 +212,10 @@ public class VisualizarDetalheAtividadeController implements Initializable {
 
     @FXML
     private TableColumn<ProgressoAtividade, Modulo> colModTst;
-            
+
     @FXML
     private TableColumn<ProgressoAtividade, Projeto> colProTst;
-    
+
     @FXML
     private TableColumn<ProgressoAtividade, Pacote> colPacoteTst;
 
@@ -259,17 +260,16 @@ public class VisualizarDetalheAtividadeController implements Initializable {
 
     @FXML
     private Label lbTotalDetalhadaRepasseTst;
-    
+
     @FXML
     private Label lbQtdLev;
-    
+
     @FXML
     private Label lbQtdDev;
-    
+
     @FXML
     private Label lbQtdTst;
-    
-    
+
     @FXML
     private AnchorPane apPrincipal;
     private GerenciadorDeJanela gerenciadorDeJanela;
@@ -280,165 +280,174 @@ public class VisualizarDetalheAtividadeController implements Initializable {
     private void calcularTotais(){
         Parametro paramContrato = new ParametroDAO().buscaParametroRecente(TipoParametro.CONTRATO);
         Parametro paramRepasse = new ParametroDAO().buscaParametroRecente(TipoParametro.REPASSE);
+
         Double totalPfEstimadaLev = 0.0;
         Double totalPfDetalhadaLev = 0.0;
         for (ProgressoAtividade progresso : tvLev.getItems()) {
-              totalPfEstimadaLev += progresso.getAtividade().getContagemEstimada();
-              totalPfDetalhadaLev += progresso.getAtividade().getContagemDetalhada();
+            totalPfEstimadaLev += progresso.getAtividade().getContagemEstimada();
+            totalPfDetalhadaLev += progresso.getAtividade().getContagemDetalhada();
         }
-        lbTotalPfEstimadaLev.setText(DoubleConverter.doubleToString(totalPfEstimadaLev*.35));
-        lbTotalPfDetalhadaLev.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev*.35));
+        lbTotalPfEstimadaLev.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35));
+        lbTotalPfDetalhadaLev.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35));
         //TODO Esperar o Higo e multiplicar o valor
         lbTotalEstimativaContratoLev.setText(DoubleConverter.doubleToString(totalPfEstimadaLev*.35*paramContrato.getValor()));
         lbTotalEstimativaRepasseLev.setText(DoubleConverter.doubleToString(totalPfEstimadaLev*.35*paramRepasse.getValor()));
         lbTotalDetalhadaContratoLev.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev*.35*paramContrato.getValor()));
         lbTotalDetalhadaRepasseLev.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev*.35*paramRepasse.getValor()));
         lbQtdLev.setText(String.valueOf(tvLev.getItems().size()));
-        
-
 
         Double totalPfEstimadaDev = 0.0;
         Double totalPfDetalhadaDev = 0.0;
         for (ProgressoAtividade progresso : tvDev.getItems()) {
-              totalPfEstimadaDev += progresso.getAtividade().getContagemEstimada();
-              totalPfDetalhadaDev += progresso.getAtividade().getContagemDetalhada();
+            totalPfEstimadaDev += progresso.getAtividade().getContagemEstimada();
+            totalPfDetalhadaDev += progresso.getAtividade().getContagemDetalhada();
         }
-        lbTotalPfEstimadaDev.setText(DoubleConverter.doubleToString(totalPfEstimadaDev*.4));
-        lbTotalPfDetalhadaDev.setText(DoubleConverter.doubleToString(totalPfDetalhadaDev*.4));
+        lbTotalPfEstimadaDev.setText(DoubleConverter.doubleToString(totalPfEstimadaDev * .4));
+        lbTotalPfDetalhadaDev.setText(DoubleConverter.doubleToString(totalPfDetalhadaDev * .4));
         //TODO Esperar o Higo e multiplicar o valor
         lbTotalEstimativaContratoDev.setText(DoubleConverter.doubleToString(totalPfEstimadaDev*.4*paramContrato.getValor()));
         lbTotalEstimativaRepasseDev.setText(DoubleConverter.doubleToString(totalPfEstimadaDev*.4*paramRepasse.getValor()));
         lbTotalDetalhadaContratoDev.setText(DoubleConverter.doubleToString(totalPfDetalhadaDev*.4*paramContrato.getValor()));
         lbTotalDetalhadaRepasseDev.setText(DoubleConverter.doubleToString(totalPfDetalhadaDev*.4*paramRepasse.getValor()));
         lbQtdDev.setText(String.valueOf(tvDev.getItems().size()));
-        
+
         Double totalPfEstimadaTst = 0.0;
         Double totalPfDetalhadaTst = 0.0;
         for (ProgressoAtividade progresso : tvTst.getItems()) {
-              totalPfEstimadaTst += progresso.getAtividade().getContagemEstimada();
-              totalPfDetalhadaTst += progresso.getAtividade().getContagemDetalhada();
+            totalPfEstimadaTst += progresso.getAtividade().getContagemEstimada();
+            totalPfDetalhadaTst += progresso.getAtividade().getContagemDetalhada();
         }
-        lbTotalPfEstimadaTst.setText(DoubleConverter.doubleToString(totalPfEstimadaTst*.25));
-        lbTotalPfDetalhadaTst.setText(DoubleConverter.doubleToString(totalPfDetalhadaTst*.25));
+        lbTotalPfEstimadaTst.setText(DoubleConverter.doubleToString(totalPfEstimadaTst * .25));
+        lbTotalPfDetalhadaTst.setText(DoubleConverter.doubleToString(totalPfDetalhadaTst * .25));
         //TODO Esperar o Higo e multiplicar o valor
         lbTotalEstimativaContratoTst.setText(DoubleConverter.doubleToString(totalPfEstimadaTst*.25*paramContrato.getValor()));
         lbTotalEstimativaRepasseTst.setText(DoubleConverter.doubleToString(totalPfEstimadaTst*.25*paramRepasse.getValor()));
         lbTotalDetalhadaContratoTst.setText(DoubleConverter.doubleToString(totalPfDetalhadaTst*.25*paramContrato.getValor()));
         lbTotalDetalhadaRepasseTst.setText(DoubleConverter.doubleToString(totalPfDetalhadaTst*.25*paramRepasse.getValor()));
         lbQtdTst.setText(String.valueOf(tvTst.getItems().size()));
+
         
         lbTotalEstimadaoContrato.setText(DoubleConverter.doubleToString(totalPfEstimadaLev*.35*paramContrato.getValor()+totalPfEstimadaDev*.4*paramContrato.getValor()+totalPfEstimadaTst*.25*paramContrato.getValor()));
         lbTotalEstimadaoRepasse.setText(DoubleConverter.doubleToString(totalPfEstimadaLev*.35*paramRepasse.getValor()+totalPfEstimadaDev*.4*paramRepasse.getValor()+totalPfEstimadaTst*.25*paramRepasse.getValor()));
         lbTotalDetalhadoContrato.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev*.35*paramContrato.getValor()+totalPfDetalhadaDev*.4*paramContrato.getValor()+totalPfDetalhadaTst*.25*paramContrato.getValor()));
         lbTotalDetalhadoRepasse.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev*.35*paramRepasse.getValor()+totalPfDetalhadaDev*.4*paramRepasse.getValor()+totalPfDetalhadaTst*.25*paramRepasse.getValor()));
 
+
     }
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(() -> {
-            paramsMap = (Map<String,Object>) apPrincipal.getUserData();
-            lbDetalhamento.setText(buildLabelDetalhamento((Date)paramsMap.get("data")));
-//            List<Atividade> atividades = (List)paramsMap.get("atividades");
+            paramsMap = (Map<String, Object>) apPrincipal.getUserData();
+            lbDetalhamento.setText(buildLabelDetalhamento((Date) paramsMap.get("data")));
+            
             lbProjetoModulo.setText("");
-                        
-            tvLev.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date)paramsMap.get("data"),TipoAtividade.LE));
-            tvDev.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date)paramsMap.get("data"),TipoAtividade.DE));
-            tvTst.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date)paramsMap.get("data"),TipoAtividade.TE));
-            
+            System.out.println("TE" + new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade(new Date(1514764800000l), TipoAtividade.TE).size());
+            System.out.println("DE" + new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade(new Date(1514764800000l), TipoAtividade.DE).size());
+            System.out.println("LE" + new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade(new Date(1514764800000l), TipoAtividade.LE).size());
+            new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) paramsMap.get("data"), TipoAtividade.TE);
+            new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) paramsMap.get("data"), TipoAtividade.DE);
+            new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) paramsMap.get("data"), TipoAtividade.LE);
+
+            tvLev.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) paramsMap.get("data"), TipoAtividade.LE));
+            tvDev.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) paramsMap.get("data"), TipoAtividade.DE));
+            tvTst.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) paramsMap.get("data"), TipoAtividade.TE));
+
+
             calcularTotais();
-            
+
             colAcoesLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, ProgressoAtividade> param) -> new SimpleObjectProperty<>(param.getValue()));
-            colAcoesLev.setCellFactory((TableColumn<ProgressoAtividade, ProgressoAtividade> param) -> new TableCell<ProgressoAtividade, ProgressoAtividade>() {           
-                
-            @Override
-            protected void updateItem(ProgressoAtividade item, boolean empty) {
-                if (empty || item == null) {
-                    setGraphic(null);
-                    setText(null);
-                } else {
-                    HBox gerenciadorLayout = new HBox();
-                    Button btExcluir = new Button();                    
-                    ImageView ivExcluir = new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/excluir.png")));                    
-                    ivExcluir.setFitHeight(15d);                    
-                    ivExcluir.setFitWidth(15d);                    
-                    btExcluir.setGraphic(ivExcluir);
-                    gerenciadorLayout.setSpacing(5);
-                    gerenciadorLayout.setAlignment(Pos.CENTER);
-                    gerenciadorLayout.getChildren().addAll(btExcluir);
-                    setGraphic(gerenciadorLayout);
-                    setAlignment(Pos.CENTER);                    
-                    btExcluir.setOnAction((ActionEvent event) -> {
-                        if (MessageUtil.confirmMessage("Você realmente deseja excluir este Progresso?")) {
-                            tvLev.getItems().remove(item);
-                            calcularTotais();
-                        }
-                    });
+            colAcoesLev.setCellFactory((TableColumn<ProgressoAtividade, ProgressoAtividade> param) -> new TableCell<ProgressoAtividade, ProgressoAtividade>() {
+
+                @Override
+                protected void updateItem(ProgressoAtividade item, boolean empty) {
+                    if (empty || item == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        HBox gerenciadorLayout = new HBox();
+                        Button btExcluir = new Button();
+                        ImageView ivExcluir = new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/excluir.png")));
+                        ivExcluir.setFitHeight(15d);
+                        ivExcluir.setFitWidth(15d);
+                        btExcluir.setGraphic(ivExcluir);
+                        gerenciadorLayout.setSpacing(5);
+                        gerenciadorLayout.setAlignment(Pos.CENTER);
+                        gerenciadorLayout.getChildren().addAll(btExcluir);
+                        setGraphic(gerenciadorLayout);
+                        setAlignment(Pos.CENTER);
+                        btExcluir.setOnAction((ActionEvent event) -> {
+                            if (MessageUtil.confirmMessage("Você realmente deseja excluir este Progresso?")) {
+                                tvLev.getItems().remove(item);
+                                calcularTotais();
+                            }
+                        });
+                    }
                 }
-            }  
-        });
-            
+            });
+
             colAcoesDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, ProgressoAtividade> param) -> new SimpleObjectProperty<>(param.getValue()));
-            colAcoesDev.setCellFactory((TableColumn<ProgressoAtividade, ProgressoAtividade> param) -> new TableCell<ProgressoAtividade, ProgressoAtividade>() {           
-                
-            @Override
-            protected void updateItem(ProgressoAtividade item, boolean empty) {
-                if (empty || item == null) {
-                    setGraphic(null);
-                    setText(null);
-                } else {
-                    HBox gerenciadorLayout = new HBox();
-                    Button btExcluir = new Button();                    
-                    ImageView ivExcluir = new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/excluir.png")));                    
-                    ivExcluir.setFitHeight(15d);                    
-                    ivExcluir.setFitWidth(15d);                    
-                    btExcluir.setGraphic(ivExcluir);
-                    gerenciadorLayout.setSpacing(5);
-                    gerenciadorLayout.setAlignment(Pos.CENTER);
-                    gerenciadorLayout.getChildren().addAll(btExcluir);
-                    setGraphic(gerenciadorLayout);
-                    setAlignment(Pos.CENTER);                    
-                    btExcluir.setOnAction((ActionEvent event) -> {
-                        if (MessageUtil.confirmMessage("Você realmente deseja excluir este Progresso?")) {
-                            tvDev.getItems().remove(item);
-                            calcularTotais();
-                        }
-                    });
+            colAcoesDev.setCellFactory((TableColumn<ProgressoAtividade, ProgressoAtividade> param) -> new TableCell<ProgressoAtividade, ProgressoAtividade>() {
+
+                @Override
+                protected void updateItem(ProgressoAtividade item, boolean empty) {
+                    if (empty || item == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        HBox gerenciadorLayout = new HBox();
+                        Button btExcluir = new Button();
+                        ImageView ivExcluir = new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/excluir.png")));
+                        ivExcluir.setFitHeight(15d);
+                        ivExcluir.setFitWidth(15d);
+                        btExcluir.setGraphic(ivExcluir);
+                        gerenciadorLayout.setSpacing(5);
+                        gerenciadorLayout.setAlignment(Pos.CENTER);
+                        gerenciadorLayout.getChildren().addAll(btExcluir);
+                        setGraphic(gerenciadorLayout);
+                        setAlignment(Pos.CENTER);
+                        btExcluir.setOnAction((ActionEvent event) -> {
+                            if (MessageUtil.confirmMessage("Você realmente deseja excluir este Progresso?")) {
+                                tvDev.getItems().remove(item);
+                                calcularTotais();
+                            }
+                        });
+                    }
                 }
-            }  
-        });
-            
+            });
+
             colAcoesTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, ProgressoAtividade> param) -> new SimpleObjectProperty<>(param.getValue()));
-            colAcoesTst.setCellFactory((TableColumn<ProgressoAtividade, ProgressoAtividade> param) -> new TableCell<ProgressoAtividade, ProgressoAtividade>() {           
-                
-            @Override
-            protected void updateItem(ProgressoAtividade item, boolean empty) {
-                if (empty || item == null) {
-                    setGraphic(null);
-                    setText(null);
-                } else {
-                    HBox gerenciadorLayout = new HBox();
-                    Button btExcluir = new Button();                    
-                    ImageView ivExcluir = new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/excluir.png")));                    
-                    ivExcluir.setFitHeight(15d);                    
-                    ivExcluir.setFitWidth(15d);                    
-                    btExcluir.setGraphic(ivExcluir);
-                    gerenciadorLayout.setSpacing(5);
-                    gerenciadorLayout.setAlignment(Pos.CENTER);
-                    gerenciadorLayout.getChildren().addAll(btExcluir);
-                    setGraphic(gerenciadorLayout);
-                    setAlignment(Pos.CENTER);                    
-                    btExcluir.setOnAction((ActionEvent event) -> {
-                        if (MessageUtil.confirmMessage("Você realmente deseja excluir este Progresso?")) {
-                            tvTst.getItems().remove(item);
-                            calcularTotais();
-                        }
-                    });
+            colAcoesTst.setCellFactory((TableColumn<ProgressoAtividade, ProgressoAtividade> param) -> new TableCell<ProgressoAtividade, ProgressoAtividade>() {
+
+                @Override
+                protected void updateItem(ProgressoAtividade item, boolean empty) {
+                    if (empty || item == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        HBox gerenciadorLayout = new HBox();
+                        Button btExcluir = new Button();
+                        ImageView ivExcluir = new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/excluir.png")));
+                        ivExcluir.setFitHeight(15d);
+                        ivExcluir.setFitWidth(15d);
+                        btExcluir.setGraphic(ivExcluir);
+                        gerenciadorLayout.setSpacing(5);
+                        gerenciadorLayout.setAlignment(Pos.CENTER);
+                        gerenciadorLayout.getChildren().addAll(btExcluir);
+                        setGraphic(gerenciadorLayout);
+                        setAlignment(Pos.CENTER);
+                        btExcluir.setOnAction((ActionEvent event) -> {
+                            if (MessageUtil.confirmMessage("Você realmente deseja excluir este Progresso?")) {
+                                tvTst.getItems().remove(item);
+                                calcularTotais();
+                            }
+                        });
+                    }
                 }
-            }  
+
         });
         
         colIdLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param1) -> {
@@ -456,12 +465,14 @@ public class VisualizarDetalheAtividadeController implements Initializable {
         colDetalhadaContratoLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getAtividade().getContagemDetalhada()*.35*new ParametroDAO().buscaParametroRecente(TipoParametro.CONTRATO).getValor())));
         colDetalhadaRepasseLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getAtividade().getContagemDetalhada()*.35*new ParametroDAO().buscaParametroRecente(TipoParametro.REPASSE).getValor())));
      
+
 //        colIdLev.setStyle( "-fx-alignment: CENTER");
 //        colOsLev.setStyle( "-fx-alignment: CENTER");
 //        colModLev.setStyle( "-fx-alignment: CENTER");
 //        colProLev.setStyle( "-fx-alignment: CENTER");
 //        colPacoteLev.setStyle( "-fx-alignment: CENTER");
 //        colAtividadeLev.setStyle( "-fx-alignment: CENTER");
+
         colEstimativaPFLev.setStyle( "-fx-alignment: CENTER_RIGHT");
         colDetalhadaPFLev.setStyle( "-fx-alignment: CENTER_RIGHT");
         colEstimativaContratoLev.setStyle( "-fx-alignment: CENTER_RIGHT");
@@ -487,12 +498,14 @@ public class VisualizarDetalheAtividadeController implements Initializable {
         colDetalhadaContratoDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getAtividade().getContagemDetalhada()*.4*new ParametroDAO().buscaParametroRecente(TipoParametro.CONTRATO).getValor())));
         colDetalhadaRepasseDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getAtividade().getContagemDetalhada()*.4*new ParametroDAO().buscaParametroRecente(TipoParametro.REPASSE).getValor())));
         
+
 //        colIdDev.setStyle( "-fx-alignment: CENTER");
 //        colOsDev.setStyle( "-fx-alignment: CENTER");
 //        colModDev.setStyle( "-fx-alignment: CENTER");
 //        colProDev.setStyle( "-fx-alignment: CENTER");
 //        colPacoteDev.setStyle( "-fx-alignment: CENTER");
 //        colAtividadeDev.setStyle( "-fx-alignment: CENTER");
+
         colEstimativaPFDev.setStyle( "-fx-alignment: CENTER_RIGHT");
         colDetalhadaPFDev.setStyle( "-fx-alignment: CENTER_RIGHT");
         colEstimativaContratoDev.setStyle( "-fx-alignment: CENTER_RIGHT");
@@ -515,40 +528,40 @@ public class VisualizarDetalheAtividadeController implements Initializable {
         colDetalhadaContratoTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getAtividade().getContagemDetalhada()*.25*new ParametroDAO().buscaParametroRecente(TipoParametro.CONTRATO).getValor())));
         colDetalhadaRepasseTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getAtividade().getContagemDetalhada()*.25*new ParametroDAO().buscaParametroRecente(TipoParametro.REPASSE).getValor())));
         
+
 //        colIdTst.setStyle( "-fx-alignment: CENTER");
 //        colOsTst.setStyle( "-fx-alignment: CENTER");
 //        colModTst.setStyle( "-fx-alignment: CENTER");
 //        colProTst.setStyle( "-fx-alignment: CENTER");
 //        colPacoteTst.setStyle( "-fx-alignment: CENTER");
 //        colAtividadeTst.setStyle( "-fx-alignment: CENTER");
-        colEstimativaPFTst.setStyle( "-fx-alignment: CENTER_RIGHT");
-        colDetalhadaPFTst.setStyle( "-fx-alignment: CENTER_RIGHT");
-        colEstimativaContratoTst.setStyle( "-fx-alignment: CENTER_RIGHT");
-        colEstimativaRepasseTst.setStyle( "-fx-alignment: CENTER_RIGHT");
-        colDetalhadaContratoTst.setStyle( "-fx-alignment: CENTER_RIGHT");
-        colDetalhadaRepasseTst.setStyle( "-fx-alignment: CENTER_RIGHT");
+            colEstimativaPFTst.setStyle("-fx-alignment: CENTER_RIGHT");
+            colDetalhadaPFTst.setStyle("-fx-alignment: CENTER_RIGHT");
+            colEstimativaContratoTst.setStyle("-fx-alignment: CENTER_RIGHT");
+            colEstimativaRepasseTst.setStyle("-fx-alignment: CENTER_RIGHT");
+            colDetalhadaContratoTst.setStyle("-fx-alignment: CENTER_RIGHT");
+            colDetalhadaRepasseTst.setStyle("-fx-alignment: CENTER_RIGHT");
         });
     }
-                
-    
-    
-    private String buildProjetoModulo(List<Atividade> atividades){
-        if(!atividades.isEmpty() && atividades.size()>0){
+
+    private String buildProjetoModulo(List<Atividade> atividades) {
+        if (!atividades.isEmpty() && atividades.size() > 0) {
             StringBuilder sb = new StringBuilder();
-            sb.append(atividades.get(0).getPacote().getModulo().getProjeto().getDescricao());            
+            sb.append(atividades.get(0).getPacote().getModulo().getProjeto().getDescricao());
             sb.append(" - ");
-            sb.append(atividades.get(0).getPacote().getModulo().getDescricao());            
+            sb.append(atividades.get(0).getPacote().getModulo().getDescricao());
             return sb.toString();
-        }else{
+        } else {
             return "<<Projeto>> - <<Módulo>>";
         }
     }
-    
+
     private String buildLabelDetalhamento(Date date) {
         StringBuilder sb = new StringBuilder("Detalhamento de ");
         sb.append(new SimpleDateFormat("MM/YYYY").format(date));
         return sb.toString();
     }
+
     
     @FXML
     private void gerarPlanilhaBDMGAction(){
