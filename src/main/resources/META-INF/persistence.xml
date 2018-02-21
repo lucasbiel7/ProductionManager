@@ -14,6 +14,7 @@
     <class>br.com.stefanini.model.entity.Pacote</class>
     <class>br.com.stefanini.model.entity.AtividadeArtefatos</class>
     <class>br.com.stefanini.model.entity.Parametro</class>
+    <class>br.com.stefanini.model.entity.ModificacaoAtividade</class>
     <properties>
         <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
         <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/production_manager?useTimezone=true&amp;serverTimezone=America/Sao_Paulo&amp;useSSL=true "/>
