@@ -12,6 +12,7 @@ import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -70,7 +71,7 @@ public class AlterarEscopoAtividadeController implements Initializable {
             lbProjeto.setText(atividade.getPacote().getModulo().getProjeto().getDescricao());
             lbAtividade.setText(atividade.getDescricao());
             lbModulo.setText(atividade.getPacote().getModulo().getDescricao());
-            lbProjeto.setText(atividade.getPacote().getDescricao());
+            lbPacote.setText(atividade.getPacote().getDescricao());
         });
     }
 
@@ -83,6 +84,7 @@ public class AlterarEscopoAtividadeController implements Initializable {
         ModificacaoAtividade modificacaoAtividade = new ModificacaoAtividade(atividade);
         modificacaoAtividade.setTipoAtividade(rbLevantamento.isSelected() ? TipoAtividade.LE : rbDesenvolvimento.isSelected() ? TipoAtividade.DE : TipoAtividade.TE);
         modificacaoAtividade.setDescricaoModificacao(taDescricao.getText());
+        modificacaoAtividade.setDataModificacao(new Date());
         new ModificacaoAtividadeDAO().salvar(modificacaoAtividade);
         MessageUtil.messageInformation("Foi adicionado uma alteração de escopo!");
         stage.close();
@@ -96,5 +98,4 @@ public class AlterarEscopoAtividadeController implements Initializable {
     private void faseButton(RadioButton radioButton, TipoAtividade tipoAtividade) {
         radioButton.setText(tipoAtividade.toString());
     }
-
 }

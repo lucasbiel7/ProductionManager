@@ -7,6 +7,7 @@ package br.com.stefanini.model.entity;
 
 import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.enuns.TipoAtividade;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,6 +17,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -31,6 +34,7 @@ public class ModificacaoAtividade extends Atividade {
     private TipoAtividade tipoAtividade;
 
     private Atividade atividade;
+    private Date dataModificacao;
 
     public ModificacaoAtividade() {
     }
@@ -70,4 +74,13 @@ public class ModificacaoAtividade extends Atividade {
         this.atividade = atividade;
     }
 
+    @Column(name = "DT_MODIFICACAO")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getDataModificacao() {
+        return dataModificacao;
+    }
+
+    public void setDataModificacao(Date dataModificacao) {
+        this.dataModificacao = dataModificacao;
+    }
 }

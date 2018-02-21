@@ -17,7 +17,7 @@ public class SpinnerTextToValue {
     public static void configure(Spinner<Double> spinner) {
         spinner.getEditor().textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (newValue.matches("^(-?)(0|([1-9][0-9]*))(\\.[0-9]+)?$")) {
-                spinner.getValueFactory().setValue(Double.parseDouble(oldValue));
+                spinner.getValueFactory().setValue(Double.parseDouble(newValue));
             } else if (!StringUtil.isEmpty(newValue) && !oldValue.equals(newValue)) {
                 spinner.getEditor().setText(oldValue);
             }
