@@ -8,6 +8,7 @@ package br.com.stefanini.model.entity;
 import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
 import br.com.stefanini.model.enuns.Faturamento;
+import br.com.stefanini.model.enuns.Mes;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -50,6 +52,8 @@ public class Atividade extends BaseEntity<String> {
     private SituacaoAtividade situacaoAtividade;
     private Date previsaoInicio;
     private List<AtividadeArtefatos> atividadeArtefatos;
+    private Mes mes;    
+    private List<ProgressoAtividade> progressos;
 
     public Atividade() {
     }
@@ -176,5 +180,20 @@ public class Atividade extends BaseEntity<String> {
     @Override
     public String toString() {
         return getDescricao();
+    }
+
+    /**
+     * @return the progressos
+     */
+    @OneToMany(mappedBy = "atividade",fetch = FetchType.LAZY, targetEntity =ProgressoAtividade.class )
+    public List<ProgressoAtividade> getProgressos() {
+        return progressos;
+    }
+
+    /**
+     * @param progressos the progressos to set
+     */
+    public void setProgressos(List<ProgressoAtividade> progressos) {
+        this.progressos = progressos;
     }
 }

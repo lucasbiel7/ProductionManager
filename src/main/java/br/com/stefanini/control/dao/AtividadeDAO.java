@@ -60,20 +60,24 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
         return entitys;
     }
     
-    public List<Atividade> buscarAtividade(String idProjeto, String idModulo, String idPacote){
-        StringBuilder hql = new StringBuilder("SELECT a FROM " + Atividade.class.getName()).append(" a ");
+    public List<Atividade> buscarAtividade(String idProjeto, String idModulo, String idPacote, Date data){
+        StringBuilder hql = new StringBuilder("SELECT a FROM " + Atividade.class.getName()).append(" a WHERE a.previsaoInicio = :data");
         
         if(!StringUtil.isEmpty(idProjeto) && !StringUtil.isEmpty(idModulo) && !StringUtil.isEmpty(idPacote)){
-            hql.append(" WHERE a.pacote.id = :idPacote AND a.pacote.modulo.id = :idModulo AND a.pacote.modulo.projeto.id = :idProjeto");
+            hql.append(" AND a.pacote.id = :idPacote AND a.pacote.modulo.id = :idModulo AND a.pacote.modulo.projeto.id = :idProjeto");
         }
         else if(!StringUtil.isEmpty(idModulo) && !StringUtil.isEmpty(idProjeto)) {
-            hql.append(" WHERE a.pacote.modulo.id = :idModulo AND a.pacote.modulo.projeto.id = :idProjeto");
+            hql.append(" AND a.pacote.modulo.id = :idModulo AND a.pacote.modulo.projeto.id = :idProjeto");
         }
         else if(!StringUtil.isEmpty(idProjeto)){
-            hql.append(" WHERE a.pacote.modulo.projeto.id = :idProjeto");
+            hql.append(" AND a.pacote.modulo.projeto.id = :idProjeto");
         }
         
         Query query = getEntityManager().createQuery(hql.toString());
+        
+        if(data != null){
+            query.setParameter("data", data);
+        }
         if(!StringUtil.isEmpty(idPacote)){
             query.setParameter("idPacote", idPacote);
         }
