@@ -24,6 +24,7 @@ import br.com.stefanini.model.enuns.SituacaoAtividade;
 import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.MessageUtil;
+import br.com.stefanini.model.util.SpinnerTextToValue;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.Calendar;
@@ -103,7 +104,6 @@ public class ManterAtividadeController implements Initializable {
                 ManterAtividadeController.this.atividade = (Atividade) apPrincipal.getUserData();
                 if (atividade.getId() != null) {
                     atividade = new AtividadeDAO().carregarArtefatos(atividade);
-
                 }
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(atividade.getPrevisaoInicio());
@@ -118,6 +118,8 @@ public class ManterAtividadeController implements Initializable {
         spDetalhada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
         spEstimada.getValueFactory().setConverter(new DoubleConverter());
         spDetalhada.getValueFactory().setConverter(new DoubleConverter());
+        SpinnerTextToValue.configure(spEstimada);
+        SpinnerTextToValue.configure(spDetalhada);
         Calendar calendar = Calendar.getInstance();
         spAno.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(calendar.get(Calendar.YEAR), Integer.MAX_VALUE, calendar.get(Calendar.YEAR)));
         cbProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
@@ -197,10 +199,6 @@ public class ManterAtividadeController implements Initializable {
         }
         if (spDetalhada.getValue() != null) {
             ativ.setContagemDetalhada(spDetalhada.getValue());
-        }
-
-        if (cbMes.getValue() != null) {
-            ativ.setMes(cbMes.getValue());
         }
         return ativ;
     }

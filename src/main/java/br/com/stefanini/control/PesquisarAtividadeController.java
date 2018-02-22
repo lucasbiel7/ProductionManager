@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -187,6 +186,13 @@ public class PesquisarAtividadeController implements Initializable {
                     btEnviarParaFaturamento.setTooltip(new Tooltip("Enviar para faturamento"));
                     btExcluir.setTooltip(new Tooltip("Excluir atividade"));
 
+                    btAlteracaoEscopo.setOnAction((ActionEvent event) -> {
+                        Stage stage1 = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("AlterarEscopoAtividade", atividade), "Alteração de Escopo da Atividade");
+                        stage1.initOwner(PesquisarAtividadeController.this.stage);
+                        stage1.initModality(Modality.WINDOW_MODAL);
+                        stage1.showAndWait();
+                        carregarTabela();
+                    });
                     btEnviarParaFaturamento.setOnAction((ActionEvent event) -> {
                         Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("FaturarAtividade", atividade), "Faturar atividade");
                         stage.initOwner(PesquisarAtividadeController.this.stage);
@@ -317,10 +323,10 @@ public class PesquisarAtividadeController implements Initializable {
     private void visualizarAction() {
         ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
 
-        Map<String,Object> paramsMap = new HashMap<String,Object>();
-        paramsMap.put("data", param);        
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("data", param);
 //        paramsMap.put("atividades", tvAtividade.getItems().stream().collect(Collectors.toList()));
-        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade",paramsMap));
+        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade", paramsMap));
 
     }
 

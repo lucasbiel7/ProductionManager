@@ -46,7 +46,7 @@
          </children>
       </AnchorPane>
       <Button fx:id="idConfirmar" layoutX="497.0" layoutY="177.0" mnemonicParsing="false" onAction="#salvarParametro" text="Confirmar" />
-      <TableView fx:id="gridParametro" layoutX="21.0" layoutY="213.0" prefHeight="95.0" prefWidth="559.0">
+      <TableView fx:id="gridParametro" layoutX="21.0" layoutY="213.0" prefHeight="105.0" prefWidth="559.0">
          <columns>
             <TableColumn fx:id="colunaParametro" prefWidth="276.0" text="Parâmetro" />
             <TableColumn fx:id="colunaValor" prefWidth="282.0" text="Valor" />

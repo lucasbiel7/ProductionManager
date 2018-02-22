@@ -20,6 +20,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
@@ -35,6 +37,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "TB_ATIVIDADE", schema = Config.SCHEMA)
+@Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name = Atividade.PEGAR_POR_DIA, query = "select a from Atividade a where a.previsaoInicio=:previsaoInicio")
 public class Atividade extends BaseEntity<String> {
 
@@ -51,6 +54,21 @@ public class Atividade extends BaseEntity<String> {
     private List<AtividadeArtefatos> atividadeArtefatos;
     private Mes mes;    
     private List<ProgressoAtividade> progressos;
+
+    public Atividade() {
+    }
+
+    public Atividade(Atividade atividade) {
+        this.descricao = atividade.getDescricao();
+        this.contagemEstimada = atividade.getContagemEstimada();
+        this.contagemDetalhada = atividade.getContagemDetalhada();
+        this.ordemServico = atividade.getOrdemServico();
+        this.pacote = atividade.getPacote();
+        this.faturamento = atividade.getFaturamento();
+        this.situacaoAtividade = atividade.getSituacaoAtividade();
+        this.previsaoInicio = atividade.getPrevisaoInicio();
+
+    }
 
     @Override
     @Id
@@ -157,22 +175,6 @@ public class Atividade extends BaseEntity<String> {
 
     public void setAtividadeArtefatos(List<AtividadeArtefatos> atividadeArtefatos) {
         this.atividadeArtefatos = atividadeArtefatos;
-    }
-
-    /**
-     * @return the mes
-     */
-    @Column(name = "FL_MES")
-    @Enumerated(EnumType.STRING)
-    public Mes getMes() {
-        return mes;
-    }
-
-    /**
-     * @param mes the mes to set
-     */
-    public void setMes(Mes mes) {
-        this.mes = mes;
     }
 
     @Override
