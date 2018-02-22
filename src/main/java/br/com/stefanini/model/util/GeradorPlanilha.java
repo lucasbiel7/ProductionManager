@@ -5,10 +5,16 @@
  */
 package br.com.stefanini.model.util;
 
+import br.com.stefanini.model.entity.ProgressoAtividade;
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -27,7 +33,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
  */
 public class GeradorPlanilha {
 
-    public void teste() {
+    public void teste(List<ProgressoAtividade> lev,List<ProgressoAtividade> dev,List<ProgressoAtividade> tst ) {
         try {
             FileOutputStream fileOut = new FileOutputStream("C:\\planilhas\\poi-test.xls");
             HSSFWorkbook workbook = new HSSFWorkbook();
@@ -106,4 +112,5 @@ public class GeradorPlanilha {
         }
 
     }
+    
 }

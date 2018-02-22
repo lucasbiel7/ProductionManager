@@ -40,5 +40,16 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         getEntityManager().close();
         return entitys;
     }
+    
+    public void faturar(List<ProgressoAtividade> progressos){        
+        getEntityManager().getTransaction().begin();        
+        for (ProgressoAtividade progresso : progressos) {
+            progresso.setFaturamento(Faturamento.FO);
+            getEntityManager().merge(progresso);
+            getEntityManager().flush();        
+        }
+        getEntityManager().getTransaction().commit();
+        getEntityManager().close();
+    }
 
 }

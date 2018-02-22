@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -35,6 +36,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -343,7 +345,7 @@ public class VisualizarDetalheAtividadeController implements Initializable {
         Platform.runLater(() -> {
             paramsMap = (Map<String, Object>) apPrincipal.getUserData();
             lbDetalhamento.setText(buildLabelDetalhamento((Date) paramsMap.get("data")));
-            
+            gerenciadorDeJanela = new GerenciadorDeJanela();
             lbProjetoModulo.setText("");
             System.out.println("TE" + new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade(new Date(1514764800000l), TipoAtividade.TE).size());
             System.out.println("DE" + new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade(new Date(1514764800000l), TipoAtividade.DE).size());
@@ -561,10 +563,44 @@ public class VisualizarDetalheAtividadeController implements Initializable {
         sb.append(new SimpleDateFormat("MM/YYYY").format(date));
         return sb.toString();
     }
-
+    
+    
+    @FXML
+    private void faturarAction(){
+        List<ProgressoAtividade> progressoAtividades = new ArrayList<>();
+        progressoAtividades.addAll(tvLev.getItems().stream().collect(Collectors.toList()));
+        progressoAtividades.addAll(tvDev.getItems().stream().collect(Collectors.toList()));
+        progressoAtividades.addAll(tvTst.getItems().stream().collect(Collectors.toList()));
+        if(progressoAtividades.isEmpty()){
+            MessageUtil.messageError("Não existe progressos para faturar.");
+        }else{
+            new ProgressoAtividadeDAO().faturar(progressoAtividades);
+            MessageUtil.confirmMessage("Faturamento realizado com sucesso.");
+            retornarTelaPesquisa();
+        }        
+    }
+    
+    @FXML
+    private void cancelarAction(){
+        retornarTelaPesquisa();
+    }
+    
+    private void retornarTelaPesquisa(){
+        ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
+        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("PesquisarAtividade", (Date) paramsMap.get("data")));
+    }
+    
+    @FXML
+    private void gerarPlanilhaSTEFANINIAction(){
+        MessageUtil.messageError("Em desenvolvimento.");
+    }
     
     @FXML
     private void gerarPlanilhaBDMGAction(){
-        new GeradorPlanilha().teste();
+        MessageUtil.messageError("Em desenvolvimento.");
+        new GeradorPlanilha().teste(tvLev.getItems().stream().collect(Collectors.toList()),
+        tvDev.getItems().stream().collect(Collectors.toList()),
+        tvTst.getItems().stream().collect(Collectors.toList()));
+        
     }
 }
