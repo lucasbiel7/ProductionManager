@@ -10,6 +10,7 @@ import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.TipoAtividade;
+import br.com.stefanini.model.util.StringUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +40,27 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
         getEntityManager().close();
         return entitys;
+    }
+    
+    public Long pegarProgressoAtividade(Date data, TipoAtividade tipoAtividade, String idProjeto, String idModulo, String idPacote) {
+//        getEntityManager().getTransaction().begin();        
+        List<Predicate> criterios = new ArrayList<>();
+        criterios.add(criteriaBuilder.equal(root.get("atividade").<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
+        criterios.add(criteriaBuilder.equal(root.get("tipoAtividade"), tipoAtividade));
+        criterios.add(criteriaBuilder.equal(root.get("progresso"), 100.0));
+        if(!StringUtil.isEmpty(idProjeto)){
+            criterios.add(criteriaBuilder.equal(root.get("atividade").get("pacote").get("modulo").get("projeto").get("id"), idProjeto));
+        }
+        if(!StringUtil.isEmpty(idModulo)){
+            criterios.add(criteriaBuilder.equal(root.get("atividade").get("pacote").get("modulo").get("id"), idModulo));
+        }
+        if(!StringUtil.isEmpty(idPacote)){
+            criterios.add(criteriaBuilder.equal(root.get("atividade").get("pacote").get("id"), idPacote));
+        }
+        criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
+        entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
+//        getEntityManager().close();
+        return Long.valueOf(entitys.size());
     }
 
 }

@@ -42,14 +42,14 @@
          <children>
             <Line endX="456.0" startX="-100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             <Label layoutY="9.5" styleClass="obrigatorio" text="*" />
-            <Label layoutX="18.0" layoutY="9.5" text="Campos(s) Obrigatório(s)" />
+            <Label layoutX="18.0" layoutY="9.5" text="Campo(s) Obrigatório(s)" />
          </children>
       </AnchorPane>
       <Button fx:id="idConfirmar" layoutX="497.0" layoutY="177.0" mnemonicParsing="false" onAction="#salvarParametro" text="Confirmar" />
-      <TableView fx:id="gridParametro" layoutX="21.0" layoutY="213.0" prefHeight="179.0" prefWidth="559.0">
+      <TableView fx:id="gridParametro" layoutX="21.0" layoutY="213.0" prefHeight="95.0" prefWidth="559.0">
          <columns>
             <TableColumn fx:id="colunaParametro" prefWidth="276.0" text="Parâmetro" />
-            <TableColumn fx:id="colunaValor" prefWidth="268.0" text="Valor" />
+            <TableColumn fx:id="colunaValor" prefWidth="282.0" text="Valor" />
          </columns>
       </TableView>
       <TextField fx:id="idValor" layoutX="143.0" layoutY="108.0" prefHeight="25.0" prefWidth="149.0" />
