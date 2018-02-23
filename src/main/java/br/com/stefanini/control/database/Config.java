@@ -11,5 +11,5 @@ package br.com.stefanini.control.database;
  */
 public interface Config {
 
-    String SCHEMA = "production_manager";
+    String SCHEMA = "";
 }
