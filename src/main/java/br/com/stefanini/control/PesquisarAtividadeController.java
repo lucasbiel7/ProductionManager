@@ -227,7 +227,7 @@ public class PesquisarAtividadeController implements Initializable {
 
     @FXML
     private void btPesquisarAction() {
-        List<Atividade> atividades = new AtividadeDAO().pegarPorAtividade(buildAtividadeFromfxml());
+        List<Atividade> atividades = new AtividadeDAO().pegarPorAtividade(buildAtividadeFromfxml(),param);
         tvAtividade.getItems().setAll(atividades);
         buildTotais(atividades);
     }
@@ -276,6 +276,7 @@ public class PesquisarAtividadeController implements Initializable {
         if (cbFaturamento.getValue() != null) {
             ativ.setFaturamento(cbFaturamento.getValue());
         }
+        
         return ativ;
     }
 
@@ -315,6 +316,7 @@ public class PesquisarAtividadeController implements Initializable {
     }
 
     private void carregarTabela() {
+        tvAtividade.getItems().clear();
         tvAtividade.getItems().setAll(new AtividadeDAO().pegarPorMes(DateUtil.truncateDate(param)));
         buildTotais(tvAtividade.getItems());
     }

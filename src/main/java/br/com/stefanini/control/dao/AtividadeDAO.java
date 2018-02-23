@@ -28,8 +28,10 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
         return entitys;
     }
 
-    public List<Atividade> pegarPorAtividade(Atividade atividade) {
+    public List<Atividade> pegarPorAtividade(Atividade atividade, Date data) {
         List<Predicate> criterios = new ArrayList<>();
+        criterios.add(criteriaBuilder.equal(root.<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
+        
         if (atividade.getPacote().getModulo().getProjeto().getId() != null) {
             criterios.add(criteriaBuilder.equal(root.get("pacote").get("modulo").get("projeto"), atividade.getPacote().getModulo().getProjeto()));
         }
