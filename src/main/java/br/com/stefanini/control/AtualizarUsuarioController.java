@@ -21,10 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
@@ -72,13 +74,18 @@ public class AtualizarUsuarioController implements Initializable {
         usuario = new Usuario();
         usuario.setAtuando(new ArrayList<>());
         cbPerfil.getItems().setAll(new PerfilDAO().pegarTodos());
-        Platform.runLater(() -> {
-            stage = (Stage) apPrincipal.getScene().getWindow();
-            if (apPrincipal.getUserData() instanceof Usuario) {
-                pfSenha.setPromptText("Para manter sua senha deixe este campo vazio");
-                usuario = (Usuario) apPrincipal.getUserData();
-                usuario = new UsuarioDAO().pegarAtuacoes(usuario);
-                carregarDados();
+        apPrincipal.sceneProperty().addListener(new ChangeListener<Scene>() {
+            @Override
+            public void changed(ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
+                if (newValue != null) {
+                    stage = (Stage) newValue.getWindow();
+                    if (apPrincipal.getUserData() instanceof Usuario) {
+                        pfSenha.setPromptText("Para manter sua senha deixe este campo vazio");
+                        usuario = (Usuario) apPrincipal.getUserData();
+                        usuario = new UsuarioDAO().pegarAtuacoes(usuario);
+                        carregarDados();
+                    }
+                }
             }
         });
         lvAtuacao.getItems().setAll(new AtuacaoDAO().pegarTodos());

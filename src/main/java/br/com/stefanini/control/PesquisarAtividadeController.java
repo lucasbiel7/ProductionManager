@@ -29,8 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -38,6 +36,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -54,7 +53,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javax.persistence.PersistenceException;
 import org.hibernate.exception.ConstraintViolationException;
@@ -131,19 +129,21 @@ public class PesquisarAtividadeController implements Initializable {
     @FXML
     private Label lbTotalDetalhada;
 
-    Map<String,Object> params = new HashMap<>();
+    Map<String, Object> params = new HashMap<>();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Platform.runLater(() -> {
-            stage = (Stage) apPrincipal.getScene().getWindow();
-            params = (Map) apPrincipal.getUserData();
-            gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
-            param = (Date) params.get("dataInicio");
-        });        
-        
+        apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
+            if (newValue != null) {
+                stage = (Stage) newValue.getWindow();
+                params = (Map) apPrincipal.getUserData();
+                gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+                param = (Date) params.get("dataInicio");
+            }
+        });
         colId.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, String> param1) -> {
             return new SimpleStringProperty(String.valueOf(tvAtividade.getItems().indexOf(param1.getValue()) + 1));
         });
@@ -187,7 +187,7 @@ public class PesquisarAtividadeController implements Initializable {
                         params.put("Atividade", atividade);
                         gerenciadorDeJanela.abrirModal("AlterarEscopoAtividade", params, "Alteração de Escopo da Atividade");
                         carregarTabela();
-                        
+
 //                        Stage stage1 = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("AlterarEscopoAtividade", atividade), "Alteração de Escopo da Atividade");
 //                        stage1.initOwner(PesquisarAtividadeController.this.stage);
 //                        stage1.initModality(Modality.WINDOW_MODAL);
@@ -220,11 +220,11 @@ public class PesquisarAtividadeController implements Initializable {
                     });
                     btExcluir.setOnAction((ActionEvent event) -> {
                         if (MessageUtil.confirmMessage("Deseja realmente excluir a atividade?")) {
-                            try{
+                            try {
                                 new AtividadeDAO().excluir(atividade);
-                            }catch(Exception e){
-                                if(e instanceof PersistenceException && 
-                                    e.getCause() instanceof ConstraintViolationException){                                    
+                            } catch (Exception e) {
+                                if (e instanceof PersistenceException
+                                        && e.getCause() instanceof ConstraintViolationException) {
                                     MessageUtil.messageError("Não é possível excluir uma atividade que já foi inicializada.");
                                 }
                             }
@@ -241,7 +241,7 @@ public class PesquisarAtividadeController implements Initializable {
 
     @FXML
     private void btPesquisarAction() {
-        List<Atividade> atividades = new AtividadeDAO().pegarPorAtividade(buildAtividadeFromfxml(),param);
+        List<Atividade> atividades = new AtividadeDAO().pegarPorAtividade(buildAtividadeFromfxml(), param);
         tvAtividade.getItems().setAll(atividades);
         buildTotais(atividades);
     }
@@ -290,7 +290,7 @@ public class PesquisarAtividadeController implements Initializable {
         if (cbFaturamento.getValue() != null) {
             ativ.setFaturamento(cbFaturamento.getValue());
         }
-        
+
         return ativ;
     }
 
@@ -321,7 +321,7 @@ public class PesquisarAtividadeController implements Initializable {
     @FXML
     private void btAdicionarAction() {
         Atividade atividade = new Atividade();
-        atividade.setPrevisaoInicio(param);      
+        atividade.setPrevisaoInicio(param);
         params.put("Atividade", atividade);
 //        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade", params), "Início");
 //        stage.initOwner(this.stage);
@@ -388,7 +388,8 @@ public class PesquisarAtividadeController implements Initializable {
         }
 
     }
-    public void teste(){
+
+    public void teste() {
         params = (Map) apPrincipal.getUserData();
         param = (Date) params.get("dataInicio");
         gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");

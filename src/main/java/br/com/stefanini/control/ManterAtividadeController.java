@@ -28,15 +28,15 @@ import br.com.stefanini.model.util.SpinnerTextToValue;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -47,6 +47,7 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  * FXML Controller class
@@ -98,27 +99,32 @@ public class ManterAtividadeController implements Initializable {
     private Stage stage;
     private GerenciadorDeJanela gerenciadorDeJanela;
 
-    Map<String,Object> params = new HashMap<>();
+    Map<String, Object> params = new HashMap<>();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Platform.runLater(() -> {
-            params = (Map) apPrincipal.getUserData();
-            if (apPrincipal.getUserData() instanceof Atividade) {
-                ManterAtividadeController.this.atividade = (Atividade) apPrincipal.getUserData();
-                if (atividade.getId() != null) {
-                    atividade = new AtividadeDAO().carregarArtefatos(atividade);
+        apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
+            if (newValue != null) {
+                params = (Map) apPrincipal.getUserData();
+                if (apPrincipal.getUserData() instanceof Atividade) {
+                    ManterAtividadeController.this.atividade = (Atividade) apPrincipal.getUserData();
+                    if (atividade.getId() != null) {
+                        atividade = new AtividadeDAO().carregarArtefatos(atividade);
+                    }
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(atividade.getPrevisaoInicio());
+                    ((SpinnerValueFactory.IntegerSpinnerValueFactory) spAno.getValueFactory()).setMin(calendar.get(Calendar.YEAR));
+                    carregarDados();
+                } else {
+                    ManterAtividadeController.this.atividade = new Atividade();
                 }
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(atividade.getPrevisaoInicio());
-                ((SpinnerValueFactory.IntegerSpinnerValueFactory) spAno.getValueFactory()).setMin(calendar.get(Calendar.YEAR));
-                carregarDados();
-            } else {
-                ManterAtividadeController.this.atividade = new Atividade();
+                newValue.windowProperty().addListener((ObservableValue<? extends Window> observable1, Window oldValue1, Window newWindow) -> {
+                    stage = (Stage) newWindow;
+                });
             }
-            stage = (Stage) apPrincipal.getScene().getWindow();
         });
         spEstimada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
         spDetalhada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
@@ -298,8 +304,8 @@ public class ManterAtividadeController implements Initializable {
             }
         }
     }
-    
-    public void teste(){
+
+    public void teste() {
         params = (Map<String, Object>) apPrincipal.getUserData();
         atividade = (Atividade) params.get("Atividade");
         gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");

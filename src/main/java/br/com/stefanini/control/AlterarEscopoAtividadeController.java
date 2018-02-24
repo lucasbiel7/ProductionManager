@@ -16,15 +16,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  * FXML Controller class
@@ -58,20 +60,24 @@ public class AlterarEscopoAtividadeController implements Initializable {
 
     private Atividade atividade;
 
-    Map<String,Object> params = new HashMap<>();
-    
+    Map<String, Object> params = new HashMap<>();
+
     private GerenciadorDeJanela gerenciadorDeJanela;
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        Platform.runLater(() -> {
-            stage = (Stage) apPrincipal.getScene().getWindow();
-            params = (Map) apPrincipal.getUserData();
-            load();
+        apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
+            if (newValue != null) {
+                newValue.windowProperty().addListener((ObservableValue<? extends Window> observable1, Window oldValue1, Window newWindow) -> {
+                    stage = (Stage) newWindow;
+                });
+                params = (Map) apPrincipal.getUserData();
+                load();
+            }
         });
     }
 
@@ -98,8 +104,8 @@ public class AlterarEscopoAtividadeController implements Initializable {
     private void faseButton(RadioButton radioButton, TipoAtividade tipoAtividade) {
         radioButton.setText(tipoAtividade.toString());
     }
-    
-    private void load(){
+
+    private void load() {
         faseButton(rbDesenvolvimento, TipoAtividade.DE);
         faseButton(rbLevantamento, TipoAtividade.LE);
         faseButton(rbTesteHomologacao, TipoAtividade.TE);
@@ -108,8 +114,8 @@ public class AlterarEscopoAtividadeController implements Initializable {
         lbModulo.setText(atividade.getPacote().getModulo().getDescricao());
         lbPacote.setText(atividade.getPacote().getDescricao());
     }
-    
-    public void teste(){
+
+    public void teste() {
         params = (Map<String, Object>) apPrincipal.getUserData();
         atividade = (Atividade) params.get("Atividade");
         gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
