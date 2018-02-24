@@ -63,6 +63,10 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
     }
     
     public List<Atividade> buscarAtividade(String idProjeto, String idModulo, String idPacote, Date data){
+        
+        if(data==null){
+            return new ArrayList<>();
+        }
         StringBuilder hql = new StringBuilder("SELECT a FROM " + Atividade.class.getName()).append(" a WHERE a.previsaoInicio = :data");
         
         if(!StringUtil.isEmpty(idProjeto) && !StringUtil.isEmpty(idModulo) && !StringUtil.isEmpty(idPacote)){

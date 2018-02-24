@@ -12,6 +12,8 @@ import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.util.MessageUtil;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -61,6 +63,9 @@ public class FaturarAtividadeController implements Initializable {
     private ProgressoAtividade paDesenvolvimento;
     private ProgressoAtividade paTesteHomologacao;
 
+    private GerenciadorDeJanela gerenciadorDeJanela;
+
+    Map<String,Object> params = new HashMap<>();
     /**
      * Initializes the controller class.
      */
@@ -68,18 +73,8 @@ public class FaturarAtividadeController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(() -> {
             stage = (Stage) apPrincipal.getScene().getWindow();
-            atividade = (Atividade) apPrincipal.getUserData();
-            paAnalise = new ProgressoAtividadeDAO().pegarPorAtividadeTipo(atividade, TipoAtividade.LE).stream().findFirst().orElse(null);
-            paDesenvolvimento = new ProgressoAtividadeDAO().pegarPorAtividadeTipo(atividade, TipoAtividade.DE).stream().findFirst().orElse(null);
-            paTesteHomologacao = new ProgressoAtividadeDAO().pegarPorAtividadeTipo(atividade, TipoAtividade.TE).stream().findFirst().orElse(null);
-            configurarCheckBox(cbAnalise, paAnalise, TipoAtividade.LE);
-            configurarCheckBox(cbDesenvolvimento, paDesenvolvimento, TipoAtividade.DE);
-            configurarCheckBox(cbTesteHomologacao, paTesteHomologacao, TipoAtividade.TE);
-            cbAnalise.setSelected(paAnalise.getFaturamento() == Faturamento.FO);
-            lbProjeto.setText(atividade.getPacote().getModulo().getProjeto().getDescricao());
-            lbAtividade.setText(atividade.getDescricao());
-            lbModulo.setText(atividade.getPacote().getModulo().getDescricao());
-            lbPacote.setText(atividade.getPacote().getDescricao());
+            params = (Map) apPrincipal.getUserData();
+            
         });
     }
 
@@ -117,4 +112,28 @@ public class FaturarAtividadeController implements Initializable {
         }
     }
 
+    private void load(){
+        paAnalise = new ProgressoAtividadeDAO().pegarPorAtividadeTipo(atividade, TipoAtividade.LE).stream().findFirst().orElse(null);
+        paDesenvolvimento = new ProgressoAtividadeDAO().pegarPorAtividadeTipo(atividade, TipoAtividade.DE).stream().findFirst().orElse(null);
+        paTesteHomologacao = new ProgressoAtividadeDAO().pegarPorAtividadeTipo(atividade, TipoAtividade.TE).stream().findFirst().orElse(null);
+        configurarCheckBox(cbAnalise, paAnalise, TipoAtividade.LE);
+        configurarCheckBox(cbDesenvolvimento, paDesenvolvimento, TipoAtividade.DE);
+        configurarCheckBox(cbTesteHomologacao, paTesteHomologacao, TipoAtividade.TE);
+        if(paAnalise!=null){
+            cbAnalise.setSelected(paAnalise.getFaturamento() == Faturamento.FO);
+        }
+        lbProjeto.setText(atividade.getPacote().getModulo().getProjeto().getDescricao());
+        lbAtividade.setText(atividade.getDescricao());
+        lbModulo.setText(atividade.getPacote().getModulo().getDescricao());
+        lbPacote.setText(atividade.getPacote().getDescricao());
+    }
+    
+    public void teste(){
+        params = (Map<String, Object>) apPrincipal.getUserData();
+        atividade = (Atividade) params.get("Atividade");
+        gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+        stage = (Stage) params.get("modalStage");
+        load();
+        params.put("Atividade", new Atividade());
+    }
 }

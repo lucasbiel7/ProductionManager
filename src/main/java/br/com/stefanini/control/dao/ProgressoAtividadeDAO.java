@@ -14,6 +14,7 @@ import br.com.stefanini.model.util.StringUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Query;
 import javax.persistence.criteria.Predicate;
 
 /**
@@ -31,6 +32,8 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
     }
 
     public List<ProgressoAtividade> pegarEmFaturamentoPorDataTipoAtividade(Date data, TipoAtividade tipoAtividade) {
+        if(data == null)
+            return new ArrayList<>();
         List<Predicate> criterios = new ArrayList<>();
         //TODO ISSUE DO LUCAS (se der bug)
         criterios.add(criteriaBuilder.equal(root.get("atividade").<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
@@ -55,25 +58,52 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
     }
 
     public Long pegarProgressoAtividade(Date data, TipoAtividade tipoAtividade, String idProjeto, String idModulo, String idPacote) {
-//        getEntityManager().getTransaction().begin();        
-        List<Predicate> criterios = new ArrayList<>();
-        criterios.add(criteriaBuilder.equal(root.get("atividade").<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
-        criterios.add(criteriaBuilder.equal(root.get("tipoAtividade"), tipoAtividade));
-        criterios.add(criteriaBuilder.equal(root.get("progresso"), 100.0));
+////        getEntityManager().getTransaction().begin();        
+//        List<Predicate> criterios = new ArrayList<>();
+//        criterios.add(criteriaBuilder.equal(root.get("atividade").<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
+//        criterios.add(criteriaBuilder.equal(root.get("tipoAtividade"), tipoAtividade));
+//        criterios.add(criteriaBuilder.equal(root.get("progresso"), 100.0));
+//        if(!StringUtil.isEmpty(idProjeto)){
+//            criterios.add(criteriaBuilder.equal(root.get("atividade").get("pacote").get("modulo").get("projeto").get("id"), idProjeto));
+//        }
+//        if(!StringUtil.isEmpty(idModulo)){
+//            criterios.add(criteriaBuilder.equal(root.get("atividade").get("pacote").get("modulo").get("id"), idModulo));
+//        }
+//        if(!StringUtil.isEmpty(idPacote)){
+//            criterios.add(criteriaBuilder.equal(root.get("atividade").get("pacote").get("id"), idPacote));
+//        }
+//        criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
+//        entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
+////        getEntityManager().close();
+//        return Long.valueOf(entitys.size());
+		StringBuilder sb = new StringBuilder();
+        sb.append(" SELECT count(*) FROM ProgressoAtividade pa WHERE pa.atividade.previsaoInicio =:paramData AND pa.tipoAtividade =:paramTipo ");
+        sb.append(" AND pa.progresso =:paramProgresso ");
         if(!StringUtil.isEmpty(idProjeto)){
-            criterios.add(criteriaBuilder.equal(root.get("atividade").get("pacote").get("modulo").get("projeto").get("id"), idProjeto));
+            sb.append(" AND pa.atividade.pacote.modulo.projeto.id =:paramIdProjeto ");
         }
         if(!StringUtil.isEmpty(idModulo)){
-            criterios.add(criteriaBuilder.equal(root.get("atividade").get("pacote").get("modulo").get("id"), idModulo));
+            sb.append(" AND pa.atividade.pacote.modulo.id =:paramIdModulo ");
         }
         if(!StringUtil.isEmpty(idPacote)){
-            criterios.add(criteriaBuilder.equal(root.get("atividade").get("pacote").get("id"), idPacote));
+            sb.append(" AND pa.atividade.pacote.id =:paramIDPacote ");
         }
-        criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
-        entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
-//        getEntityManager().close();
-        return Long.valueOf(entitys.size());
-
+        Query query = getEntityManager().createQuery(sb.toString());
+        query.setParameter("paramData", new java.sql.Date(data.getTime()) );
+        query.setParameter("paramTipo", tipoAtividade);
+        query.setParameter("paramProgresso", 100.0);
+        
+        
+        if(!StringUtil.isEmpty(idProjeto)){
+            query.setParameter("paramIdProjeto", idProjeto);
+        }
+        if(!StringUtil.isEmpty(idModulo)){
+            query.setParameter("paramIdModulo", idModulo);
+        }
+        if(!StringUtil.isEmpty(idPacote)){
+            query.setParameter("paramIDPacote", idPacote);
+        }
+        return (Long) query.getSingleResult();
     }
 
 }

@@ -13,6 +13,8 @@ import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -56,6 +58,10 @@ public class AlterarEscopoAtividadeController implements Initializable {
 
     private Atividade atividade;
 
+    Map<String,Object> params = new HashMap<>();
+    
+    private GerenciadorDeJanela gerenciadorDeJanela;
+    
     /**
      * Initializes the controller class.
      */
@@ -64,14 +70,8 @@ public class AlterarEscopoAtividadeController implements Initializable {
         // TODO
         Platform.runLater(() -> {
             stage = (Stage) apPrincipal.getScene().getWindow();
-            atividade = (Atividade) apPrincipal.getUserData();
-            faseButton(rbDesenvolvimento, TipoAtividade.DE);
-            faseButton(rbLevantamento, TipoAtividade.LE);
-            faseButton(rbTesteHomologacao, TipoAtividade.TE);
-            lbProjeto.setText(atividade.getPacote().getModulo().getProjeto().getDescricao());
-            lbAtividade.setText(atividade.getDescricao());
-            lbModulo.setText(atividade.getPacote().getModulo().getDescricao());
-            lbPacote.setText(atividade.getPacote().getDescricao());
+            params = (Map) apPrincipal.getUserData();
+            load();
         });
     }
 
@@ -97,5 +97,24 @@ public class AlterarEscopoAtividadeController implements Initializable {
 
     private void faseButton(RadioButton radioButton, TipoAtividade tipoAtividade) {
         radioButton.setText(tipoAtividade.toString());
+    }
+    
+    private void load(){
+        faseButton(rbDesenvolvimento, TipoAtividade.DE);
+        faseButton(rbLevantamento, TipoAtividade.LE);
+        faseButton(rbTesteHomologacao, TipoAtividade.TE);
+        lbProjeto.setText(atividade.getPacote().getModulo().getProjeto().getDescricao());
+        lbAtividade.setText(atividade.getDescricao());
+        lbModulo.setText(atividade.getPacote().getModulo().getDescricao());
+        lbPacote.setText(atividade.getPacote().getDescricao());
+    }
+    
+    public void teste(){
+        params = (Map<String, Object>) apPrincipal.getUserData();
+        atividade = (Atividade) params.get("Atividade");
+        gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+        stage = (Stage) params.get("modalStage");
+        load();
+        params.put("Atividade", new Atividade());
     }
 }

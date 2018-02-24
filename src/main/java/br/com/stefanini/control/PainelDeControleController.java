@@ -5,7 +5,6 @@
  */
 package br.com.stefanini.control;
 
-import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.ModuloDAO;
 import br.com.stefanini.control.dao.PacoteDAO;
 import br.com.stefanini.control.dao.ProjetoDAO;
@@ -67,10 +66,11 @@ public class PainelDeControleController implements Initializable {
     @FXML
     private ComboBox<Pacote> filtroPacote;
 
-    private Stage stage;
+//    private Stage stage;
     
     ArrayList<Atividade> atividades = new ArrayList<>();
 
+    Map<String,Object> params = new HashMap<>();
     /**
      * Initializes the controller class.
      */
@@ -81,15 +81,20 @@ public class PainelDeControleController implements Initializable {
         spAno.getValueFactory().valueProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) -> {
             buttonPesquisar();
         });
-        gerenciadorDeJanela = new GerenciadorDeJanela();
+        
+        
         //Carregar os meses quando inicia os componente
-        buttonPesquisar();
+        
         Platform.runLater(() -> {
-            stage = (Stage) apPrincipal.getScene().getWindow();
-            stage.setResizable(true);
-            stage.setMaximized(true);
+//            stage = (Stage) apPrincipal.getScene().getWindow();            
+//            stage.setResizable(true);
+//            stage.setMaximized(true);
+            params = (Map<String, Object>) apPrincipal.getUserData();
+            gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+            
         });
         filtroProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
+        buttonPesquisar();
     }
     
     @FXML
@@ -99,7 +104,7 @@ public class PainelDeControleController implements Initializable {
         filtroModulo.setValue(null);
     }  
             
-    private Map<String, Object> montarParametro(){
+    private void montarParametro(){
 
         String idProjeto;
         String idModulo;
@@ -123,12 +128,11 @@ public class PainelDeControleController implements Initializable {
             idPacote = "";
         }
         
-        HashMap<String, Object> attributes = new HashMap<String, Object>();
-        attributes.put("pacote", idPacote);
-        attributes.put("modulo", idModulo);
-        attributes.put("projeto", idProjeto);
         
-        return attributes;
+        params.put("pacote", idPacote);
+        params.put("modulo", idModulo);
+        params.put("projeto", idProjeto);
+        
     }
     
     @FXML
@@ -151,26 +155,32 @@ public class PainelDeControleController implements Initializable {
 
     @FXML
     private void buttonPesquisar() {
-        gpMeses.getChildren().clear();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, spAno.getValue());
-        calendar.set(Calendar.MONTH, 0);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        int linha = 0;
-        int coluna = 0;
-        while (calendar.get(Calendar.YEAR) <= spAno.getValue()) {
-            Map param = montarParametro();
-            param.put("data", calendar.getTime());
-            Parent parent = gerenciadorDeJanela.carregarComponente("StatusMensalComponent", param);
-          
-            calendar.add(Calendar.MONTH, 1);
-            gpMeses.add(parent, coluna, linha);
-            coluna++;
-            if (coluna >= 4) {
-                coluna = 0;
-                linha++;
-            }
-        }
+        apPrincipal.setDisable(true);
+        teste();
+        apPrincipal.setDisable(false);
+//        if(gerenciadorDeJanela !=null){
+//        gpMeses.getChildren().clear();
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.YEAR, spAno.getValue());
+//        calendar.set(Calendar.MONTH, 0);
+//        calendar.set(Calendar.DAY_OF_MONTH, 1);
+//        int linha = 0;
+//        int coluna = 0;
+//        while (calendar.get(Calendar.YEAR) <= spAno.getValue()) {
+//            montarParametro();
+//            params.put("data", calendar.getTime());
+//            int index = linha+(coluna*4);
+//            Parent parent = gerenciadorDeJanela.carregarComponente("StatusMensalComponent"+index, params);
+//          
+//            calendar.add(Calendar.MONTH, 1);
+//            gpMeses.add(parent, coluna, linha);
+//            coluna++;
+//            if (coluna >= 4) {
+//                coluna = 0;
+//                linha++;
+//            }
+//        }
+//        }
     }
 
     @FXML
@@ -216,5 +226,34 @@ public class PainelDeControleController implements Initializable {
     @FXML
     private void miManterParametroActionEvent(ActionEvent ae) {
         spContainer.setContent(gerenciadorDeJanela.carregarComponente("ManterParametro"));
+    }
+    
+    public void teste(){
+        
+        if(gerenciadorDeJanela !=null){
+        gpMeses.getChildren().clear();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, spAno.getValue());
+        calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        int linha = 0;
+        int coluna = 0;
+        while (calendar.get(Calendar.YEAR) <= spAno.getValue()) {
+//        while (coluna<1) {
+            
+            montarParametro();
+            params.put("data", calendar.getTime());
+            int index = coluna+(linha*4);
+            Parent parent = gerenciadorDeJanela.carregarComponente("StatusMensalComponent"+index, params);
+          
+            calendar.add(Calendar.MONTH, 1);
+            gpMeses.add(parent, coluna, linha);
+            coluna++;
+            if (coluna >= 4) {
+                coluna = 0;
+                linha++;
+            }
+        }
+        }
     }
 }

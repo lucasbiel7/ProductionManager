@@ -28,6 +28,9 @@ import br.com.stefanini.model.util.SpinnerTextToValue;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
@@ -93,13 +96,16 @@ public class ManterAtividadeController implements Initializable {
 
     private Atividade atividade;
     private Stage stage;
+    private GerenciadorDeJanela gerenciadorDeJanela;
 
+    Map<String,Object> params = new HashMap<>();
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(() -> {
+            params = (Map) apPrincipal.getUserData();
             if (apPrincipal.getUserData() instanceof Atividade) {
                 ManterAtividadeController.this.atividade = (Atividade) apPrincipal.getUserData();
                 if (atividade.getId() != null) {
@@ -291,5 +297,14 @@ public class ManterAtividadeController implements Initializable {
                 cbModulo.getSelectionModel().clearSelection();
             }
         }
+    }
+    
+    public void teste(){
+        params = (Map<String, Object>) apPrincipal.getUserData();
+        atividade = (Atividade) params.get("Atividade");
+        gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+        stage = (Stage) params.get("modalStage");
+        carregarDados();
+        params.put("Atividade", new Atividade());
     }
 }
