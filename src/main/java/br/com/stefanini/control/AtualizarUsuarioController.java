@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +33,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  * FXML Controller class
@@ -74,17 +74,16 @@ public class AtualizarUsuarioController implements Initializable {
         usuario = new Usuario();
         usuario.setAtuando(new ArrayList<>());
         cbPerfil.getItems().setAll(new PerfilDAO().pegarTodos());
-        apPrincipal.sceneProperty().addListener(new ChangeListener<Scene>() {
-            @Override
-            public void changed(ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
-                if (newValue != null) {
-                    stage = (Stage) newValue.getWindow();
-                    if (apPrincipal.getUserData() instanceof Usuario) {
-                        pfSenha.setPromptText("Para manter sua senha deixe este campo vazio");
-                        usuario = (Usuario) apPrincipal.getUserData();
-                        usuario = new UsuarioDAO().pegarAtuacoes(usuario);
-                        carregarDados();
-                    }
+        apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
+            if (newValue != null) {
+                newValue.windowProperty().addListener((ObservableValue<? extends Window> observable1, Window oldValue1, Window newValue1) -> {
+                    stage = (Stage) newValue1;
+                });
+                if (apPrincipal.getUserData() instanceof Usuario) {
+                    pfSenha.setPromptText("Para manter sua senha deixe este campo vazio");
+                    usuario = (Usuario) apPrincipal.getUserData();
+                    usuario = new UsuarioDAO().pegarAtuacoes(usuario);
+                    carregarDados();
                 }
             }
         });
@@ -121,7 +120,8 @@ public class AtualizarUsuarioController implements Initializable {
         if (StringUtil.isEmpty(usuario.getPessoa().getCpf().replaceAll("[.-]", "").trim())
                 || StringUtil.isEmpty(usuario.getPessoa().getEmail())
                 || StringUtil.isEmpty(usuario.getPessoa().getNome())
-                || usuario.getPerfil() == null) {
+                || usuario.getPerfil() == null
+                || atuandoLista.isEmpty()) {
             MessageUtil.messageError(MessageUtil.CAMPOS_OBRIGATORIOS);
         } else if (usuario.getId() == null) {
             //Para novos usuários validar se a senha foi digitada
