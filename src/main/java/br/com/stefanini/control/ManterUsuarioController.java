@@ -12,13 +12,14 @@ import br.com.stefanini.model.entity.Usuario;
 import br.com.stefanini.model.util.MessageUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
@@ -83,8 +84,10 @@ public class ManterUsuarioController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Platform.runLater(() -> {
-            stage = (Stage) apPrincipal.getScene().getWindow();
+        apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
+            if (newValue != null) {
+                stage = (Stage) newValue.getWindow();
+            }
         });
         gerenciadorDeJanela = new GerenciadorDeJanela();
         tvUsuario.getItems().setAll(new UsuarioDAO().pegarTodos());

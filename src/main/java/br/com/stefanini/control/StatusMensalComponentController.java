@@ -5,9 +5,20 @@
  */
 package br.com.stefanini.control;
 
+import br.com.stefanini.control.dao.AtividadeDAO;
+import br.com.stefanini.control.dao.ParametroDAO;
+import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
+import br.com.stefanini.model.entity.Atividade;
+import br.com.stefanini.model.entity.Parametro;
+import br.com.stefanini.model.enuns.TipoAtividade;
+import br.com.stefanini.model.enuns.TipoParametro;
+import br.com.stefanini.model.util.DateUtil;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -15,6 +26,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -23,32 +35,131 @@ import javafx.stage.Stage;
  * @author lucas
  */
 public class StatusMensalComponentController implements Initializable {
+    
+    private Date inicio;
+    private String idProjeto;
+    private String idModulo;
+    private String idPacote;
 
+    @FXML
+    private VBox vbVisible;
+            
     @FXML
     private AnchorPane apPrincipal;
+    
     @FXML
     private Label lbTitulo;
+    
+    @FXML
+    private Label lbPfEstimada;
+    
+    @FXML
+    private Label lbValorContratoEstimada;
+    
+    @FXML
+    private Label lbValorRepasseEstimada;
+    
+    @FXML
+    private Label lbPfDetalhada;
+    
+    @FXML
+    private Label lbValorContratoDetalhada;
+    
+    @FXML
+    private Label lbValorRepasseDetalhada;
+    
+    @FXML
+    private Label lbTotal;
+    
+    @FXML
+    private Label lbLevantamento;
+    
+    @FXML
+    private Label lbDesenvolvimento;
+    
+    @FXML
+    private Label lbTeste;
+    
+    private GerenciadorDeJanela gerenciadorDeJanela;
+    
+    Map<String,Object> params = new HashMap<>();
 
-    private Date inicio;
-
-    private Stage stage;
-
+//    private Stage stage;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(() -> {
-            stage = (Stage) apPrincipal.getScene().getWindow();
-            inicio = (Date) apPrincipal.getUserData();
-            lbTitulo.setText(new SimpleDateFormat("MM - MMMM").format(inicio));
+//            stage = (Stage) apPrincipal.getScene().getWindow();
+            
+            gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+            params = (Map) apPrincipal.getUserData();
+            
+            
+//            if(contagemDetalhada != 0.0){
+//                vbVisible.getChildren().get(1).setVisible(false);
+//            }
         });
     }
 
+    public void teste(){
+        Map param = (Map) apPrincipal.getUserData();
+        inicio = (Date) param.get("data");
+        idProjeto = (String) param.get("projeto");
+        idModulo = (String) param.get("modulo");
+        idPacote = (String) param.get("pacote");
+        AtividadeDAO daoAtv = new AtividadeDAO();
+        List<Atividade> atividades = daoAtv.buscarAtividade(idProjeto, idModulo, idPacote, DateUtil.truncateDate(inicio));
+
+        Double contagemEstimada = 0.0;
+        Double contagemDetalhada = 0.0;            
+        for(Atividade atv : atividades){
+            contagemEstimada += atv.getContagemEstimada();
+            contagemDetalhada += atv.getContagemDetalhada();
+        }
+        Double totalContratoEstimada = 0.0;
+        Double totalRepasseEstimada = 0.0;
+        Double totalContratoDetalhada = 0.0;
+        Double totalRepasseDetalhada = 0.0;
+        Long qtdLevantamento = 0l;
+        Long qtdDesenvolvimento = 0l;
+        Long qtdTeste = 0l;
+        if(!atividades.isEmpty()){
+            ParametroDAO daoParam = new ParametroDAO();
+            totalContratoEstimada = contagemEstimada * daoParam.buscaParametroRecente(TipoParametro.CONTRATO).getValor();
+            totalRepasseEstimada = contagemEstimada * daoParam.buscaParametroRecente(TipoParametro.REPASSE).getValor();
+
+            totalContratoDetalhada = contagemDetalhada * daoParam.buscaParametroRecente(TipoParametro.CONTRATO).getValor();
+            totalRepasseDetalhada = contagemDetalhada * daoParam.buscaParametroRecente(TipoParametro.REPASSE).getValor();
+
+            ProgressoAtividadeDAO daoProgress = new ProgressoAtividadeDAO();
+            qtdLevantamento = daoProgress.pegarProgressoAtividade(inicio, TipoAtividade.LE, idProjeto, idModulo, idPacote);
+            qtdDesenvolvimento = daoProgress.pegarProgressoAtividade(inicio, TipoAtividade.DE, idProjeto, idModulo, idPacote);
+            qtdTeste = daoProgress.pegarProgressoAtividade(inicio, TipoAtividade.TE, idProjeto, idModulo, idPacote); 
+        }
+
+
+        lbTitulo.setText(new SimpleDateFormat("MM - MMMM").format(inicio));
+        lbTotal.setText(" - Total: " + String.valueOf(atividades.size()));
+        lbLevantamento.setText(" - Levantamentos 100%: " + qtdLevantamento);
+        lbDesenvolvimento.setText(" - Desenvolvimento 100% : " + qtdDesenvolvimento);
+        lbTeste.setText(" - Testes/Homologação 100% : " + qtdTeste);
+
+        lbPfEstimada.setText("Pontos de função: " + contagemEstimada);
+        lbValorContratoEstimada.setText("Valor Contrato: " + totalContratoEstimada);
+        lbValorRepasseEstimada.setText("Valor Repasse: " + totalRepasseEstimada);
+
+        lbPfDetalhada.setText("Pontos de função: " + contagemDetalhada);
+        lbValorContratoDetalhada.setText("Valor Contrato: " + totalContratoDetalhada);
+        lbValorRepasseDetalhada.setText("Valor Repasse: " + totalRepasseDetalhada);
+    }
+    
     @FXML
     private void labelAtividadeActionEvent() {
         GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
-        ScrollPane scrollPane = (ScrollPane) apPrincipal.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
-        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("PesquisarAtividade", inicio));
+        ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
+        params.put("dataInicio", inicio);
+        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("PesquisarAtividade", params));
     }
 }

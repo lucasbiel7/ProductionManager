@@ -9,8 +9,8 @@ import br.com.stefanini.control.dao.ParametroDAO;
 import br.com.stefanini.model.entity.Parametro;
 import br.com.stefanini.model.enuns.TipoParametro;
 import br.com.stefanini.model.util.MessageUtil;
-import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,7 +66,7 @@ public class ManterParametroController implements Initializable {
             parametro.setValor(Double.parseDouble(idValor.getText()));
         }
         parametro.setTipoParametro(tpParametro.getValue());
-        
+        parametro.setDtInclusao(new Date());
         if(parametro.getTipoParametro() == null || parametro.getValor() == null){
             MessageUtil.messageError("É necessário preencher todos campos obrigatórios!");
         }else{
@@ -84,7 +84,7 @@ public class ManterParametroController implements Initializable {
     }
         
     private void atualizarTabelas() {
-        gridParametro.getItems().setAll(new ParametroDAO().pegarTodos());
+       gridParametro.getItems().setAll(new ParametroDAO().buscaParametrosRecentes());
     }
 }
 

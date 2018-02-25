@@ -8,6 +8,7 @@ package br.com.stefanini.model.entity;
 import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
 import br.com.stefanini.model.enuns.TipoParametro;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,6 +16,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -27,7 +30,16 @@ public class Parametro extends BaseEntity<String> {
 
     private TipoParametro tipoParametro;
     private Double valor;
+    private Date dtInclusao;
 
+    public Parametro() {
+    }
+
+    public Parametro(Double valor, TipoParametro tipoParametro) {
+        this.tipoParametro = tipoParametro;
+        this.valor = valor;
+    }
+    
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @GeneratedValue(generator = "uuid")
@@ -56,4 +68,13 @@ public class Parametro extends BaseEntity<String> {
         this.valor = valor;
     }
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="DT_INCLUSAO")
+    public Date getDtInclusao() {
+        return dtInclusao;
+    }
+
+    public void setDtInclusao(Date dtInclusao) {
+        this.dtInclusao = dtInclusao;
+    }
 }

@@ -25,7 +25,7 @@
          <children>
             <Line endX="700.0" startX="-100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             <Label layoutY="9.5" styleClass="obrigatorio" text="*" />
-            <Label layoutX="18.0" layoutY="9.5" text="Campos(s) Obrigatório(s)" />
+            <Label layoutX="18.0" layoutY="9.5" text="Campo(s) Obrigatório(s)" />
          </children>
       </AnchorPane>
       <GridPane hgap="5.0" layoutX="15.0" layoutY="78.0" prefHeight="105.0" prefWidth="419.0" vgap="5.0" AnchorPane.leftAnchor="15.0">

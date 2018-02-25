@@ -17,10 +17,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -33,7 +37,11 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "TB_ATIVIDADE", schema = Config.SCHEMA)
+@Inheritance(strategy = InheritanceType.JOINED)
+@NamedQuery(name = Atividade.PEGAR_POR_DIA, query = "select a from Atividade a where a.previsaoInicio=:previsaoInicio")
 public class Atividade extends BaseEntity<String> {
+
+    public static final String PEGAR_POR_DIA = "Atividade.pegarPorMes";
 
     private String descricao;
     private Double contagemEstimada;
@@ -44,7 +52,23 @@ public class Atividade extends BaseEntity<String> {
     private SituacaoAtividade situacaoAtividade;
     private Date previsaoInicio;
     private List<AtividadeArtefatos> atividadeArtefatos;
-    private Mes mes;
+    private Mes mes;    
+    private List<ProgressoAtividade> progressos;
+
+    public Atividade() {
+    }
+
+    public Atividade(Atividade atividade) {
+        this.descricao = atividade.getDescricao();
+        this.contagemEstimada = atividade.getContagemEstimada();
+        this.contagemDetalhada = atividade.getContagemDetalhada();
+        this.ordemServico = atividade.getOrdemServico();
+        this.pacote = atividade.getPacote();
+        this.faturamento = atividade.getFaturamento();
+        this.situacaoAtividade = atividade.getSituacaoAtividade();
+        this.previsaoInicio = atividade.getPrevisaoInicio();
+
+    }
 
     @Override
     @Id
@@ -144,7 +168,7 @@ public class Atividade extends BaseEntity<String> {
         this.previsaoInicio = previsaoInicio;
     }
 
-    @OneToMany(mappedBy = "id.atividade", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id.atividade", orphanRemoval = true, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     public List<AtividadeArtefatos> getAtividadeArtefatos() {
         return atividadeArtefatos;
     }
@@ -153,19 +177,23 @@ public class Atividade extends BaseEntity<String> {
         this.atividadeArtefatos = atividadeArtefatos;
     }
 
-    /**
-     * @return the mes
-     */
-    @Column(name = "FL_MES")
-    @Enumerated(EnumType.STRING)
-    public Mes getMes() {
-        return mes;
+    @Override
+    public String toString() {
+        return getDescricao();
     }
 
     /**
-     * @param mes the mes to set
+     * @return the progressos
      */
-    public void setMes(Mes mes) {
-        this.mes = mes;
+    @OneToMany(mappedBy = "atividade",fetch = FetchType.LAZY, targetEntity =ProgressoAtividade.class )
+    public List<ProgressoAtividade> getProgressos() {
+        return progressos;
+    }
+
+    /**
+     * @param progressos the progressos to set
+     */
+    public void setProgressos(List<ProgressoAtividade> progressos) {
+        this.progressos = progressos;
     }
 }

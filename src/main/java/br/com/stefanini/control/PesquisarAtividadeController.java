@@ -19,20 +19,25 @@ import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import br.com.stefanini.model.enuns.TipoAtividade;
+import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -49,8 +54,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javax.persistence.PersistenceException;
+import org.hibernate.exception.ConstraintViolationException;
 
 /**
  * FXML Controller class
@@ -124,27 +130,24 @@ public class PesquisarAtividadeController implements Initializable {
     @FXML
     private Label lbTotalDetalhada;
 
+    Map<String, Object> params = new HashMap<>();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Platform.runLater(() -> {
-            stage = (Stage) apPrincipal.getScene().getWindow();
-            param = (Date) apPrincipal.getUserData();
-            lbPesquisa.setText(buildLabel(param));
+        apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
+            if (newValue != null) {
+                stage = (Stage) newValue.getWindow();
+                params = (Map) apPrincipal.getUserData();
+                gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+                param = (Date) params.get("dataInicio");
+            }
         });
-        gerenciadorDeJanela = new GerenciadorDeJanela();
-        cbPacote.setValue(null);
-        cbModulo.setValue(null);
-        cbPacote.setValue(null);
-        cbProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
-        txAtividade.setText("");
-        cbSituacao.getItems().setAll(SituacaoAtividade.values());
-        cbFaturamento.getItems().setAll(Faturamento.values());
-        carregarTabela();
-
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colId.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, String> param1) -> {
+            return new SimpleStringProperty(String.valueOf(tvAtividade.getItems().indexOf(param1.getValue()) + 1));
+        });
         colOs.setCellValueFactory(new PropertyValueFactory<>("ordemServico"));
         colAtividade.setCellValueFactory(new PropertyValueFactory<>("descricao"));
 
@@ -154,12 +157,12 @@ public class PesquisarAtividadeController implements Initializable {
         colDesenvolvimento.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
         colHomologacao.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
         colAcoes.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
-        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TESTE));
-        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LEVANTAMENTO));
-        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DESENVOLVIMENTO));
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE));
         colAcoes.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCell<Atividade, Atividade>() {
             @Override
-            protected void updateItem(Atividade item, boolean empty) {
+            protected void updateItem(Atividade atividade, boolean empty) {
                 if (empty) {
                     setGraphic(null);
                 } else {
@@ -181,23 +184,65 @@ public class PesquisarAtividadeController implements Initializable {
                     btEnviarParaFaturamento.setTooltip(new Tooltip("Enviar para faturamento"));
                     btExcluir.setTooltip(new Tooltip("Excluir atividade"));
 
-                    btEditar.setOnAction((ActionEvent event) -> {
-                        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade", item), "Início");
-                        stage.initOwner(PesquisarAtividadeController.this.stage);
-                        stage.initModality(Modality.WINDOW_MODAL);
-                        stage.showAndWait();
+                    btAlteracaoEscopo.setOnAction((ActionEvent event) -> {
+                        params.put("Atividade", atividade);
+                        gerenciadorDeJanela.abrirModal("AlterarEscopoAtividade", params, "Alteração de Escopo da Atividade");
                         carregarTabela();
+
+//                        Stage stage1 = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("AlterarEscopoAtividade", atividade), "Alteração de Escopo da Atividade");
+//                        stage1.initOwner(PesquisarAtividadeController.this.stage);
+//                        stage1.initModality(Modality.WINDOW_MODAL);
+//                        stage1.showAndWait();
+//                        carregarTabela();
+                    });
+                    btEnviarParaFaturamento.setOnAction((ActionEvent event) -> {
+                        params.put("Atividade", atividade);
+                        gerenciadorDeJanela.abrirModal("FaturarAtividade", params, "Faturar atividade");
+                        carregarTabela();
+//                        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("FaturarAtividade", atividade), "Faturar atividade");
+//                        stage.initOwner(PesquisarAtividadeController.this.stage);
+//                        stage.initModality(Modality.WINDOW_MODAL);
+//                        stage.showAndWait();
+//                        carregarTabela();
+                    });
+                    btEditar.setOnAction((ActionEvent event) -> {
+                        if (atividade.getPrevisaoInicio() == null) {
+                            atividade.setPrevisaoInicio(param);
+                            new AtividadeDAO().editar(atividade);
+                        }
+                        params.put("Atividade", atividade);
+                        gerenciadorDeJanela.abrirModal("ManterAtividade", params, "Início");
+                        carregarTabela();
+//                        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade", atividade), "Início");
+//                        stage.initOwner(PesquisarAtividadeController.this.stage);
+//                        stage.initModality(Modality.WINDOW_MODAL);
+//                        stage.showAndWait();
+//                        carregarTabela();
+                    });
+                    btExcluir.setOnAction((ActionEvent event) -> {
+                        if (MessageUtil.confirmMessage("Deseja realmente excluir a atividade?")) {
+                            try {
+                                new AtividadeDAO().excluir(atividade);
+                            } catch (Exception e) {
+                                if (e instanceof PersistenceException
+                                        && e.getCause() instanceof ConstraintViolationException) {
+                                    MessageUtil.messageError("Não é possível excluir uma atividade que já foi inicializada.");
+                                }
+                            }
+                            carregarTabela();
+                        }
                     });
                     hBox.getChildren().addAll(btEditar, btAlteracaoEscopo, btIncluirPendencia, btRemoverPendencia, btVisualizarPendencia, btEnviarParaFaturamento, btExcluir);
                     setGraphic(hBox);
                 }
+
             }
         });
     }
 
     @FXML
     private void btPesquisarAction() {
-        List<Atividade> atividades = new AtividadeDAO().pegarPorAtividade(buildAtividadeFromfxml());
+        List<Atividade> atividades = new AtividadeDAO().pegarPorAtividade(buildAtividadeFromfxml(), param);
         tvAtividade.getItems().setAll(atividades);
         buildTotais(atividades);
     }
@@ -246,6 +291,7 @@ public class PesquisarAtividadeController implements Initializable {
         if (cbFaturamento.getValue() != null) {
             ativ.setFaturamento(cbFaturamento.getValue());
         }
+
         return ativ;
     }
 
@@ -275,21 +321,36 @@ public class PesquisarAtividadeController implements Initializable {
 
     @FXML
     private void btAdicionarAction() {
-        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade"), "Início");
-        stage.initOwner(this.stage);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.showAndWait();
+        Atividade atividade = new Atividade();
+        atividade.setPrevisaoInicio(param);
+        params.put("Atividade", atividade);
+//        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade", params), "Início");
+//        stage.initOwner(this.stage);
+//        stage.initModality(Modality.WINDOW_MODAL);
+//        stage.showAndWait();
+        gerenciadorDeJanela.abrirModal("ManterAtividade", params, "Início");
         carregarTabela();
     }
 
     private void carregarTabela() {
-        tvAtividade.getItems().setAll(new AtividadeDAO().pegarTodos());
+        tvAtividade.getItems().clear();
+        tvAtividade.getItems().setAll(new AtividadeDAO().pegarPorMes(DateUtil.truncateDate(param)));
         buildTotais(tvAtividade.getItems());
+    }
+
+    @FXML
+    private void visualizarAction() {
+        ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
+
+        params.put("data", param);
+//        paramsMap.put("atividades", tvAtividade.getItems().stream().collect(Collectors.toList()));
+        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade", params));
+
     }
 
     private class TableCellFases extends TableCell<Atividade, Atividade> {
 
-        private TipoAtividade tipoAtividade;
+        private final TipoAtividade tipoAtividade;
 
         public TableCellFases(TipoAtividade tipoAtividade) {
             this.tipoAtividade = tipoAtividade;
@@ -301,30 +362,51 @@ public class PesquisarAtividadeController implements Initializable {
                 setGraphic(null);
             } else {
                 Spinner<Double> spDados = new Spinner<>();
-                List<ProgressoAtividade> progressoAtividades = new ProgressoAtividadeDAO().pegarPorAtividadeTipo(item, this.tipoAtividade);
-                double initValue = progressoAtividades.stream().map(ProgressoAtividade::getProgresso).findFirst().orElse(0d);
+                ProgressoAtividade progressoAtividadeAtual = new ProgressoAtividadeDAO().pegarUtualProgressoPorAtividadeTipo(item, this.tipoAtividade);
+                double initValue = 0;
+                if (progressoAtividadeAtual != null) {
+                    initValue = progressoAtividadeAtual.getProgresso();
+                }
                 spDados.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(initValue, 100d, initValue, 5d));
                 spDados.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
-                    ProgressoAtividade progressoAtividade = new ProgressoAtividade();
-                    progressoAtividade.setAtividade(item);
-                    progressoAtividade.setDataDoProgresso(new Date());
-                    progressoAtividade.setProgresso(newValue);
-                    progressoAtividade.setTipoAtividade(this.tipoAtividade);
-                    if (newValue == 100d) {
-                        if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade?")) {
-                            new ProgressoAtividadeDAO().salvar(progressoAtividade);
-                            ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getProgresso());
-                        } else {
-                            newValue = oldValue;
+                    if (!Objects.equals(oldValue, newValue)) {
+                        ProgressoAtividade progressoAtividade = new ProgressoAtividade();
+                        progressoAtividade.setAtividade(item);
+                        progressoAtividade.setDataDoProgresso(new Date());
+                        progressoAtividade.setProgresso(newValue);
+                        progressoAtividade.setTipoAtividade(this.tipoAtividade);
+                        if (newValue > oldValue) {
+                            if (newValue == 100d) {
+                                if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
+                                    progressoAtividade.setFaturamento(Faturamento.EF);
+                                    new ProgressoAtividadeDAO().salvar(progressoAtividade);
+                                    ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getProgresso());
+                                }
+                            } else {
+                                new ProgressoAtividadeDAO().salvar(progressoAtividade);
+                                ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getProgresso());
+                            }
                         }
-                    } else {
-                        new ProgressoAtividadeDAO().salvar(progressoAtividade);
-                        ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getProgresso());
                     }
                 });
                 setGraphic(spDados);
             }
         }
 
+    }
+
+    public void teste() {
+        params = (Map) apPrincipal.getUserData();
+        param = (Date) params.get("dataInicio");
+        gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+        lbPesquisa.setText(buildLabel(param));
+        carregarTabela();
+        cbPacote.setValue(null);
+        cbModulo.setValue(null);
+        cbPacote.setValue(null);
+        cbProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
+        txAtividade.setText("");
+        cbSituacao.getItems().setAll(SituacaoAtividade.values());
+        cbFaturamento.getItems().setAll(Faturamento.values());
     }
 }

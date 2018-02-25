@@ -7,34 +7,51 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="282.0" prefWidth="251.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.StatusMensalComponentController">
+
+<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="309.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.StatusMensalComponentController">
     <stylesheets>
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
    <children>
-      <TitledPane layoutX="5.0" layoutY="69.0" prefHeight="100.0" prefWidth="251.0" text="Estimada" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <content>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+      
+                  <Label fx:id="lbTitulo" onMouseClicked="#labelAtividadeActionEvent" onTouchPressed="#labelAtividadeActionEvent" prefHeight="35.0" prefWidth="280.0" styleClass="title-label-center-bold" stylesheets="@styles/Styles.css" text="Title" AnchorPane.rightAnchor="0.0" />
+      <VBox alignment="CENTER" layoutY="35.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER_RIGHT" prefHeight="83.0" prefWidth="280.0" styleClass="background">
                <children>
-                  <Label text="Pontos de função:  " />
-                  <Label text="Valor Contrato:" />
-                  <Label text="Valor Repasse:" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="280.0" styleClass="label-bold" text="Quantidade de Atividades" textAlignment="CENTER" />
+                  <Label fx:id="lbTotal" prefHeight="17.0" prefWidth="300.0" text="  Total :" />
+                  <Label fx:id="lbLevantamento" prefHeight="17.0" prefWidth="493.0" text="  Levantamentos 100% :" />
+                  <Label fx:id="lbDesenvolvimento" prefHeight="17.0" prefWidth="473.0" text="  Desenvolvimento 100% :" />
+                  <Label fx:id="lbTeste" prefHeight="17.0" prefWidth="483.0" text="  Testes/Homologação 100% :" />
                </children>
             </VBox>
-         </content>
-      </TitledPane>
-      <TitledPane layoutY="176.0" prefHeight="100.0" prefWidth="251.0" text="Detalhada" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <content>
-            <VBox prefHeight="87.0" prefWidth="249.0" spacing="5.0">
-               <children>
-                  <Label text="Pontos de função:  " />
-                  <Label text="Valor Contrato:" />
-                  <Label text="Valor Repasse:" />
-               </children>
-            </VBox>
-         </content>
-      </TitledPane>
-      <Label fx:id="lbTitulo" onMouseClicked="#labelAtividadeActionEvent" onTouchPressed="#labelAtividadeActionEvent" prefHeight="68.0" prefWidth="251.0" styleClass="title-label" text="Title" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <TitledPane prefHeight="80.0" prefWidth="280.0" text="Estimada">
+                     <content>
+                        <VBox fillWidth="false" prefHeight="98.0" prefWidth="278.0" scaleShape="false">
+                           <children>
+                              <Label fx:id="lbPfEstimada" text="Pontos de função:  " />
+                              <Label fx:id="lbValorContratoEstimada" text="Valor Contrato:" />
+                              <Label fx:id="lbValorRepasseEstimada" text="Valor Repasse:" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+                  <TitledPane prefHeight="80.0" prefWidth="278.0" text="Detalhada">
+                     <content>
+                        <VBox fillWidth="false" prefHeight="46.0" prefWidth="278.0" scaleShape="false">
+                           <children>
+                              <Label fx:id="lbPfDetalhada" text="Pontos de função:  " />
+                              <Label fx:id="lbValorContratoDetalhada" text="Valor Contrato:" />
+                              <Label fx:id="lbValorRepasseDetalhada" text="Valor Repasse:" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+         </children>
+      </VBox>
+        
+            
    </children>
    <styleClass>
       <String fx:value="mainFxmlClass" />
