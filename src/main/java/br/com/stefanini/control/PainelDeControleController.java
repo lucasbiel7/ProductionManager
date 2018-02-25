@@ -143,7 +143,7 @@ public class PainelDeControleController implements Initializable {
         if (filtroProjeto.getValue() != null) {
             filtroModulo.getItems().setAll(new ModuloDAO().pegarPorProjeto(filtroProjeto.getValue()));
         } else {
-            filtroModulo.getItems().setAll(new ArrayList<Modulo>());
+            filtroModulo.getItems().clear();
         }
     }
 
@@ -152,7 +152,7 @@ public class PainelDeControleController implements Initializable {
         if (filtroModulo.getValue() != null) {
             filtroPacote.getItems().setAll(new PacoteDAO().pegarPorModulo(filtroModulo.getValue()));
         } else {
-            filtroPacote.getItems().setAll(new ArrayList<Pacote>());
+            filtroPacote.getItems().clear();
         }
     }
 
@@ -236,7 +236,7 @@ public class PainelDeControleController implements Initializable {
                 final Parent parent = gerenciadorDeJanela.carregarComponente("StatusMensalComponent" + index, params);
                 Platform.runLater(() -> {
                     gpMeses.add(parent, col, row);
-                    piLoader.setProgress(piLoader.getProgress() + 12 / 100.0);
+                    piLoader.setProgress(piLoader.getProgress() + 0.09);
                 });
                 calendar.add(Calendar.MONTH, 1);
                 coluna++;

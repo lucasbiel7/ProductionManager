@@ -371,12 +371,12 @@ public class PesquisarAtividadeController implements Initializable {
                     progressoAtividade.setProgresso(newValue);
                     progressoAtividade.setTipoAtividade(this.tipoAtividade);
                     if (newValue == 100d) {
-                        if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade?")) {
-
+                        if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
+                            progressoAtividade.setFaturamento(Faturamento.EF);
                             new ProgressoAtividadeDAO().salvar(progressoAtividade);
                             ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getProgresso());
                         } else {
-                            newValue = oldValue;
+                            spDados.getValueFactory().setValue(oldValue);
                         }
                     } else {
                         new ProgressoAtividadeDAO().salvar(progressoAtividade);
