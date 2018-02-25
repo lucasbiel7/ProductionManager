@@ -26,6 +26,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -53,7 +54,8 @@ public class PainelDeControleController implements Initializable {
 
     @FXML
     private ScrollPane spContainer;
-
+    @FXML
+    private ProgressIndicator piLoader;
     private GerenciadorDeJanela gerenciadorDeJanela;
 
     @FXML
@@ -80,12 +82,10 @@ public class PainelDeControleController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Calendar calendar = Calendar.getInstance();
         spAno.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, calendar.get(Calendar.YEAR)));
-        spAno.getValueFactory().valueProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) -> {
-            buttonPesquisar();
-        });
         apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
             params = (Map<String, Object>) apPrincipal.getUserData();
             gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+            buttonPesquisar();
             if (newValue != null) {
                 newValue.windowProperty().addListener((ObservableValue<? extends Window> observable1, Window oldValue1, Window newValue1) -> {
                     stage = (Stage) newValue1;
@@ -158,9 +158,15 @@ public class PainelDeControleController implements Initializable {
 
     @FXML
     private void buttonPesquisar() {
+        piLoader.setVisible(true);
         apPrincipal.setDisable(true);
-        teste();
-        apPrincipal.setDisable(false);
+        new Thread(() -> {
+            teste();
+            Platform.runLater(() -> {
+                apPrincipal.setDisable(false);
+                piLoader.setVisible(false);
+            });
+        }).start();
 //        if(gerenciadorDeJanela !=null){
 //        gpMeses.getChildren().clear();
 //        Calendar calendar = Calendar.getInstance();
@@ -232,9 +238,11 @@ public class PainelDeControleController implements Initializable {
     }
 
     public void teste() {
-
         if (gerenciadorDeJanela != null) {
-            gpMeses.getChildren().clear();
+            Platform.runLater(() -> {
+                gpMeses.getChildren().clear();
+            });
+
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, spAno.getValue());
             calendar.set(Calendar.MONTH, 0);
@@ -242,15 +250,16 @@ public class PainelDeControleController implements Initializable {
             int linha = 0;
             int coluna = 0;
             while (calendar.get(Calendar.YEAR) <= spAno.getValue()) {
-//        while (coluna<1) {
-
                 montarParametro();
                 params.put("data", calendar.getTime());
-                int index = coluna + (linha * 4);
-                Parent parent = gerenciadorDeJanela.carregarComponente("StatusMensalComponent" + index, params);
-
+                final int index = coluna + (linha * 4);
+                final int col = coluna;
+                final int row = linha;
+                final Parent parent = gerenciadorDeJanela.carregarComponente("StatusMensalComponent" + index, params);
+                Platform.runLater(() -> {
+                    gpMeses.add(parent, col, row);
+                });
                 calendar.add(Calendar.MONTH, 1);
-                gpMeses.add(parent, coluna, linha);
                 coluna++;
                 if (coluna >= 4) {
                     coluna = 0;
