@@ -158,38 +158,17 @@ public class PainelDeControleController implements Initializable {
 
     @FXML
     private void buttonPesquisar() {
+        piLoader.setProgress(0d);
         piLoader.setVisible(true);
         apPrincipal.setDisable(true);
         new Thread(() -> {
             teste();
             Platform.runLater(() -> {
+                piLoader.setProgress(1);
                 apPrincipal.setDisable(false);
                 piLoader.setVisible(false);
             });
         }).start();
-//        if(gerenciadorDeJanela !=null){
-//        gpMeses.getChildren().clear();
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.set(Calendar.YEAR, spAno.getValue());
-//        calendar.set(Calendar.MONTH, 0);
-//        calendar.set(Calendar.DAY_OF_MONTH, 1);
-//        int linha = 0;
-//        int coluna = 0;
-//        while (calendar.get(Calendar.YEAR) <= spAno.getValue()) {
-//            montarParametro();
-//            params.put("data", calendar.getTime());
-//            int index = linha+(coluna*4);
-//            Parent parent = gerenciadorDeJanela.carregarComponente("StatusMensalComponent"+index, params);
-//          
-//            calendar.add(Calendar.MONTH, 1);
-//            gpMeses.add(parent, coluna, linha);
-//            coluna++;
-//            if (coluna >= 4) {
-//                coluna = 0;
-//                linha++;
-//            }
-//        }
-//        }
     }
 
     @FXML
@@ -242,7 +221,6 @@ public class PainelDeControleController implements Initializable {
             Platform.runLater(() -> {
                 gpMeses.getChildren().clear();
             });
-
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, spAno.getValue());
             calendar.set(Calendar.MONTH, 0);
@@ -258,6 +236,7 @@ public class PainelDeControleController implements Initializable {
                 final Parent parent = gerenciadorDeJanela.carregarComponente("StatusMensalComponent" + index, params);
                 Platform.runLater(() -> {
                     gpMeses.add(parent, col, row);
+                    piLoader.setProgress(piLoader.getProgress() + 12 / 100.0);
                 });
                 calendar.add(Calendar.MONTH, 1);
                 coluna++;
