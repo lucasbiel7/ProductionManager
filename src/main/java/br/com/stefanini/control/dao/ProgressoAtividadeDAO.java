@@ -14,6 +14,7 @@ import br.com.stefanini.model.util.StringUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.Predicate;
 
@@ -31,9 +32,22 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         return entitys;
     }
 
+    public ProgressoAtividade pegarUtualProgressoPorAtividadeTipo(Atividade atividade, TipoAtividade tipoAtividade) {
+        criteriaQuery.where(criteriaBuilder.and(criteriaBuilder.equal(root.get("atividade"), atividade), criteriaBuilder.equal(root.get("tipoAtividade"), tipoAtividade)));
+        criteriaQuery.orderBy(criteriaBuilder.desc(root.get("dataDoProgresso")));
+        try {
+            entity = getEntityManager().createQuery(criteriaQuery).setMaxResults(1).getSingleResult();
+        } catch (NoResultException e) {
+            entity = null;
+        }
+        getEntityManager().close();
+        return entity;
+    }
+
     public List<ProgressoAtividade> pegarEmFaturamentoPorDataTipoAtividade(Date data, TipoAtividade tipoAtividade) {
-        if(data == null)
+        if (data == null) {
             return new ArrayList<>();
+        }
         List<Predicate> criterios = new ArrayList<>();
         //TODO ISSUE DO LUCAS (se der bug)
         criterios.add(criteriaBuilder.equal(root.get("atividade").<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
@@ -44,63 +58,43 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         getEntityManager().close();
         return entitys;
     }
-    
 
-    public void faturar(List<ProgressoAtividade> progressos){        
-        getEntityManager().getTransaction().begin();        
+    public void faturar(List<ProgressoAtividade> progressos) {
+        getEntityManager().getTransaction().begin();
         for (ProgressoAtividade progresso : progressos) {
             progresso.setFaturamento(Faturamento.FO);
             getEntityManager().merge(progresso);
-            getEntityManager().flush();        
+            getEntityManager().flush();
         }
         getEntityManager().getTransaction().commit();
         getEntityManager().close();
     }
 
     public Long pegarProgressoAtividade(Date data, TipoAtividade tipoAtividade, String idProjeto, String idModulo, String idPacote) {
-////        getEntityManager().getTransaction().begin();        
-//        List<Predicate> criterios = new ArrayList<>();
-//        criterios.add(criteriaBuilder.equal(root.get("atividade").<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
-//        criterios.add(criteriaBuilder.equal(root.get("tipoAtividade"), tipoAtividade));
-//        criterios.add(criteriaBuilder.equal(root.get("progresso"), 100.0));
-//        if(!StringUtil.isEmpty(idProjeto)){
-//            criterios.add(criteriaBuilder.equal(root.get("atividade").get("pacote").get("modulo").get("projeto").get("id"), idProjeto));
-//        }
-//        if(!StringUtil.isEmpty(idModulo)){
-//            criterios.add(criteriaBuilder.equal(root.get("atividade").get("pacote").get("modulo").get("id"), idModulo));
-//        }
-//        if(!StringUtil.isEmpty(idPacote)){
-//            criterios.add(criteriaBuilder.equal(root.get("atividade").get("pacote").get("id"), idPacote));
-//        }
-//        criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
-//        entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
-////        getEntityManager().close();
-//        return Long.valueOf(entitys.size());
-		StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append(" SELECT count(*) FROM ProgressoAtividade pa WHERE pa.atividade.previsaoInicio =:paramData AND pa.tipoAtividade =:paramTipo ");
         sb.append(" AND pa.progresso =:paramProgresso ");
-        if(!StringUtil.isEmpty(idProjeto)){
+        if (!StringUtil.isEmpty(idProjeto)) {
             sb.append(" AND pa.atividade.pacote.modulo.projeto.id =:paramIdProjeto ");
         }
-        if(!StringUtil.isEmpty(idModulo)){
+        if (!StringUtil.isEmpty(idModulo)) {
             sb.append(" AND pa.atividade.pacote.modulo.id =:paramIdModulo ");
         }
-        if(!StringUtil.isEmpty(idPacote)){
+        if (!StringUtil.isEmpty(idPacote)) {
             sb.append(" AND pa.atividade.pacote.id =:paramIDPacote ");
         }
         Query query = getEntityManager().createQuery(sb.toString());
-        query.setParameter("paramData", new java.sql.Date(data.getTime()) );
+        query.setParameter("paramData", new java.sql.Date(data.getTime()));
         query.setParameter("paramTipo", tipoAtividade);
         query.setParameter("paramProgresso", 100.0);
-        
-        
-        if(!StringUtil.isEmpty(idProjeto)){
+
+        if (!StringUtil.isEmpty(idProjeto)) {
             query.setParameter("paramIdProjeto", idProjeto);
         }
-        if(!StringUtil.isEmpty(idModulo)){
+        if (!StringUtil.isEmpty(idModulo)) {
             query.setParameter("paramIdModulo", idModulo);
         }
-        if(!StringUtil.isEmpty(idPacote)){
+        if (!StringUtil.isEmpty(idPacote)) {
             query.setParameter("paramIDPacote", idPacote);
         }
         return (Long) query.getSingleResult();

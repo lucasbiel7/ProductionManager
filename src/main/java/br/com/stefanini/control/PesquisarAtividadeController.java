@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -349,7 +350,7 @@ public class PesquisarAtividadeController implements Initializable {
 
     private class TableCellFases extends TableCell<Atividade, Atividade> {
 
-        private TipoAtividade tipoAtividade;
+        private final TipoAtividade tipoAtividade;
 
         public TableCellFases(TipoAtividade tipoAtividade) {
             this.tipoAtividade = tipoAtividade;
@@ -361,26 +362,31 @@ public class PesquisarAtividadeController implements Initializable {
                 setGraphic(null);
             } else {
                 Spinner<Double> spDados = new Spinner<>();
-                List<ProgressoAtividade> progressoAtividades = new ProgressoAtividadeDAO().pegarPorAtividadeTipo(item, this.tipoAtividade);
-                double initValue = progressoAtividades.stream().map(ProgressoAtividade::getProgresso).findFirst().orElse(0d);
+                ProgressoAtividade progressoAtividadeAtual = new ProgressoAtividadeDAO().pegarUtualProgressoPorAtividadeTipo(item, this.tipoAtividade);
+                double initValue = 0;
+                if (progressoAtividadeAtual != null) {
+                    initValue = progressoAtividadeAtual.getProgresso();
+                }
                 spDados.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(initValue, 100d, initValue, 5d));
                 spDados.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
-                    ProgressoAtividade progressoAtividade = new ProgressoAtividade();
-                    progressoAtividade.setAtividade(item);
-                    progressoAtividade.setDataDoProgresso(new Date());
-                    progressoAtividade.setProgresso(newValue);
-                    progressoAtividade.setTipoAtividade(this.tipoAtividade);
-                    if (newValue == 100d) {
-                        if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
-                            progressoAtividade.setFaturamento(Faturamento.EF);
-                            new ProgressoAtividadeDAO().salvar(progressoAtividade);
-                            ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getProgresso());
-                        } else {
-                            spDados.getValueFactory().setValue(oldValue);
+                    if (!Objects.equals(oldValue, newValue)) {
+                        ProgressoAtividade progressoAtividade = new ProgressoAtividade();
+                        progressoAtividade.setAtividade(item);
+                        progressoAtividade.setDataDoProgresso(new Date());
+                        progressoAtividade.setProgresso(newValue);
+                        progressoAtividade.setTipoAtividade(this.tipoAtividade);
+                        if (newValue > oldValue) {
+                            if (newValue == 100d) {
+                                if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
+                                    progressoAtividade.setFaturamento(Faturamento.EF);
+                                    new ProgressoAtividadeDAO().salvar(progressoAtividade);
+                                    ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getProgresso());
+                                }
+                            } else {
+                                new ProgressoAtividadeDAO().salvar(progressoAtividade);
+                                ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getProgresso());
+                            }
                         }
-                    } else {
-                        new ProgressoAtividadeDAO().salvar(progressoAtividade);
-                        ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getProgresso());
                     }
                 });
                 setGraphic(spDados);
