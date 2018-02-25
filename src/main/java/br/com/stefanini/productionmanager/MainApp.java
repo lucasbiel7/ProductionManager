@@ -63,8 +63,9 @@ public class MainApp extends Application {
             componentes.put("AtualizarUsuario",init("AtualizarUsuario",gerenciadorDeJanela,"")); 
             componentes.put("FaturarAtividade",init("FaturarAtividade",gerenciadorDeJanela,"")); 
             componentes.put("ManterAtividade",init("ManterAtividade",gerenciadorDeJanela,"")); 
-            componentes.put("ManterAtuacao",init("ManterAtuacao",gerenciadorDeJanela,"")); 
+            componentes.put("ManterAtuacao",init("ManterAtuacao",gerenciadorDeJanela,""));             
             componentes.put("ManterModulo",init("ManterModulo",gerenciadorDeJanela,"")); 
+            componentes.put("ManterOrdemServico",init("ManterOrdemServico",gerenciadorDeJanela,""));             
             componentes.put("ManterPacote",init("ManterPacote",gerenciadorDeJanela,"")); 
             componentes.put("ManterParametro",init("ManterParametro",gerenciadorDeJanela,"")); 
             componentes.put("ManterPerfil",init("ManterPerfil",gerenciadorDeJanela,"")); 
