@@ -9,7 +9,6 @@ import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.ParametroDAO;
 import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
 import br.com.stefanini.model.entity.Atividade;
-import br.com.stefanini.model.entity.Parametro;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.enuns.TipoParametro;
 import br.com.stefanini.model.util.DateUtil;
@@ -26,8 +25,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -40,9 +37,6 @@ public class StatusMensalComponentController implements Initializable {
     private String idProjeto;
     private String idModulo;
     private String idPacote;
-
-    @FXML
-    private VBox vbVisible;
             
     @FXML
     private AnchorPane apPrincipal;
@@ -92,14 +86,9 @@ public class StatusMensalComponentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(() -> {
 //            stage = (Stage) apPrincipal.getScene().getWindow();
-            
             gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
             params = (Map) apPrincipal.getUserData();
             
-            
-//            if(contagemDetalhada != 0.0){
-//                vbVisible.getChildren().get(1).setVisible(false);
-//            }
         });
     }
 
