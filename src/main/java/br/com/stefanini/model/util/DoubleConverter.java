@@ -7,7 +7,10 @@ package br.com.stefanini.model.util;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.util.StringConverter;
 
 /**
@@ -19,7 +22,7 @@ public class DoubleConverter extends StringConverter<Double> {
     private static DecimalFormat df = new DecimalFormat ("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR")));
     @Override
     public String toString(Double object) {
-        return String.format(Locale.US, "%.1f", object);
+        return String.format(Locale.US, "%.1f%n", object);
     }
 
     @Override
@@ -32,6 +35,11 @@ public class DoubleConverter extends StringConverter<Double> {
     }
     
     public static Double stringToDouble(String string) {        
-        return Double.parseDouble(string);
+        try {
+            return (Double) df.parse(string);
+        } catch (ParseException ex) {
+            Logger.getLogger(DoubleConverter.class.getName()).log(Level.SEVERE, null, ex);
+            return 0.0;
+        }
     }
 }

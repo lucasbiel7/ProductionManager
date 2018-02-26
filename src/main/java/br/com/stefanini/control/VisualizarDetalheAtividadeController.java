@@ -19,6 +19,7 @@ import br.com.stefanini.model.enuns.TipoParametro;
 import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.GeradorPlanilha;
 import br.com.stefanini.model.util.MessageUtil;
+import br.com.stefanini.model.util.PlanilhaDetalhes;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -402,16 +403,39 @@ public class VisualizarDetalheAtividadeController implements Initializable {
 
     @FXML
     private void gerarPlanilhaSTEFANINIAction() {
-        MessageUtil.messageError("Em desenvolvimento.");
+        String file = new GeradorPlanilha().gerarDetalhamento(new PlanilhaDetalhes((Date) params.get("data"), 
+            tvLev.getItems().stream().collect(Collectors.toList()),
+            tvDev.getItems().stream().collect(Collectors.toList()),
+            tvTst.getItems().stream().collect(Collectors.toList()), 
+            lbTotalEstimadaoContrato.getText(), 
+            lbTotalDetalhadoContrato.getText(), 
+            lbTotalEstimadaoRepasse.getText(), 
+            lbTotalDetalhadoRepasse.getText(), 
+            true));
+        if(file == null){
+            MessageUtil.messageError("Erro ao gerar planilha STEFANINI");            
+        }else{
+            MessageUtil.confirmMessage("Planilha gerada com sucesso: "+file);
+        }
     }
 
     @FXML
     private void gerarPlanilhaBDMGAction() {
-        MessageUtil.messageError("Em desenvolvimento.");
-        new GeradorPlanilha().teste(tvLev.getItems().stream().collect(Collectors.toList()),
-                tvDev.getItems().stream().collect(Collectors.toList()),
-                tvTst.getItems().stream().collect(Collectors.toList()));
-
+        String file = new GeradorPlanilha().gerarDetalhamento(new PlanilhaDetalhes((Date) params.get("data"), 
+            tvLev.getItems().stream().collect(Collectors.toList()),
+            tvDev.getItems().stream().collect(Collectors.toList()),
+            tvTst.getItems().stream().collect(Collectors.toList()), 
+            lbTotalEstimadaoContrato.getText(), 
+            lbTotalDetalhadoContrato.getText(), 
+            lbTotalEstimadaoRepasse.getText(), 
+            lbTotalDetalhadoRepasse.getText(), 
+            false));
+        if(file == null){
+            MessageUtil.messageError("Erro ao gerar planilha BDMG");
+        }else{
+            MessageUtil.confirmMessage("Planilha gerada com sucesso: "+file);
+        }
+        
     }
 
     public void teste() {
