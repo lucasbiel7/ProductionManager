@@ -8,7 +8,9 @@ package br.com.stefanini.control;
 import br.com.stefanini.control.dao.ParametroDAO;
 import br.com.stefanini.model.entity.Parametro;
 import br.com.stefanini.model.enuns.TipoParametro;
+import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.MessageUtil;
+import br.com.stefanini.model.util.SpinnerTextToValue;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -17,6 +19,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -33,7 +37,7 @@ public class ManterParametroController implements Initializable {
     private ComboBox<TipoParametro> tpParametro;
     
     @FXML
-    private TextField idValor;
+    private Spinner<Double> idValor;
     
     @FXML
     private TableView<Parametro> gridParametro;
@@ -55,15 +59,18 @@ public class ManterParametroController implements Initializable {
         tpParametro.getItems().setAll(TipoParametro.values());
         colunaParametro.setCellValueFactory(new PropertyValueFactory<>("tipoParametro"));
         colunaValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
+        idValor.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
+        idValor.getValueFactory().setConverter(new DoubleConverter());
+        SpinnerTextToValue.configure(idValor);
     }
     
     @FXML
     private void salvarParametro(ActionEvent ae) {
         parametro = new Parametro();
-        if(idValor.getText().isEmpty()){
+        if(idValor.getValue() == null){ 
             parametro.setValor(null);
         }else{
-            parametro.setValor(Double.parseDouble(idValor.getText()));
+            parametro.setValor(idValor.getValue());
         }
         parametro.setTipoParametro(tpParametro.getValue());
         parametro.setDtInclusao(new Date());
@@ -79,7 +86,7 @@ public class ManterParametroController implements Initializable {
     @FXML
     private void novoParametro(){
         parametro = new Parametro();
-        idValor.setText("");
+        idValor.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
         tpParametro.setValue(parametro.getTipoParametro());
     }
         
