@@ -73,7 +73,7 @@
                   <VBox alignment="CENTER">
                      <children>
                         <Label text="Ações" />
-                        <Button mnemonicParsing="false" onAction="#btAdicionarAction">
+                        <Button fx:id="btAdd" mnemonicParsing="false" onAction="#btAdicionarAction">
                            <graphic>
                               <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -92,7 +92,7 @@
          </columnResizePolicy>
       </TableView>
       <Button layoutX="1149.0" layoutY="255.0" mnemonicParsing="false" onAction="#btPesquisarAction" text="Pesquisar" />
-      <Button layoutX="1150.0" layoutY="653.0" mnemonicParsing="false" onAction="#visualizarAction" text="Visualizar" AnchorPane.bottomAnchor="14.0" />
+      <Button fx:id="btVisualizar" layoutX="1150.0" layoutY="653.0" mnemonicParsing="false" onAction="#visualizarAction" text="Visualizar" AnchorPane.bottomAnchor="14.0" />
       <Button layoutX="1065.0" layoutY="653.0" mnemonicParsing="false" text="Gerar PDF" AnchorPane.bottomAnchor="14.0" />
       <Line endX="1100.0" layoutX="115.5" layoutY="244.0" startX="-100.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="41.0" />
       <Line endX="1100.0" layoutX="115.0" layoutY="535.0" startX="-100.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />

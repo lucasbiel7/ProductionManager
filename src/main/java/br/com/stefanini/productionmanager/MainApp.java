@@ -1,6 +1,7 @@
 package br.com.stefanini.productionmanager;
 
 import br.com.stefanini.control.GerenciadorDeJanela;
+import br.com.stefanini.model.entity.Usuario;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,7 @@ public class MainApp extends Application {
     public static Map<String,Parent> componentes = new HashMap<String, Parent>();   
     public static Map<String,FXMLLoader> loaders = new HashMap<String, FXMLLoader>(); 
     public static Stage mainStage;
-    
+    public static Usuario user;
     @Override
     public void start(Stage stage) throws Exception {
         //Starting database now
@@ -30,6 +31,7 @@ public class MainApp extends Application {
         });        
         mainStage = stage;
         gerenciadorDeJanela.setMain(this);
+        
         inicializar(gerenciadorDeJanela);
         
 //        
@@ -42,8 +44,8 @@ public class MainApp extends Application {
         
     }
 
-    private void inicializar(GerenciadorDeJanela gerenciadorDeJanela){       
-        try {
+    public void inicializar(GerenciadorDeJanela gerenciadorDeJanela){       
+        try {            
             componentes.put("Login",init("Login",gerenciadorDeJanela,""));
             componentes.put("PainelDeControle",init("PainelDeControle",gerenciadorDeJanela,""));        
             componentes.put("StatusMensalComponent0",init("StatusMensalComponent",gerenciadorDeJanela,"0")); 

@@ -14,7 +14,9 @@ import br.com.stefanini.model.entity.Atuando.AtuadoID;
 import br.com.stefanini.model.entity.Perfil;
 import br.com.stefanini.model.entity.Pessoa;
 import br.com.stefanini.model.entity.Usuario;
+import br.com.stefanini.model.enuns.TipoPerfil;
 import br.com.stefanini.model.util.MessageUtil;
+import br.com.stefanini.model.util.SecurityUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.ArrayList;
@@ -45,7 +47,7 @@ public class AtualizarUsuarioController implements Initializable {
     private Usuario usuario;
 
     @FXML
-    private ComboBox<Perfil> cbPerfil;
+    private ComboBox<TipoPerfil> cbPerfil;
     @FXML
     private TextField tfNome;
     @FXML
@@ -73,7 +75,7 @@ public class AtualizarUsuarioController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         usuario = new Usuario();
         usuario.setAtuando(new ArrayList<>());
-        cbPerfil.getItems().setAll(new PerfilDAO().pegarTodos());
+        cbPerfil.getItems().setAll(TipoPerfil.values());
         apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
             if (newValue != null) {
                 newValue.windowProperty().addListener((ObservableValue<? extends Window> observable1, Window oldValue1, Window newValue1) -> {
@@ -133,7 +135,7 @@ public class AtualizarUsuarioController implements Initializable {
                 MessageUtil.messageError("Sua confirmação de senha deve ser igual a sua senha.");
                 return;
             }
-            usuario.setSenha(pfSenha.getText());
+            usuario.setSenha(SecurityUtil.encript(pfSenha.getText()));
             usuario.setAtivado(true);
             new UsuarioDAO().salvar(usuario);
             MessageUtil.messageInformation("Usuario foi cadastrado com sucesso!");

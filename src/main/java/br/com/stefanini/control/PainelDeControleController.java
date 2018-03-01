@@ -12,6 +12,7 @@ import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.Pacote;
 import br.com.stefanini.model.entity.Projeto;
+import br.com.stefanini.model.enuns.TipoPerfil;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +27,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
@@ -41,7 +45,7 @@ import javafx.stage.Window;
  *
  * @author lucas
  */
-public class PainelDeControleController implements Initializable {
+public class PainelDeControleController extends ControllerBase implements Initializable {
 
     @FXML
     private AnchorPane apPrincipal;
@@ -70,6 +74,12 @@ public class PainelDeControleController implements Initializable {
     @FXML
     private ComboBox<Pacote> filtroPacote;
 
+    @FXML
+    private MenuBar mbGerenciar;
+    
+    @FXML
+    private Menu menu;
+    
     private Stage stage;
     ArrayList<Atividade> atividades = new ArrayList<>();
 
@@ -247,4 +257,44 @@ public class PainelDeControleController implements Initializable {
             }
         }
     }
+
+    private void visibilidadeMenu(boolean visible){
+         mbGerenciar.setVisible(visible);
+        menu.setVisible(visible);
+        for (MenuItem item : menu.getItems()) {
+            item.setVisible(visible);
+        }
+    }
+    
+    @Override
+    public void buildAnalista() {
+        visibilidadeMenu(false);
+    }
+
+    @Override
+    public void buildBancoDados() {
+        visibilidadeMenu(false);
+    }
+
+    @Override
+    public void buildBDMG() {
+        visibilidadeMenu(false);       
+    }
+
+    @Override
+    public void buildDesenvolvedor() {
+        visibilidadeMenu(false);
+    }
+
+    @Override
+    public void buildGerente() {
+        visibilidadeMenu(true);
+    }
+
+    @Override
+    public void buildQualidade() {
+       visibilidadeMenu(false);
+    }
+
+
 }

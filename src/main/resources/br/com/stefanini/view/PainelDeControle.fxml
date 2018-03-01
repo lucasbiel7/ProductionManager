@@ -23,9 +23,9 @@
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
    <children>
-      <MenuBar layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar fx:id="mbGerenciar" layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Gerenciar">
+          <Menu fx:id="menu" mnemonicParsing="false" text="Gerenciar">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#miPerfilActionEvent" text="Perfil" />
                   <MenuItem mnemonicParsing="false" onAction="#miManterAtuacaoActionEvent" text="Atuações" />

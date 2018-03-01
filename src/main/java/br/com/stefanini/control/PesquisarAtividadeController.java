@@ -19,6 +19,7 @@ import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import br.com.stefanini.model.enuns.TipoAtividade;
+import br.com.stefanini.model.enuns.TipoPerfil;
 import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
@@ -63,7 +64,7 @@ import org.hibernate.exception.ConstraintViolationException;
  *
  * @author rkkitagawa
  */
-public class PesquisarAtividadeController implements Initializable {
+public class PesquisarAtividadeController extends ControllerBase implements Initializable {
 
     @FXML
     private ScrollPane spContainer;
@@ -130,6 +131,12 @@ public class PesquisarAtividadeController implements Initializable {
     @FXML
     private Label lbTotalDetalhada;
 
+    @FXML
+    private Button btAdd;
+    
+    @FXML
+    private Button btVisualizar;
+    
     Map<String, Object> params = new HashMap<>();
 
     /**
@@ -157,9 +164,9 @@ public class PesquisarAtividadeController implements Initializable {
         colDesenvolvimento.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
         colHomologacao.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
         colAcoes.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
-        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE));
-        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE));
-        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE));
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,false));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,false));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,false));
         colAcoes.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCell<Atividade, Atividade>() {
             @Override
             protected void updateItem(Atividade atividade, boolean empty) {
@@ -348,12 +355,74 @@ public class PesquisarAtividadeController implements Initializable {
 
     }
 
+    @Override
+    public void buildAnalista() {
+        btAdd.setVisible(true);
+        colAcoes.setVisible(true);
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,true));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,false));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,true));
+        btVisualizar.setVisible(false);
+    }
+
+    @Override
+    public void buildBancoDados() {
+        btAdd.setVisible(true);
+        colAcoes.setVisible(true);
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,true));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,true));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,true));
+        btVisualizar.setVisible(true);
+    }
+
+    @Override
+    public void buildBDMG() {
+        btAdd.setVisible(false);
+        colAcoes.setVisible(false);
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,true));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,true));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,true));
+        btVisualizar.setVisible(false);
+    }
+
+    @Override
+    public void buildDesenvolvedor() {
+        btAdd.setVisible(false);
+        colAcoes.setVisible(false);
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,true));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,true));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,false));
+        btVisualizar.setVisible(false);
+    }
+
+    @Override
+    public void buildGerente() {
+        btAdd.setVisible(true);
+        colAcoes.setVisible(true);
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,false));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,false));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,false));
+        btVisualizar.setVisible(true);
+    }
+
+    @Override
+    public void buildQualidade() {
+        btAdd.setVisible(false);
+        colAcoes.setVisible(false);
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,false));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,true));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,true));
+        btVisualizar.setVisible(false);
+    }
+
     private class TableCellFases extends TableCell<Atividade, Atividade> {
 
         private final TipoAtividade tipoAtividade;
-
-        public TableCellFases(TipoAtividade tipoAtividade) {
+        private boolean disabled;
+        
+        public TableCellFases(TipoAtividade tipoAtividade, boolean disabled) {
             this.tipoAtividade = tipoAtividade;
+            this.disabled = disabled;
         }
 
         @Override
@@ -389,6 +458,7 @@ public class PesquisarAtividadeController implements Initializable {
                         }
                     }
                 });
+                spDados.setDisable(this.disabled);
                 setGraphic(spDados);
             }
         }

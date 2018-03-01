@@ -11,6 +11,7 @@ import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.enuns.TipoParametro;
+import br.com.stefanini.model.enuns.TipoPerfil;
 import br.com.stefanini.model.util.DateUtil;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -24,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -31,7 +33,7 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author lucas
  */
-public class StatusMensalComponentController implements Initializable {
+public class StatusMensalComponentController extends ControllerBase implements Initializable {
     
     private Date inicio;
     private String idProjeto;
@@ -73,7 +75,8 @@ public class StatusMensalComponentController implements Initializable {
     
     @FXML
     private Label lbTeste;
-    
+    @FXML
+    private TitledPane tpDetalhada;
     private GerenciadorDeJanela gerenciadorDeJanela;
     
     Map<String,Object> params = new HashMap<>();
@@ -151,4 +154,42 @@ public class StatusMensalComponentController implements Initializable {
         params.put("dataInicio", inicio);
         scrollPane.setContent(gerenciadorDeJanela.carregarComponente("PesquisarAtividade", params));
     }
+
+    @Override
+    public void buildAnalista() {
+        lbValorRepasseDetalhada.setVisible(false);
+        lbValorRepasseEstimada.setVisible(false);
+    }
+
+    @Override
+    public void buildBancoDados() {
+        lbValorRepasseDetalhada.setVisible(false);
+        lbValorRepasseEstimada.setVisible(false);
+    }
+
+    @Override
+    public void buildBDMG() {
+        lbValorRepasseDetalhada.setVisible(false);
+        lbValorRepasseEstimada.setVisible(false);
+    }
+
+    @Override
+    public void buildDesenvolvedor() {
+        lbValorRepasseDetalhada.setVisible(false);
+        lbValorRepasseEstimada.setVisible(false);
+    }
+
+    @Override
+    public void buildGerente() {
+        lbValorRepasseDetalhada.setVisible(true);
+        lbValorRepasseEstimada.setVisible(true);
+    }
+
+    @Override
+    public void buildQualidade() {
+        lbValorRepasseDetalhada.setVisible(false);
+        lbValorRepasseEstimada.setVisible(false);
+    }
+
+
 }

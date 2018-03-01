@@ -5,18 +5,14 @@
  */
 package br.com.stefanini.control;
 
+import br.com.stefanini.model.entity.Usuario;
+import br.com.stefanini.model.enuns.TipoPerfil;
 import br.com.stefanini.productionmanager.MainApp;
-import java.io.IOException;
 import java.util.Map;
-import javafx.animation.FadeTransition;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
 
 /**
  *
@@ -89,6 +85,7 @@ public class GerenciadorDeJanela {
         Parent parent = carregarComponente(tela);
         if (parent != null) {
             parent.setUserData(object);
+           
             Object o = getMain().loaders.get(tela).getController();
             if(o instanceof StatusMensalComponentController){
                 ((StatusMensalComponentController)o).teste();
@@ -107,6 +104,13 @@ public class GerenciadorDeJanela {
             }
             if(o instanceof VisualizarDetalheAtividadeController){
                ((VisualizarDetalheAtividadeController)o).teste();
+            }
+            
+            if(o instanceof ControllerBase){   
+                GerenciadorDeJanela gen = ((GerenciadorDeJanela) ((Map<String,Object>)object).get("gerenciador"));
+                if(gen!=null && gen.getMain().user!=null){
+                    ((ControllerBase)o).validarPermissoes(gen.getMain().user.getPerfil());
+                }
             }
             
         }

@@ -9,6 +9,7 @@ import br.com.stefanini.control.dao.PerfilDAO;
 import br.com.stefanini.control.dao.UsuarioDAO;
 import br.com.stefanini.model.entity.Perfil;
 import br.com.stefanini.model.entity.Usuario;
+import br.com.stefanini.model.enuns.TipoPerfil;
 import br.com.stefanini.model.util.MessageUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,7 +46,7 @@ public class ManterUsuarioController implements Initializable {
     @FXML
     private AnchorPane apPrincipal;
     @FXML
-    private ComboBox<Perfil> cbPerfil;
+    private ComboBox<TipoPerfil> cbPerfil;
 
     @FXML
     private MaskTextField mtfCpf;
@@ -91,7 +92,7 @@ public class ManterUsuarioController implements Initializable {
         });
         gerenciadorDeJanela = new GerenciadorDeJanela();
         tvUsuario.getItems().setAll(new UsuarioDAO().pegarTodos());
-        cbPerfil.getItems().setAll(new PerfilDAO().pegarTodos());
+        cbPerfil.getItems().setAll(TipoPerfil.values());
         tcNome.setCellValueFactory((TableColumn.CellDataFeatures<Usuario, String> param) -> new SimpleStringProperty(param.getValue().getPessoa().getNome()));
         tcCPF.setCellValueFactory((TableColumn.CellDataFeatures<Usuario, String> param) -> new SimpleStringProperty(param.getValue().getPessoa().getCpf()));
         tcEmail.setCellValueFactory((TableColumn.CellDataFeatures<Usuario, String> param) -> new SimpleStringProperty(param.getValue().getPessoa().getEmail()));

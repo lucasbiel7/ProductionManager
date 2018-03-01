@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="309.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.StatusMensalComponentController">
     <stylesheets>
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
@@ -37,7 +36,7 @@
                         </VBox>
                      </content>
                   </TitledPane>
-                  <TitledPane prefHeight="80.0" prefWidth="278.0" text="Detalhada">
+                  <TitledPane fx:id="tpDetalhada" prefHeight="80.0" prefWidth="278.0" text="Detalhada">
                      <content>
                         <VBox fillWidth="false" prefHeight="46.0" prefWidth="278.0" scaleShape="false">
                            <children>

@@ -10,6 +10,7 @@ import br.com.stefanini.control.dao.UsuarioDAO;
 import br.com.stefanini.model.entity.Usuario;
 import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.MessageUtil;
+import br.com.stefanini.model.util.SecurityUtil;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
@@ -63,13 +64,15 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    private void btLoginActionEvent(ActionEvent ae) {
-
-        Usuario usuario = new UsuarioDAO().login(tfCPF.getText(), pfUSenha.getText());
+    private void btLoginActionEvent(ActionEvent ae) {        
+        Usuario usuario = new UsuarioDAO().login(tfCPF.getText(), SecurityUtil.encript(pfUSenha.getText()));
+        System.out.println(usuario);
         if (usuario != null) {
-            MessageUtil.messageError("Usuário ou senha incorretos!");
-        } else {            
+            gerenciadorDeJanela.getMain().user= usuario;            
             gerenciadorDeJanela.trocarCena(gerenciadorDeJanela.carregarComponente("PainelDeControle"),"PainelDeControle");
+        } else {           
+            MessageUtil.messageError("Usuário ou senha incorretos!");
+            
         }
     }
 }

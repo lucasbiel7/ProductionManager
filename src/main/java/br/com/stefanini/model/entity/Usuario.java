@@ -7,12 +7,15 @@ package br.com.stefanini.model.entity;
 
 import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
+import br.com.stefanini.model.enuns.TipoPerfil;
 import br.com.stefanini.model.util.SecurityUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -40,7 +43,7 @@ public class Usuario extends BaseEntity<String> {
     }
 
     private String senha;
-    private Perfil perfil;
+    private TipoPerfil perfil;
     private Pessoa pessoa;
     private boolean ativado;
     private List<Atuando> atuando;
@@ -60,16 +63,18 @@ public class Usuario extends BaseEntity<String> {
     }
 
     public void setSenha(String senha) {
-        this.senha = SecurityUtil.encript(senha);
+        this.senha = senha;
     }
 
-    @ManyToOne(targetEntity = Perfil.class, optional = false)
-    @JoinColumn(name = "ID_PERFIL", referencedColumnName = "ID_PERFIL")
-    public Perfil getPerfil() {
+//    @ManyToOne(targetEntity = Perfil.class, optional = false)
+//    @JoinColumn(name = "ID_PERFIL", referencedColumnName = "ID_PERFIL")
+    @Enumerated(EnumType.STRING)
+    @Column(name="TP_PERFIL")
+    public TipoPerfil getPerfil() {
         return perfil;
     }
 
-    public void setPerfil(Perfil perfil) {
+    public void setPerfil(TipoPerfil perfil) {
         this.perfil = perfil;
     }
 
