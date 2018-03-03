@@ -23,7 +23,6 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -59,7 +58,7 @@ public class ManterParametroController implements Initializable {
         tpParametro.getItems().setAll(TipoParametro.values());
         colunaParametro.setCellValueFactory(new PropertyValueFactory<>("tipoParametro"));
         colunaValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
-        idValor.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
+        idValor.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 999999999.99, 0));
         idValor.getValueFactory().setConverter(new DoubleConverter());
         SpinnerTextToValue.configure(idValor);
     }
