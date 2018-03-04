@@ -71,8 +71,7 @@ public class LoginController implements Initializable {
             gerenciadorDeJanela.getMain().user= usuario;            
             gerenciadorDeJanela.trocarCena(gerenciadorDeJanela.carregarComponente("PainelDeControle"),"PainelDeControle");
         } else {           
-            MessageUtil.messageError("Usuário ou senha incorretos!");
-            
+            MessageUtil.messageError("Favor verificar usuário e/ou senha informada, não foi localizado na base de dados.");
         }
     }
 }

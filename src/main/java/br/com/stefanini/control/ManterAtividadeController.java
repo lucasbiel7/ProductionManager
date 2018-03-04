@@ -257,6 +257,15 @@ public class ManterAtividadeController implements Initializable {
                 || atividade.getOrdemServico() == null
                 || atividade.getPacote() == null) {
             MessageUtil.messageError(MessageUtil.CAMPOS_OBRIGATORIOS);
+        } else if((dpInicioLevantamento.getValue() != null && dpFimLevantamento.getValue() != null) 
+                && (dpInicioLevantamento.getValue().isAfter(dpFimLevantamento.getValue()))){
+            MessageUtil.messageError("A data de término deve ser maior que a data inicial do Levantamento");
+        } else if((dpInicioDesenvolvimento.getValue() != null && dpFimDesenvolvimento.getValue() != null) 
+                && (dpInicioDesenvolvimento.getValue().isAfter(dpFimDesenvolvimento.getValue()))){
+            MessageUtil.messageError("A data de término deve ser maior que a data inicial do Desenvolvimento");
+        } else if((dpInicioTeste.getValue() != null && dpFimTeste.getValue() != null) 
+                && (dpInicioTeste.getValue().isAfter(dpFimTeste.getValue()))){
+            MessageUtil.messageError("A data de término deve ser maior que a data inicial do Teste e Homologação");
         } else if (atividade.getId() == null) {
             new AtividadeDAO().salvar(atividade);
             MessageUtil.messageInformation("Atividade foi cadastrada com sucesso!");
