@@ -7,11 +7,15 @@ package br.com.stefanini.control;
 
 import br.com.stefanini.control.dao.PerfilDAO;
 import br.com.stefanini.control.dao.UsuarioDAO;
+import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.Perfil;
 import br.com.stefanini.model.entity.Usuario;
 import br.com.stefanini.model.enuns.TipoPerfil;
 import br.com.stefanini.model.util.MessageUtil;
 import java.net.URL;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -77,6 +81,7 @@ public class ManterUsuarioController implements Initializable {
 
     private Usuario usuario;
 
+    Map<String, Object> params = new HashMap<>();
     /**
      * Initializes the controller class.
      *
@@ -89,6 +94,9 @@ public class ManterUsuarioController implements Initializable {
             if (newValue != null) {
                 stage = (Stage) newValue.getWindow();
             }
+            params = (Map) apPrincipal.getUserData();
+            gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+
         });
         gerenciadorDeJanela = new GerenciadorDeJanela();
         tvUsuario.getItems().setAll(new UsuarioDAO().pegarTodos());
@@ -129,10 +137,13 @@ public class ManterUsuarioController implements Initializable {
                     setAlignment(Pos.CENTER);
                     //Eventos dos botoes
                     btEditar.setOnAction((ActionEvent event) -> {
-                        Stage stage1 = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("AtualizarUsuario", item), "Editar Usuário");
-                        stage1.initOwner(ManterUsuarioController.this.stage);
-                        stage1.initModality(Modality.WINDOW_MODAL);
-                        stage1.showAndWait();
+//                        Stage stage1 = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("AtualizarUsuario", item), "Editar Usuário");
+//                        stage1.initOwner(ManterUsuarioController.this.stage);
+//                        stage1.initModality(Modality.WINDOW_MODAL);
+//                        stage1.showAndWait();
+                        
+                        params.put("Item", item);
+                        gerenciadorDeJanela.abrirModal("AtualizarUsuario", params, "Editar Usuário");
                         tvUsuario.getItems().setAll(new UsuarioDAO().pegarTodos());
                     });
                     btAlterarStatus.setOnAction((ActionEvent event) -> {
@@ -175,11 +186,9 @@ public class ManterUsuarioController implements Initializable {
 
     @FXML
     private void btNovoActionEvent(ActionEvent ae) {
-        //Como abrir modal here
-        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("AtualizarUsuario"), "Incluir Usuário");
-        stage.initOwner(this.stage);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.showAndWait();
+        Usuario usuario = new Usuario();
+        params.put("Item", usuario);
+        gerenciadorDeJanela.abrirModal("AtualizarUsuario", params, "Incluir Usuário");
         tvUsuario.getItems().setAll(new UsuarioDAO().pegarTodos());
     }
 }

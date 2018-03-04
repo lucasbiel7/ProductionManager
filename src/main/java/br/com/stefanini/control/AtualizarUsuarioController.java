@@ -6,12 +6,10 @@
 package br.com.stefanini.control;
 
 import br.com.stefanini.control.dao.AtuacaoDAO;
-import br.com.stefanini.control.dao.PerfilDAO;
 import br.com.stefanini.control.dao.UsuarioDAO;
 import br.com.stefanini.model.entity.Atuacao;
 import br.com.stefanini.model.entity.Atuando;
 import br.com.stefanini.model.entity.Atuando.AtuadoID;
-import br.com.stefanini.model.entity.Perfil;
 import br.com.stefanini.model.entity.Pessoa;
 import br.com.stefanini.model.entity.Usuario;
 import br.com.stefanini.model.enuns.TipoPerfil;
@@ -20,7 +18,9 @@ import br.com.stefanini.model.util.SecurityUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.beans.value.ObservableValue;
@@ -67,12 +67,17 @@ public class AtualizarUsuarioController implements Initializable {
     private AnchorPane apPrincipal;
 
     private Stage stage;
+    
+    private GerenciadorDeJanela gerenciadorDeJanela;
+    
+    Map<String, Object> params = new HashMap<>();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        params = (Map) apPrincipal.getUserData();
         usuario = new Usuario();
         usuario.setAtuando(new ArrayList<>());
         cbPerfil.getItems().setAll(TipoPerfil.values());
@@ -188,11 +193,22 @@ public class AtualizarUsuarioController implements Initializable {
             mtfCPF.setText(usuario.getPessoa().getCpf());
             tfEmail.setText(usuario.getPessoa().getEmail());
             cbPerfil.getSelectionModel().select(usuario.getPerfil());
+            
+            lvAtuacao.getItems().setAll(new AtuacaoDAO().pegarTodos());
             lvAtuacao.getItems().removeAll(usuario.getAtuando().stream().map(Atuando::getId).map(AtuadoID::getAtuacao).collect(Collectors.toList()));
-            lvAtuando.getItems().addAll(usuario.getAtuando().stream().map(Atuando::getId).map(AtuadoID::getAtuacao).collect(Collectors.toList()));
+            lvAtuando.getItems().setAll(usuario.getAtuando().stream().map(Atuando::getId).map(AtuadoID::getAtuacao).collect(Collectors.toList()));
         } else {
             tfNome.setText("");
         }
 
+    }
+    
+    public void teste() {
+        params = (Map<String, Object>) apPrincipal.getUserData();
+        usuario = (Usuario) params.get("Item");
+        gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+        stage = (Stage) params.get("modalStage");
+        carregarDados();
+        params.put("Item", new Usuario());
     }
 }

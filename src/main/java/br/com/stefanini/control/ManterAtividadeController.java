@@ -282,7 +282,6 @@ public class ManterAtividadeController implements Initializable {
             if (atividade.getId() != null) {
                 lvArtefatosSelecionados.getItems().setAll(atividade.getAtividadeArtefatos().stream().map(AtividadeArtefatos::getId).map(AtividadeArtefatos.AtividadeArtefatosId::getArtefato).collect(Collectors.toList()));
                 lvArtefatosDisponiveis.getItems().removeAll(lvArtefatosSelecionados.getItems());
-                lvArtefatosDisponiveis.getItems().removeAll(lvArtefatosSelecionados.getItems());
             }
             if (atividade.getPacote() != null) {
                 cbPacote.getSelectionModel().select(atividade.getPacote());

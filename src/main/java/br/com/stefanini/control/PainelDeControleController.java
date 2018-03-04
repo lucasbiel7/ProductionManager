@@ -184,6 +184,7 @@ public class PainelDeControleController extends ControllerBase implements Initia
     @FXML
     private void cabecalhoMouseEvent(MouseEvent mouseEvent) {
         spContainer.setContent(apMeses);
+        filtroProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
     }
 
     @FXML
