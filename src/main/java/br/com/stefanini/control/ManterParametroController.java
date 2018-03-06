@@ -31,24 +31,24 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author higo
  */
 public class ManterParametroController implements Initializable {
-    
+
     @FXML
     private ComboBox<TipoParametro> tpParametro;
-    
+
     @FXML
     private Spinner<Double> idValor;
-    
+
     @FXML
     private TableView<Parametro> gridParametro;
-    
+
     @FXML
     private TableColumn<Parametro, TipoParametro> colunaParametro;
-    
+
     @FXML
     private TableColumn<Parametro, Long> colunaValor;
-    
-    private Parametro parametro; 
-    
+
+    private Parametro parametro;
+
     /**
      * Initializes the controller class.
      */
@@ -59,38 +59,37 @@ public class ManterParametroController implements Initializable {
         colunaParametro.setCellValueFactory(new PropertyValueFactory<>("tipoParametro"));
         colunaValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
         idValor.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 999999999.99, 0));
-        idValor.getValueFactory().setConverter(new DoubleConverter());
+        idValor.getValueFactory().setConverter(DoubleConverter.getInstance());
         SpinnerTextToValue.configure(idValor);
     }
-    
+
     @FXML
     private void salvarParametro(ActionEvent ae) {
         parametro = new Parametro();
-        if(idValor.getValue() == null){ 
+        if (idValor.getValue() == null) {
             parametro.setValor(null);
-        }else{
+        } else {
             parametro.setValor(idValor.getValue());
         }
         parametro.setTipoParametro(tpParametro.getValue());
         parametro.setDtInclusao(new Date());
-        if(parametro.getTipoParametro() == null || parametro.getValor() == null){
+        if (parametro.getTipoParametro() == null || parametro.getValor() == null) {
             MessageUtil.messageError("É necessário preencher todos campos obrigatórios!");
-        }else{
+        } else {
             new ParametroDAO().salvar(parametro);
             new Alert(Alert.AlertType.INFORMATION, "Parâmetro cadastro com sucesso.").show();
             atualizarTabelas();
         }
     }
-    
+
     @FXML
-    private void novoParametro(){
+    private void novoParametro() {
         parametro = new Parametro();
         idValor.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
         tpParametro.setValue(parametro.getTipoParametro());
     }
-        
+
     private void atualizarTabelas() {
-       gridParametro.getItems().setAll(new ParametroDAO().buscaParametrosRecentes());
+        gridParametro.getItems().setAll(new ParametroDAO().buscaParametrosRecentes());
     }
 }
-

@@ -19,7 +19,20 @@ import javafx.util.StringConverter;
  */
 public class DoubleConverter extends StringConverter<Double> {
 
-    private static DecimalFormat df = new DecimalFormat ("#,##0.00", new DecimalFormatSymbols (new Locale ("pt", "BR")));
+    private static DecimalFormat df = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale("pt", "BR")));
+
+    private static DoubleConverter doubleConverter;
+
+    private DoubleConverter() {
+    }
+
+    public static DoubleConverter getInstance() {
+        if (doubleConverter == null) {
+            doubleConverter = new DoubleConverter();
+        }
+        return doubleConverter;
+    }
+
     @Override
     public String toString(Double object) {
         return String.format(Locale.US, "%.1f%n", object);
@@ -29,12 +42,12 @@ public class DoubleConverter extends StringConverter<Double> {
     public Double fromString(String string) {
         return Double.parseDouble(string);
     }
-    
-    public static String doubleToString(Double object) { 
+
+    public static String doubleToString(Double object) {
         return df.format(object);
     }
-    
-    public static Double stringToDouble(String string) {        
+
+    public static Double stringToDouble(String string) {
         try {
             return (Double) df.parse(string);
         } catch (ParseException ex) {

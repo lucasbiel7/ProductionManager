@@ -75,6 +75,10 @@ public class ManterAtividadeController implements Initializable {
     @FXML
     private Spinner<Double> spDetalhada;
     @FXML
+    private Spinner<Double> spAliEstimada;
+    @FXML
+    private Spinner<Double> spAliDetalhada;
+    @FXML
     private ListView<Artefato> lvArtefatosDisponiveis;
     @FXML
     private ListView<Artefato> lvArtefatosSelecionados;
@@ -128,8 +132,13 @@ public class ManterAtividadeController implements Initializable {
         });
         spEstimada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
         spDetalhada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
-        spEstimada.getValueFactory().setConverter(new DoubleConverter());
-        spDetalhada.getValueFactory().setConverter(new DoubleConverter());
+        spAliDetalhada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
+        spAliEstimada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
+        DoubleConverter doubleConverter = DoubleConverter.getInstance();
+        spEstimada.getValueFactory().setConverter(doubleConverter);
+        spDetalhada.getValueFactory().setConverter(doubleConverter);
+        spAliDetalhada.getValueFactory().setConverter(doubleConverter);
+        spAliEstimada.getValueFactory().setConverter(doubleConverter);
         SpinnerTextToValue.configure(spEstimada);
         SpinnerTextToValue.configure(spDetalhada);
         Calendar calendar = Calendar.getInstance();
@@ -212,6 +221,12 @@ public class ManterAtividadeController implements Initializable {
         if (spDetalhada.getValue() != null) {
             ativ.setContagemDetalhada(spDetalhada.getValue());
         }
+        if (spAliDetalhada.getValue() != null) {
+            ativ.setAliDetalhada(spAliDetalhada.getValue());
+        }
+        if (spAliEstimada.getValue() != null) {
+            ativ.setAliEstimada(spAliEstimada.getValue());
+        }
         return ativ;
     }
 
@@ -257,14 +272,14 @@ public class ManterAtividadeController implements Initializable {
                 || atividade.getOrdemServico() == null
                 || atividade.getPacote() == null) {
             MessageUtil.messageError(MessageUtil.CAMPOS_OBRIGATORIOS);
-        } else if((dpInicioLevantamento.getValue() != null && dpFimLevantamento.getValue() != null) 
-                && (dpInicioLevantamento.getValue().isAfter(dpFimLevantamento.getValue()))){
+        } else if ((dpInicioLevantamento.getValue() != null && dpFimLevantamento.getValue() != null)
+                && (dpInicioLevantamento.getValue().isAfter(dpFimLevantamento.getValue()))) {
             MessageUtil.messageError("A data de término deve ser maior que a data inicial do Levantamento");
-        } else if((dpInicioDesenvolvimento.getValue() != null && dpFimDesenvolvimento.getValue() != null) 
-                && (dpInicioDesenvolvimento.getValue().isAfter(dpFimDesenvolvimento.getValue()))){
+        } else if ((dpInicioDesenvolvimento.getValue() != null && dpFimDesenvolvimento.getValue() != null)
+                && (dpInicioDesenvolvimento.getValue().isAfter(dpFimDesenvolvimento.getValue()))) {
             MessageUtil.messageError("A data de término deve ser maior que a data inicial do Desenvolvimento");
-        } else if((dpInicioTeste.getValue() != null && dpFimTeste.getValue() != null) 
-                && (dpInicioTeste.getValue().isAfter(dpFimTeste.getValue()))){
+        } else if ((dpInicioTeste.getValue() != null && dpFimTeste.getValue() != null)
+                && (dpInicioTeste.getValue().isAfter(dpFimTeste.getValue()))) {
             MessageUtil.messageError("A data de término deve ser maior que a data inicial do Teste e Homologação");
         } else if (atividade.getId() == null) {
             new AtividadeDAO().salvar(atividade);
@@ -288,6 +303,8 @@ public class ManterAtividadeController implements Initializable {
             cbOrdemServico.getSelectionModel().select(atividade.getOrdemServico());
             spDetalhada.getValueFactory().setValue(atividade.getContagemDetalhada() == null ? 0d : atividade.getContagemDetalhada());
             spEstimada.getValueFactory().setValue(atividade.getContagemEstimada() == null ? 0d : atividade.getContagemEstimada());
+            spAliDetalhada.getValueFactory().setValue(atividade.getAliDetalhada() == null ? 0 : atividade.getAliDetalhada());
+            spAliEstimada.getValueFactory().setValue(atividade.getAliEstimada() == null ? 0 : atividade.getAliEstimada());
             if (atividade.getId() != null) {
                 lvArtefatosSelecionados.getItems().setAll(atividade.getAtividadeArtefatos().stream().map(AtividadeArtefatos::getId).map(AtividadeArtefatos.AtividadeArtefatosId::getArtefato).collect(Collectors.toList()));
                 lvArtefatosDisponiveis.getItems().removeAll(lvArtefatosSelecionados.getItems());

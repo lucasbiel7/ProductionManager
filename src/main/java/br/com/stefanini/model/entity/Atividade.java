@@ -8,7 +8,6 @@ package br.com.stefanini.model.entity;
 import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
 import br.com.stefanini.model.enuns.Faturamento;
-import br.com.stefanini.model.enuns.Mes;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +51,8 @@ public class Atividade extends BaseEntity<String> {
     private SituacaoAtividade situacaoAtividade;
     private Date previsaoInicio;
     private List<AtividadeArtefatos> atividadeArtefatos;
-    private Mes mes;    
+    private Double aliEstimada;
+    private Double aliDetalhada;
     private List<ProgressoAtividade> progressos;
 
     public Atividade() {
@@ -168,7 +168,7 @@ public class Atividade extends BaseEntity<String> {
         this.previsaoInicio = previsaoInicio;
     }
 
-    @OneToMany(mappedBy = "id.atividade", orphanRemoval = true, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id.atividade", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<AtividadeArtefatos> getAtividadeArtefatos() {
         return atividadeArtefatos;
     }
@@ -185,7 +185,7 @@ public class Atividade extends BaseEntity<String> {
     /**
      * @return the progressos
      */
-    @OneToMany(mappedBy = "atividade",fetch = FetchType.LAZY, targetEntity =ProgressoAtividade.class )
+    @OneToMany(mappedBy = "atividade", fetch = FetchType.LAZY, targetEntity = ProgressoAtividade.class)
     public List<ProgressoAtividade> getProgressos() {
         return progressos;
     }
@@ -196,4 +196,23 @@ public class Atividade extends BaseEntity<String> {
     public void setProgressos(List<ProgressoAtividade> progressos) {
         this.progressos = progressos;
     }
+
+    @Column(name = "VL_ALI_ESTIMADA", nullable = true)
+    public Double getAliEstimada() {
+        return aliEstimada;
+    }
+
+    public void setAliEstimada(Double aliEstimada) {
+        this.aliEstimada = aliEstimada;
+    }
+
+    @Column(name = "VL_ALI_DETALHADA", nullable = true)
+    public Double getAliDetalhada() {
+        return aliDetalhada;
+    }
+
+    public void setAliDetalhada(Double aliDetalhada) {
+        this.aliDetalhada = aliDetalhada;
+    }
+
 }
