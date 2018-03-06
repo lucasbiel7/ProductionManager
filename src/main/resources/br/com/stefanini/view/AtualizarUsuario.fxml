@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
-<?import jidefx.scene.control.field.MaskTextField?>
+<?import br.com.stefanini.control.component.CPFTextField?>
 
 <AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="598.0" prefWidth="831.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.AtualizarUsuarioController">
     <stylesheets>
@@ -47,7 +47,7 @@
             <Label styleClass="obrigatorio" text="*" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <ComboBox fx:id="cbPerfil" prefWidth="150.0" promptText="Selecione..." GridPane.columnIndex="3" />
             <TextField fx:id="tfNome" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <MaskTextField fx:id="mtfCPF" inputMask="999.999.999-99" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <CPFTextField fx:id="mtfCPF" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <TextField fx:id="tfEmail" GridPane.columnIndex="3" GridPane.rowIndex="3" />
             <Label styleClass="obrigatorio" text="*" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label text="Atuação:" GridPane.columnIndex="2" GridPane.rowIndex="6" />

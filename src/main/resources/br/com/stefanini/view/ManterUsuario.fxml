@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
-<?import jidefx.scene.control.field.MaskTextField?>
+<?import br.com.stefanini.control.component.CPFTextField?>
 
 <AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="584.0" prefWidth="844.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.ManterUsuarioController">
     <stylesheets>
@@ -40,7 +40,7 @@
             <Label text="CPF:" GridPane.rowIndex="1" />
             <Label text="Nome:" GridPane.rowIndex="2" />
             <Label text="E-mail:" GridPane.rowIndex="3" />
-            <MaskTextField fx:id="mtfCpf" conversionMask="" inputMask="999.999.999-99" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <CPFTextField fx:id="mtfCpf" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="tfNome" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>

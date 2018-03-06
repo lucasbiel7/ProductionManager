@@ -5,15 +5,12 @@
  */
 package br.com.stefanini.control;
 
-import br.com.stefanini.control.dao.PerfilDAO;
 import br.com.stefanini.control.dao.UsuarioDAO;
-import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.Perfil;
 import br.com.stefanini.model.entity.Usuario;
 import br.com.stefanini.model.enuns.TipoPerfil;
 import br.com.stefanini.model.util.MessageUtil;
 import java.net.URL;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -36,9 +33,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import jidefx.scene.control.field.MaskTextField;
 
 /**
  * FXML Controller class
@@ -53,7 +48,7 @@ public class ManterUsuarioController implements Initializable {
     private ComboBox<TipoPerfil> cbPerfil;
 
     @FXML
-    private MaskTextField mtfCpf;
+    private TextField mtfCpf;
 
     @FXML
     private TextField tfNome;
@@ -82,6 +77,7 @@ public class ManterUsuarioController implements Initializable {
     private Usuario usuario;
 
     Map<String, Object> params = new HashMap<>();
+
     /**
      * Initializes the controller class.
      *
@@ -141,7 +137,7 @@ public class ManterUsuarioController implements Initializable {
 //                        stage1.initOwner(ManterUsuarioController.this.stage);
 //                        stage1.initModality(Modality.WINDOW_MODAL);
 //                        stage1.showAndWait();
-                        
+
                         params.put("Item", item);
                         gerenciadorDeJanela.abrirModal("AtualizarUsuario", params, "Editar Usuário");
                         tvUsuario.getItems().setAll(new UsuarioDAO().pegarTodos());

@@ -5,7 +5,6 @@ package br.com.stefanini.control;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import br.com.stefanini.control.dao.ModuloDAO;
 import br.com.stefanini.control.dao.UsuarioDAO;
 import br.com.stefanini.model.entity.Usuario;
 import br.com.stefanini.model.util.DateUtil;
@@ -24,7 +23,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -43,10 +41,10 @@ public class LoginController implements Initializable {
     private Label lbDataVersao;
 
 //    private Stage stage;
-    
     private GerenciadorDeJanela gerenciadorDeJanela;
 
-    Map<String,Object> params = new HashMap<>();
+    Map<String, Object> params = new HashMap<>();
+
     /**
      * Initializes the controller class.
      */
@@ -64,13 +62,13 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    private void btLoginActionEvent(ActionEvent ae) {        
+    private void btLoginActionEvent(ActionEvent ae) {
         Usuario usuario = new UsuarioDAO().login(tfCPF.getText(), SecurityUtil.encript(pfUSenha.getText()));
         System.out.println(usuario);
         if (usuario != null) {
-            gerenciadorDeJanela.getMain().user= usuario;            
-            gerenciadorDeJanela.trocarCena(gerenciadorDeJanela.carregarComponente("PainelDeControle"),"PainelDeControle");
-        } else {           
+            gerenciadorDeJanela.getMain().user = usuario;
+            gerenciadorDeJanela.trocarCena(gerenciadorDeJanela.carregarComponente("PainelDeControle"), "PainelDeControle");
+        } else {
             MessageUtil.messageError("Favor verificar usuário e/ou senha informada, não foi localizado na base de dados.");
         }
     }

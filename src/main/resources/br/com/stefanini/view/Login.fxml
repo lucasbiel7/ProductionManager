@@ -7,13 +7,14 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import br.com.stefanini.control.component.CPFTextField?>
 
 <AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="720.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.LoginController">
     <stylesheets>
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
    <children>
-      <TextField fx:id="tfCPF" layoutX="587.0" layoutY="116.0" prefHeight="57.0" prefWidth="292.0" promptText="CPF" />
+      <CPFTextField fx:id="tfCPF" layoutX="587.0" layoutY="116.0" prefHeight="57.0" prefWidth="292.0" promptText="CPF" />
       <PasswordField fx:id="pfUSenha" layoutX="587.0" layoutY="190.0" prefHeight="57.0" prefWidth="292.0" promptText="Senha" />
       <Label layoutX="580.0" layoutY="26.0" prefHeight="71.0" prefWidth="306.0" styleClass="logo" text="11BARRA11" />
       <Label fx:id="lbDataVersao" layoutX="22.0" layoutY="648.0" styleClass="font-image" text="Data atual:10/02/2018 versão: 1.0" />
