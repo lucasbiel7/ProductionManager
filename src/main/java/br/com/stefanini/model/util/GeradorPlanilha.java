@@ -271,7 +271,7 @@ public class GeradorPlanilha {
         
         boldZehnBlau.setBold(true);
         boldZehnBlau.setFontHeightInPoints((short) 10);
-        boldZehnBlau.setColor(HSSFColor.DARK_BLUE.index);
+        boldZehnBlau.setColor(HSSFColor.BLUE.index);
         CellStyle boldCellZehnBlauLeft = workbook.createCellStyle();
         boldCellZehnBlauLeft.setFont(boldZehnBlau);
         boldCellZehnBlauLeft.setAlignment(HorizontalAlignment.LEFT);
@@ -419,12 +419,66 @@ public class GeradorPlanilha {
       
         montarSubDetalhamento(sheet, ch, planilhaDetalhes.getLev(), boldCellZehnCenterGrey, boldCellZehnNbLeft, cellZehnNbM, cellZehnNbD, cellZehnNbN, repasse, TipoAtividade.LE, (repasse?10:8));
         montarSubDetalhamento(sheet, ch, planilhaDetalhes.getDev(), boldCellZehnCenterGrey, boldCellZehnNbLeft, cellZehnNbM, cellZehnNbD, cellZehnNbN, repasse, TipoAtividade.DE, (repasse?16:13));
-//        montarSubDetalhamento(sheet, ch, planilhaDetalhes.getTst(), boldCellZehnCenterGrey, boldCellZehnNbLeft, cellZehnNb, repasse, TipoAtividade.TE, (repasse?27:22));  
-        montarSubDetalhamento(sheet, ch, planilhaDetalhes.getTst(), boldCellZehnCenterGrey, boldCellZehnNbLeft, cellZehnNbM, cellZehnNbD, cellZehnNbN, repasse, TipoAtividade.TE, (repasse?22:18));
+        montarAliAie(sheet, planilhaDetalhes.getTst(), boldCellZehnCenterGrey, boldCellZehnNbLeft, cellZehnNbM, cellZehnNbD, cellZehnNbN, repasse, (repasse?22:18));
+        montarSubDetalhamento(sheet, ch, planilhaDetalhes.getTst(), boldCellZehnCenterGrey, boldCellZehnNbLeft, cellZehnNbM, cellZehnNbD, cellZehnNbN, repasse, TipoAtividade.TE, (repasse?27:22));  
+//        montarSubDetalhamento(sheet, ch, planilhaDetalhes.getTst(), boldCellZehnCenterGrey, boldCellZehnNbLeft, cellZehnNbM, cellZehnNbD, cellZehnNbN, repasse, TipoAtividade.TE, (repasse?22:18));
         sheet.autoSizeColumn(0);
         sheet.autoSizeColumn(1);
         sheet.autoSizeColumn(2);
         sheet.autoSizeColumn(3);
+    }
+    
+    private static void montarAliAie(HSSFSheet sheet, List<ProgressoAtividade> lista, CellStyle boldCellZehnCenterGrey,CellStyle boldCellZehnNbLeft,CellStyle cellZehnNbM, CellStyle cellZehnNbD, CellStyle cellZehnNbN, boolean repasse, int initRow){
+        sheet.addMergedRegion(new CellRangeAddress(initRow, initRow, 0, 3));
+        HSSFRow row = sheet.createRow((short) (initRow));
+        HSSFCell cell = row.createCell((short) 0);
+        cell.setCellStyle(boldCellZehnCenterGrey);
+        cell.setCellValue("ALI/AIE");
+        
+        Double pfE =0.0, pfD =0.0;
+        for (ProgressoAtividade progressoAtividade : lista) {
+            pfE += progressoAtividade.getAtividade().getAliEstimada();
+            pfD += progressoAtividade.getAtividade().getAliDetalhada();
+        }
+        
+        row = sheet.createRow((short) (initRow+1));
+        cell = row.createCell((short) 0);
+        cell.setCellStyle(boldCellZehnNbLeft);
+        cell.setCellValue("Valor de Pontos de Função Estimado");         
+        cell = row.createCell((short) 1);
+        cell.setCellStyle(cellZehnNbM);
+        cell.setCellValue(pfE*valorContrato*getModificador(TipoAtividade.DE)); 
+        cell = row.createCell((short) 2);
+        cell.setCellStyle(boldCellZehnNbLeft);
+        cell.setCellValue("Quantidade de Pontos de Função Estimado");         
+        cell = row.createCell((short) 3);
+        cell.setCellStyle(cellZehnNbD);
+        cell.setCellValue(pfE);
+        
+        row = sheet.createRow((short) (initRow+2));
+        cell = row.createCell((short) 0);
+        cell.setCellStyle(boldCellZehnNbLeft);
+        cell.setCellValue("Valor de Pontos de Função Detalhado");         
+        cell = row.createCell((short) 1);
+        cell.setCellStyle(cellZehnNbM);
+        cell.setCellValue(pfD*valorContrato*getModificador(TipoAtividade.DE));         
+        cell = row.createCell((short) 2);        
+        cell.setCellStyle(boldCellZehnNbLeft);
+        cell.setCellValue("Quantidade de Pontos de Função Detalhado");         
+        cell = row.createCell((short) 3);
+        cell.setCellStyle(cellZehnNbD);
+        cell.setCellValue(pfD);
+        
+        if(repasse){
+            row = sheet.createRow((short) (initRow+3));
+            cell = row.createCell((short) 0);
+            cell.setCellStyle(boldCellZehnNbLeft);
+            cell.setCellValue("Valor Total Detalhado de Repasse");         
+            cell = row.createCell((short) 1);        
+            cell.setCellStyle(cellZehnNbM);
+            cell.setCellValue(pfD*valorRepasse*getModificador(TipoAtividade.DE)); 
+        }
+        
     }
     
     private static void montarSubDetalhamento(HSSFSheet sheet,CreationHelper ch, List<ProgressoAtividade> lista, CellStyle boldCellZehnCenterGrey,CellStyle boldCellZehnNbLeft,CellStyle cellZehnNbM, CellStyle cellZehnNbD, CellStyle cellZehnNbN, boolean repasse, TipoAtividade tipoAtividade, int initRow){
