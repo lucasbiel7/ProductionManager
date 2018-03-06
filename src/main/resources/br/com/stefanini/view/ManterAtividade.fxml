@@ -18,6 +18,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
+<?import br.com.stefanini.control.component.SpinnerDouble?>
+
 <AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="631.0" prefWidth="831.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.ManterAtividadeController">
     <stylesheets>
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
@@ -60,9 +62,9 @@
                               <Label text="Ordem de serviço:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                               <ComboBox fx:id="cbOrdemServico" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="4" />
                               <Label text="Pontos de função - Estimada:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                              <Spinner fx:id="spEstimada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                              <SpinnerDouble fx:id="spEstimada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                               <Label text="Pontos de função - Detalhada:" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                              <Spinner fx:id="spDetalhada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                              <SpinnerDouble fx:id="spDetalhada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                               <Label text="Mês" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                               <Label styleClass="obrigatorio" text="*" />
                               <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="1" />
@@ -78,8 +80,8 @@
                               <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="8" />
                               <Label text="ALI/AIE - Estimada:" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                               <Label text="ALI/AIE - Detalhada:" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                              <Spinner fx:id="spAliEstimada" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                              <Spinner fx:id="spAliDetalhada" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                              <SpinnerDouble fx:id="spAliEstimada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                              <SpinnerDouble fx:id="spAliDetalhada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="8" />
                            </children>
                         </GridPane>
                      </children>

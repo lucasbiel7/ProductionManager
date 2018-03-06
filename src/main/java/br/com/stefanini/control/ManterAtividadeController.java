@@ -5,6 +5,7 @@
  */
 package br.com.stefanini.control;
 
+import br.com.stefanini.control.component.SpinnerDouble;
 import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.ModuloDAO;
 import br.com.stefanini.control.dao.OrdemServicoDAO;
@@ -22,9 +23,7 @@ import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.Mes;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import br.com.stefanini.model.util.DateUtil;
-import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.MessageUtil;
-import br.com.stefanini.model.util.SpinnerTextToValue;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.Calendar;
@@ -71,13 +70,13 @@ public class ManterAtividadeController implements Initializable {
     @FXML
     private ComboBox<Mes> cbMes;
     @FXML
-    private Spinner<Double> spEstimada;
+    private SpinnerDouble spEstimada;
     @FXML
-    private Spinner<Double> spDetalhada;
+    private SpinnerDouble spDetalhada;
     @FXML
-    private Spinner<Double> spAliEstimada;
+    private SpinnerDouble spAliEstimada;
     @FXML
-    private Spinner<Double> spAliDetalhada;
+    private SpinnerDouble spAliDetalhada;
     @FXML
     private ListView<Artefato> lvArtefatosDisponiveis;
     @FXML
@@ -134,13 +133,7 @@ public class ManterAtividadeController implements Initializable {
         spDetalhada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
         spAliDetalhada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
         spAliEstimada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
-        DoubleConverter doubleConverter = DoubleConverter.getInstance();
-        spEstimada.getValueFactory().setConverter(doubleConverter);
-        spDetalhada.getValueFactory().setConverter(doubleConverter);
-        spAliDetalhada.getValueFactory().setConverter(doubleConverter);
-        spAliEstimada.getValueFactory().setConverter(doubleConverter);
-        SpinnerTextToValue.configure(spEstimada);
-        SpinnerTextToValue.configure(spDetalhada);
+
         Calendar calendar = Calendar.getInstance();
         spAno.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(calendar.get(Calendar.YEAR), Integer.MAX_VALUE, calendar.get(Calendar.YEAR)));
         cbProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
