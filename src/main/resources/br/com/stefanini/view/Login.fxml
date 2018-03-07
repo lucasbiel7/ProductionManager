@@ -13,11 +13,11 @@
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
    <children>
-      <CPFTextField fx:id="tfCPF" layoutX="587.0" layoutY="116.0" prefHeight="57.0" prefWidth="292.0" promptText="CPF" />
-      <PasswordField fx:id="pfUSenha" layoutX="587.0" layoutY="190.0" prefHeight="57.0" prefWidth="292.0" promptText="Senha" />
-      <Label layoutX="580.0" layoutY="26.0" prefHeight="71.0" prefWidth="306.0" styleClass="logo" text="11BARRA11" />
+      <CPFTextField fx:id="tfCPF" layoutX="334.0" layoutY="329.0" prefHeight="57.0" prefWidth="292.0" promptText="CPF" />
+      <PasswordField fx:id="pfUSenha" layoutX="334.0" layoutY="403.0" prefHeight="57.0" prefWidth="292.0" promptText="Senha" />
+      <Label alignment="CENTER" layoutX="327.0" layoutY="238.0" lineSpacing="1.0" prefHeight="71.0" prefWidth="306.0" styleClass="logo" stylesheets="@styles/Styles.css" text="11BARRA11" textAlignment="CENTER" />
       <Label fx:id="lbDataVersao" layoutX="22.0" layoutY="648.0" styleClass="font-image" text="Data atual:10/02/2018 versão: 1.0" />
-      <Button defaultButton="true" layoutX="587.0" layoutY="260.0" mnemonicParsing="false" onAction="#btLoginActionEvent" prefHeight="57.0" prefWidth="292.0" text="Entrar" />
+      <Button defaultButton="true" layoutX="334.0" layoutY="473.0" mnemonicParsing="false" onAction="#btLoginActionEvent" prefHeight="57.0" prefWidth="292.0" text="Entrar" />
    </children>
    <styleClass>
       <String fx:value="mainFxmlClass" />

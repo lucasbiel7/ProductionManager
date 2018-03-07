@@ -17,8 +17,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="558.0" prefWidth="699.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.PainelDeControleController">
+<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="591.0" prefWidth="699.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.PainelDeControleController">
     <stylesheets>
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
@@ -39,7 +40,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ScrollPane fx:id="spContainer" fitToHeight="true" fitToWidth="true" layoutX="15.0" layoutY="171.0" prefHeight="442.0" prefWidth="1227.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="101.0">
+      <ScrollPane fx:id="spContainer" fitToHeight="true" fitToWidth="true" layoutX="15.0" layoutY="171.0" prefHeight="442.0" prefWidth="1227.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="134.0">
          <content>
             <AnchorPane fx:id="apMeses">
                <children>
@@ -82,21 +83,14 @@
             </AnchorPane>
          </content>
       </ScrollPane>
-      <ImageView fitHeight="75.0" fitWidth="165.0" layoutY="25.0" onMouseClicked="#cabecalhoMouseEvent" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0">
-         <image>
-            <Image url="@image/bdmg.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="65.0" fitWidth="165.0" layoutX="469.0" layoutY="25.0" onMouseClicked="#cabecalhoMouseEvent" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-         <image>
-            <Image url="@image/stefaniniCabecalho.png" />
-         </image>
-      </ImageView>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="25.0" onMouseClicked="#cabecalhoMouseEvent" prefHeight="65.0" styleClass="logo" text="11BARRA11" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="25.0">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="25.0" onMouseClicked="#cabecalhoMouseEvent" prefHeight="65.0" styleClass="logo" text="11BARRA11" textFill="WHITE" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="25.0">
+         <font>
+            <Font size="40.0" />
+         </font>
          <graphic>
-            <ImageView fitHeight="65.0" pickOnBounds="true">
+            <ImageView fitHeight="98.0" pickOnBounds="true">
                <image>
-                  <Image url="@image/cabecalho.jpg" />
+                  <Image url="@image/header.png" />
                </image>
             </ImageView>
          </graphic></Label>

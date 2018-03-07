@@ -10,7 +10,7 @@
    -fx-background-color: transparent;
 }
 .login{
-    -fx-background-image: url(../image/stefanini.jpg);
+    -fx-background-image: url(../image/cover.png);
     -fx-background-repeat: no-repeat; 
 }
 
