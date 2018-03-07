@@ -8,7 +8,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="720.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.LoginController">
+<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="696.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.LoginController">
     <stylesheets>
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
