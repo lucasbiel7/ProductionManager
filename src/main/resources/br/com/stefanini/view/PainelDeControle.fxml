@@ -44,16 +44,18 @@
          <content>
             <AnchorPane fx:id="apMeses">
                <children>
-                  <Spinner fx:id="spAno" prefHeight="25.0" prefWidth="152.0" />
+                  <Spinner fx:id="spAno" layoutX="15.0" layoutY="2.0" prefHeight="25.0" prefWidth="152.0" />
                   <ScrollPane fx:id="spDados" fitToHeight="true" fitToWidth="true" layoutY="159.0" prefHeight="281.0" prefWidth="1225.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="159.0">
                      <content>
-                        <GridPane fx:id="gpMeses" alignment="CENTER" hgap="10.0" prefHeight="291.0" prefWidth="1223.0" vgap="10.0">
+                        <GridPane fx:id="gpMeses" alignment="CENTER_LEFT" hgap="10.0" prefHeight="291.0" prefWidth="1233.0" vgap="10.0">
                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" />
+                              <ColumnConstraints hgrow="SOMETIMES" />
+                              <ColumnConstraints hgrow="SOMETIMES" />
+                              <ColumnConstraints hgrow="SOMETIMES" />
                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints />
+                           </rowConstraints>
                         </GridPane>
                      </content>
                   </ScrollPane>
@@ -76,9 +78,9 @@
                         <ComboBox fx:id="filtroPacote" prefHeight="25.0" prefWidth="196.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
-                  <Line endX="1095.0" layoutX="115.0" layoutY="122.0" startX="-100.0" />
-                  <Button fx:id="idPesquisar" layoutX="1144.0" layoutY="129.0" mnemonicParsing="false" onAction="#buttonPesquisar" text="Pesquisar" />
-                  <Button fx:id="idLimpar" layoutX="1048.0" layoutY="129.0" mnemonicParsing="false" onAction="#buttonLimpar" text="Limpar Filtros" />
+                  <Line endX="1200.0" layoutX="115.0" layoutY="122.0" startX="-100.0" />
+                  <Button fx:id="idPesquisar" layoutX="1235.0" layoutY="129.0" mnemonicParsing="false" onAction="#buttonPesquisar" text="Pesquisar" />
+                  <Button fx:id="idLimpar" layoutX="1136.0" layoutY="129.0" mnemonicParsing="false" onAction="#buttonLimpar" text="Limpar Filtros" />
                </children>
             </AnchorPane>
          </content>

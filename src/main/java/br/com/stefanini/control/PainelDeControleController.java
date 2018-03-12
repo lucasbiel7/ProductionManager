@@ -241,7 +241,7 @@ public class PainelDeControleController extends ControllerBase implements Initia
             while (calendar.get(Calendar.YEAR) <= spAno.getValue()) {
                 montarParametro();
                 params.put("data", calendar.getTime());
-                final int index = coluna + (linha * 4);
+                final int index = coluna + (linha * 3);
                 final int col = coluna;
                 final int row = linha;
                 final Parent parent = gerenciadorDeJanela.carregarComponente("StatusMensalComponent" + index, params);
@@ -251,7 +251,7 @@ public class PainelDeControleController extends ControllerBase implements Initia
                 });
                 calendar.add(Calendar.MONTH, 1);
                 coluna++;
-                if (coluna >= 4) {
+                if (coluna >= 3) {
                     coluna = 0;
                     linha++;
                 }
