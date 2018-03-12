@@ -5,12 +5,11 @@
  */
 package br.com.stefanini.control;
 
-import br.com.stefanini.model.entity.Usuario;
-import br.com.stefanini.model.enuns.TipoPerfil;
 import br.com.stefanini.productionmanager.MainApp;
 import java.util.Map;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -33,13 +32,15 @@ public class GerenciadorDeJanela {
 
     public Stage mostrarJanela(Stage primaryStage, Parent parent, String title) {
         primaryStage.setTitle(title);
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(PACOTE_VIEW+"image/ico.png")));
         scene = new Scene(parent);
         primaryStage.setScene(scene);
         return primaryStage;
     }
 
     public void abrirModal(String key, Map<String,Object> params, String title) {
-        Stage stage = new Stage();                
+        Stage stage = new Stage(); 
+        stage.getIcons().add(new Image(getClass().getResourceAsStream(PACOTE_VIEW+"image/ico.png")));
         stage.setTitle(title);
         params.put("modalStage", stage);
         Parent parent = carregarComponente(key, params);
@@ -60,25 +61,12 @@ public class GerenciadorDeJanela {
             if(o instanceof PainelDeControleController){
                 ((PainelDeControleController)o).teste();
             }
-//            getMain().mainStage.setScene(parent.getScene());
-//            getMain().mainStage.show();
-//            FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1));
-//            fadeTransition.setNode(scene.getRoot());
-//            fadeTransition.setFromValue(0);
-//            fadeTransition.setToValue(1);
-//            fadeTransition.play();
             mostrarJanela(getMain().mainStage, parent, key);
         }
     }
 
     public Parent carregarComponente(String tela) {
         return getMain().componentes.get(tela);
-//        try {
-//            return FXMLLoader.load(getClass().getResource(PACOTE_VIEW + "" + tela + ".fxml"));
-//        } catch (IOException e) {
-//            LoggerFactory.logger(this.getClass()).error(e);
-//            return null;
-//        }
     }
 
     public Parent carregarComponente(String tela, Object object) {
