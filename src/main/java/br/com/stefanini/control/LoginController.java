@@ -64,7 +64,6 @@ public class LoginController implements Initializable {
     @FXML
     private void btLoginActionEvent(ActionEvent ae) {
         Usuario usuario = new UsuarioDAO().login(tfCPF.getText(), SecurityUtil.encript(pfUSenha.getText()));
-        System.out.println(usuario);
         if (usuario != null) {
             gerenciadorDeJanela.getMain().user = usuario;
             gerenciadorDeJanela.trocarCena(gerenciadorDeJanela.carregarComponente("PainelDeControle"), "PainelDeControle");
