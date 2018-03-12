@@ -11,7 +11,9 @@ package br.com.stefanini.model.enuns;
  */
 public enum TipoParametro {
     CONTRATO("Contrato"),
-    REPASSE("Repasse");
+    REPASSE("Repasse"),
+    VL_PLANEJADO("Valor equipe planejado"),
+    VL_EXECUTADO("Valor equipe executado");
     
     private String nome;
 

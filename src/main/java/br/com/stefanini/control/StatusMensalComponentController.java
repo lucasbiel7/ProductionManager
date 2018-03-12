@@ -11,7 +11,6 @@ import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.enuns.TipoParametro;
-import br.com.stefanini.model.enuns.TipoPerfil;
 import br.com.stefanini.model.util.DateUtil;
 import java.net.URL;
 import java.text.SimpleDateFormat;
