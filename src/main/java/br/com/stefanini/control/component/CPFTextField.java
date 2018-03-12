@@ -37,9 +37,6 @@ public class CPFTextField extends TextField {
 
     @Override
     public void replaceText(int start, int end, String text) {
-        System.out.println(start);
-        System.out.println(end);
-        System.out.println(text);
         text = text.replace(".", "").replace("-", "");
         if (start == 3 || start == 7) {
             if (!text.equals(".")) {
@@ -54,7 +51,6 @@ public class CPFTextField extends TextField {
         if (getText() != null && getText().length() > 14) {
             text = "";
         }
-        System.out.println(text);
         if(start+1==end && text.matches("[\\-\\.]+")){
             text="";
         }
