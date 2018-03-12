@@ -12,7 +12,6 @@ import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.Pacote;
 import br.com.stefanini.model.entity.Projeto;
-import br.com.stefanini.model.enuns.TipoPerfil;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -185,6 +184,7 @@ public class PainelDeControleController extends ControllerBase implements Initia
     private void cabecalhoMouseEvent(MouseEvent mouseEvent) {
         spContainer.setContent(apMeses);
         filtroProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
+        buttonPesquisar();
     }
 
     @FXML
