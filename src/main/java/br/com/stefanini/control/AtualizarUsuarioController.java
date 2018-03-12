@@ -123,7 +123,6 @@ public class AtualizarUsuarioController implements Initializable {
             atuandoLista.add(atuando);
         }
         usuario.setAtuando(atuandoLista);
-        System.out.println(usuario.getPerfil());
         if (StringUtil.isEmpty(usuario.getPessoa().getCpf().replaceAll("[.-]", "").trim())
                 || StringUtil.isEmpty(usuario.getPessoa().getEmail())
                 || StringUtil.isEmpty(usuario.getPessoa().getNome())

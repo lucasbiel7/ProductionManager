@@ -11,8 +11,8 @@ import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.enuns.TipoParametro;
-import br.com.stefanini.model.enuns.TipoPerfil;
 import br.com.stefanini.model.util.DateUtil;
+import br.com.stefanini.model.util.DoubleConverter;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -139,12 +139,12 @@ public class StatusMensalComponentController extends ControllerBase implements I
         lbTeste.setText(" - Testes/Homologação 100% : " + qtdTeste);
 
         lbPfEstimada.setText("Pontos de função: " + contagemEstimada);
-        lbValorContratoEstimada.setText("Valor Contrato: " + totalContratoEstimada);
-        lbValorRepasseEstimada.setText("Valor Repasse: " + totalRepasseEstimada);
+        lbValorContratoEstimada.setText("Valor Contrato: " + DoubleConverter.doubleToString(totalContratoEstimada));
+        lbValorRepasseEstimada.setText("Valor Repasse: " + DoubleConverter.doubleToString(totalRepasseEstimada));
 
         lbPfDetalhada.setText("Pontos de função: " + contagemDetalhada);
-        lbValorContratoDetalhada.setText("Valor Contrato: " + totalContratoDetalhada);
-        lbValorRepasseDetalhada.setText("Valor Repasse: " + totalRepasseDetalhada);
+        lbValorContratoDetalhada.setText("Valor Contrato: " + DoubleConverter.doubleToString(totalContratoDetalhada));
+        lbValorRepasseDetalhada.setText("Valor Repasse: " + DoubleConverter.doubleToString(totalRepasseDetalhada));
     }
     
     @FXML
