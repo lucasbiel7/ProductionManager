@@ -98,6 +98,10 @@ public class GerenciadorDeJanela {
                ((AtualizarUsuarioController)o).teste();
             }
             
+            if(o instanceof CustoController){
+                ((CustoController)o).teste();
+            }
+            
             if(o instanceof ControllerBase){   
                 GerenciadorDeJanela gen = ((GerenciadorDeJanela) ((Map<String,Object>)object).get("gerenciador"));
                 if(gen!=null && gen.getMain().user!=null){

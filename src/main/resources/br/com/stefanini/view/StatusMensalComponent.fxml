@@ -3,7 +3,10 @@
 <?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -30,26 +33,34 @@
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <VBox prefHeight="239.0" prefWidth="209.0" styleClass="background" GridPane.columnIndex="1">
+                        <VBox fx:id="vbPlanejamento" alignment="CENTER" prefHeight="239.0" prefWidth="209.0" styleClass="background" GridPane.columnIndex="1">
                            <children>
                               <Label alignment="CENTER" contentDisplay="TOP" prefHeight="17.0" prefWidth="209.0" styleClass="label-bold" text="Planejamento">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label />
-                              <Label prefHeight="17.0" prefWidth="429.0" text="Cliente: BDMG" textFill="#3b0edd" />
-                              <Label prefHeight="17.0" prefWidth="388.0" text="Projeto:" />
-                              <Label prefHeight="17.0" prefWidth="317.0" text="Tipo de Contagem PF:" textFill="#3b0edd" />
-                              <Label prefHeight="17.0" prefWidth="314.0" text="Custo Técnico Planejado:" />
-                              <Label prefHeight="17.0" prefWidth="302.0" text="Custo Técnico Realizado:" textFill="#3b0edd" />
-                              <Label prefHeight="17.0" prefWidth="358.0" text="Repasse:" />
-                              <Label prefHeight="17.0" prefWidth="348.0" text="Resultado Técnico:" textFill="#3b0edd" />
-                              <Label prefHeight="17.0" prefWidth="411.0" text="Faturamento:" />
-                              <Label prefHeight="17.0" prefWidth="312.0" text="Custo Comercial:" textFill="#3b0edd" />
-                              <Label prefHeight="17.0" prefWidth="369.0" text="Resultado Comercial:" />
-                              <Label prefHeight="17.0" prefWidth="414.0" text="Resultado Combinado:" textFill="#3b0edd" />
-                              <Label prefHeight="17.0" prefWidth="423.0" text="Rentabilidade:" />
+                              <Button fx:id="btAddCusto" mnemonicParsing="false" onAction="#btAdicionarAction">
+                                 <graphic>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@image/novo.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Label fx:id="lbCliente" prefHeight="17.0" prefWidth="429.0" text="Cliente: BDMG" textFill="#3b0edd" />
+                              <Label fx:id="lbProjeto" prefHeight="17.0" prefWidth="388.0" text="Projeto: TODOS" />
+                              <Label fx:id="lbTipoPF" prefHeight="17.0" prefWidth="317.0" text="Tipo de Contagem PF:" textFill="#3b0edd" />
+                              <Label fx:id="lbCustoPlanejado" prefHeight="17.0" prefWidth="314.0" text="Custo Técnico Planejado:" />
+                              <Label fx:id="lbCustoRealizado" prefHeight="17.0" prefWidth="302.0" text="Custo Técnico Realizado:" textFill="#3b0edd" />
+                              <Label fx:id="lbRepasse" prefHeight="17.0" prefWidth="358.0" text="Repasse:" />
+                              <Label fx:id="lbResultadoTecnico" prefHeight="17.0" prefWidth="348.0" text="Resultado Técnico:" textFill="#3b0edd" />
+                              <Label fx:id="lbFaturamento" prefHeight="17.0" prefWidth="411.0" text="Faturamento:" />
+                              <Label fx:id="lbCustoComercial" prefHeight="17.0" prefWidth="312.0" text="Custo Comercial:" textFill="#3b0edd" />
+                              <Label fx:id="lbResultadoComercial" prefHeight="17.0" prefWidth="369.0" text="Resultado Comercial:" />
+                              <Label fx:id="lbResultadoCombinado" prefHeight="17.0" prefWidth="414.0" text="Resultado Combinado:" textFill="#3b0edd" />
+                              <Label fx:id="lbRentabilidade" prefHeight="17.0" prefWidth="423.0" text="Rentabilidade:" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

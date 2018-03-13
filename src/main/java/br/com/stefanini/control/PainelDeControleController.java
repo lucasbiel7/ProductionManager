@@ -5,16 +5,19 @@
  */
 package br.com.stefanini.control;
 
+import br.com.stefanini.control.dao.CustoDAO;
 import br.com.stefanini.control.dao.ModuloDAO;
 import br.com.stefanini.control.dao.PacoteDAO;
 import br.com.stefanini.control.dao.ProjetoDAO;
 import br.com.stefanini.model.entity.Atividade;
+import br.com.stefanini.model.entity.Custo;
 import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.Pacote;
 import br.com.stefanini.model.entity.Projeto;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -144,7 +147,6 @@ public class PainelDeControleController extends ControllerBase implements Initia
         params.put("pacote", idPacote);
         params.put("modulo", idModulo);
         params.put("projeto", idProjeto);
-
     }
 
     @FXML
@@ -238,7 +240,10 @@ public class PainelDeControleController extends ControllerBase implements Initia
             calendar.set(Calendar.DAY_OF_MONTH, 1);
             int linha = 0;
             int coluna = 0;
+            CustoDAO custoDao = new CustoDAO();
             while (calendar.get(Calendar.YEAR) <= spAno.getValue()) {
+                Custo custo = custoDao.buscarCustoMes(calendar.getTime());
+                params.put("Custo", custo);
                 montarParametro();
                 params.put("data", calendar.getTime());
                 final int index = coluna + (linha * 3);
