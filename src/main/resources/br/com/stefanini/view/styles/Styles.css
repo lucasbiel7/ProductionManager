@@ -55,6 +55,7 @@
 .logo{
     -fx-text-fill:white;
     -fx-font-size:30px;
+    -fx-font-weight: bold;
 }
 
 .font-image{

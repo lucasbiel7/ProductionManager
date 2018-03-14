@@ -2,55 +2,107 @@
 
 <?import java.lang.String?>
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="309.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.StatusMensalComponentController">
-    <stylesheets>
-        <URL value="@/br/com/stefanini/view/styles/Styles.css" />
-    </stylesheets>
+<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="309.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.StatusMensalComponentController">
+   <stylesheets>
+      <URL value="@/br/com/stefanini/view/styles/Styles.css" />
+   </stylesheets>
    <children>
-      
-                  <Label fx:id="lbTitulo" onMouseClicked="#labelAtividadeActionEvent" onTouchPressed="#labelAtividadeActionEvent" prefHeight="35.0" prefWidth="280.0" styleClass="title-label-center-bold" stylesheets="@styles/Styles.css" text="Title" AnchorPane.rightAnchor="0.0" />
-      <VBox alignment="CENTER" layoutY="35.0" AnchorPane.rightAnchor="0.0">
+      <VBox prefWidth="420.0">
          <children>
-            <VBox alignment="CENTER_RIGHT" prefHeight="83.0" prefWidth="280.0" styleClass="background">
+            <Label fx:id="lbTitulo" onMouseClicked="#labelAtividadeActionEvent" onTouchPressed="#labelAtividadeActionEvent" prefHeight="45.0" prefWidth="420.0" styleClass="title-label-center-bold" stylesheets="@styles/Styles.css" />
+            <VBox alignment="CENTER" prefHeight="269.0" prefWidth="420.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="280.0" styleClass="label-bold" text="Quantidade de Atividades" textAlignment="CENTER" />
-                  <Label fx:id="lbTotal" prefHeight="17.0" prefWidth="300.0" text="  Total :" />
-                  <Label fx:id="lbLevantamento" prefHeight="17.0" prefWidth="493.0" text="  Levantamentos 100% :" />
-                  <Label fx:id="lbDesenvolvimento" prefHeight="17.0" prefWidth="473.0" text="  Desenvolvimento 100% :" />
-                  <Label fx:id="lbTeste" prefHeight="17.0" prefWidth="483.0" text="  Testes/Homologação 100% :" />
+                  <GridPane fx:id="gpLayout" gridLinesVisible="true" prefHeight="269.0" prefWidth="423.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <VBox fx:id="vbPlanejamento" alignment="CENTER" prefWidth="5000.0" GridPane.columnIndex="1">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="TOP" prefHeight="17.0" prefWidth="209.0" styleClass="label-bold" text="Planejamento/Realizado">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="btAddCusto" mnemonicParsing="false" onAction="#btAdicionarAction">
+                                 <graphic>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@image/novo.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Label fx:id="lbCliente" prefHeight="17.0" prefWidth="429.0" text="Cliente: BDMG" textFill="#3b0edd" />
+                              <Label fx:id="lbProjeto" prefHeight="17.0" prefWidth="388.0" text="Projeto: TODOS" />
+                              <Label fx:id="lbTipoPF" prefHeight="17.0" prefWidth="317.0" text="Tipo de Contagem PF:" textFill="#3b0edd" />
+                              <Label fx:id="lbCustoPlanejado" prefHeight="17.0" prefWidth="314.0" text="Custo Técnico Planejado:" />
+                              <Label fx:id="lbCustoRealizado" prefHeight="17.0" prefWidth="302.0" text="Custo Técnico Realizado:" textFill="#3b0edd" />
+                              <Label fx:id="lbRepasse" prefHeight="17.0" prefWidth="358.0" text="Repasse:" />
+                              <Label fx:id="lbResultadoTecnico" prefHeight="17.0" prefWidth="348.0" text="Resultado Técnico:" textFill="#3b0edd" />
+                              <Label fx:id="lbFaturamento" prefHeight="17.0" prefWidth="411.0" text="Faturamento:" />
+                              <Label fx:id="lbCustoComercial" prefHeight="17.0" prefWidth="312.0" text="Custo Comercial:" textFill="#3b0edd" />
+                              <Label fx:id="lbResultadoComercial" prefHeight="17.0" prefWidth="369.0" text="Resultado Comercial:" />
+                              <Label fx:id="lbResultadoCombinado" prefHeight="17.0" prefWidth="414.0" text="Resultado Combinado:" textFill="#3b0edd" />
+                              <Label fx:id="lbRentabilidade" prefHeight="17.0" prefWidth="423.0" text="Rentabilidade:" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" prefWidth="5000.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="5000.0" styleClass="label-bold" text="Atividades">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Label>
+                              <Label fx:id="lbTotal" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Total :" textFill="#3b0edd" />
+                              <Label fx:id="lbLevantamento" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Levantamentos 100% :" />
+                              <Label fx:id="lbDesenvolvimento" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Desenvolvimento 100% :" textFill="#3b0edd" />
+                              <Label fx:id="lbTeste" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Testes/Homologação 100% :" />
+                              <Label />
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="5000.0" styleClass="label-bold" text="Estimada">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Label>
+                              <Label fx:id="lbPfEstimada" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Pontos de função:  " textFill="#3b0edd" />
+                              <Label fx:id="lbValorContratoEstimada" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Valor Contrato:" />
+                              <Label fx:id="lbValorRepasseEstimada" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Valor Repasse:" textFill="#3b0edd" />
+                              <Label />
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="5000.0" styleClass="label-bold" text="Detalhada">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Label>
+                              <Label fx:id="lbPfDetalhada" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Pontos de função:  " textFill="#3b0edd" />
+                              <Label fx:id="lbValorContratoDetalhada" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Valor Contrato:" />
+                              <Label fx:id="lbValorRepasseDetalhada" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Valor Repasse:" textFill="#3b0edd" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </GridPane>
                </children>
             </VBox>
-                  <TitledPane prefHeight="80.0" prefWidth="280.0" text="Estimada">
-                     <content>
-                        <VBox fillWidth="false" prefHeight="98.0" prefWidth="278.0" scaleShape="false">
-                           <children>
-                              <Label fx:id="lbPfEstimada" text="Pontos de função:  " />
-                              <Label fx:id="lbValorContratoEstimada" text="Valor Contrato:" />
-                              <Label fx:id="lbValorRepasseEstimada" text="Valor Repasse:" />
-                           </children>
-                        </VBox>
-                     </content>
-                  </TitledPane>
-                  <TitledPane fx:id="tpDetalhada" prefHeight="80.0" prefWidth="278.0" text="Detalhada">
-                     <content>
-                        <VBox fillWidth="false" prefHeight="46.0" prefWidth="278.0" scaleShape="false">
-                           <children>
-                              <Label fx:id="lbPfDetalhada" text="Pontos de função:  " />
-                              <Label fx:id="lbValorContratoDetalhada" text="Valor Contrato:" />
-                              <Label fx:id="lbValorRepasseDetalhada" text="Valor Repasse:" />
-                           </children>
-                        </VBox>
-                     </content>
-                  </TitledPane>
          </children>
       </VBox>
-        
-            
    </children>
    <styleClass>
       <String fx:value="mainFxmlClass" />
