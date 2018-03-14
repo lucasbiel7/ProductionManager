@@ -31,6 +31,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -91,6 +92,8 @@ public class StatusMensalComponentController extends ControllerBase implements I
     private Label lbResultadoCombinado;
     @FXML
     private Label lbRentabilidade;
+    @FXML
+    private GridPane gpLayout;
     
     private Custo custoMes;
     @FXML
@@ -110,17 +113,24 @@ public class StatusMensalComponentController extends ControllerBase implements I
 //            stage = (Stage) apPrincipal.getScene().getWindow();
             gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
             params = (Map) apPrincipal.getUserData();
-            
         });
     }
     
     @FXML
     private void btAdicionarAction() {
-        btAddCusto.setTooltip(new Tooltip("Adicionar Custos"));
-        Custo custo = new Custo();
-        params.put("custo", custo);
+        btAddCusto.setTooltip(new Tooltip("Atualizar Custos"));
+        if(null != custoMes.getId()){
+            Custo custo = new CustoDAO().pegarPorId(custoMes.getId());
+            params.put("custo", custo);
+        }else{
+            Custo custo = new Custo();
+            params.put("custo", custo);
+        }
         params.put("dtInclusao", inicio);
         gerenciadorDeJanela.abrirModal("CustoModal", params, "Custo");
+        Custo custo = new CustoDAO().pegarPorId(custoMes.getId());
+        lbCustoPlanejado.setText("Custo Técnico Planejado: " + DoubleConverter.doubleToString(custo.getCustoTecnicoPlanejado()));
+        lbCustoRealizado.setText("Custo Técnico Realizado: " + DoubleConverter.doubleToString(custo.getCustoTecnicoRealizado()));
     }
 
     public void teste(){
@@ -178,58 +188,59 @@ public class StatusMensalComponentController extends ControllerBase implements I
         
 //        PARTE 2
         custoMes = (Custo) param.get("Custo");
-        lbCustoPlanejado.setText("Custo Técnico Planejado: " + DoubleConverter.doubleToString(custoMes.getCustoTecnicoPlanejado()));
-        lbCustoRealizado.setText("Custo Técnico Realizado: " + DoubleConverter.doubleToString(custoMes.getCustoTecnicoRealizado()));
-        
-        Double resultadoTecnico = 0.0;
-        if(custoMes.getCustoTecnicoRealizado() > 0.0){
-            resultadoTecnico = totalRepasseDetalhada-custoMes.getCustoTecnicoRealizado();
-            lbResultadoTecnico.setText("Resultado Técnico: " + DoubleConverter.doubleToString(resultadoTecnico));
-        }else{
-            resultadoTecnico = totalRepasseDetalhada-custoMes.getCustoTecnicoPlanejado();
-            lbResultadoTecnico.setText("Resultado Técnico: " + DoubleConverter.doubleToString(resultadoTecnico));
-        }
-      
-        Double custoComercial = 0.0;
-        Double porcentagem = 26.5;
-        Double resultadoComercial = 0.0;
-        Double resultadoCombinado = 0.0;
-        Double rentabilidade = 0.0;
-        lbRentabilidade.setText("Rentabilidade: " + DoubleConverter.doubleToString(rentabilidade)+"%");
-        if(contagemDetalhada > 0.0){
-            lbTipoPF.setText("Tipo de Contagem PF: Detalhada");
-            lbRepasse.setText("Repasse: " + DoubleConverter.doubleToString(totalRepasseDetalhada));
-            lbFaturamento.setText("Faturamento: " + DoubleConverter.doubleToString(totalContratoDetalhada));
-            
-            custoComercial = ((totalContratoDetalhada * porcentagem)/100)+totalRepasseDetalhada;
-            lbCustoComercial.setText("Custo Comercial: " +  DoubleConverter.doubleToString(custoComercial));
-            resultadoComercial = totalContratoDetalhada-custoComercial;
-            lbResultadoComercial.setText("Resultado Comercial: " + DoubleConverter.doubleToString(resultadoComercial));
-            resultadoCombinado = resultadoTecnico+resultadoComercial;
-            lbResultadoCombinado.setText("Resultado Combinado: " + DoubleConverter.doubleToString(resultadoCombinado));
-            
-            if(totalContratoDetalhada > 0){
-                rentabilidade = (resultadoCombinado/totalContratoDetalhada)*100;
-                lbRentabilidade.setText("Rentabilidade: " + DoubleConverter.doubleToString(rentabilidade)+"%");
-            }   
-        }else{
-            lbTipoPF.setText("Tipo de Contagem PF: Estimada");
-            lbRepasse.setText("Repasse: " + DoubleConverter.doubleToString(totalRepasseEstimada));
-            lbFaturamento.setText("Faturamento: " + DoubleConverter.doubleToString(totalContratoEstimada));
-            
-            custoComercial = ((totalContratoEstimada * porcentagem)/100)+totalRepasseEstimada;
-            lbCustoComercial.setText("Custo Comercial: " +  DoubleConverter.doubleToString(custoComercial));
-            resultadoComercial = totalContratoEstimada-custoComercial;
-            lbResultadoComercial.setText("Resultado Comercial: " + DoubleConverter.doubleToString(resultadoComercial));
-            resultadoCombinado = resultadoTecnico+resultadoComercial;
-            lbResultadoCombinado.setText("Resultado Combinado: " + DoubleConverter.doubleToString(resultadoCombinado));
-            
-            if(totalContratoEstimada > 0){
-                rentabilidade = (resultadoCombinado/totalContratoEstimada)*100;
-                lbRentabilidade.setText("Rentabilidade: " + DoubleConverter.doubleToString(rentabilidade)+"%");
+        if(!(0.0 == contagemEstimada) && !(0.0 == contagemDetalhada)){  
+            lbCustoPlanejado.setText("Custo Técnico Planejado: " + DoubleConverter.doubleToString(custoMes.getCustoTecnicoPlanejado()));
+            lbCustoRealizado.setText("Custo Técnico Realizado: " + DoubleConverter.doubleToString(custoMes.getCustoTecnicoRealizado()));
+
+            Double resultadoTecnico = 0.0;
+            if(custoMes.getCustoTecnicoRealizado() > 0.0){
+                resultadoTecnico = totalRepasseDetalhada-custoMes.getCustoTecnicoRealizado();
+                lbResultadoTecnico.setText("Resultado Técnico: " + DoubleConverter.doubleToString(resultadoTecnico));
+            }else{
+                resultadoTecnico = totalRepasseDetalhada-custoMes.getCustoTecnicoPlanejado();
+                lbResultadoTecnico.setText("Resultado Técnico: " + DoubleConverter.doubleToString(resultadoTecnico));
             }
-        }
-        
+
+            Double custoComercial = 0.0;
+            Double porcentagem = 26.5;
+            Double resultadoComercial = 0.0;
+            Double resultadoCombinado = 0.0;
+            Double rentabilidade = 0.0;
+            lbRentabilidade.setText("Rentabilidade: " + DoubleConverter.doubleToString(rentabilidade)+"%");
+            if(contagemDetalhada > 0.0){
+                lbTipoPF.setText("Tipo de Contagem PF: Detalhada");
+                lbRepasse.setText("Repasse: " + DoubleConverter.doubleToString(totalRepasseDetalhada));
+                lbFaturamento.setText("Faturamento: " + DoubleConverter.doubleToString(totalContratoDetalhada));
+
+                custoComercial = ((totalContratoDetalhada * porcentagem)/100)+totalRepasseDetalhada;
+                lbCustoComercial.setText("Custo Comercial: " +  DoubleConverter.doubleToString(custoComercial));
+                resultadoComercial = totalContratoDetalhada-custoComercial;
+                lbResultadoComercial.setText("Resultado Comercial: " + DoubleConverter.doubleToString(resultadoComercial));
+                resultadoCombinado = resultadoTecnico+resultadoComercial;
+                lbResultadoCombinado.setText("Resultado Combinado: " + DoubleConverter.doubleToString(resultadoCombinado));
+
+                if(totalContratoDetalhada > 0){
+                    rentabilidade = (resultadoCombinado/totalContratoDetalhada)*100;
+                    lbRentabilidade.setText("Rentabilidade: " + DoubleConverter.doubleToString(rentabilidade)+"%");
+                }   
+            }else{
+                lbTipoPF.setText("Tipo de Contagem PF: Estimada");
+                lbRepasse.setText("Repasse: " + DoubleConverter.doubleToString(totalRepasseEstimada));
+                lbFaturamento.setText("Faturamento: " + DoubleConverter.doubleToString(totalContratoEstimada));
+
+                custoComercial = ((totalContratoEstimada * porcentagem)/100)+totalRepasseEstimada;
+                lbCustoComercial.setText("Custo Comercial: " +  DoubleConverter.doubleToString(custoComercial));
+                resultadoComercial = totalContratoEstimada-custoComercial;
+                lbResultadoComercial.setText("Resultado Comercial: " + DoubleConverter.doubleToString(resultadoComercial));
+                resultadoCombinado = resultadoTecnico+resultadoComercial;
+                lbResultadoCombinado.setText("Resultado Combinado: " + DoubleConverter.doubleToString(resultadoCombinado));
+
+                if(totalContratoEstimada > 0){
+                    rentabilidade = (resultadoCombinado/totalContratoEstimada)*100;
+                    lbRentabilidade.setText("Rentabilidade: " + DoubleConverter.doubleToString(rentabilidade)+"%");
+                }
+            }
+        }   
     }
     
     @FXML
@@ -244,42 +255,41 @@ public class StatusMensalComponentController extends ControllerBase implements I
     public void buildAnalista() {
         lbValorRepasseDetalhada.setVisible(false);
         lbValorRepasseEstimada.setVisible(false);
-        vbPlanejamento.setVisible(false);
+        gpLayout.getChildren().remove(vbPlanejamento);
     }
 
     @Override
     public void buildBancoDados() {
         lbValorRepasseDetalhada.setVisible(false);
         lbValorRepasseEstimada.setVisible(false);
-        vbPlanejamento.setVisible(false);
+        gpLayout.getChildren().remove(vbPlanejamento);
     }
 
     @Override
     public void buildBDMG() {
         lbValorRepasseDetalhada.setVisible(false);
         lbValorRepasseEstimada.setVisible(false);
-        vbPlanejamento.setVisible(false);
+        gpLayout.getChildren().remove(vbPlanejamento);
     }
 
     @Override
     public void buildDesenvolvedor() {
         lbValorRepasseDetalhada.setVisible(false);
         lbValorRepasseEstimada.setVisible(false);
-        vbPlanejamento.setVisible(false);
+        gpLayout.getChildren().remove(vbPlanejamento);
     }
 
     @Override
     public void buildGerente() {
         lbValorRepasseDetalhada.setVisible(true);
         lbValorRepasseEstimada.setVisible(true);
-        vbPlanejamento.setVisible(true);
     }
 
     @Override
     public void buildQualidade() {
         lbValorRepasseDetalhada.setVisible(false);
         lbValorRepasseEstimada.setVisible(false);
-        vbPlanejamento.setVisible(false);
+        gpLayout.getChildren().remove(vbPlanejamento);
     }
 
 

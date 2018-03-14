@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -36,6 +37,7 @@ public class CustoController implements Initializable {
     @FXML
     private TextField tfCustoRealizado;
     private Custo custo;
+    private Stage stage;
     private GerenciadorDeJanela gerenciadorDeJanela;
     Map<String,Object> params = new HashMap<>();
     /**
@@ -55,6 +57,9 @@ public class CustoController implements Initializable {
         gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
         dtInclusao = (Date) params.get("dtInclusao");
         custo = (Custo) params.get("custo");
+        stage = (Stage) params.get("modalStage");
+        tfCustoPlanejado.setText(String.valueOf(custo.getCustoTecnicoPlanejado()));
+        tfCustoRealizado.setText(String.valueOf(custo.getCustoTecnicoRealizado()));
     }
     
     @FXML
@@ -71,8 +76,17 @@ public class CustoController implements Initializable {
         }else{
             custo.setCustoTecnicoRealizado(Double.parseDouble(tfCustoRealizado.getText()));
         }
+        CustoDAO custoDao = new CustoDAO();
+        if(null == custo.getId()){
+            custoDao.salvar(custo);
+            new Alert(Alert.AlertType.INFORMATION, "Custo cadastro com sucesso.").show();
+            stage.close();
+        }else{
+            custoDao.editar(custo);
+            new Alert(Alert.AlertType.INFORMATION, "Custo atualizado com sucesso.").show();
+            stage.close();
+        }
         
-        new CustoDAO().salvar(custo);
-        new Alert(Alert.AlertType.INFORMATION, "Custo cadastro com sucesso.").show();
+        
     }
 }
