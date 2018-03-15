@@ -81,6 +81,7 @@
                   <Line endX="1200.0" layoutX="115.0" layoutY="122.0" startX="-100.0" />
                   <Button fx:id="idPesquisar" layoutX="1235.0" layoutY="129.0" mnemonicParsing="false" onAction="#buttonPesquisar" text="Pesquisar" />
                   <Button fx:id="idLimpar" layoutX="1136.0" layoutY="129.0" mnemonicParsing="false" onAction="#buttonLimpar" text="Limpar Filtros" />
+                  <Button layoutX="1284.0" layoutY="2.0" mnemonicParsing="false" onAction="#btSair" text="Sair" />
                </children>
             </AnchorPane>
          </content>

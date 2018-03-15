@@ -76,6 +76,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
     private Label lbPesquisa;
 
     private Date param;
+    private Projeto projeto;
 
     @FXML
     private ComboBox<Projeto> cbProjeto;
@@ -150,6 +151,8 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                 params = (Map) apPrincipal.getUserData();
                 gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
                 param = (Date) params.get("dataInicio");
+                projeto = (Projeto) params.get("projetoObject");
+                cbProjeto.setValue(projeto);
             }
         });
         colId.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, String> param1) -> {
@@ -468,6 +471,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
     public void teste() {
         params = (Map) apPrincipal.getUserData();
         param = (Date) params.get("dataInicio");
+        projeto = (Projeto) params.get("projetoObject");
         gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
         lbPesquisa.setText(buildLabel(param));
         carregarTabela();
@@ -475,6 +479,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         cbModulo.setValue(null);
         cbPacote.setValue(null);
         cbProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
+        cbProjeto.setValue(projeto);
         txAtividade.setText("");
         cbSituacao.getItems().setAll(SituacaoAtividade.values());
         cbFaturamento.getItems().setAll(Faturamento.values());

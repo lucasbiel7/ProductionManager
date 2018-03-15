@@ -11,10 +11,13 @@ import br.com.stefanini.control.dao.ParametroDAO;
 import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.Custo;
+import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.enuns.TipoParametro;
 import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.DoubleConverter;
+import br.com.stefanini.model.util.MessageUtil;
+import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,6 +47,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
     private String idProjeto;
     private String idModulo;
     private String idPacote;
+    private Projeto projetoObject;
             
     @FXML
     private AnchorPane apPrincipal;
@@ -71,6 +75,9 @@ public class StatusMensalComponentController extends ControllerBase implements I
     private Label lbDesenvolvimento;
     @FXML
     private Label lbTeste;
+    
+    @FXML
+    private Label lbProjeto;
     @FXML
     private Label lbCustoPlanejado;
     @FXML
@@ -158,6 +165,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         idProjeto = (String) param.get("projeto");
         idModulo = (String) param.get("modulo");
         idPacote = (String) param.get("pacote");
+        projetoObject = (Projeto) param.get("projetoObject");
         
         //        PARTE 1
         AtividadeDAO daoAtv = new AtividadeDAO();
@@ -208,6 +216,11 @@ public class StatusMensalComponentController extends ControllerBase implements I
         
 //        PARTE 2
         custoMes = (Custo) param.get("Custo");
+        if(null == projetoObject.getDescricao()){
+            lbProjeto.setText("Projeto: Todos");
+        }else{
+            lbProjeto.setText("Projeto: " + projetoObject.getDescricao());
+        }
         if(!(0.0 == contagemEstimada) && !(0.0 == contagemDetalhada)){
             lbCustoPlanejado.setText("Custo Técnico Planejado: " + DoubleConverter.doubleToString(custoMes.getCustoTecnicoPlanejado()));
             lbCustoRealizado.setText("Custo Técnico Realizado: " + DoubleConverter.doubleToString(custoMes.getCustoTecnicoRealizado()));
@@ -265,10 +278,15 @@ public class StatusMensalComponentController extends ControllerBase implements I
     
     @FXML
     private void labelAtividadeActionEvent() {
-        GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
-        ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
-        params.put("dataInicio", inicio);
-        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("PesquisarAtividade", params));
+        if(null == projetoObject.getDescricao()){
+            MessageUtil.messageError("Favor pesquisar com um projeto selecionado para visualizar atividades.");
+        }else{
+            GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
+            ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
+            params.put("dataInicio", inicio);
+            params.put("projetoObject", projetoObject);
+            scrollPane.setContent(gerenciadorDeJanela.carregarComponente("PesquisarAtividade", params));
+        }
     }
 
     @Override

@@ -14,10 +14,10 @@ import br.com.stefanini.model.entity.Custo;
 import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.Pacote;
 import br.com.stefanini.model.entity.Projeto;
+import br.com.stefanini.model.util.MessageUtil;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -97,7 +97,6 @@ public class PainelDeControleController extends ControllerBase implements Initia
         apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
             params = (Map<String, Object>) apPrincipal.getUserData();
             gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
-            buttonPesquisar();
             if (newValue != null) {
                 newValue.windowProperty().addListener((ObservableValue<? extends Window> observable1, Window oldValue1, Window newValue1) -> {
                     stage = (Stage) newValue1;
@@ -114,6 +113,12 @@ public class PainelDeControleController extends ControllerBase implements Initia
     }
 
     @FXML
+    private void btSair(ActionEvent ae){
+//        gerenciadorDeJanela.carregarComponente("Login");
+    gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("Login"), "Autenticação").show();
+    }
+    
+    @FXML
     private void buttonLimpar() {
         filtroPacote.setValue(null);
         filtroProjeto.setValue(null);
@@ -125,11 +130,14 @@ public class PainelDeControleController extends ControllerBase implements Initia
         String idProjeto;
         String idModulo;
         String idPacote;
+        Projeto projeto;
 
         if (filtroProjeto.getValue() != null) {
             idProjeto = filtroProjeto.getValue().getId();
+            projeto = filtroProjeto.getValue();
         } else {
             idProjeto = "";
+            projeto = new Projeto();
         }
 
         if (filtroModulo.getValue() != null) {
@@ -147,6 +155,7 @@ public class PainelDeControleController extends ControllerBase implements Initia
         params.put("pacote", idPacote);
         params.put("modulo", idModulo);
         params.put("projeto", idProjeto);
+        params.put("projetoObject", projeto);
     }
 
     @FXML
