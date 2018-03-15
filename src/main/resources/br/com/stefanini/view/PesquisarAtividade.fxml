@@ -91,24 +91,23 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button layoutX="1149.0" layoutY="255.0" mnemonicParsing="false" onAction="#btPesquisarAction" text="Pesquisar" />
-      <Button fx:id="btVisualizar" layoutX="1150.0" layoutY="653.0" mnemonicParsing="false" onAction="#visualizarAction" text="Visualizar" AnchorPane.bottomAnchor="14.0" />
-      <Line endX="1100.0" layoutX="115.5" layoutY="244.0" startX="-100.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="41.0" />
-      <Line endX="1100.0" layoutX="115.0" layoutY="535.0" startX="-100.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-      <GridPane fx:id="txTotalEstimada" layoutX="15.0" layoutY="595.0" prefHeight="30.0" prefWidth="378.0" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="864.0">
+      <Button layoutX="1239.0" layoutY="261.0" mnemonicParsing="false" onAction="#btPesquisarAction" text="Pesquisar" />
+      <Line endX="1170.0" layoutX="115.0" layoutY="244.0" startX="-100.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="41.0" />
+      <Button fx:id="btVisualizar" layoutX="1141.0" layoutY="261.0" mnemonicParsing="false" onAction="#visualizarAction" text="Faturamento" />
+      <GridPane layoutX="27.0" layoutY="243.0">
         <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="516.0" minWidth="186.0" prefWidth="190.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="327.0" minWidth="99.0" prefWidth="188.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="Total estimada:" />
-            <Label fx:id="lbTotalEstimada" text="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-            <Label fx:id="lbTotalDetalhada" text="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
             <Label text="Total detalhada:" GridPane.rowIndex="1" />
+            <Label fx:id="lbTotalEstimada" text="0" GridPane.columnIndex="1" />
+            <Label fx:id="lbTotalDetalhada" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

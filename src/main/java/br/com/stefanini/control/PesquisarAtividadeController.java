@@ -19,7 +19,6 @@ import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import br.com.stefanini.model.enuns.TipoAtividade;
-import br.com.stefanini.model.enuns.TipoPerfil;
 import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
@@ -151,8 +150,8 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                 params = (Map) apPrincipal.getUserData();
                 gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
                 param = (Date) params.get("dataInicio");
-                projeto = (Projeto) params.get("projetoObject");
-                cbProjeto.setValue(projeto);
+//                projeto = (Projeto) params.get("projetoObject");
+//                cbProjeto.setValue(projeto);
             }
         });
         colId.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, String> param1) -> {
@@ -350,6 +349,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
 
     @FXML
     private void visualizarAction() {
+        btVisualizar.setTooltip(new Tooltip("Visualizar atividades para faturamento"));
         ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
 
         params.put("data", param);

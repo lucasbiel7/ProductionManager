@@ -279,7 +279,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
     @FXML
     private void labelAtividadeActionEvent() {
         if(null == projetoObject.getDescricao()){
-            MessageUtil.messageError("Favor pesquisar com um projeto selecionado para visualizar atividades.");
+            MessageUtil.messageInformation("Favor pesquisar com um projeto selecionado para visualizar atividades.");
         }else{
             GerenciadorDeJanela gerenciadorDeJanela = new GerenciadorDeJanela();
             ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
