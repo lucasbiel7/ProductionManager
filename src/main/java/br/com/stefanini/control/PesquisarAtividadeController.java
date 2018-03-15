@@ -422,7 +422,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
 
         private final TipoAtividade tipoAtividade;
         private boolean disabled;
-        
+        private Double progressoAtividadeAtual;
         public TableCellFases(TipoAtividade tipoAtividade, boolean disabled) {
             this.tipoAtividade = tipoAtividade;
             this.disabled = disabled;
@@ -434,10 +434,12 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                 setGraphic(null);
             } else {
                 Spinner<Double> spDados = new Spinner<>();
-                ProgressoAtividade progressoAtividadeAtual = new ProgressoAtividadeDAO().pegarUtualProgressoPorAtividadeTipo(item, this.tipoAtividade);
+                if(progressoAtividadeAtual==null){
+                    progressoAtividadeAtual = new ProgressoAtividadeDAO().pegarUtualProgressoPorAtividadeTipo(item, this.tipoAtividade);
+                }
                 double initValue = 0;
                 if (progressoAtividadeAtual != null) {
-                    initValue = progressoAtividadeAtual.getProgresso();
+                    initValue = progressoAtividadeAtual;
                 }
                 spDados.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(initValue, 100d, initValue, 5d));
                 spDados.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {

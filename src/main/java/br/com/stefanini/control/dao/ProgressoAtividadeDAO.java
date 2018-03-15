@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.Predicate;
 
 /**
@@ -32,16 +33,20 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         return entitys;
     }
 
-    public ProgressoAtividade pegarUtualProgressoPorAtividadeTipo(Atividade atividade, TipoAtividade tipoAtividade) {
-        criteriaQuery.where(criteriaBuilder.and(criteriaBuilder.equal(root.get("atividade"), atividade), criteriaBuilder.equal(root.get("tipoAtividade"), tipoAtividade)));
-        criteriaQuery.orderBy(criteriaBuilder.desc(root.get("dataDoProgresso")));
-        try {
-            entity = getEntityManager().createQuery(criteriaQuery).setMaxResults(1).getSingleResult();
-        } catch (NoResultException e) {
-            entity = null;
+    public Double pegarUtualProgressoPorAtividadeTipo(Atividade atividade, TipoAtividade tipoAtividade) {
+        TypedQuery<Double> typedQuery = getEntityManager().
+                createQuery("SELECT pa.progresso FROM ProgressoAtividade pa where pa.atividade =:atividade and pa.tipoAtividade=:tipoAtividade ORDER by pa.dataDoProgresso DESC",
+                        Double.class);
+        typedQuery.setParameter("atividade", atividade);
+        typedQuery.setParameter("tipoAtividade", tipoAtividade);
+        double valor ;
+        try{
+            valor= typedQuery.setMaxResults(1).getSingleResult();
+        }catch(NoResultException e){
+            valor=0d;
         }
         getEntityManager().close();
-        return entity;
+        return valor;
     }
 
     public List<ProgressoAtividade> pegarEmFaturamentoPorDataTipoAtividade(Date data, TipoAtividade tipoAtividade) {
@@ -98,7 +103,7 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         if (!StringUtil.isEmpty(idPacote)) {
             query.setParameter("paramIDPacote", idPacote);
         }
-        return (long)query.getResultList().size();
+        return (long) query.getResultList().size();
     }
 
 }
