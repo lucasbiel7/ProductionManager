@@ -83,6 +83,7 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         if (!StringUtil.isEmpty(idPacote)) {
             sb.append(" AND pa.atividade.pacote.id =:paramIDPacote ");
         }
+        sb.append(" group by pa.atividade");
         Query query = getEntityManager().createQuery(sb.toString());
         query.setParameter("paramData", new java.sql.Date(data.getTime()));
         query.setParameter("paramTipo", tipoAtividade);
@@ -97,7 +98,7 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         if (!StringUtil.isEmpty(idPacote)) {
             query.setParameter("paramIDPacote", idPacote);
         }
-        return (Long) query.getSingleResult();
+        return (long)query.getResultList().size();
     }
 
 }

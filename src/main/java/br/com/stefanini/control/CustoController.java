@@ -58,8 +58,17 @@ public class CustoController implements Initializable {
         dtInclusao = (Date) params.get("dtInclusao");
         custo = (Custo) params.get("custo");
         stage = (Stage) params.get("modalStage");
-        tfCustoPlanejado.setText(String.valueOf(custo.getCustoTecnicoPlanejado()));
-        tfCustoRealizado.setText(String.valueOf(custo.getCustoTecnicoRealizado()));
+        if(null == custo.getCustoTecnicoPlanejado()){
+            tfCustoPlanejado.setText("0.0");
+        }else{
+            tfCustoPlanejado.setText(String.valueOf(custo.getCustoTecnicoPlanejado()));
+        }
+        
+        if(null == custo.getCustoTecnicoRealizado()){
+            tfCustoRealizado.setText("0.0");
+        }else{
+            tfCustoRealizado.setText(String.valueOf(custo.getCustoTecnicoRealizado()));
+        }
     }
     
     @FXML
@@ -86,7 +95,6 @@ public class CustoController implements Initializable {
             new Alert(Alert.AlertType.INFORMATION, "Custo atualizado com sucesso.").show();
             stage.close();
         }
-        
-        
+        params.put("CustoAux", custo); 
     }
 }

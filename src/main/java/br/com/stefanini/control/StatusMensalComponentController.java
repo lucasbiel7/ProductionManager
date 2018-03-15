@@ -28,7 +28,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -96,6 +95,8 @@ public class StatusMensalComponentController extends ControllerBase implements I
     private GridPane gpLayout;
     
     private Custo custoMes;
+    private Double repasse = 0.0;
+    private Double contrato = 0.0;
     @FXML
     private VBox vbPlanejamento;
     
@@ -128,9 +129,26 @@ public class StatusMensalComponentController extends ControllerBase implements I
         }
         params.put("dtInclusao", inicio);
         gerenciadorDeJanela.abrirModal("CustoModal", params, "Custo");
-        Custo custo = new CustoDAO().pegarPorId(custoMes.getId());
-        lbCustoPlanejado.setText("Custo Técnico Planejado: " + DoubleConverter.doubleToString(custo.getCustoTecnicoPlanejado()));
-        lbCustoRealizado.setText("Custo Técnico Realizado: " + DoubleConverter.doubleToString(custo.getCustoTecnicoRealizado()));
+        gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+        Custo custoAux = (Custo) params.get("CustoAux");
+//        Custo custoAux = new CustoDAO().pegarPorId(custoMes.getId());
+        lbCustoPlanejado.setText("Custo Técnico Planejado: " + DoubleConverter.doubleToString(custoAux.getCustoTecnicoPlanejado()));
+        lbCustoRealizado.setText("Custo Técnico Realizado: " + DoubleConverter.doubleToString(custoAux.getCustoTecnicoRealizado()));
+    
+        Double resultadoTecnico = 0.0;
+            if(custoAux.getCustoTecnicoRealizado() > 0.0){
+                resultadoTecnico = repasse-custoAux.getCustoTecnicoRealizado();
+                lbResultadoTecnico.setText("Resultado Técnico: " + DoubleConverter.doubleToString(resultadoTecnico));
+            }else{
+                resultadoTecnico = repasse-custoAux.getCustoTecnicoPlanejado();
+                lbResultadoTecnico.setText("Resultado Técnico: " + DoubleConverter.doubleToString(resultadoTecnico));
+            }
+        Double porcentagem = 26.5;
+        Double custoComercial = ((contrato * porcentagem)/100)+repasse;
+        Double resultadoComercial = contrato-custoComercial;
+        Double resultadoCombinado = resultadoTecnico+resultadoComercial;
+        lbResultadoCombinado.setText("Resultado Combinado: " + DoubleConverter.doubleToString(resultadoCombinado));
+
     }
 
     public void teste(){
@@ -169,6 +187,8 @@ public class StatusMensalComponentController extends ControllerBase implements I
             qtdLevantamento = daoProgress.pegarProgressoAtividade(inicio, TipoAtividade.LE, idProjeto, idModulo, idPacote);
             qtdDesenvolvimento = daoProgress.pegarProgressoAtividade(inicio, TipoAtividade.DE, idProjeto, idModulo, idPacote);
             qtdTeste = daoProgress.pegarProgressoAtividade(inicio, TipoAtividade.TE, idProjeto, idModulo, idPacote); 
+            repasse = totalRepasseDetalhada;
+            contrato = totalContratoDetalhada;
         }
 
 
@@ -188,7 +208,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         
 //        PARTE 2
         custoMes = (Custo) param.get("Custo");
-        if(!(0.0 == contagemEstimada) && !(0.0 == contagemDetalhada)){  
+        if(!(0.0 == contagemEstimada) && !(0.0 == contagemDetalhada)){
             lbCustoPlanejado.setText("Custo Técnico Planejado: " + DoubleConverter.doubleToString(custoMes.getCustoTecnicoPlanejado()));
             lbCustoRealizado.setText("Custo Técnico Realizado: " + DoubleConverter.doubleToString(custoMes.getCustoTecnicoRealizado()));
 
