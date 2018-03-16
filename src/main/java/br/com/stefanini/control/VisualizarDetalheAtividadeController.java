@@ -16,18 +16,23 @@ import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.enuns.TipoParametro;
-import br.com.stefanini.model.enuns.TipoPerfil;
 import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.GeradorPlanilha;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.PlanilhaDetalhes;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
@@ -281,16 +286,60 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
     private Stage stage;
 
     private Double valorContrato;
-    
+
     private Double valorRepasse;
-    
+
     @FXML
     private Label lbTxTotalDetalhadoRepasse;
-    
+
     @FXML
     private Label lbTxTotalEstimadaoRepasse;
-    
+
     private Map<String, Object> params;
+
+    @FXML
+    private TableView<ProgressoAtividade> tvAli;
+
+    @FXML
+    private TableColumn<ProgressoAtividade, String> tcIdAli;
+
+    @FXML
+    private TableColumn<ProgressoAtividade, String> tcAtividade;
+
+    @FXML
+    private TableColumn<ProgressoAtividade, String> tcNome;
+
+    @FXML
+    private TableColumn<ProgressoAtividade, Double> tcPfEstimada;
+    @FXML
+    private TableColumn<ProgressoAtividade, Double> tcPfDetalhada;
+    
+
+    @FXML
+    private TableColumn<ProgressoAtividade, String> tcValorContratoDetalhada;
+
+    @FXML
+    private TableColumn<ProgressoAtividade, String> tcValorRepassseDetalhada;
+    @FXML
+    private TableColumn<ProgressoAtividade, String> tcValorContratoEstimada;
+
+    @FXML
+    private TableColumn<ProgressoAtividade, String> tcValorRepassseEstimada;
+    
+    @FXML
+    private Label lbTotalRegistros;
+    @FXML
+    private Label lbTotalPfAlieEstimada;
+    @FXML
+    private Label lbTotalPfAlieDetalhada;
+    @FXML
+    private Label lbTotalAlieEstimadaContrato;
+    @FXML
+    private Label lbTotalAlieEstimadaRepasse;
+    @FXML
+    private Label lbTotalAlieDetalhadaContrato;
+    @FXML
+    private Label lbTotalAlieDetalhadaRepasse;
 
     private void calcularTotais() {
         Parametro paramContrato = new ParametroDAO().buscaParametroRecente(TipoParametro.CONTRATO);
@@ -304,7 +353,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         }
         lbTotalPfEstimadaLev.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35));
         lbTotalPfDetalhadaLev.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35));
-        //TODO Esperar o Higo e multiplicar o valor
+        //TODO Esperar o Higo e multiplicar o valor, Ok esperado By HIGOJO
         lbTotalEstimativaContratoLev.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramContrato.getValor()));
         lbTotalEstimativaRepasseLev.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramRepasse.getValor()));
         lbTotalDetalhadaContratoLev.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramContrato.getValor()));
@@ -319,7 +368,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         }
         lbTotalPfEstimadaDev.setText(DoubleConverter.doubleToString(totalPfEstimadaDev * .4));
         lbTotalPfDetalhadaDev.setText(DoubleConverter.doubleToString(totalPfDetalhadaDev * .4));
-        //TODO Esperar o Higo e multiplicar o valor
+        //TODO Esperar o Higo e multiplicar o valor,CARAI já ouvi
         lbTotalEstimativaContratoDev.setText(DoubleConverter.doubleToString(totalPfEstimadaDev * .4 * paramContrato.getValor()));
         lbTotalEstimativaRepasseDev.setText(DoubleConverter.doubleToString(totalPfEstimadaDev * .4 * paramRepasse.getValor()));
         lbTotalDetalhadaContratoDev.setText(DoubleConverter.doubleToString(totalPfDetalhadaDev * .4 * paramContrato.getValor()));
@@ -334,18 +383,29 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         }
         lbTotalPfEstimadaTst.setText(DoubleConverter.doubleToString(totalPfEstimadaTst * .25));
         lbTotalPfDetalhadaTst.setText(DoubleConverter.doubleToString(totalPfDetalhadaTst * .25));
-        //TODO Esperar o Higo e multiplicar o valor
+        //TODO Esperar o Higo e multiplicar o valor, Meu deus dnv? tu tem demencia?
         lbTotalEstimativaContratoTst.setText(DoubleConverter.doubleToString(totalPfEstimadaTst * .25 * paramContrato.getValor()));
         lbTotalEstimativaRepasseTst.setText(DoubleConverter.doubleToString(totalPfEstimadaTst * .25 * paramRepasse.getValor()));
         lbTotalDetalhadaContratoTst.setText(DoubleConverter.doubleToString(totalPfDetalhadaTst * .25 * paramContrato.getValor()));
         lbTotalDetalhadaRepasseTst.setText(DoubleConverter.doubleToString(totalPfDetalhadaTst * .25 * paramRepasse.getValor()));
         lbQtdTst.setText(String.valueOf(tvTst.getItems().size()));
-
-        lbTotalEstimadaoContrato.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramContrato.getValor() + totalPfEstimadaDev * .4 * paramContrato.getValor() + totalPfEstimadaTst * .25 * paramContrato.getValor()));
+        //Calcular ALI-AIE
+        Double totalPFAieEstimada =tvAli.getItems().stream().mapToDouble(t ->t.getId().getAtividade().getContagemEstimada()).sum();
+        Double totalPFAieDetalhada = tvAli.getItems().stream().mapToDouble(t ->t.getId().getAtividade().getContagemDetalhada()).sum();
+        lbTotalRegistros.setText(String.valueOf(tvAli.getItems().size()));
+        lbTotalPfAlieDetalhada.setText(String.valueOf(totalPFAieDetalhada));
+        lbTotalPfAlieEstimada.setText(String.valueOf(totalPFAieEstimada));
+        lbTotalAlieDetalhadaContrato.setText(DoubleConverter.doubleToString(totalPFAieDetalhada*paramContrato.getValor()));
+        lbTotalAlieDetalhadaRepasse.setText(DoubleConverter.doubleToString(totalPFAieDetalhada*paramRepasse.getValor()));
+        lbTotalAlieEstimadaContrato.setText(DoubleConverter.doubleToString(totalPFAieEstimada*paramContrato.getValor()));
+        lbTotalAlieEstimadaRepasse.setText(DoubleConverter.doubleToString(totalPFAieEstimada*paramRepasse.getValor()));
+        //Total geral
+        lbTotalEstimadaoContrato.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramContrato.getValor() + totalPfEstimadaDev * .4 * paramContrato.getValor() + totalPfEstimadaTst * .25 * paramContrato.getValor()+ totalPFAieEstimada*paramContrato.getValor()));
         lbTotalEstimadaoRepasse.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramRepasse.getValor() + totalPfEstimadaDev * .4 * paramRepasse.getValor() + totalPfEstimadaTst * .25 * paramRepasse.getValor()));
         lbTotalDetalhadoContrato.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramContrato.getValor() + totalPfDetalhadaDev * .4 * paramContrato.getValor() + totalPfDetalhadaTst * .25 * paramContrato.getValor()));
         lbTotalDetalhadoRepasse.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramRepasse.getValor() + totalPfDetalhadaDev * .4 * paramRepasse.getValor() + totalPfDetalhadaTst * .25 * paramRepasse.getValor()));
-
+        
+        
     }
 
     /**
@@ -412,41 +472,54 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         scrollPane.setContent(gerenciadorDeJanela.carregarComponente("PesquisarAtividade", params));
     }
 
+    void criarPasta() {
+        Path p = Paths.get("//planilhas");
+        if (!Files.isDirectory(p)) {
+            try {
+                Files.createDirectories(p);
+            } catch (IOException ex) {
+                Logger.getLogger(VisualizarDetalheAtividadeController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     @FXML
     private void gerarPlanilhaSTEFANINIAction() {
-        String file = new GeradorPlanilha().gerarDetalhamento(new PlanilhaDetalhes((Date) params.get("data"), 
-            tvLev.getItems().stream().collect(Collectors.toList()),
-            tvDev.getItems().stream().collect(Collectors.toList()),
-            tvTst.getItems().stream().collect(Collectors.toList()), 
-            lbTotalEstimadaoContrato.getText(), 
-            lbTotalDetalhadoContrato.getText(), 
-            lbTotalEstimadaoRepasse.getText(), 
-            lbTotalDetalhadoRepasse.getText(), 
-            true));
-        if(file == null){
-            MessageUtil.messageError("Erro ao gerar planilha STEFANINI");            
-        }else{
-            MessageUtil.confirmMessage("Planilha gerada com sucesso: "+file);
+        criarPasta();
+        String file = new GeradorPlanilha().gerarDetalhamento(new PlanilhaDetalhes((Date) params.get("data"),
+                tvLev.getItems().stream().collect(Collectors.toList()),
+                tvDev.getItems().stream().collect(Collectors.toList()),
+                tvTst.getItems().stream().collect(Collectors.toList()),
+                lbTotalEstimadaoContrato.getText(),
+                lbTotalDetalhadoContrato.getText(),
+                lbTotalEstimadaoRepasse.getText(),
+                lbTotalDetalhadoRepasse.getText(),
+                true));
+        if (file == null) {
+            MessageUtil.messageError("Erro ao gerar planilha STEFANINI");
+        } else {
+            MessageUtil.confirmMessage("Planilha gerada com sucesso: " + file);
         }
     }
 
     @FXML
     private void gerarPlanilhaBDMGAction() {
-        String file = new GeradorPlanilha().gerarDetalhamento(new PlanilhaDetalhes((Date) params.get("data"), 
-            tvLev.getItems().stream().collect(Collectors.toList()),
-            tvDev.getItems().stream().collect(Collectors.toList()),
-            tvTst.getItems().stream().collect(Collectors.toList()), 
-            lbTotalEstimadaoContrato.getText(), 
-            lbTotalDetalhadoContrato.getText(), 
-            lbTotalEstimadaoRepasse.getText(), 
-            lbTotalDetalhadoRepasse.getText(), 
-            false));
-        if(file == null){
+        criarPasta();
+        String file = new GeradorPlanilha().gerarDetalhamento(new PlanilhaDetalhes((Date) params.get("data"),
+                tvLev.getItems().stream().collect(Collectors.toList()),
+                tvDev.getItems().stream().collect(Collectors.toList()),
+                tvTst.getItems().stream().collect(Collectors.toList()),
+                lbTotalEstimadaoContrato.getText(),
+                lbTotalDetalhadoContrato.getText(),
+                lbTotalEstimadaoRepasse.getText(),
+                lbTotalDetalhadoRepasse.getText(),
+                false));
+        if (file == null) {
             MessageUtil.messageError("Erro ao gerar planilha BDMG");
-        }else{
-            MessageUtil.confirmMessage("Planilha gerada com sucesso: "+file);
+        } else {
+            MessageUtil.confirmMessage("Planilha gerada com sucesso: " + file);
         }
-        
+
     }
 
     public void teste() {
@@ -456,11 +529,11 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         lbProjetoModulo.setText("");
         tvLev.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.LE));
         tvDev.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
+        tvAli.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
         tvTst.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.TE));
         calcularTotais();
         colAcoesLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, ProgressoAtividade> param) -> new SimpleObjectProperty<>(param.getValue()));
         colAcoesLev.setCellFactory((TableColumn<ProgressoAtividade, ProgressoAtividade> param) -> new TableCell<ProgressoAtividade, ProgressoAtividade>() {
-
             @Override
             protected void updateItem(ProgressoAtividade item, boolean empty) {
                 if (empty || item == null) {
@@ -488,7 +561,6 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
                 }
             }
         });
-
         colAcoesDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, ProgressoAtividade> param) -> new SimpleObjectProperty<>(param.getValue()));
         colAcoesDev.setCellFactory((TableColumn<ProgressoAtividade, ProgressoAtividade> param) -> new TableCell<ProgressoAtividade, ProgressoAtividade>() {
 
@@ -565,7 +637,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         colEstimativaRepasseLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemEstimada() * .35 * valorRepasse)));
         colDetalhadaContratoLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemDetalhada() * .35 * valorContrato)));
         colDetalhadaRepasseLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemDetalhada() * .35 * valorRepasse)));
-
+//Xing ling nao e boa pratica comentar codigo fonte
 //        colIdLev.setStyle( "-fx-alignment: CENTER");
 //        colOsLev.setStyle( "-fx-alignment: CENTER");
 //        colModLev.setStyle( "-fx-alignment: CENTER");
@@ -593,7 +665,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         colEstimativaRepasseDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemEstimada() * .4 * valorRepasse)));
         colDetalhadaContratoDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemDetalhada() * .4 * valorContrato)));
         colDetalhadaRepasseDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemDetalhada() * .4 * valorRepasse)));
-
+//TODO xingling apaga isso
 //        colIdDev.setStyle( "-fx-alignment: CENTER");
 //        colOsDev.setStyle( "-fx-alignment: CENTER");
 //        colModDev.setStyle( "-fx-alignment: CENTER");
@@ -606,10 +678,21 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         colEstimativaRepasseDev.setStyle("-fx-alignment: CENTER_RIGHT");
         colDetalhadaContratoDev.setStyle("-fx-alignment: CENTER_RIGHT");
         colDetalhadaRepasseDev.setStyle("-fx-alignment: CENTER_RIGHT");
-
         colIdTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param1) -> {
             return new SimpleStringProperty(String.valueOf(tvTst.getItems().indexOf(param1.getValue()) + 1));
         });
+
+        tcIdAli.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param1) -> {
+            return new SimpleStringProperty(String.valueOf(tvAli.getItems().indexOf(param1.getValue()) + 1));
+        });
+        tcAtividade.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(param.getValue().getId().getAtividade().getDescricao()));
+        tcNome.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(param.getValue().getId().getAtividade().getNomeAli()));
+        tcPfDetalhada.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, Double> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getAliDetalhada()));
+        tcPfEstimada.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, Double> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getAliEstimada()));
+        tcValorContratoDetalhada.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getAliDetalhada() * valorContrato)));
+        tcValorRepassseDetalhada.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getAliDetalhada() * valorRepasse)));
+        tcValorContratoEstimada.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getAliDetalhada() * valorContrato)));
+        tcValorRepassseEstimada.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getAliDetalhada() * valorRepasse)));
         colOsTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, OrdemServico> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getOrdemServico()));
         colModTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, Modulo> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getPacote().getModulo()));
         colProTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, Projeto> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getPacote().getModulo().getProjeto()));
@@ -621,7 +704,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         colEstimativaRepasseTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemEstimada() * .25 * valorRepasse)));
         colDetalhadaContratoTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemDetalhada() * .25 * valorContrato)));
         colDetalhadaRepasseTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemDetalhada() * .25 * valorRepasse)));
-
+//Carai xing tu comenta mesma coisa 3x por codigo
 //        colIdTst.setStyle( "-fx-alignment: CENTER");
 //        colOsTst.setStyle( "-fx-alignment: CENTER");
 //        colModTst.setStyle( "-fx-alignment: CENTER");
@@ -649,7 +732,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
 //        lbTotalDetalhadoRepasse.setVisible(false);        
 //        lbTxTotalEstimadaoRepasse.setVisible(false);
 //        lbTotalEstimadaoRepasse.setVisible(false);
-        
+
     }
 
     @Override
@@ -664,24 +747,25 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
 //        lbTotalDetalhadoRepasse.setVisible(false);        
 //        lbTxTotalEstimadaoRepasse.setVisible(false);
 //        lbTotalEstimadaoRepasse.setVisible(false);
-        
+
     }
 
     @Override
     public void buildBDMG() {
         colEstimativaRepasseLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty("-----"));
         colDetalhadaRepasseLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty("-----"));
-        colEstimativaRepasseDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty("-----"));   
+        colEstimativaRepasseDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty("-----"));
         colDetalhadaRepasseDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty("-----"));
         colEstimativaRepasseTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty("-----"));
         colDetalhadaRepasseTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty("-----"));
+
         lbTxTotalDetalhadoRepasse.setVisible(false);
-        lbTotalDetalhadoRepasse.setVisible(false);        
+        lbTotalDetalhadoRepasse.setVisible(false);
         lbTxTotalEstimadaoRepasse.setVisible(false);
         lbTotalEstimadaoRepasse.setVisible(false);
         btPlanilhaSTEFANINI.setVisible(false);
         btPlanilhaBDMG.setVisible(true);
-        
+
         colAcoesLev.setCellFactory((TableColumn<ProgressoAtividade, ProgressoAtividade> param) -> new TableCell<ProgressoAtividade, ProgressoAtividade>() {
 
             @Override
@@ -712,11 +796,11 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
                 }
             }
         });
-        
+
     }
 
     @Override
-    public void buildDesenvolvedor() {       
+    public void buildDesenvolvedor() {
 //        colEstimativaRepasseLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty("-----"));
 //        colDetalhadaRepasseLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty("-----"));
 //        colEstimativaRepasseDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty("-----"));   
@@ -727,21 +811,21 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
 //        lbTotalDetalhadoRepasse.setVisible(false);        
 //        lbTxTotalEstimadaoRepasse.setVisible(false);
 //        lbTotalEstimadaoRepasse.setVisible(false);
-        
+
     }
 
     @Override
     public void buildGerente() {
         colEstimativaRepasseLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemEstimada() * .35 * valorRepasse)));
         colDetalhadaRepasseLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemDetalhada() * .35 * valorRepasse)));
-        
+
         colEstimativaRepasseDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemEstimada() * .4 * valorRepasse)));
         colDetalhadaRepasseDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemDetalhada() * .4 * valorRepasse)));
-        
+
         colEstimativaRepasseTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemEstimada() * .25 * valorRepasse)));
         colDetalhadaRepasseTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemDetalhada() * .25 * valorRepasse)));
         lbTxTotalDetalhadoRepasse.setVisible(true);
-        lbTotalDetalhadoRepasse.setVisible(true);        
+        lbTotalDetalhadoRepasse.setVisible(true);
         lbTxTotalEstimadaoRepasse.setVisible(true);
         lbTotalEstimadaoRepasse.setVisible(true);
         btPlanilhaSTEFANINI.setVisible(true);
@@ -794,6 +878,6 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
 //        lbTotalDetalhadoRepasse.setVisible(false);        
 //        lbTxTotalEstimadaoRepasse.setVisible(false);
 //        lbTotalEstimadaoRepasse.setVisible(false);
-        
+
     }
 }

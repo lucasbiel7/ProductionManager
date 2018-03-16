@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="970.0" prefWidth="1316.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.VisualizarDetalheAtividadeController">
+<AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="1600.0" prefWidth="1317.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.VisualizarDetalheAtividadeController">
    <children>
       <Label fx:id="lbDetalhamento" layoutX="14.0" layoutY="7.0" text="Detalhamento de &lt;&lt;mês&gt;&gt;/&lt;&lt;ano&gt;&gt;">
          <font>
@@ -208,8 +208,8 @@
             <Label fx:id="lbQtdDev" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="285.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
-      <Label layoutX="-46.0" layoutY="694.0" styleClass="title-label-left-bold" stylesheets="@styles/Styles.css" text="Teste e Homologação - Calculo: 25%" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-      <TableView fx:id="tvTst" layoutX="20.0" layoutY="724.0" prefHeight="200.0" prefWidth="599.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+      <Label layoutX="15.0" layoutY="954.0" styleClass="title-label-left-bold" stylesheets="@styles/Styles.css" text="Teste e Homologação - Calculo: 25%" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <TableView fx:id="tvTst" layoutX="15.0" layoutY="984.0" prefHeight="200.0" prefWidth="599.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <columns>
             <TableColumn fx:id="colIdTst" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
             <TableColumn fx:id="colOsTst" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Ordem de Serviço" />
@@ -238,10 +238,10 @@
             <TableColumn fx:id="colAcoesTst" maxWidth="58.0" minWidth="58.0" prefWidth="58.0" text="Ação" />
          </columns>
       </TableView>
-      <GridPane layoutX="15.0" layoutY="924.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+      <GridPane layoutX="15.0" layoutY="1194.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="260.0" prefWidth="260.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="260.0" minWidth="260.0" prefWidth="260.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="321.0" minWidth="321.0" prefWidth="321.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
@@ -265,12 +265,141 @@
             <Label fx:id="lbTotalEstimativaRepasseTst" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="156.0" textAlignment="CENTER" GridPane.columnIndex="6" />
             <Label fx:id="lbTotalDetalhadaContratoTst" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="151.0" textAlignment="CENTER" GridPane.columnIndex="7" />
             <Label fx:id="lbTotalDetalhadaRepasseTst" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="154.0" textAlignment="CENTER" GridPane.columnIndex="8" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="517.0" text="Quantidade de Registros">
+            <Label prefHeight="17.0" prefWidth="517.0" text="Quantidade de Registros">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
             <Label fx:id="lbQtdTst" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="331.0" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+      <Label layoutX="15.0" layoutY="1256.0" styleClass="title-label-left-bold" stylesheets="@styles/Styles.css" text="Serviços" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <TableView fx:id="tvTst1" layoutX="15.0" layoutY="1293.0" prefHeight="200.0" prefWidth="599.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+         <columns>
+            <TableColumn fx:id="colIdTst1" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
+            <TableColumn fx:id="colOsTst1" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Ordem de Serviço" />
+            <TableColumn fx:id="colModTst1" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Módulo" />
+            <TableColumn fx:id="colProTst1" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Projeto" />
+            <TableColumn fx:id="colPacoteTst1" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Pacote" />
+            <TableColumn fx:id="colAtividadeTst1" maxWidth="201.0" minWidth="201.0" prefWidth="201.0" text="Atividade" />
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Contagem PF">
+               <columns>
+                  <TableColumn fx:id="colEstimativaPFTst1" maxWidth="80.0" minWidth="80.0" text="Estimativa" />
+                  <TableColumn fx:id="colDetalhadaPFTst1" maxWidth="80.0" minWidth="80.0" text="Detalhada" />
+               </columns>
+            </TableColumn>
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Estimativa">
+               <columns>
+                  <TableColumn fx:id="colEstimativaContratoTst1" maxWidth="80.0" minWidth="80.0" text="Contrato R$" />
+                  <TableColumn fx:id="colEstimativaRepasseTst1" maxWidth="80.0" minWidth="80.0" text="Repasse R$" />
+               </columns>
+            </TableColumn>
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Detalhada">
+               <columns>
+                  <TableColumn fx:id="colDetalhadaContratoTst1" maxWidth="80.0" minWidth="80.0" text="Contrato R$" />
+                  <TableColumn fx:id="colDetalhadaRepasseTst1" maxWidth="80.0" minWidth="80.0" text="Repasse R$" />
+               </columns>
+            </TableColumn>
+            <TableColumn fx:id="colAcoesTst1" maxWidth="58.0" minWidth="58.0" prefWidth="58.0" text="Ação" />
+         </columns>
+      </TableView>
+      <GridPane layoutX="15.0" layoutY="1506.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="260.0" prefWidth="260.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="321.0" minWidth="321.0" prefWidth="321.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="556.0" text="Total" textAlignment="RIGHT" GridPane.columnIndex="2">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbTotalPfEstimadaTst1" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="111.0" textAlignment="CENTER" GridPane.columnIndex="3" />
+            <Label fx:id="lbTotalPfDetalhadaTst1" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="133.0" textAlignment="CENTER" GridPane.columnIndex="4" />
+            <Label fx:id="lbTotalEstimativaContratoTst1" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="148.0" textAlignment="CENTER" GridPane.columnIndex="5" />
+            <Label fx:id="lbTotalEstimativaRepasseTst1" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="156.0" textAlignment="CENTER" GridPane.columnIndex="6" />
+            <Label fx:id="lbTotalDetalhadaContratoTst1" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="151.0" textAlignment="CENTER" GridPane.columnIndex="7" />
+            <Label fx:id="lbTotalDetalhadaRepasseTst1" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="154.0" textAlignment="CENTER" GridPane.columnIndex="8" />
+            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="517.0" text="Quantidade de Registros">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbQtdTst1" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="331.0" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+      <Label layoutX="15.0" layoutY="683.0" text="Arquivo Lógico - ALI/AIE" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <TableView fx:id="tvAli" layoutX="15.0" layoutY="717.0" prefHeight="179.0" prefWidth="1287.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+        <columns>
+          <TableColumn fx:id="tcIdAli" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="tcAtividade" prefWidth="75.0" text="Atividade" />
+            <TableColumn fx:id="tcNome" prefWidth="75.0" text="Nome" />
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Contagem PF">
+               <columns>
+                  <TableColumn fx:id="tcPfEstimada" maxWidth="80.0" minWidth="80.0" text="Estimativa" />
+                  <TableColumn fx:id="tcPfDetalhada" maxWidth="80.0" minWidth="80.0" text="Detalhada" />
+               </columns>
+            </TableColumn>
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Estimativa">
+               <columns>
+                  <TableColumn fx:id="tcValorContratoEstimada" maxWidth="80.0" minWidth="80.0" text="Contrato R$" />
+                  <TableColumn fx:id="tcValorRepassseEstimada" maxWidth="80.0" minWidth="80.0" text="Repasse R$" />
+               </columns>
+            </TableColumn>
+            <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Detalhada">
+               <columns>
+                  <TableColumn fx:id="tcValorContratoDetalhada" maxWidth="80.0" minWidth="80.0" text="Contrato R$" />
+                  <TableColumn fx:id="tcValorRepassseDetalhada" maxWidth="80.0" minWidth="80.0" text="Repasse R$" />
+               </columns>
+            </TableColumn>
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <GridPane layoutX="15.0" layoutY="909.0" prefHeight="30.0" prefWidth="771.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="LEFT" maxWidth="80.0" minWidth="80.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="LEFT" maxWidth="80.0" minWidth="80.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="LEFT" maxWidth="80.0" minWidth="80.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="LEFT" maxWidth="80.0" minWidth="80.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="LEFT" maxWidth="80.0" minWidth="80.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="LEFT" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="509.0" text="Quantidade de Registros">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbTotalRegistros" GridPane.columnIndex="1" />
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="556.0" text="Total" textAlignment="RIGHT" GridPane.columnIndex="2">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbTotalPfAlieEstimada" GridPane.columnIndex="3" />
+            <Label fx:id="lbTotalPfAlieDetalhada" GridPane.columnIndex="4" />
+            <Label fx:id="lbTotalAlieEstimadaContrato" GridPane.columnIndex="5" />
+            <Label fx:id="lbTotalAlieEstimadaRepasse" GridPane.columnIndex="6" />
+            <Label fx:id="lbTotalAlieDetalhadaContrato" GridPane.columnIndex="7" />
+            <Label fx:id="lbTotalAlieDetalhadaRepasse" GridPane.columnIndex="8" />
          </children>
       </GridPane>
    </children>

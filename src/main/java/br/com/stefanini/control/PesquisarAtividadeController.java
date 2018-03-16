@@ -48,7 +48,6 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -134,10 +133,10 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
 
     @FXML
     private Button btAdd;
-    
+
     @FXML
     private Button btVisualizar;
-    
+
     Map<String, Object> params = new HashMap<>();
 
     /**
@@ -167,9 +166,9 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         colDesenvolvimento.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
         colHomologacao.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
         colAcoes.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, Atividade> param1) -> new SimpleObjectProperty<>(param1.getValue()));
-        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,false));
-        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,false));
-        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,false));
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE, false));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, false));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, false));
         colAcoes.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCell<Atividade, Atividade>() {
             @Override
             protected void updateItem(Atividade atividade, boolean empty) {
@@ -197,7 +196,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                     btAlteracaoEscopo.setOnAction((ActionEvent event) -> {
                         params.put("Atividade", atividade);
                         gerenciadorDeJanela.abrirModal("AlterarEscopoAtividade", params, "Alteração de Escopo da Atividade");
-                        carregarTabela();
+                        btPesquisarAction();
 
 //                        Stage stage1 = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("AlterarEscopoAtividade", atividade), "Alteração de Escopo da Atividade");
 //                        stage1.initOwner(PesquisarAtividadeController.this.stage);
@@ -208,7 +207,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                     btEnviarParaFaturamento.setOnAction((ActionEvent event) -> {
                         params.put("Atividade", atividade);
                         gerenciadorDeJanela.abrirModal("FaturarAtividade", params, "Faturar atividade");
-                        carregarTabela();
+                        btPesquisarAction();
 //                        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("FaturarAtividade", atividade), "Faturar atividade");
 //                        stage.initOwner(PesquisarAtividadeController.this.stage);
 //                        stage.initModality(Modality.WINDOW_MODAL);
@@ -222,7 +221,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                         }
                         params.put("Atividade", atividade);
                         gerenciadorDeJanela.abrirModal("ManterAtividade", params, "Início");
-                        carregarTabela();
+                        btPesquisarAction();
 //                        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade", atividade), "Início");
 //                        stage.initOwner(PesquisarAtividadeController.this.stage);
 //                        stage.initModality(Modality.WINDOW_MODAL);
@@ -239,7 +238,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                                     MessageUtil.messageError("Não é possível excluir uma atividade que já foi inicializada.");
                                 }
                             }
-                            carregarTabela();
+                            btPesquisarAction();
                         }
                     });
                     hBox.getChildren().addAll(btEditar, btAlteracaoEscopo, btIncluirPendencia, btRemoverPendencia, btVisualizarPendencia, btEnviarParaFaturamento, btExcluir);
@@ -339,13 +338,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
 //        stage.initModality(Modality.WINDOW_MODAL);
 //        stage.showAndWait();
         gerenciadorDeJanela.abrirModal("ManterAtividade", params, "Início");
-        carregarTabela();
-    }
-
-    private void carregarTabela() {
-        tvAtividade.getItems().clear();
-        tvAtividade.getItems().setAll(new AtividadeDAO().pegarPorMes(DateUtil.truncateDate(param)));
-        buildTotais(tvAtividade.getItems());
+        btPesquisarAction();
     }
 
     @FXML
@@ -361,9 +354,9 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
     public void buildAnalista() {
         btAdd.setVisible(true);
         colAcoes.setVisible(true);
-        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,true));
-        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,false));
-        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,true));
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE, true));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, false));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, true));
         btVisualizar.setVisible(false);
     }
 
@@ -371,9 +364,9 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
     public void buildBancoDados() {
         btAdd.setVisible(true);
         colAcoes.setVisible(true);
-        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,true));
-        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,true));
-        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,true));
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE, true));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, true));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, true));
         btVisualizar.setVisible(true);
     }
 
@@ -381,9 +374,9 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
     public void buildBDMG() {
         btAdd.setVisible(false);
         colAcoes.setVisible(false);
-        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,true));
-        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,true));
-        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,true));
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE, true));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, true));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, true));
         btVisualizar.setVisible(false);
     }
 
@@ -391,39 +384,56 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
     public void buildDesenvolvedor() {
         btAdd.setVisible(false);
         colAcoes.setVisible(false);
-        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,true));
-        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,true));
-        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,false));
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE, true));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, true));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, false));
         btVisualizar.setVisible(false);
-        
+
     }
 
     @Override
     public void buildGerente() {
         btAdd.setVisible(true);
         colAcoes.setVisible(true);
-        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,false));
-        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,false));
-        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,false));
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE, false));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, false));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, false));
         btVisualizar.setVisible(true);
-        
+
     }
 
     @Override
     public void buildQualidade() {
         btAdd.setVisible(false);
         colAcoes.setVisible(false);
-        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE,false));
-        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,true));
-        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,true));
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE, false));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, true));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, true));
         btVisualizar.setVisible(false);
     }
 
+    public void teste() {
+        params = (Map) apPrincipal.getUserData();
+        param = (Date) params.get("dataInicio");
+        projeto = (Projeto) params.get("projetoObject");
+        gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+        lbPesquisa.setText(buildLabel(param));
+        cbModulo.setValue(null);
+        cbPacote.setValue(null);
+        cbProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
+        cbProjeto.setValue(projeto);
+        txAtividade.setText("");
+        cbSituacao.getItems().setAll(SituacaoAtividade.values());
+        cbFaturamento.getItems().setAll(Faturamento.values());
+        btPesquisarAction();
+    }
+
+    //Classe para renderizar os spinners
     private class TableCellFases extends TableCell<Atividade, Atividade> {
 
         private final TipoAtividade tipoAtividade;
         private boolean disabled;
-        
+
         public TableCellFases(TipoAtividade tipoAtividade, boolean disabled) {
             this.tipoAtividade = tipoAtividade;
             this.disabled = disabled;
@@ -435,8 +445,8 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                 setGraphic(null);
             } else {
                 Spinner<Double> spDados = new Spinner<>();
-                if(item.getProgresso(tipoAtividade)==null){
-                    item.setProgresso(new ProgressoAtividadeDAO().pegarUtualProgressoPorAtividadeTipo(item, this.tipoAtividade),tipoAtividade);
+                if (item.getProgresso(tipoAtividade) == null) {
+                    item.setProgresso(new ProgressoAtividadeDAO().pegarUtualProgressoPorAtividadeTipo(item, this.tipoAtividade), tipoAtividade);
                 }
                 double initValue = 0;
                 if (item.getProgresso(tipoAtividade) != null) {
@@ -470,23 +480,5 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                 setGraphic(spDados);
             }
         }
-
-    }
-
-    public void teste() {
-        params = (Map) apPrincipal.getUserData();
-        param = (Date) params.get("dataInicio");
-        projeto = (Projeto) params.get("projetoObject");
-        gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
-        lbPesquisa.setText(buildLabel(param));
-        carregarTabela();
-        cbPacote.setValue(null);
-        cbModulo.setValue(null);
-        cbPacote.setValue(null);
-        cbProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
-        cbProjeto.setValue(projeto);
-        txAtividade.setText("");
-        cbSituacao.getItems().setAll(SituacaoAtividade.values());
-        cbFaturamento.getItems().setAll(Faturamento.values());
     }
 }

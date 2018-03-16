@@ -106,7 +106,6 @@ public class ProgressoAtividade extends BaseEntity<ProgressoAtividadeId> {
         
     }
     
-    private ProgressoAtividadeId id;
 
     private Date dataDoProgresso;
 
@@ -123,10 +122,12 @@ public class ProgressoAtividade extends BaseEntity<ProgressoAtividadeId> {
     }
     
     @EmbeddedId
+    @Override
     public ProgressoAtividadeId getId() {
         return id;
     }
 
+    @Override
     public void setId(ProgressoAtividadeId id) {
         this.id = id;
     }
