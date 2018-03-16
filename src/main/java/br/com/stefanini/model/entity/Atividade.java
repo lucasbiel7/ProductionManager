@@ -59,7 +59,7 @@ public class Atividade extends BaseEntity<String> {
     private String nomeAli;
     private List<ProgressoAtividade> progressos;
 
-    public static final String SCAPE = "#$";
+    public static final String SCAPE = "#";
 
     public Atividade() {
     }

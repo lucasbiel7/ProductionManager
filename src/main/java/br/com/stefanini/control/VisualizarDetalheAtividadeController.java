@@ -43,6 +43,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -53,6 +54,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 /**
  * FXML Controller class
@@ -359,7 +361,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         lbTotalDetalhadaContratoLev.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramContrato.getValor()));
         lbTotalDetalhadaRepasseLev.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramRepasse.getValor()));
         lbQtdLev.setText(String.valueOf(tvLev.getItems().size()));
-
+        
         Double totalPfEstimadaDev = 0.0;
         Double totalPfDetalhadaDev = 0.0;
         for (ProgressoAtividade progresso : tvDev.getItems()) {
@@ -686,6 +688,25 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         });
         tcAtividade.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(param.getValue().getId().getAtividade().getDescricao()));
         tcNome.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(param.getValue().getId().getAtividade().getNomeAli()));
+        tcNome.setCellFactory((TableColumn<ProgressoAtividade, String> param) -> new TableCell<ProgressoAtividade, String>(){
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                if (empty) {
+                    setGraphic(null);
+                    setText("");
+                }else{
+                    if (item==null) {
+                        setGraphic(null);
+                        setText("");
+                    }else{
+                        ListView<String> alies=new ListView<>();
+                        alies.getItems().setAll(item.split(Atividade.SCAPE));
+                        alies.setPrefHeight(alies.getItems().size()*15);
+                        setGraphic(alies);
+                    }
+                }
+            }
+        });
         tcPfDetalhada.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, Double> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getAliDetalhada()));
         tcPfEstimada.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, Double> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getAliEstimada()));
         tcValorContratoDetalhada.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getAliDetalhada() * valorContrato)));

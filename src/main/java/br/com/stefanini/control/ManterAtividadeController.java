@@ -353,9 +353,11 @@ public class ManterAtividadeController implements Initializable {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(atividade.getPrevisaoInicio());
             if(atividade.getNomeAli()!=null){
-                listaNomes=Arrays.asList(atividade.getNomeAli().split(Atividade.SCAPE));
+                listaNomes.clear();
+                listaNomes.addAll(Arrays.asList(atividade.getNomeAli().split(Atividade.SCAPE)));
                 lvNomesAlis.getItems().setAll(listaNomes);
             }else{
+                listaNomes.clear();
                 lvNomesAlis.getItems().setAll(listaNomes);
             }
             cbMes.getSelectionModel().select(Mes.values()[calendar.get(Calendar.MONTH)]);
