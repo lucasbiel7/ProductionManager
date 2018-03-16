@@ -484,8 +484,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                     setGraphic(null);
                     setText(" - ");
                     setAlignment(Pos.CENTER);
-                    setTooltip(new Tooltip("Não possui esta fase"));
-                    
+                    setTooltip(new Tooltip("Não possui esta fase"));   
                 }
             }
         }
