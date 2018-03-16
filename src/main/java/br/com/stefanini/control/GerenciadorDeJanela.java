@@ -33,7 +33,11 @@ public class GerenciadorDeJanela {
     public Stage mostrarJanela(Stage primaryStage, Parent parent, String title) {
         primaryStage.setTitle(title);
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(PACOTE_VIEW+"image/ico.png")));
-        scene = new Scene(parent);
+        if(parent.getScene()==null){
+            scene = new Scene(parent);
+        }else{
+            scene=parent.getScene();
+        }
         primaryStage.setScene(scene);
         return primaryStage;
     }
@@ -58,9 +62,6 @@ public class GerenciadorDeJanela {
     public void trocarCena(Parent parent, String key) {
         if (parent != null) {
             Object o = getMain().loaders.get(key).getController();
-            if(o instanceof PainelDeControleController){
-                ((PainelDeControleController)o).teste();
-            }
             mostrarJanela(getMain().mainStage, parent, key);
         }
     }

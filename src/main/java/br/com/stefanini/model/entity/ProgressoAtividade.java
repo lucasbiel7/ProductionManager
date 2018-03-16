@@ -110,10 +110,6 @@ public class ProgressoAtividade extends BaseEntity<ProgressoAtividadeId> {
 
     private Date dataDoProgresso;
 
-    private Date dataInicio;
-
-    private Date dataFim;
-
     private Faturamento faturamento = Faturamento.AF;
 
     private Parametro parametroContrato;
@@ -126,7 +122,6 @@ public class ProgressoAtividade extends BaseEntity<ProgressoAtividadeId> {
         }
     }
     
-
     @EmbeddedId
     public ProgressoAtividadeId getId() {
         return id;
@@ -136,8 +131,6 @@ public class ProgressoAtividade extends BaseEntity<ProgressoAtividadeId> {
         this.id = id;
     }
 
-    
-    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "TM_PROGRESSO")
     public Date getDataDoProgresso() {
@@ -146,38 +139,6 @@ public class ProgressoAtividade extends BaseEntity<ProgressoAtividadeId> {
 
     public void setDataDoProgresso(Date dataDoProgresso) {
         this.dataDoProgresso = dataDoProgresso;
-    }
-
-    /**
-     * @return the dataInicio
-     */
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "TM_INICIO")
-    public Date getDataInicio() {
-        return dataInicio;
-    }
-
-    /**
-     * @param dataInicio the dataInicio to set
-     */
-    public void setDataInicio(Date dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    /**
-     * @return the dataFim
-     */
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "TM_FIM")
-    public Date getDataFim() {
-        return dataFim;
-    }
-
-    /**
-     * @param dataFim the dataFim to set
-     */
-    public void setDataFim(Date dataFim) {
-        this.dataFim = dataFim;
     }
 
     @Column(name = "TP_FATURAMENTO")

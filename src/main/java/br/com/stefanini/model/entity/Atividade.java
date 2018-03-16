@@ -10,6 +10,7 @@ import br.com.stefanini.model.BaseEntity;
 import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.OrigemAtividade;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
+import br.com.stefanini.model.enuns.TipoAtividade;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -29,6 +30,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -57,7 +59,7 @@ public class Atividade extends BaseEntity<String> {
     private Double aliDetalhada;
     private String nomeAli;
     private List<ProgressoAtividade> progressos;
-    
+
     public static final String SCAPE = "#$";
 
     public Atividade() {
@@ -83,7 +85,7 @@ public class Atividade extends BaseEntity<String> {
     public String getId() {
         return super.getId(); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "DS_ATIVIDADE")
     public OrigemAtividade getOrigemAtividade() {
@@ -93,7 +95,7 @@ public class Atividade extends BaseEntity<String> {
     public void setOrigemAtividade(OrigemAtividade origemAtividade) {
         this.origemAtividade = origemAtividade;
     }
-    
+
     @Column(name = "TX_DESCRICAO")
     public String getDescricao() {
         return descricao;
@@ -229,7 +231,7 @@ public class Atividade extends BaseEntity<String> {
     public void setAliDetalhada(Double aliDetalhada) {
         this.aliDetalhada = aliDetalhada;
     }
-    
+
     @Column(name = "TX_ALI")
     public String getNomeAli() {
         return nomeAli;
@@ -239,4 +241,34 @@ public class Atividade extends BaseEntity<String> {
         this.nomeAli = nomeAli;
     }
 
+    private Double progressoDE;
+    private Double progressoLE;
+    private Double progressoTE;
+
+   
+    public Double getProgresso(TipoAtividade tipoAtividade) {
+        switch (tipoAtividade) {
+            case DE:
+                return progressoDE;
+            case LE:
+                return progressoLE;
+            case TE:
+                return progressoTE;
+        }
+        return null;
+    }
+
+    public void setProgresso(Double progresso, TipoAtividade tipoAtividade) {
+        switch (tipoAtividade) {
+            case DE:
+                this.progressoDE = progresso;
+                break;
+            case LE:
+                this.progressoLE = progresso;
+                break;
+            case TE:
+                this.progressoTE = progresso;
+                break;
+        }
+    }
 }

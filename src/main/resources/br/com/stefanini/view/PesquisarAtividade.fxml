@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -21,36 +22,35 @@
         <URL value="@/br/com/stefanini/view/styles/Styles.css" />
     </stylesheets>
    <children>
-      <GridPane hgap="5.0" layoutX="14.0" layoutY="42.0" prefHeight="194.0" prefWidth="609.0" vgap="5.0" AnchorPane.leftAnchor="15.0">
+      <GridPane hgap="5.0" layoutX="14.0" layoutY="42.0" prefHeight="128.0" prefWidth="833.0" vgap="5.0" AnchorPane.leftAnchor="15.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="267.0" minWidth="10.0" percentWidth="27.0" prefWidth="237.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.0" minWidth="10.0" percentWidth="73.0" prefWidth="250.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.0" minWidth="10.0" percentWidth="42.0" prefWidth="250.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.0" minWidth="10.0" percentWidth="104.0" prefWidth="250.0" />
          </columnConstraints>
          <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
             <Label text="Projeto:" />
-            <TextField fx:id="txAtividade" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="txAtividade" GridPane.columnIndex="3" />
             <Label text="Módulo:" GridPane.rowIndex="1" />
             <Label text="Pacote:" GridPane.rowIndex="2" />
-            <Label text="Atividade:" GridPane.rowIndex="3" />
-            <Label text="Situação da Atividade:" GridPane.rowIndex="4" />
-            <Label text="Faturamento:" GridPane.rowIndex="5" />
+            <Label text="Atividade:" GridPane.columnIndex="2" />
+            <Label text="Situação da Atividade:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label text="Faturamento:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <ComboBox fx:id="cbProjeto" onAction="#cbProjetoAction" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="1" />
             <ComboBox fx:id="cbModulo" onAction="#cbModuloAction" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ComboBox fx:id="cbPacote" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <ComboBox fx:id="cbSituacao" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ComboBox fx:id="cbFaturamento" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ComboBox fx:id="cbSituacao" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <ComboBox fx:id="cbFaturamento" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="3" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Label fx:id="lbPesquisa" layoutX="28.0" layoutY="14.0" text="Atividade(s) de &lt;&lt;mes&gt;&gt;/&lt;&lt;ano&gt;&gt;" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
-      <TableView fx:id="tvAtividade" layoutX="15.0" layoutY="303.0" prefHeight="277.0" prefWidth="1227.0" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="303.0">
+      <TableView fx:id="tvAtividade" layoutX="15.0" layoutY="271.0" prefHeight="410.0" prefWidth="1297.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="271.0">
         <columns>
           <TableColumn fx:id="colId" prefWidth="43.0" text="Número" />
           <TableColumn fx:id="colOs" prefWidth="157.0" text="Ordem Serviço" />
@@ -91,10 +91,13 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button layoutX="1239.0" layoutY="261.0" mnemonicParsing="false" onAction="#btPesquisarAction" text="Pesquisar" />
-      <Line endX="1170.0" layoutX="115.0" layoutY="244.0" startX="-100.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="41.0" />
-      <Button fx:id="btVisualizar" layoutX="1141.0" layoutY="261.0" mnemonicParsing="false" onAction="#visualizarAction" text="Faturamento" />
-      <GridPane layoutX="27.0" layoutY="243.0">
+      <Button layoutX="1236.0" layoutY="201.0" mnemonicParsing="false" onAction="#btPesquisarAction" text="Pesquisar" />
+      <Line endX="1170.0" layoutX="115.5" layoutY="185.0" startX="-100.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="41.0" />
+      <Button fx:id="btVisualizar" layoutX="1138.0" layoutY="201.0" mnemonicParsing="false" onAction="#visualizarAction" text="Faturamento">
+         <tooltip>
+            <Tooltip text="Visualizar atividade para faturamento" />
+         </tooltip></Button>
+      <GridPane layoutX="15.0" layoutY="201.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
