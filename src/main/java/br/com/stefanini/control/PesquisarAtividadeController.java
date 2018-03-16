@@ -17,9 +17,9 @@ import br.com.stefanini.model.entity.Pacote;
 import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.Faturamento;
+import br.com.stefanini.model.enuns.OrigemAtividade;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import br.com.stefanini.model.enuns.TipoAtividade;
-import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
@@ -444,40 +444,48 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
             if (empty) {
                 setGraphic(null);
             } else {
-                Spinner<Double> spDados = new Spinner<>();
-                if (item.getProgresso(tipoAtividade) == null) {
-                    item.setProgresso(new ProgressoAtividadeDAO().pegarUtualProgressoPorAtividadeTipo(item, this.tipoAtividade), tipoAtividade);
-                }
-                double initValue = 0;
-                if (item.getProgresso(tipoAtividade) != null) {
-                    initValue = item.getProgresso(tipoAtividade);
-                }
-                spDados.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(initValue, 100d, initValue, 5d));
-                spDados.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
-                    if (!Objects.equals(oldValue, newValue)) {
-                        ProgressoAtividade progressoAtividade = new ProgressoAtividade();
-                        progressoAtividade.getId().setAtividade(item);
-                        progressoAtividade.setDataDoProgresso(new Date());
-                        progressoAtividade.getId().setProgresso(newValue);
-                        progressoAtividade.getId().setTipoAtividade(this.tipoAtividade);
-                        if (newValue > oldValue) {
-                            if (newValue == 100d) {
-                                if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
-                                    progressoAtividade.setFaturamento(Faturamento.EF);
+                if(item.getOrigemAtividade()==null || item.getOrigemAtividade()==OrigemAtividade.P){
+                    Spinner<Double> spDados = new Spinner<>();
+                    if (item.getProgresso(tipoAtividade) == null) {
+                        item.setProgresso(new ProgressoAtividadeDAO().pegarUtualProgressoPorAtividadeTipo(item, this.tipoAtividade), tipoAtividade);
+                    }
+                    double initValue = 0;
+                    if (item.getProgresso(tipoAtividade) != null) {
+                        initValue = item.getProgresso(tipoAtividade);
+                    }
+                    spDados.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(initValue, 100d, initValue, 5d));
+                    spDados.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
+                        if (!Objects.equals(oldValue, newValue)) {
+                            ProgressoAtividade progressoAtividade = new ProgressoAtividade();
+                            progressoAtividade.getId().setAtividade(item);
+                            progressoAtividade.setDataDoProgresso(new Date());
+                            progressoAtividade.getId().setProgresso(newValue);
+                            progressoAtividade.getId().setTipoAtividade(this.tipoAtividade);
+                            if (newValue > oldValue) {
+                                if (newValue == 100d) {
+                                    if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
+                                        progressoAtividade.setFaturamento(Faturamento.EF);
+                                        new ProgressoAtividadeDAO().salvar(progressoAtividade);
+                                        item.setProgresso(progressoAtividade.getId().getProgresso(), tipoAtividade);
+                                        ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getId().getProgresso());
+                                    }
+                                } else {
                                     new ProgressoAtividadeDAO().salvar(progressoAtividade);
                                     item.setProgresso(progressoAtividade.getId().getProgresso(), tipoAtividade);
                                     ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getId().getProgresso());
                                 }
-                            } else {
-                                new ProgressoAtividadeDAO().salvar(progressoAtividade);
-                                item.setProgresso(progressoAtividade.getId().getProgresso(), tipoAtividade);
-                                ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getId().getProgresso());
                             }
                         }
-                    }
-                });
-                spDados.setDisable(this.disabled);
-                setGraphic(spDados);
+                    });
+                    spDados.setDisable(this.disabled);
+                    setGraphic(spDados);
+                    setText(null);
+                }else{
+                    setGraphic(null);
+                    setText(" - ");
+                    setAlignment(Pos.CENTER);
+                    setTooltip(new Tooltip("Não possui esta fase"));
+                }
             }
         }
     }

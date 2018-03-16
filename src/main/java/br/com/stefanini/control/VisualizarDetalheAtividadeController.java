@@ -695,13 +695,13 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
                     setGraphic(null);
                     setText("");
                 }else{
-                    if (item==null) {
+                    if (item==null || item.isEmpty()) {
                         setGraphic(null);
                         setText("");
                     }else{
                         ListView<String> alies=new ListView<>();
                         alies.getItems().setAll(item.split(Atividade.SCAPE));
-                        alies.setPrefHeight(alies.getItems().size()*15);
+                        alies.setPrefHeight(alies.getItems().size()*25);
                         setGraphic(alies);
                     }
                 }
