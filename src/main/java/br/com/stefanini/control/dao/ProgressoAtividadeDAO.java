@@ -35,7 +35,7 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
 
     public Double pegarUtualProgressoPorAtividadeTipo(Atividade atividade, TipoAtividade tipoAtividade) {
         TypedQuery<Double> typedQuery = getEntityManager().
-                createQuery("SELECT pa.progresso FROM ProgressoAtividade pa where pa.atividade =:atividade and pa.tipoAtividade=:tipoAtividade ORDER by pa.dataDoProgresso DESC",
+                createQuery("SELECT pa.id.progresso FROM ProgressoAtividade pa where pa.id.atividade =:atividade and pa.id.tipoAtividade=:tipoAtividade ORDER by pa.dataDoProgresso DESC",
                         Double.class);
         typedQuery.setParameter("atividade", atividade);
         typedQuery.setParameter("tipoAtividade", tipoAtividade);
