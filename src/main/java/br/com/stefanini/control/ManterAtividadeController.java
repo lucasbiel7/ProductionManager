@@ -29,6 +29,7 @@ import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -62,7 +63,7 @@ import javafx.stage.Window;
 public class ManterAtividadeController implements Initializable {
 
     private String listaAuxNomes;
-    private List<String> listaNomes = new ArrayList<>();
+    private List<String> listaNomes;
     @FXML
     private ListView<String> lvNomesAlis;
     @FXML
@@ -149,6 +150,7 @@ public class ManterAtividadeController implements Initializable {
 
         Calendar calendar = Calendar.getInstance();
         spAno.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(calendar.get(Calendar.YEAR), Integer.MAX_VALUE, calendar.get(Calendar.YEAR)));
+          
         cbProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
         cbOrdemServico.getItems().setAll(new OrdemServicoDAO().pegarTodos());
         cbMes.getItems().setAll(Mes.values());
@@ -343,8 +345,19 @@ public class ManterAtividadeController implements Initializable {
 
     public void carregarDados() {
         if (atividade != null) {
+            if(null == atividade.getOrigemAtividade()){
+                cbTipoAtividade.setValue(OrigemAtividade.P);
+            }else{
+                cbTipoAtividade.setValue(atividade.getOrigemAtividade());
+            }
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(atividade.getPrevisaoInicio());
+            if(atividade.getNomeAli()!=null){
+                listaNomes=Arrays.asList(atividade.getNomeAli().split(Atividade.SCAPE));
+                lvNomesAlis.getItems().setAll(listaNomes);
+            }else{
+                lvNomesAlis.getItems().setAll(listaNomes);
+            }
             cbMes.getSelectionModel().select(Mes.values()[calendar.get(Calendar.MONTH)]);
             spAno.getValueFactory().setValue(calendar.get(Calendar.YEAR));
             cbMes.setEditable(false);
@@ -382,8 +395,16 @@ public class ManterAtividadeController implements Initializable {
     public void teste() {
         params = (Map<String, Object>) apPrincipal.getUserData();
         atividade = (Atividade) params.get("Atividade");
+        
+        if(null != atividade.getId()){
+            cbTipoAtividade.setDisable(true);
+        }else{
+            cbTipoAtividade.setDisable(false);
+        }
+        
         gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
         stage = (Stage) params.get("modalStage");
+        listaNomes = new ArrayList<>();
         carregarDados();
         params.put("Atividade", new Atividade());
     }
