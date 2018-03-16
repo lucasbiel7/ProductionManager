@@ -404,8 +404,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         lbTotalEstimadaoRepasse.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramRepasse.getValor() + totalPfEstimadaDev * .4 * paramRepasse.getValor() + totalPfEstimadaTst * .25 * paramRepasse.getValor()));
         lbTotalDetalhadoContrato.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramContrato.getValor() + totalPfDetalhadaDev * .4 * paramContrato.getValor() + totalPfDetalhadaTst * .25 * paramContrato.getValor()));
         lbTotalDetalhadoRepasse.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramRepasse.getValor() + totalPfDetalhadaDev * .4 * paramRepasse.getValor() + totalPfDetalhadaTst * .25 * paramRepasse.getValor()));
-        
-        
+
     }
 
     /**
