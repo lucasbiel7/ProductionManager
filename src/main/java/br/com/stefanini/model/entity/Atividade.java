@@ -55,7 +55,10 @@ public class Atividade extends BaseEntity<String> {
     private List<AtividadeArtefatos> atividadeArtefatos;
     private Double aliEstimada;
     private Double aliDetalhada;
+    private String nomeAli;
     private List<ProgressoAtividade> progressos;
+    
+    public static final String SCAPE = "#$";
 
     public Atividade() {
     }
@@ -80,7 +83,8 @@ public class Atividade extends BaseEntity<String> {
     public String getId() {
         return super.getId(); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    @Enumerated(EnumType.STRING)
     @Column(name = "DS_ATIVIDADE")
     public OrigemAtividade getOrigemAtividade() {
         return origemAtividade;
@@ -224,6 +228,15 @@ public class Atividade extends BaseEntity<String> {
 
     public void setAliDetalhada(Double aliDetalhada) {
         this.aliDetalhada = aliDetalhada;
+    }
+    
+    @Column(name = "TX_ALI")
+    public String getNomeAli() {
+        return nomeAli;
+    }
+
+    public void setNomeAli(String nomeAli) {
+        this.nomeAli = nomeAli;
     }
 
 }
