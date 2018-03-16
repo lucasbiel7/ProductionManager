@@ -16,13 +16,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  * FXML Controller class
@@ -40,7 +44,7 @@ public class LoginController implements Initializable {
     @FXML
     private Label lbDataVersao;
 
-//    private Stage stage;
+    private Stage stage;
     private GerenciadorDeJanela gerenciadorDeJanela;
 
     Map<String, Object> params = new HashMap<>();
@@ -51,13 +55,26 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(() -> {
-//            stage = (Stage) apPrincipal.getScene().getWindow();
-//            stage.setResizable(false);
-//            stage.setWidth(960);
-//            stage.setHeight(720);
             params = (Map<String, Object>) apPrincipal.getUserData();
             gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
         });
+         apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
+                if (newValue != null) {
+                    newValue.windowProperty().addListener((ObservableValue<? extends Window> observable1, Window oldValue1, Window newValue1) -> {
+                        if (newValue1 != null) {
+                            stage = (Stage) newValue1;
+                            stage.setResizable(false);
+                            stage.setWidth(960);
+                            stage.setHeight(720);
+                            stage.centerOnScreen();
+                            tfCPF.clear();
+                            pfUSenha.clear();
+                            tfCPF.requestFocus();
+                        }
+                    });
+                }
+
+            });
         lbDataVersao.setText("Data atual: " + DateUtil.toDateFormater(new Date()) + " Versão: ");
     }
 
@@ -66,7 +83,7 @@ public class LoginController implements Initializable {
         Usuario usuario = new UsuarioDAO().login(tfCPF.getText(), SecurityUtil.encript(pfUSenha.getText()));
         if (usuario != null) {
             gerenciadorDeJanela.getMain().user = usuario;
-            gerenciadorDeJanela.trocarCena(gerenciadorDeJanela.carregarComponente("PainelDeControle"), "PainelDeControle");
+             gerenciadorDeJanela.trocarCena(gerenciadorDeJanela.carregarComponente("PainelDeControle"), "PainelDeControle");
         } else {
             MessageUtil.messageError("Favor verificar usuário e/ou senha informada, não foi localizado na base de dados.");
         }

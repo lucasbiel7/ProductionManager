@@ -32,14 +32,7 @@ public class MainApp extends Application {
         });
         mainStage = stage;
         gerenciadorDeJanela.setMain(this);
-
         inicializar(gerenciadorDeJanela);
-
-//        
-        //Atalho para entrar direto no projeot
-//        stage.setMaximized(true);
-//        gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("PainelDeControle"), "Início").show();
-        //Profile de produção
         gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("Login"), "Autenticação").show();
 
     }
@@ -76,11 +69,9 @@ public class MainApp extends Application {
             componentes.put("PesquisarAtividade", init("PesquisarAtividade", gerenciadorDeJanela, ""));
             componentes.put("VisualizarDetalheAtividade", init("VisualizarDetalheAtividade", gerenciadorDeJanela, ""));
             componentes.put("CustoModal", init("CustoModal", gerenciadorDeJanela, ""));
-
         } catch (IOException ex) {
             Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(componentes.size() + " ------ Must have 27");
     }
 
     private Parent init(String fxml, GerenciadorDeJanela gerenciadorDeJanela, String index) throws IOException {

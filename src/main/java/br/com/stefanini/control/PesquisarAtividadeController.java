@@ -48,6 +48,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -394,6 +395,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,true));
         colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,false));
         btVisualizar.setVisible(false);
+        
     }
 
     @Override
@@ -404,6 +406,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE,false));
         colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE,false));
         btVisualizar.setVisible(true);
+        
     }
 
     @Override

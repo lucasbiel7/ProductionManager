@@ -14,7 +14,7 @@ import br.com.stefanini.model.entity.Custo;
 import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.Pacote;
 import br.com.stefanini.model.entity.Projeto;
-import br.com.stefanini.model.util.MessageUtil;
+import br.com.stefanini.productionmanager.MainApp;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -41,6 +42,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 
 /**
  * FXML Controller class
@@ -78,10 +80,10 @@ public class PainelDeControleController extends ControllerBase implements Initia
 
     @FXML
     private MenuBar mbGerenciar;
-    
+
     @FXML
     private Menu menu;
-    
+
     private Stage stage;
     ArrayList<Atividade> atividades = new ArrayList<>();
 
@@ -98,26 +100,24 @@ public class PainelDeControleController extends ControllerBase implements Initia
             params = (Map<String, Object>) apPrincipal.getUserData();
             gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
             if (newValue != null) {
-                newValue.windowProperty().addListener((ObservableValue<? extends Window> observable1, Window oldValue1, Window newValue1) -> {
-                    stage = (Stage) newValue1;
-                    Platform.runLater(() -> {
+                newValue.windowProperty().addListener((ObservableValue<? extends Window> observable1, Window oldValue1, Window newWindows) -> {
+                    if (newWindows != null) {
+                        stage = (Stage) newWindows;
                         stage.setResizable(true);
                         stage.setMaximized(true);
-                    });
+                        Platform.runLater(()-> stage.setMaximized(true));
+                    }
                 });
             }
         });
-
         filtroProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
-        buttonPesquisar();
     }
 
     @FXML
-    private void btSair(ActionEvent ae){
-//        gerenciadorDeJanela.carregarComponente("Login");
-    gerenciadorDeJanela.mostrarJanela(stage, gerenciadorDeJanela.carregarComponente("Login"), "Autenticação").show();
+    private void btSair(ActionEvent ae) {
+        gerenciadorDeJanela.trocarCena(gerenciadorDeJanela.carregarComponente("Login"), "Login");
     }
-    
+
     @FXML
     private void buttonLimpar() {
         filtroPacote.setValue(null);
@@ -273,14 +273,14 @@ public class PainelDeControleController extends ControllerBase implements Initia
         }
     }
 
-    private void visibilidadeMenu(boolean visible){
-         mbGerenciar.setVisible(visible);
+    private void visibilidadeMenu(boolean visible) {
+        mbGerenciar.setVisible(visible);
         menu.setVisible(visible);
         for (MenuItem item : menu.getItems()) {
             item.setVisible(visible);
         }
     }
-    
+
     @Override
     public void buildAnalista() {
         visibilidadeMenu(false);
@@ -293,7 +293,7 @@ public class PainelDeControleController extends ControllerBase implements Initia
 
     @Override
     public void buildBDMG() {
-        visibilidadeMenu(false);       
+        visibilidadeMenu(false);
     }
 
     @Override
@@ -308,8 +308,7 @@ public class PainelDeControleController extends ControllerBase implements Initia
 
     @Override
     public void buildQualidade() {
-       visibilidadeMenu(false);
+        visibilidadeMenu(false);
     }
-
 
 }
