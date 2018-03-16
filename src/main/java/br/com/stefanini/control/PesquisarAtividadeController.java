@@ -349,9 +349,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
 
     @FXML
     private void visualizarAction() {
-        btVisualizar.setTooltip(new Tooltip("Visualizar atividades para faturamento"));
         ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
-
         params.put("data", param);
 //        paramsMap.put("atividades", tvAtividade.getItems().stream().collect(Collectors.toList()));
         scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade", params));
@@ -422,7 +420,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
 
         private final TipoAtividade tipoAtividade;
         private boolean disabled;
-        private Double progressoAtividadeAtual;
+        
         public TableCellFases(TipoAtividade tipoAtividade, boolean disabled) {
             this.tipoAtividade = tipoAtividade;
             this.disabled = disabled;
@@ -434,12 +432,12 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                 setGraphic(null);
             } else {
                 Spinner<Double> spDados = new Spinner<>();
-                if(progressoAtividadeAtual==null){
-                    progressoAtividadeAtual = new ProgressoAtividadeDAO().pegarUtualProgressoPorAtividadeTipo(item, this.tipoAtividade);
+                if(item.getProgresso(tipoAtividade)==null){
+                    item.setProgresso(new ProgressoAtividadeDAO().pegarUtualProgressoPorAtividadeTipo(item, this.tipoAtividade),tipoAtividade);
                 }
                 double initValue = 0;
-                if (progressoAtividadeAtual != null) {
-                    initValue = progressoAtividadeAtual;
+                if (item.getProgresso(tipoAtividade) != null) {
+                    initValue = item.getProgresso(tipoAtividade);
                 }
                 spDados.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(initValue, 100d, initValue, 5d));
                 spDados.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
@@ -454,10 +452,12 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                                 if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
                                     progressoAtividade.setFaturamento(Faturamento.EF);
                                     new ProgressoAtividadeDAO().salvar(progressoAtividade);
+                                    item.setProgresso(progressoAtividade.getId().getProgresso(), tipoAtividade);
                                     ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getId().getProgresso());
                                 }
                             } else {
                                 new ProgressoAtividadeDAO().salvar(progressoAtividade);
+                                item.setProgresso(progressoAtividade.getId().getProgresso(), tipoAtividade);
                                 ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getId().getProgresso());
                             }
                         }
