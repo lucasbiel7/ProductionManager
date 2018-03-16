@@ -485,6 +485,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                     setText(" - ");
                     setAlignment(Pos.CENTER);
                     setTooltip(new Tooltip("Não possui esta fase"));
+                    
                 }
             }
         }
