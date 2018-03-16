@@ -25,7 +25,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author higo
  */
 @Entity
-@Table(name = "TB_PARAMETRO", schema = Config.SCHEMA)
+@Table(name = "TB_PARAMETRO", catalog = Config.SCHEMA)
 public class Parametro extends BaseEntity<String> {
 
     private TipoParametro tipoParametro;

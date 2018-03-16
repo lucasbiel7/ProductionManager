@@ -19,7 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author lucas
  */
 @Entity
-@Table(name = "TB_PROJETO", schema = Config.SCHEMA)
+@Table(name = "TB_PROJETO", catalog = Config.SCHEMA)
 public class Projeto extends BaseEntity<String> {
 
     @Override

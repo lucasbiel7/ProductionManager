@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
  * @author lucas
  */
 @Entity
-@Table(name = "TB_MODIFICACAO_ATIVIDADE", schema = Config.SCHEMA)
+@Table(name = "TB_MODIFICACAO_ATIVIDADE", catalog = Config.SCHEMA)
 @PrimaryKeyJoinColumn(name = "ID_ATIVIDADE", referencedColumnName = "ID_ATIVIDADE")
 public class ModificacaoAtividade extends Atividade {
 

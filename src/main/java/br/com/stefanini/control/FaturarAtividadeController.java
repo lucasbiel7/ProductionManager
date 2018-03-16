@@ -101,9 +101,9 @@ public class FaturarAtividadeController implements Initializable {
             checkBox.setDisable(true);
             checkBox.setText(tipoAtividade.toString());
         } else {
-            checkBox.setText(tipoAtividade + " " + progressoAtividade.getProgresso() + "%");
+            checkBox.setText(tipoAtividade + " " + progressoAtividade.getId().getProgresso() + "%");
             checkBox.setSelected(progressoAtividade.getFaturamento() == Faturamento.FO);
-            checkBox.setDisable(progressoAtividade.getFaturamento() != Faturamento.AF || progressoAtividade.getProgresso() != 100d);
+            checkBox.setDisable(progressoAtividade.getFaturamento() != Faturamento.AF || progressoAtividade.getId().getProgresso() != 100d);
         }
     }
 
@@ -111,7 +111,7 @@ public class FaturarAtividadeController implements Initializable {
         if (checkBox.isSelected()) {
             progressoAtividade.setFaturamento(Faturamento.EF);
             new ProgressoAtividadeDAO().editar(progressoAtividade);
-            MessageUtil.messageInformation("A fase de " + progressoAtividade.getTipoAtividade() + " foi enviado para faturamento!");
+            MessageUtil.messageInformation("A fase de " + progressoAtividade.getId().getTipoAtividade() + " foi enviado para faturamento!");
         }
     }
 
