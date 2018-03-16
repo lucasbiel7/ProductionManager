@@ -19,7 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author lucas
  */
 @Entity
-@Table(name = "TB_PESSOA", schema = Config.SCHEMA)
+@Table(name = "TB_PESSOA", catalog = Config.SCHEMA)
 public class Pessoa extends BaseEntity<String> {
 
     private String nome;

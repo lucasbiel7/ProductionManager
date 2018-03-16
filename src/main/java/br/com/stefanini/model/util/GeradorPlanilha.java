@@ -437,8 +437,8 @@ public class GeradorPlanilha {
         
         Double pfE =0.0, pfD =0.0;
         for (ProgressoAtividade progressoAtividade : lista) {
-            pfE += progressoAtividade.getAtividade().getAliEstimada();
-            pfD += progressoAtividade.getAtividade().getAliDetalhada();
+            pfE += progressoAtividade.getId().getAtividade().getAliEstimada();
+            pfD += progressoAtividade.getId().getAtividade().getAliDetalhada();
         }
         
         row = sheet.createRow((short) (initRow+1));
@@ -490,8 +490,8 @@ public class GeradorPlanilha {
         
         Double pfE =0.0, pfD =0.0;
         for (ProgressoAtividade progressoAtividade : lista) {
-            pfE += progressoAtividade.getAtividade().getContagemEstimada();
-            pfD += progressoAtividade.getAtividade().getContagemDetalhada();
+            pfE += progressoAtividade.getId().getAtividade().getContagemEstimada();
+            pfD += progressoAtividade.getId().getAtividade().getContagemDetalhada();
         }
         
         row = sheet.createRow((short) (initRow+1));
@@ -595,35 +595,35 @@ public class GeradorPlanilha {
                     cell.setCellValue(contador);
                     cell.setCellStyle(cellZehnN);
                     cell = row.createCell((short) 1);
-                    cell.setCellValue(progressoAtividade.getAtividade().getOrdemServico().toString());
+                    cell.setCellValue(progressoAtividade.getId().getAtividade().getOrdemServico().toString());
                     cell.setCellStyle(cellZehnN);
                     cell = row.createCell((short) 2);
-                    cell.setCellValue(progressoAtividade.getAtividade().getPacote().getModulo().toString());
+                    cell.setCellValue(progressoAtividade.getId().getAtividade().getPacote().getModulo().toString());
                     cell.setCellStyle(cellZehnN);
                     cell = row.createCell((short) 3);
-                    cell.setCellValue(progressoAtividade.getAtividade().getPacote().getModulo().getProjeto().toString());
+                    cell.setCellValue(progressoAtividade.getId().getAtividade().getPacote().getModulo().getProjeto().toString());
                     cell.setCellStyle(cellZehnN);
                     cell = row.createCell((short) 4);
-                    cell.setCellValue(progressoAtividade.getAtividade().toString());
+                    cell.setCellValue(progressoAtividade.getId().getAtividade().toString());
                     cell.setCellStyle(cellZehnN);
                     cell = row.createCell((short) 5);
-                    cell.setCellValue(progressoAtividade.getAtividade().getContagemEstimada());                  
+                    cell.setCellValue(progressoAtividade.getId().getAtividade().getContagemEstimada());                  
                     cell.setCellStyle(cellZehnD);
                     cell = row.createCell((short) 6);
-                    cell.setCellValue(progressoAtividade.getAtividade().getContagemDetalhada());
+                    cell.setCellValue(progressoAtividade.getId().getAtividade().getContagemDetalhada());
                     cell.setCellStyle(cellZehnD);
                     cell = row.createCell((short) 7);
-                    cell.setCellValue(progressoAtividade.getAtividade().getContagemEstimada() * getModificador(tipoAtividade) * valorContrato);
+                    cell.setCellValue(progressoAtividade.getId().getAtividade().getContagemEstimada() * getModificador(tipoAtividade) * valorContrato);
                     cell.setCellStyle(cellZehnM);
                     cell = row.createCell((short) 8);
-                    cell.setCellValue(progressoAtividade.getAtividade().getContagemDetalhada() * getModificador(tipoAtividade) * valorContrato);
+                    cell.setCellValue(progressoAtividade.getId().getAtividade().getContagemDetalhada() * getModificador(tipoAtividade) * valorContrato);
                     cell.setCellStyle(cellZehnM);
                     if(repasse){
                         cell = row.createCell((short) 9);                        
-                        cell.setCellValue(progressoAtividade.getAtividade().getContagemEstimada() * getModificador(tipoAtividade) * valorRepasse);
+                        cell.setCellValue(progressoAtividade.getId().getAtividade().getContagemEstimada() * getModificador(tipoAtividade) * valorRepasse);
                         cell.setCellStyle(cellZehnM);                    
                         cell = row.createCell((short) 10);
-                        cell.setCellValue(progressoAtividade.getAtividade().getContagemDetalhada() * getModificador(tipoAtividade) * valorRepasse);
+                        cell.setCellValue(progressoAtividade.getId().getAtividade().getContagemDetalhada() * getModificador(tipoAtividade) * valorRepasse);
                         cell.setCellStyle(cellZehnM);                        
                     }
                     contador++;

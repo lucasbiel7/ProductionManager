@@ -7,40 +7,106 @@ package br.com.stefanini.model.entity;
 
 import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
+import br.com.stefanini.model.entity.ProgressoAtividade.ProgressoAtividadeId;
 import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.TipoAtividade;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
  * @author lucas
  */
 @Entity
-@Table(name = "TB_PROGRESSO_ATIVIDADE", schema = Config.SCHEMA)
-public class ProgressoAtividade extends BaseEntity<String> {
+@Table(name = "TB_PROGRESSO_ATIVIDADE",catalog = Config.SCHEMA)
+public class ProgressoAtividade extends BaseEntity<ProgressoAtividadeId> {
+    
+    
+    public static class ProgressoAtividadeId implements Serializable {
 
-    @Override
-    @Id
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @GeneratedValue(generator = "uuid")
-    @Column(name = "ID_PROGRESSO_ATIVIDADE")
-    public String getId() {
-        return super.getId(); //To change body of generated methods, choose Tools | Templates.
+        private TipoAtividade tipoAtividade;
+
+        private double progresso;
+
+        private Atividade atividade;
+
+        @Enumerated(EnumType.STRING)
+        @Column(name = "TP_ATIVIDADE")
+        public TipoAtividade getTipoAtividade() {
+            return tipoAtividade;
+        }
+
+        public void setTipoAtividade(TipoAtividade tipoAtividade) {
+            this.tipoAtividade = tipoAtividade;
+        }
+
+        @Column(name = "VL_PROGRESSO", precision = 2)
+        public double getProgresso() {
+            return progresso;
+        }
+
+        public void setProgresso(double progresso) {
+            this.progresso = progresso;
+        }
+
+        @ManyToOne(targetEntity = Atividade.class)
+        @JoinColumn(name = "ID_ATIVIDADE", referencedColumnName = "ID_ATIVIDADE")
+        public Atividade getAtividade() {
+            return atividade;
+        }
+
+        public void setAtividade(Atividade atividade) {
+            this.atividade = atividade;
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            hash = 83 * hash + Objects.hashCode(this.tipoAtividade);
+            hash = 83 * hash + (int) (Double.doubleToLongBits(this.progresso) ^ (Double.doubleToLongBits(this.progresso) >>> 32));
+            hash = 83 * hash + Objects.hashCode(this.atividade);
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final ProgressoAtividadeId other = (ProgressoAtividadeId) obj;
+            if (Double.doubleToLongBits(this.progresso) != Double.doubleToLongBits(other.progresso)) {
+                return false;
+            }
+            if (this.tipoAtividade != other.tipoAtividade) {
+                return false;
+            }
+            if (!Objects.equals(this.atividade, other.atividade)) {
+                return false;
+            }
+            return true;
+        }
+        
+        
     }
-
-    private TipoAtividade tipoAtividade;
+    
+    private ProgressoAtividadeId id;
 
     private Date dataDoProgresso;
 
@@ -48,26 +114,30 @@ public class ProgressoAtividade extends BaseEntity<String> {
 
     private Date dataFim;
 
-    private double progresso;
-
-    private Atividade atividade;
-
     private Faturamento faturamento = Faturamento.AF;
 
     private Parametro parametroContrato;
 
     private Parametro parametroRepasse;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "TP_ATIVIDADE")
-    public TipoAtividade getTipoAtividade() {
-        return tipoAtividade;
+    public ProgressoAtividade() {
+        if(id==null){
+            id =new ProgressoAtividadeId();
+        }
+    }
+    
+
+    @EmbeddedId
+    public ProgressoAtividadeId getId() {
+        return id;
     }
 
-    public void setTipoAtividade(TipoAtividade tipoAtividade) {
-        this.tipoAtividade = tipoAtividade;
+    public void setId(ProgressoAtividadeId id) {
+        this.id = id;
     }
 
+    
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "TM_PROGRESSO")
     public Date getDataDoProgresso() {
@@ -76,25 +146,6 @@ public class ProgressoAtividade extends BaseEntity<String> {
 
     public void setDataDoProgresso(Date dataDoProgresso) {
         this.dataDoProgresso = dataDoProgresso;
-    }
-
-    @Column(name = "VL_PROGRESSO", precision = 2)
-    public double getProgresso() {
-        return progresso;
-    }
-
-    public void setProgresso(double progresso) {
-        this.progresso = progresso;
-    }
-
-    @ManyToOne(targetEntity = Atividade.class)
-    @JoinColumn(name = "ID_ATIVIDADE", referencedColumnName = "ID_ATIVIDADE")
-    public Atividade getAtividade() {
-        return atividade;
-    }
-
-    public void setAtividade(Atividade atividade) {
-        this.atividade = atividade;
     }
 
     /**

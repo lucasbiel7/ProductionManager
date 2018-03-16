@@ -55,8 +55,8 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         }
         List<Predicate> criterios = new ArrayList<>();
         //TODO ISSUE DO LUCAS (se der bug)
-        criterios.add(criteriaBuilder.equal(root.get("atividade").<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
-        criterios.add(criteriaBuilder.equal(root.get("tipoAtividade"), tipoAtividade));
+        criterios.add(criteriaBuilder.equal(root.get("id").get("atividade").<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
+        criterios.add(criteriaBuilder.equal(root.get("id").get("tipoAtividade"), tipoAtividade));
         criterios.add(criteriaBuilder.equal(root.get("faturamento"), Faturamento.EF));
         criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
         entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
@@ -77,18 +77,18 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
 
     public Long pegarProgressoAtividade(Date data, TipoAtividade tipoAtividade, String idProjeto, String idModulo, String idPacote) {
         StringBuilder sb = new StringBuilder();
-        sb.append(" SELECT count(*) FROM ProgressoAtividade pa WHERE pa.atividade.previsaoInicio =:paramData AND pa.tipoAtividade =:paramTipo ");
-        sb.append(" AND pa.progresso =:paramProgresso ");
+        sb.append(" SELECT count(*) FROM ProgressoAtividade pa WHERE pa.id.atividade.previsaoInicio =:paramData AND pa.id.tipoAtividade =:paramTipo ");
+        sb.append(" AND pa.id.progresso =:paramProgresso ");
         if (!StringUtil.isEmpty(idProjeto)) {
-            sb.append(" AND pa.atividade.pacote.modulo.projeto.id =:paramIdProjeto ");
+            sb.append(" AND pa.id.atividade.pacote.modulo.projeto.id =:paramIdProjeto ");
         }
         if (!StringUtil.isEmpty(idModulo)) {
-            sb.append(" AND pa.atividade.pacote.modulo.id =:paramIdModulo ");
+            sb.append(" AND pa.id.atividade.pacote.modulo.id =:paramIdModulo ");
         }
         if (!StringUtil.isEmpty(idPacote)) {
-            sb.append(" AND pa.atividade.pacote.id =:paramIDPacote ");
+            sb.append(" AND pa.id.atividade.pacote.id =:paramIDPacote ");
         }
-        sb.append(" group by pa.atividade");
+        sb.append(" group by pa.id.atividade");
         Query query = getEntityManager().createQuery(sb.toString());
         query.setParameter("paramData", new java.sql.Date(data.getTime()));
         query.setParameter("paramTipo", tipoAtividade);

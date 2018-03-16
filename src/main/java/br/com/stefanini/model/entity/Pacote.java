@@ -21,7 +21,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author lucas
  */
 @Entity
-@Table(name = "TB_PACOTE", schema = Config.SCHEMA)
+@Table(name = "TB_PACOTE", catalog = Config.SCHEMA)
 public class Pacote extends BaseEntity<String> {
 
     private String descricao;

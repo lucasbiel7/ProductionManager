@@ -26,7 +26,7 @@ import javax.persistence.Table;
  * @author lucas
  */
 @Entity
-@Table(name = "TB_ATIVIDADE_ARTEFATOS", schema = Config.SCHEMA)
+@Table(name = "TB_ATIVIDADE_ARTEFATOS", catalog = Config.SCHEMA)
 public class AtividadeArtefatos extends BaseEntity<AtividadeArtefatosId> {
 
     @Override

@@ -19,7 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author lucas
  */
 @Entity
-@Table(name = "TB_PERFIL", schema = Config.SCHEMA)
+@Table(name = "TB_PERFIL", catalog = Config.SCHEMA)
 public class Perfil extends BaseEntity<String> {
 
     private String descricao;

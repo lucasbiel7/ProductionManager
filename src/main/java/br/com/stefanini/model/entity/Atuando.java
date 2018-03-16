@@ -23,7 +23,7 @@ import javax.persistence.Table;
  * @author lucas
  */
 @Entity
-@Table(name = "TB_ATUANDO", schema = Config.SCHEMA)
+@Table(name = "TB_ATUANDO", catalog = Config.SCHEMA)
 public class Atuando extends BaseEntity<AtuadoID> {
 
     @Override

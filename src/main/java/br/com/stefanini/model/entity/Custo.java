@@ -22,7 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author higo
  */
 @Entity
-@Table(name = "TB_CUSTO", schema = Config.SCHEMA)
+@Table(name = "TB_CUSTO", catalog = Config.SCHEMA)
 public class Custo extends BaseEntity<String> {
 
     private Double custoTecnicoPlanejado;

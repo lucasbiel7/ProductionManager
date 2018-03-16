@@ -36,7 +36,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author lucas
  */
 @Entity
-@Table(name = "TB_ATIVIDADE", schema = Config.SCHEMA)
+@Table(name = "TB_ATIVIDADE", catalog = Config.SCHEMA)
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name = Atividade.PEGAR_POR_DIA, query = "select a from Atividade a where a.previsaoInicio=:previsaoInicio")
 public class Atividade extends BaseEntity<String> {
@@ -196,7 +196,7 @@ public class Atividade extends BaseEntity<String> {
     /**
      * @return the progressos
      */
-    @OneToMany(mappedBy = "atividade", fetch = FetchType.LAZY, targetEntity = ProgressoAtividade.class)
+    @OneToMany(mappedBy = "id.atividade", fetch = FetchType.LAZY, targetEntity = ProgressoAtividade.class)
     public List<ProgressoAtividade> getProgressos() {
         return progressos;
     }

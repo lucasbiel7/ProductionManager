@@ -445,20 +445,20 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                 spDados.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
                     if (!Objects.equals(oldValue, newValue)) {
                         ProgressoAtividade progressoAtividade = new ProgressoAtividade();
-                        progressoAtividade.setAtividade(item);
+                        progressoAtividade.getId().setAtividade(item);
                         progressoAtividade.setDataDoProgresso(new Date());
-                        progressoAtividade.setProgresso(newValue);
-                        progressoAtividade.setTipoAtividade(this.tipoAtividade);
+                        progressoAtividade.getId().setProgresso(newValue);
+                        progressoAtividade.getId().setTipoAtividade(this.tipoAtividade);
                         if (newValue > oldValue) {
                             if (newValue == 100d) {
                                 if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
                                     progressoAtividade.setFaturamento(Faturamento.EF);
                                     new ProgressoAtividadeDAO().salvar(progressoAtividade);
-                                    ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getProgresso());
+                                    ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getId().getProgresso());
                                 }
                             } else {
                                 new ProgressoAtividadeDAO().salvar(progressoAtividade);
-                                ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getProgresso());
+                                ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getId().getProgresso());
                             }
                         }
                     }
