@@ -229,14 +229,6 @@ public class ManterAtividadeController implements Initializable {
                 || !lvArtefatosSelecionados.getItems().isEmpty()) {
             levantamento = new ProgressoAtividade();
 
-            if (dpInicioLevantamento.getValue() != null) {
-                levantamento.setDataInicio(DateUtil.asDate(dpInicioLevantamento.getValue()));
-            }
-
-            if (dpFimLevantamento.getValue() != null) {
-                levantamento.setDataFim(DateUtil.asDate(dpFimLevantamento.getValue()));
-            }
-
             if (!lvArtefatosSelecionados.getItems().isEmpty()) {
 //                levantamento.setAtividadeArtefatos(lvArtefatosSelecionados.getItems().stream().collect(Collectors.toList()));
             }

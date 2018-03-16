@@ -122,7 +122,6 @@ public class ProgressoAtividade extends BaseEntity<ProgressoAtividadeId> {
         }
     }
     
-
     @EmbeddedId
     public ProgressoAtividadeId getId() {
         return id;
@@ -132,8 +131,6 @@ public class ProgressoAtividade extends BaseEntity<ProgressoAtividadeId> {
         this.id = id;
     }
 
-    
-    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "TM_PROGRESSO")
     public Date getDataDoProgresso() {
