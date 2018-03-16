@@ -10,6 +10,7 @@ import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.ModuloDAO;
 import br.com.stefanini.control.dao.OrdemServicoDAO;
 import br.com.stefanini.control.dao.PacoteDAO;
+import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
 import br.com.stefanini.control.dao.ProjetoDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.AtividadeArtefatos;
@@ -21,13 +22,17 @@ import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.Artefato;
 import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.Mes;
+import br.com.stefanini.model.enuns.OrigemAtividade;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
-import br.com.stefanini.model.util.DateUtil;
+import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -44,6 +49,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -55,6 +61,12 @@ import javafx.stage.Window;
  */
 public class ManterAtividadeController implements Initializable {
 
+    private String listaAuxNomes;
+    private List<String> listaNomes = new ArrayList<>();
+    @FXML
+    private ListView<String> lvNomesAlis;
+    @FXML
+    private ComboBox<OrigemAtividade> cbTipoAtividade;
     @FXML
     private AnchorPane apPrincipal;
     @FXML
@@ -109,6 +121,7 @@ public class ManterAtividadeController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        cbTipoAtividade.getItems().setAll(OrigemAtividade.values());
         apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
             if (newValue != null) {
                 params = (Map) apPrincipal.getUserData();
@@ -142,6 +155,39 @@ public class ManterAtividadeController implements Initializable {
         lvArtefatosDisponiveis.getItems().setAll(Artefato.values());
         lvArtefatosDisponiveis.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         lvArtefatosSelecionados.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    }
+
+    @FXML
+    private void btAdicionarAction(ActionEvent ae) {
+        TextInputDialog text = new TextInputDialog();
+        text.initOwner(stage);
+        text.setTitle("Adicionar nome");
+        text.setHeaderText("Digite o nome do ALI/AIE:");
+        text.setContentText("Nome: ");
+        String nomeAux = text.showAndWait().orElse(null);
+        if (listaNomes.stream().filter(t -> t.equals(nomeAux)).count() > 0) {
+            MessageUtil.messageError("Este nome já existe");
+            text.close();
+            return;
+        }
+
+        if ((null != nomeAux) && !(StringUtil.isEmpty(nomeAux))) {
+            listaNomes.add(nomeAux);
+        }
+
+        listaAuxNomes = String.join(Atividade.SCAPE, listaNomes);
+        System.out.println(listaAuxNomes);
+        lvNomesAlis.getItems().setAll(listaNomes);
+
+    }
+
+    @FXML
+    private void miExcluirActionEvent(ActionEvent ae) {
+        if (MessageUtil.confirmMessage("Você realmente deseja excluir este nome?")) {
+            String nomeSelecionado = lvNomesAlis.getSelectionModel().getSelectedItem();
+            listaNomes.remove(nomeSelecionado);
+            lvNomesAlis.getItems().setAll(listaNomes);
+        }
     }
 
     @FXML
@@ -199,6 +245,13 @@ public class ManterAtividadeController implements Initializable {
         if (atividade == null) {
             ativ = new Atividade();
         }
+
+        if (null != cbTipoAtividade.getValue()) {
+            ativ.setOrigemAtividade(cbTipoAtividade.getValue());
+        }
+        if (!lvNomesAlis.getItems().isEmpty()) {
+            ativ.setNomeAli(listaAuxNomes);
+        }
         if (cbPacote.getValue() != null) {
             ativ.setPacote(cbPacote.getValue());
         }
@@ -255,7 +308,9 @@ public class ManterAtividadeController implements Initializable {
         atividade.setPrevisaoInicio(calendar.getTime());
         if (StringUtil.isEmpty(atividade.getDescricao())
                 || atividade.getOrdemServico() == null
-                || atividade.getPacote() == null) {
+                || atividade.getPacote() == null
+                || atividade.getOrigemAtividade() == null
+                || atividade.getNomeAli() == null) {
             MessageUtil.messageError(MessageUtil.CAMPOS_OBRIGATORIOS);
         } else if ((dpInicioLevantamento.getValue() != null && dpFimLevantamento.getValue() != null)
                 && (dpInicioLevantamento.getValue().isAfter(dpFimLevantamento.getValue()))) {
@@ -268,6 +323,15 @@ public class ManterAtividadeController implements Initializable {
             MessageUtil.messageError("A data de término deve ser maior que a data inicial do Teste e Homologação");
         } else if (atividade.getId() == null) {
             new AtividadeDAO().salvar(atividade);
+            if (OrigemAtividade.S == atividade.getOrigemAtividade()) {
+                ProgressoAtividade servico = new ProgressoAtividade();
+                servico.getId().setAtividade(atividade);
+                servico.getId().setTipoAtividade(TipoAtividade.SE);
+                servico.getId().setProgresso(100.0);
+                servico.setFaturamento(Faturamento.EF);
+                servico.setDataDoProgresso(new Date());
+                new ProgressoAtividadeDAO().salvar(servico);
+            }
             MessageUtil.messageInformation("Atividade foi cadastrada com sucesso!");
             stage.close();
         } else {

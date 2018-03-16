@@ -5,9 +5,12 @@
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
@@ -28,63 +31,84 @@
         <panes>
           <TitledPane text="Detalhes da atividade">
                <content>
-                  <AnchorPane>
-                     <children>
-                        <GridPane hgap="5.0" layoutX="44.6" layoutY="44.6" prefHeight="351.0" prefWidth="540.0" vgap="5.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="35.0">
-                          <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="222.0" minWidth="10.0" prefWidth="48.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="222.0" minWidth="10.0" prefWidth="177.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.0" minWidth="10.0" prefWidth="311.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
+                  <ScrollPane>
+                     <content>
+                        <AnchorPane prefHeight="750.0" prefWidth="829.0">
                            <children>
-                              <Label text="Projeto:" GridPane.columnIndex="1" />
-                              <Label text="Módulo:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label text="Pacote:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Label text="Atividade: " GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <ComboBox fx:id="cbProjeto" onAction="#cbProjetoActionEvent" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" />
-                              <ComboBox fx:id="cbModulo" onAction="#cbModuloActionEvent" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                              <ComboBox fx:id="cbPacote" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                              <TextField fx:id="tfAtividade" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                              <Label text="Ordem de serviço:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <ComboBox fx:id="cbOrdemServico" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                              <Label text="Pontos de função - Estimada:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                              <SpinnerDouble fx:id="spEstimada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                              <Label text="Pontos de função - Detalhada:" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                              <SpinnerDouble fx:id="spDetalhada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                              <Label text="Mês" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                              <Label styleClass="obrigatorio" text="*" />
-                              <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="1" />
-                              <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="2" />
-                              <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="3" />
-                              <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="4" />
-                              <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="5" />
-                              <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="6" />
-                              <ComboBox fx:id="cbMes" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="10" />
-                              <Label text="Ano" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                              <Spinner fx:id="spAno" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-                              <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="7" />
-                              <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="8" />
-                              <Label text="ALI/AIE - Estimada:" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                              <Label text="ALI/AIE - Detalhada:" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                              <SpinnerDouble fx:id="spAliEstimada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                              <SpinnerDouble fx:id="spAliDetalhada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                              <GridPane hgap="5.0" layoutX="34.6" layoutY="34.6" prefHeight="547.0" prefWidth="600.0" vgap="5.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="222.0" minWidth="10.0" prefWidth="48.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="222.0" minWidth="10.0" prefWidth="177.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.0" minWidth="10.0" prefWidth="311.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints minHeight="30.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="30.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="30.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="30.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="86.0" minHeight="30.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="265.0" minHeight="10.0" prefHeight="229.0" valignment="TOP" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Projeto:" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="Módulo:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="Pacote:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label text="Atividade: " GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <ComboBox fx:id="cbProjeto" onAction="#cbProjetoActionEvent" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <ComboBox fx:id="cbModulo" onAction="#cbModuloActionEvent" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <ComboBox fx:id="cbPacote" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                    <TextField fx:id="tfAtividade" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                                    <Label text="Ordem de serviço:" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                    <ComboBox fx:id="cbOrdemServico" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                                    <Label text="Pontos de função - Estimada:" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                    <SpinnerDouble fx:id="spEstimada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                                    <Label text="Pontos de função - Detalhada:" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                    <SpinnerDouble fx:id="spDetalhada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                                    <Label text="Mês" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="3" />
+                                    <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="4" />
+                                    <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="5" />
+                                    <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="6" />
+                                    <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="7" />
+                                    <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="8" />
+                                    <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="9" />
+                                    <ComboBox fx:id="cbMes" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <Label text="Ano" GridPane.columnIndex="1" />
+                                    <Spinner fx:id="spAno" editable="true" GridPane.columnIndex="2" />
+                                    <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="10" />
+                                    <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="11" />
+                                    <Label text="ALI/AIE - Estimada:" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                                    <Label text="ALI/AIE - Detalhada:" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                                    <SpinnerDouble fx:id="spAliEstimada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+                                    <SpinnerDouble fx:id="spAliDetalhada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+                                    <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="2" />
+                                    <Label text="Tipo da atividade:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <ComboBox fx:id="cbTipoAtividade" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="12" />
+                                    <Label text="Nome do ALI/AIE:" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                                    <ListView fx:id="lvNomesAlis" prefHeight="158.0" prefWidth="301.0" GridPane.columnIndex="2" GridPane.rowIndex="12">
+                                       <contextMenu>
+                                          <ContextMenu>
+                                            <items>
+                                              <MenuItem fx:id="miExcluir" mnemonicParsing="false" onAction="#miExcluirActionEvent" text="Excluir" />
+                                            </items>
+                                          </ContextMenu>
+                                       </contextMenu>
+                                    </ListView>
+                                 </children>
+                              </GridPane>
+                              <Button fx:id="btAdicionar" layoutX="643.0" layoutY="445.0" mnemonicParsing="false" onAction="#btAdicionarAction" text="Adicionar" />
                            </children>
-                        </GridPane>
-                     </children>
-                  </AnchorPane>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
                </content>
           </TitledPane>
           <TitledPane expanded="false" text="Levantamento">

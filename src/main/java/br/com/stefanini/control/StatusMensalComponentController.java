@@ -117,6 +117,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btAddCusto.setTooltip(new Tooltip("Atualizar Custos"));
         Platform.runLater(() -> {
 //            stage = (Stage) apPrincipal.getScene().getWindow();
             gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
@@ -126,7 +127,6 @@ public class StatusMensalComponentController extends ControllerBase implements I
     
     @FXML
     private void btAdicionarAction() {
-        btAddCusto.setTooltip(new Tooltip("Atualizar Custos"));
         if(null != custoMes.getId()){
             Custo custo = new CustoDAO().pegarPorId(custoMes.getId());
             params.put("custo", custo);
