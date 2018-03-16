@@ -8,6 +8,7 @@ package br.com.stefanini.model.entity;
 import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
 import br.com.stefanini.model.enuns.Faturamento;
+import br.com.stefanini.model.enuns.OrigemAtividade;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +43,7 @@ public class Atividade extends BaseEntity<String> {
 
     public static final String PEGAR_POR_DIA = "Atividade.pegarPorMes";
 
+    private OrigemAtividade origemAtividade;
     private String descricao;
     private Double contagemEstimada;
     private Double contagemDetalhada;
@@ -79,6 +81,15 @@ public class Atividade extends BaseEntity<String> {
         return super.getId(); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Column(name = "DS_ATIVIDADE")
+    public OrigemAtividade getOrigemAtividade() {
+        return origemAtividade;
+    }
+
+    public void setOrigemAtividade(OrigemAtividade origemAtividade) {
+        this.origemAtividade = origemAtividade;
+    }
+    
     @Column(name = "TX_DESCRICAO")
     public String getDescricao() {
         return descricao;
