@@ -62,12 +62,12 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
         return entitys;
     }
     
-    public List<Atividade> buscarAtividade(String idProjeto, String idModulo, String idPacote, Date data){
+    public List<Atividade> buscarAtividade(String idProjeto, String idModulo, String idPacote, int data){
         
-        if(data==null){
-            return new ArrayList<>();
-        }
-        StringBuilder hql = new StringBuilder("SELECT a FROM " + Atividade.class.getName()).append(" a WHERE a.previsaoInicio = :data");
+//        if(data==null){
+//            return new ArrayList<>();
+//        }
+        StringBuilder hql = new StringBuilder("SELECT a FROM " + Atividade.class.getName()).append(" a WHERE YEAR(a.previsaoInicio)= :data");
         
         if(!StringUtil.isEmpty(idProjeto) && !StringUtil.isEmpty(idModulo) && !StringUtil.isEmpty(idPacote)){
             hql.append(" AND a.pacote.id = :idPacote AND a.pacote.modulo.id = :idModulo AND a.pacote.modulo.projeto.id = :idProjeto");
@@ -81,7 +81,7 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
         
         Query query = getEntityManager().createQuery(hql.toString());
         
-        if(data != null){
+        if(data != 0){
             query.setParameter("data", data);
         }
         if(!StringUtil.isEmpty(idPacote)){

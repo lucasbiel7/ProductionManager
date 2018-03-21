@@ -5,21 +5,17 @@
  */
 package br.com.stefanini.control;
 
-import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.CustoDAO;
-import br.com.stefanini.control.dao.ParametroDAO;
-import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.Custo;
+import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.entity.Projeto;
-import br.com.stefanini.model.enuns.TipoAtividade;
-import br.com.stefanini.model.enuns.TipoParametro;
 import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.MessageUtil;
-import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +44,13 @@ public class StatusMensalComponentController extends ControllerBase implements I
     private String idModulo;
     private String idPacote;
     private Projeto projetoObject;
+    private List<Atividade> atividades = new  ArrayList<>();
+    private Double paramContrato;
+    private Double paramRepasse;
+    private List<ProgressoAtividade> levantamentosAno = new  ArrayList<>();
+    private List<ProgressoAtividade> desenvolvimentosAno = new  ArrayList<>();
+    private List<ProgressoAtividade> testesAno = new  ArrayList<>();
+    
             
     @FXML
     private AnchorPane apPrincipal;
@@ -166,13 +169,52 @@ public class StatusMensalComponentController extends ControllerBase implements I
         idModulo = (String) param.get("modulo");
         idPacote = (String) param.get("pacote");
         projetoObject = (Projeto) param.get("projetoObject");
+        atividades = (List<Atividade>) param.get("atividades");
+        paramContrato = (Double) param.get("paramContrato");
+        paramRepasse = (Double) param.get("paramRepasse");
+        levantamentosAno = (List<ProgressoAtividade>) param.get("levantamentosAno");
+        desenvolvimentosAno = (List<ProgressoAtividade>) param.get("desenvolvimentosAno");
+        testesAno = (List<ProgressoAtividade>) param.get("testesAno");   
+        
+        List<Atividade> atividadesMes = new ArrayList<>();
+        String dataParam = DateUtil.formatterDate(inicio, "yyyy-MM-dd");
+        for(Atividade atv : atividades){
+            String dataBanco = DateUtil.formatterDate(atv.getPrevisaoInicio(), "yyyy-MM-dd");
+            if(dataBanco.equals(dataParam)){
+                atividadesMes.add(atv);
+            }
+        }
+        
+        List<ProgressoAtividade> levantamentosMes = new ArrayList<>();
+        for(ProgressoAtividade progress : levantamentosAno){
+            String dataBanco = DateUtil.formatterDate(progress.getId().getAtividade().getPrevisaoInicio(), "yyyy-MM-dd");
+            if(dataBanco.equals(dataParam)){
+                levantamentosMes.add(progress);
+            }
+        }
+        
+        List<ProgressoAtividade> desenvolvimenetosMes = new ArrayList<>();
+        for(ProgressoAtividade progress : desenvolvimentosAno){
+            String dataBanco = DateUtil.formatterDate(progress.getId().getAtividade().getPrevisaoInicio(), "yyyy-MM-dd");
+            if(dataBanco.equals(dataParam)){
+                desenvolvimenetosMes.add(progress);
+            }
+        }
+        
+        List<ProgressoAtividade> testesMes = new ArrayList<>();
+        for(ProgressoAtividade progress : testesAno){
+            String dataBanco = DateUtil.formatterDate(progress.getId().getAtividade().getPrevisaoInicio(), "yyyy-MM-dd");
+            if(dataBanco.equals(dataParam)){
+                testesMes.add(progress);
+            }
+        }
+        
+        
         
         //        PARTE 1
-        AtividadeDAO daoAtv = new AtividadeDAO();
-        List<Atividade> atividades = daoAtv.buscarAtividade(idProjeto, idModulo, idPacote, DateUtil.truncateDate(inicio));
         Double contagemEstimada = 0.0;
         Double contagemDetalhada = 0.0;            
-        for(Atividade atv : atividades){
+        for(Atividade atv : atividadesMes){
             contagemEstimada += atv.getContagemEstimada();
             contagemDetalhada += atv.getContagemDetalhada();
         }
@@ -180,31 +222,29 @@ public class StatusMensalComponentController extends ControllerBase implements I
         Double totalRepasseEstimada = 0.0;
         Double totalContratoDetalhada = 0.0;
         Double totalRepasseDetalhada = 0.0;
-        Long qtdLevantamento = 0l;
-        Long qtdDesenvolvimento = 0l;
-        Long qtdTeste = 0l;
-        if(!atividades.isEmpty()){
-            ParametroDAO daoParam = new ParametroDAO();
-            totalContratoEstimada = contagemEstimada * daoParam.buscaParametroRecente(TipoParametro.CONTRATO).getValor();
-            totalRepasseEstimada = contagemEstimada * daoParam.buscaParametroRecente(TipoParametro.REPASSE).getValor();
+        int qtdLevantamentoLabel = 0;
+        int qtdDesenvolvimentoLabel = 0;
+        int qtdTesteLabel = 0;
+        if(!atividadesMes.isEmpty()){
+            totalContratoEstimada = contagemEstimada * paramContrato;
+            totalRepasseEstimada = contagemEstimada * paramRepasse;
 
-            totalContratoDetalhada = contagemDetalhada * daoParam.buscaParametroRecente(TipoParametro.CONTRATO).getValor();
-            totalRepasseDetalhada = contagemDetalhada * daoParam.buscaParametroRecente(TipoParametro.REPASSE).getValor();
+            totalContratoDetalhada = contagemDetalhada * paramContrato;
+            totalRepasseDetalhada = contagemDetalhada * paramRepasse;
 
-            ProgressoAtividadeDAO daoProgress = new ProgressoAtividadeDAO();
-            qtdLevantamento = daoProgress.pegarProgressoAtividade(inicio, TipoAtividade.LE, idProjeto, idModulo, idPacote);
-            qtdDesenvolvimento = daoProgress.pegarProgressoAtividade(inicio, TipoAtividade.DE, idProjeto, idModulo, idPacote);
-            qtdTeste = daoProgress.pegarProgressoAtividade(inicio, TipoAtividade.TE, idProjeto, idModulo, idPacote); 
+            qtdLevantamentoLabel = levantamentosMes.size();
+            qtdDesenvolvimentoLabel = desenvolvimenetosMes.size();
+            qtdTesteLabel = testesMes.size();
             repasse = totalRepasseDetalhada;
             contrato = totalContratoDetalhada;
         }
 
 
         lbTitulo.setText(new SimpleDateFormat("MM - MMMM").format(inicio));
-        lbTotal.setText(" - Total: " + String.valueOf(atividades.size()));
-        lbLevantamento.setText(" - Levantamentos 100%: " + qtdLevantamento);
-        lbDesenvolvimento.setText(" - Desenvolvimento 100% : " + qtdDesenvolvimento);
-        lbTeste.setText(" - Testes/Homologação 100% : " + qtdTeste);
+        lbTotal.setText(" - Total: " + String.valueOf(atividadesMes.size()));
+        lbLevantamento.setText(" - Levantamentos 100%: " + qtdLevantamentoLabel);
+        lbDesenvolvimento.setText(" - Desenvolvimento 100% : " + qtdDesenvolvimentoLabel);
+        lbTeste.setText(" - Testes/Homologação 100% : " + qtdTesteLabel);
 
         lbPfEstimada.setText("Pontos de função: " + contagemEstimada);
         lbValorContratoEstimada.setText("Valor Contrato: " + DoubleConverter.doubleToString(totalContratoEstimada));

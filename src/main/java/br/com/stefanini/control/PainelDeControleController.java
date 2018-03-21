@@ -5,20 +5,29 @@
  */
 package br.com.stefanini.control;
 
+import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.CustoDAO;
 import br.com.stefanini.control.dao.ModuloDAO;
 import br.com.stefanini.control.dao.PacoteDAO;
+import br.com.stefanini.control.dao.ParametroDAO;
+import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
 import br.com.stefanini.control.dao.ProjetoDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.Custo;
 import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.Pacote;
+import br.com.stefanini.model.entity.Parametro;
+import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.entity.Projeto;
+import br.com.stefanini.model.enuns.TipoAtividade;
+import br.com.stefanini.model.enuns.TipoParametro;
+import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.productionmanager.MainApp;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -127,6 +136,7 @@ public class PainelDeControleController extends ControllerBase implements Initia
 
     private void montarParametro() {
 
+        //PARAMETROS FILTRO PESQUISA
         String idProjeto;
         String idModulo;
         String idPacote;
@@ -156,6 +166,28 @@ public class PainelDeControleController extends ControllerBase implements Initia
         params.put("modulo", idModulo);
         params.put("projeto", idProjeto);
         params.put("projetoObject", projeto);
+        
+        //PARAMETRO ATIVIDADES
+        AtividadeDAO atvDao = new AtividadeDAO();
+        List<Atividade> atividades = atvDao.buscarAtividade(idProjeto, idModulo, idPacote, spAno.getValue());
+        params.put("atividades", atividades);
+        
+        //PARAMETRO VALORES RECENTES
+        ParametroDAO daoParam = new ParametroDAO();
+        Double paramContrato = daoParam.buscaParametroRecente(TipoParametro.CONTRATO).getValor();
+        Double paramRepasse = daoParam.buscaParametroRecente(TipoParametro.REPASSE).getValor();
+        params.put("paramContrato", paramContrato);
+        params.put("paramRepasse", paramRepasse);
+        
+        //PARAMETRO PROGRESSOS
+        ProgressoAtividadeDAO daoProgress = new ProgressoAtividadeDAO();
+        List<ProgressoAtividade> levantamentosAno = daoProgress.pegarProgressoAtividade(spAno.getValue(), TipoAtividade.LE, idProjeto, idModulo, idPacote);
+        List<ProgressoAtividade> desenvolvimentosAno = daoProgress.pegarProgressoAtividade(spAno.getValue(), TipoAtividade.DE, idProjeto, idModulo, idPacote);
+        List<ProgressoAtividade> testesAno = daoProgress.pegarProgressoAtividade(spAno.getValue(), TipoAtividade.TE, idProjeto, idModulo, idPacote); 
+        params.put("levantamentosAno", levantamentosAno);
+        params.put("desenvolvimentosAno", desenvolvimentosAno);
+        params.put("testesAno", testesAno);
+        
     }
 
     @FXML
@@ -237,7 +269,7 @@ public class PainelDeControleController extends ControllerBase implements Initia
     private void miManterParametroActionEvent(ActionEvent ae) {
         spContainer.setContent(gerenciadorDeJanela.carregarComponente("ManterParametro"));
     }
-
+    
     public void teste() {
         if (gerenciadorDeJanela != null) {
             Platform.runLater(() -> {
@@ -250,10 +282,10 @@ public class PainelDeControleController extends ControllerBase implements Initia
             int linha = 0;
             int coluna = 0;
             CustoDAO custoDao = new CustoDAO();
+            montarParametro();
             while (calendar.get(Calendar.YEAR) <= spAno.getValue()) {
                 Custo custo = custoDao.buscarCustoMes(calendar.getTime());
                 params.put("Custo", custo);
-                montarParametro();
                 params.put("data", calendar.getTime());
                 final int index = coluna + (linha * 3);
                 final int col = coluna;
