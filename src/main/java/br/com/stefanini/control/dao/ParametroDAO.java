@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
-import java.util.stream.Collectors;
 import javax.persistence.Query;
 
 /**
@@ -21,22 +20,25 @@ import javax.persistence.Query;
  */
 public class ParametroDAO extends GenericaDAO<Parametro> {
     public List<Parametro> buscaParametrosRecentes(){
-        StringBuilder hql = new StringBuilder("SELECT param FROM " + Parametro.class.getName()).append(" param ORDER BY param.dtInclusao DESC");
-        Query query = getEntityManager().createQuery(hql.toString());
+        String hql = "SELECT param FROM " + Parametro.class.getName() + " param ORDER BY param.dtInclusao DESC";
+        Query query = getEntityManager().createQuery(hql);
         List<Parametro> parametros = query.getResultList();
         List<Parametro> parametrosRecentes = new ArrayList<>();
         parametrosRecentes.add(parametros.stream().filter(param -> param.getTipoParametro()==TipoParametro.CONTRATO).findFirst().orElse(null));
         parametrosRecentes.add(parametros.stream().filter(param -> param.getTipoParametro()==TipoParametro.REPASSE).findFirst().orElse(null));
+        getEntityManager().close();
         return parametrosRecentes;
     }
     
     public Parametro buscaParametroRecente(TipoParametro tipoParametro){
-        StringBuilder hql = new StringBuilder("SELECT param FROM " + Parametro.class.getName()).append(" param WHERE param.tipoParametro= :tipoParametro ORDER BY param.dtInclusao DESC");
-        Query query = getEntityManager().createQuery(hql.toString());
+        String hql = "SELECT param FROM " + Parametro.class.getName() + " param WHERE param.tipoParametro= :tipoParametro ORDER BY param.dtInclusao DESC";
+        Query query = getEntityManager().createQuery(hql);
         query.setParameter("tipoParametro", tipoParametro);
         query.setMaxResults(1); 
         try{
-            return (Parametro) query.getSingleResult();
+            entity=(Parametro) query.getSingleResult();
+            getEntityManager().close();
+            return entity;
         }catch(NoResultException nre){
             return new Parametro(0.0, tipoParametro);
         }

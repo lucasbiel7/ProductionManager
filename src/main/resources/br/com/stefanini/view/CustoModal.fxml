@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import br.com.stefanini.control.component.CurrencyTextField?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -8,7 +9,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.control.TextField?>
 
 <AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="159.0" prefWidth="326.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.CustoController">
    <stylesheets>
@@ -27,8 +27,8 @@
          <children>
             <Label prefHeight="17.0" prefWidth="143.0" text="Custo Técnico Planejado:" />
             <Label prefHeight="17.0" prefWidth="143.0" text="Custo Técnico Realizado:" GridPane.rowIndex="1" />
-            <TextField fx:id="tfCustoPlanejado" GridPane.columnIndex="1" />
-            <TextField fx:id="tfCustoRealizado" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <CurrencyTextField fx:id="tfCustoPlanejado" GridPane.columnIndex="1" />
+            <CurrencyTextField fx:id="tfCustoRealizado" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <Label fx:id="idLabel" layoutX="14.0" layoutY="14.0" styleClass="titulo-manutencao" text="Adicionar custos">

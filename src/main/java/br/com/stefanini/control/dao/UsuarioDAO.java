@@ -27,7 +27,9 @@ public class UsuarioDAO extends GenericaDAO<Usuario> {
                 criteriaBuilder.equal(root.get("senha"), password)
         );
         try {
-            return getEntityManager().createQuery(criteriaQuery).getSingleResult();
+            entity=getEntityManager().createQuery(criteriaQuery).getSingleResult();
+            getEntityManager().close();
+            return entity;
         } catch (NoResultException e) {
             return null;
         }

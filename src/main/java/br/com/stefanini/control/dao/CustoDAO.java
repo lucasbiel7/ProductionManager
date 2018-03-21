@@ -22,7 +22,9 @@ public class CustoDAO extends GenericaDAO<Custo>{
         query.setParameter("dtInclusao", dtInclusao);
         query.setMaxResults(1); 
         try{
-            return (Custo) query.getSingleResult();
+            entity =  (Custo) query.getSingleResult();
+            getEntityManager().close();
+            return entity;
         }catch(NoResultException nre){
             return new Custo(0.0, 0.0, dtInclusao);
         }

@@ -16,13 +16,10 @@ import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.Custo;
 import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.Pacote;
-import br.com.stefanini.model.entity.Parametro;
 import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.enuns.TipoParametro;
-import br.com.stefanini.model.util.DateUtil;
-import br.com.stefanini.productionmanager.MainApp;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,7 +30,6 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -51,7 +47,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.stage.WindowEvent;
 
 /**
  * FXML Controller class
@@ -168,22 +163,21 @@ public class PainelDeControleController extends ControllerBase implements Initia
         params.put("projetoObject", projeto);
         
         //PARAMETRO ATIVIDADES
-        AtividadeDAO atvDao = new AtividadeDAO();
-        List<Atividade> atividades = atvDao.buscarAtividade(idProjeto, idModulo, idPacote, spAno.getValue());
+        List<Atividade> atividades = new AtividadeDAO().buscarAtividade(idProjeto, idModulo, idPacote, spAno.getValue());
         params.put("atividades", atividades);
         
         //PARAMETRO VALORES RECENTES
-        ParametroDAO daoParam = new ParametroDAO();
-        Double paramContrato = daoParam.buscaParametroRecente(TipoParametro.CONTRATO).getValor();
-        Double paramRepasse = daoParam.buscaParametroRecente(TipoParametro.REPASSE).getValor();
+        
+        Double paramContrato = new ParametroDAO().buscaParametroRecente(TipoParametro.CONTRATO).getValor();
+        Double paramRepasse = new ParametroDAO().buscaParametroRecente(TipoParametro.REPASSE).getValor();
         params.put("paramContrato", paramContrato);
         params.put("paramRepasse", paramRepasse);
         
         //PARAMETRO PROGRESSOS
-        ProgressoAtividadeDAO daoProgress = new ProgressoAtividadeDAO();
-        List<ProgressoAtividade> levantamentosAno = daoProgress.pegarProgressoAtividade(spAno.getValue(), TipoAtividade.LE, idProjeto, idModulo, idPacote);
-        List<ProgressoAtividade> desenvolvimentosAno = daoProgress.pegarProgressoAtividade(spAno.getValue(), TipoAtividade.DE, idProjeto, idModulo, idPacote);
-        List<ProgressoAtividade> testesAno = daoProgress.pegarProgressoAtividade(spAno.getValue(), TipoAtividade.TE, idProjeto, idModulo, idPacote); 
+        
+        List<ProgressoAtividade> levantamentosAno = new ProgressoAtividadeDAO().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.LE, idProjeto, idModulo, idPacote);
+        List<ProgressoAtividade> desenvolvimentosAno = new ProgressoAtividadeDAO().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.DE, idProjeto, idModulo, idPacote);
+        List<ProgressoAtividade> testesAno = new ProgressoAtividadeDAO().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.TE, idProjeto, idModulo, idPacote); 
         params.put("levantamentosAno", levantamentosAno);
         params.put("desenvolvimentosAno", desenvolvimentosAno);
         params.put("testesAno", testesAno);
@@ -281,10 +275,9 @@ public class PainelDeControleController extends ControllerBase implements Initia
             calendar.set(Calendar.DAY_OF_MONTH, 1);
             int linha = 0;
             int coluna = 0;
-            CustoDAO custoDao = new CustoDAO();
             montarParametro();
             while (calendar.get(Calendar.YEAR) <= spAno.getValue()) {
-                Custo custo = custoDao.buscarCustoMes(calendar.getTime());
+                Custo custo =  new CustoDAO().buscarCustoMes(calendar.getTime());
                 params.put("Custo", custo);
                 params.put("data", calendar.getTime());
                 final int index = coluna + (linha * 3);

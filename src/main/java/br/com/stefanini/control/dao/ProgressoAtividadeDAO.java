@@ -103,7 +103,9 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         if (!StringUtil.isEmpty(idPacote)) {
             query.setParameter("paramIDPacote", idPacote);
         }
-        return query.getResultList();
+        entitys =query.getResultList();
+        getEntityManager().close();
+        return entitys;
     }
 
 }

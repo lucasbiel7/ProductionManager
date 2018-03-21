@@ -93,7 +93,9 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
         if(!StringUtil.isEmpty(idProjeto)){
             query.setParameter("idProjeto", idProjeto);
         }
-        return query.getResultList();
+        entitys=query.getResultList();
+        getEntityManager().close();
+        return entitys;
     }
 
     public Atividade carregarArtefatos(Atividade atividade) {
