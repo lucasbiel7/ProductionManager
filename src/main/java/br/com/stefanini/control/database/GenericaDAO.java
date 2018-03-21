@@ -6,9 +6,12 @@
 package br.com.stefanini.control.database;
 
 import br.com.stefanini.model.BaseEntity;
+import br.com.stefanini.model.util.DoubleConverter;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -36,6 +39,7 @@ public class GenericaDAO<Entity extends BaseEntity> {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             if (entityManager != null) {
                 if (entityManager.isOpen()) {
+                    Logger.getLogger(GenericaDAO.class.getName()).log(Level.INFO, "Fechando conexões", "");
                     entityManager.close();
                 }
             }
