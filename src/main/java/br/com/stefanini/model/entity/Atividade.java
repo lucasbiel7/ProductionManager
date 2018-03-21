@@ -184,7 +184,7 @@ public class Atividade extends BaseEntity<String> {
         this.previsaoInicio = previsaoInicio;
     }
 
-    @OneToMany(mappedBy = "id.atividade", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id.atividade", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<AtividadeArtefatos> getAtividadeArtefatos() {
         return atividadeArtefatos;
     }

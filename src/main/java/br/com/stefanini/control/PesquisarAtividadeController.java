@@ -222,11 +222,6 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                         params.put("Atividade", atividade);
                         gerenciadorDeJanela.abrirModal("ManterAtividade", params, "Início");
                         btPesquisarAction();
-//                        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("ManterAtividade", atividade), "Início");
-//                        stage.initOwner(PesquisarAtividadeController.this.stage);
-//                        stage.initModality(Modality.WINDOW_MODAL);
-//                        stage.showAndWait();
-//                        carregarTabela();
                     });
                     btExcluir.setOnAction((ActionEvent event) -> {
                         if (MessageUtil.confirmMessage("Deseja realmente excluir a atividade?")) {
@@ -237,6 +232,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                                         && e.getCause() instanceof ConstraintViolationException) {
                                     MessageUtil.messageError("Não é possível excluir uma atividade que já foi inicializada.");
                                 }
+                                System.err.println(e.getMessage());
                             }
                             btPesquisarAction();
                         }

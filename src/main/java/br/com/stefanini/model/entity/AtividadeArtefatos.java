@@ -10,6 +10,7 @@ import br.com.stefanini.model.BaseEntity;
 import br.com.stefanini.model.entity.AtividadeArtefatos.AtividadeArtefatosId;
 import br.com.stefanini.model.enuns.Artefato;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
@@ -64,6 +65,35 @@ public class AtividadeArtefatos extends BaseEntity<AtividadeArtefatosId> {
 
         public void setArtefato(Artefato artefato) {
             this.artefato = artefato;
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            hash = 79 * hash + Objects.hashCode(this.atividade);
+            hash = 79 * hash + Objects.hashCode(this.artefato);
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final AtividadeArtefatosId other = (AtividadeArtefatosId) obj;
+            if (!Objects.equals(this.atividade, other.atividade)) {
+                return false;
+            }
+            if (this.artefato != other.artefato) {
+                return false;
+            }
+            return true;
         }
 
     }

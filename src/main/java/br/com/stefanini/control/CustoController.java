@@ -7,6 +7,7 @@ package br.com.stefanini.control;
 
 import br.com.stefanini.control.dao.CustoDAO;
 import br.com.stefanini.model.entity.Custo;
+import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.util.Date;
@@ -58,16 +59,16 @@ public class CustoController implements Initializable {
         dtInclusao = (Date) params.get("dtInclusao");
         custo = (Custo) params.get("custo");
         stage = (Stage) params.get("modalStage");
-        if(null == custo.getCustoTecnicoPlanejado()){
-            tfCustoPlanejado.setText("0.0");
-        }else{
+        if(null != custo.getCustoTecnicoPlanejado()){
             tfCustoPlanejado.setText(String.valueOf(custo.getCustoTecnicoPlanejado()));
+        }else{
+            tfCustoPlanejado.setText("0.0");
         }
         
-        if(null == custo.getCustoTecnicoRealizado()){
-            tfCustoRealizado.setText("0.0");
-        }else{
+        if(null != custo.getCustoTecnicoRealizado()){
             tfCustoRealizado.setText(String.valueOf(custo.getCustoTecnicoRealizado()));
+        }else{
+            tfCustoRealizado.setText("0.0");
         }
     }
     
@@ -77,13 +78,17 @@ public class CustoController implements Initializable {
         if(StringUtil.isEmpty(tfCustoPlanejado.getText())){
             custo.setCustoTecnicoPlanejado(0.0);
         }else{
-            custo.setCustoTecnicoPlanejado(Double.parseDouble(tfCustoPlanejado.getText()));
+            String auxPlanejado = tfCustoPlanejado.getText();
+            auxPlanejado.replaceAll("[,]*[.]*", "");
+            custo.setCustoTecnicoPlanejado(DoubleConverter.stringToDouble(auxPlanejado));
         }
         
         if(StringUtil.isEmpty(tfCustoRealizado.getText())){
             custo.setCustoTecnicoRealizado(0.0);
         }else{
-            custo.setCustoTecnicoRealizado(Double.parseDouble(tfCustoRealizado.getText()));
+            String auxRealizado = tfCustoRealizado.getText();
+            auxRealizado.replaceAll("[,]*[.]*", "");
+            custo.setCustoTecnicoRealizado(DoubleConverter.stringToDouble(auxRealizado));
         }
         CustoDAO custoDao = CustoDAO.getInstance();
         if(null == custo.getId()){

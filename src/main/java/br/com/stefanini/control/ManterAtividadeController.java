@@ -27,6 +27,7 @@ import br.com.stefanini.model.enuns.SituacaoAtividade;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
+import com.sun.javafx.application.PlatformImpl;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -150,7 +151,7 @@ public class ManterAtividadeController implements Initializable {
 
         Calendar calendar = Calendar.getInstance();
         spAno.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(calendar.get(Calendar.YEAR), Integer.MAX_VALUE, calendar.get(Calendar.YEAR)));
-          
+
         cbProjeto.getItems().setAll(ProjetoDAO.getInstance().pegarTodos());
         cbOrdemServico.getItems().setAll(OrdemServicoDAO.getInstance().pegarTodos());
         cbMes.getItems().setAll(Mes.values());
@@ -243,39 +244,39 @@ public class ManterAtividadeController implements Initializable {
         stage.close();
     }
 
-    private Atividade buildAtividade(Atividade ativ) {
+    private Atividade buildAtividade() {
         if (atividade == null) {
-            ativ = new Atividade();
+            atividade = new Atividade();
         }
 
         if (null != cbTipoAtividade.getValue()) {
-            ativ.setOrigemAtividade(cbTipoAtividade.getValue());
+            atividade.setOrigemAtividade(cbTipoAtividade.getValue());
         }
         if (!lvNomesAlis.getItems().isEmpty()) {
-            ativ.setNomeAli(listaAuxNomes);
+            atividade.setNomeAli(listaAuxNomes);
         }
         if (cbPacote.getValue() != null) {
-            ativ.setPacote(cbPacote.getValue());
+            atividade.setPacote(cbPacote.getValue());
         }
         if (!StringUtil.isEmpty(tfAtividade.getText())) {
-            ativ.setDescricao(tfAtividade.getText());
+            atividade.setDescricao(tfAtividade.getText());
         }
         if (cbOrdemServico.getValue() != null) {
-            ativ.setOrdemServico(cbOrdemServico.getValue());
+            atividade.setOrdemServico(cbOrdemServico.getValue());
         }
         if (spEstimada.getValue() != null) {
-            ativ.setContagemEstimada(spEstimada.getValue());
+            atividade.setContagemEstimada(spEstimada.getValue());
         }
         if (spDetalhada.getValue() != null) {
-            ativ.setContagemDetalhada(spDetalhada.getValue());
+            atividade.setContagemDetalhada(spDetalhada.getValue());
         }
         if (spAliDetalhada.getValue() != null) {
-            ativ.setAliDetalhada(spAliDetalhada.getValue());
+            atividade.setAliDetalhada(spAliDetalhada.getValue());
         }
         if (spAliEstimada.getValue() != null) {
-            ativ.setAliEstimada(spAliEstimada.getValue());
+            atividade.setAliEstimada(spAliEstimada.getValue());
         }
-        return ativ;
+        return atividade;
     }
 
     private ProgressoAtividade buildLevantamento() {
@@ -293,7 +294,7 @@ public class ManterAtividadeController implements Initializable {
 
     @FXML
     private void btConfirmarActionEvent(ActionEvent ae) {
-        atividade = buildAtividade(atividade);
+        atividade = buildAtividade();
         atividade.setSituacaoAtividade(SituacaoAtividade.L);
         atividade.setFaturamento(Faturamento.AF);
         atividade.setAtividadeArtefatos(lvArtefatosSelecionados.getItems().stream().map(t -> {
@@ -345,18 +346,18 @@ public class ManterAtividadeController implements Initializable {
 
     public void carregarDados() {
         if (atividade != null) {
-            if(null == atividade.getOrigemAtividade()){
+            if (null == atividade.getOrigemAtividade()) {
                 cbTipoAtividade.setValue(OrigemAtividade.P);
-            }else{
+            } else {
                 cbTipoAtividade.setValue(atividade.getOrigemAtividade());
             }
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(atividade.getPrevisaoInicio());
-            if(atividade.getNomeAli()!=null){
+            if (atividade.getNomeAli() != null) {
                 listaNomes.clear();
                 listaNomes.addAll(Arrays.asList(atividade.getNomeAli().split(Atividade.SCAPE)));
                 lvNomesAlis.getItems().setAll(listaNomes);
-            }else{
+            } else {
                 listaNomes.clear();
                 lvNomesAlis.getItems().setAll(listaNomes);
             }
@@ -395,19 +396,20 @@ public class ManterAtividadeController implements Initializable {
     }
 
     public void teste() {
-        params = (Map<String, Object>) apPrincipal.getUserData();
-        atividade = (Atividade) params.get("Atividade");
-        
-        if(null != atividade.getId()){
-            cbTipoAtividade.setDisable(true);
-        }else{
-            cbTipoAtividade.setDisable(false);
-        }
-        
-        gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
-        stage = (Stage) params.get("modalStage");
-        listaNomes = new ArrayList<>();
-        carregarDados();
-        params.put("Atividade", new Atividade());
+        PlatformImpl.runLater(() -> {
+            params = (Map<String, Object>) apPrincipal.getUserData();
+            atividade = (Atividade) params.get("Atividade");
+            if (null != atividade.getId()) {
+                atividade = AtividadeDAO.getInstance().carregarArtefatos(atividade);
+                cbTipoAtividade.setDisable(true);
+            } else {
+                cbTipoAtividade.setDisable(false);
+            }
+            gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+            stage = (Stage) params.get("modalStage");
+            listaNomes = new ArrayList<>();
+            carregarDados();
+        });
+
     }
 }
