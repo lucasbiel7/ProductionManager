@@ -12,6 +12,19 @@ import br.com.stefanini.model.entity.Projeto;
  *
  * @author lucas
  */
-public class ProjetoDAO extends GenericaDAO<Projeto>{
-    
+public class ProjetoDAO extends GenericaDAO<Projeto> {
+
+    private static ProjetoDAO projetoDAO;
+
+    private ProjetoDAO() {
+        super();
+    }
+
+    public static ProjetoDAO getInstance() {
+        if (projetoDAO == null) {
+            projetoDAO = new ProjetoDAO();
+        }
+        projetoDAO.initConfiguration();
+        return projetoDAO;
+    }
 }

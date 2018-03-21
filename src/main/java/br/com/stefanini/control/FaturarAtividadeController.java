@@ -110,15 +110,15 @@ public class FaturarAtividadeController implements Initializable {
     private void enviarParaFaturamento(CheckBox checkBox, ProgressoAtividade progressoAtividade) {
         if (checkBox.isSelected()) {
             progressoAtividade.setFaturamento(Faturamento.EF);
-            new ProgressoAtividadeDAO().editar(progressoAtividade);
+            ProgressoAtividadeDAO.getInstance().editar(progressoAtividade);
             MessageUtil.messageInformation("A fase de " + progressoAtividade.getId().getTipoAtividade() + " foi enviado para faturamento!");
         }
     }
 
     private void load() {
-        paAnalise = new ProgressoAtividadeDAO().pegarPorAtividadeTipo(atividade, TipoAtividade.LE).stream().findFirst().orElse(null);
-        paDesenvolvimento = new ProgressoAtividadeDAO().pegarPorAtividadeTipo(atividade, TipoAtividade.DE).stream().findFirst().orElse(null);
-        paTesteHomologacao = new ProgressoAtividadeDAO().pegarPorAtividadeTipo(atividade, TipoAtividade.TE).stream().findFirst().orElse(null);
+        paAnalise =  ProgressoAtividadeDAO.getInstance().pegarPorAtividadeTipo(atividade, TipoAtividade.LE).stream().findFirst().orElse(null);
+        paDesenvolvimento = ProgressoAtividadeDAO.getInstance().pegarPorAtividadeTipo(atividade, TipoAtividade.DE).stream().findFirst().orElse(null);
+        paTesteHomologacao = ProgressoAtividadeDAO.getInstance().pegarPorAtividadeTipo(atividade, TipoAtividade.TE).stream().findFirst().orElse(null);
         configurarCheckBox(cbAnalise, paAnalise, TipoAtividade.LE);
         configurarCheckBox(cbDesenvolvimento, paDesenvolvimento, TipoAtividade.DE);
         configurarCheckBox(cbTesteHomologacao, paTesteHomologacao, TipoAtividade.TE);

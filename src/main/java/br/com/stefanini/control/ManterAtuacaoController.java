@@ -52,7 +52,7 @@ public class ManterAtuacaoController implements Initializable {
     private void btNovoActionEvent(ActionEvent ae) {
         atuacao = new Atuacao();
         carregarDados();
-        tvAtuacao.getItems().setAll(new AtuacaoDAO().pegarTodos());
+        tvAtuacao.getItems().setAll(AtuacaoDAO.getInstance().pegarTodos());
     }
 
     @FXML
@@ -61,11 +61,11 @@ public class ManterAtuacaoController implements Initializable {
         if (StringUtil.isEmpty(atuacao.getDescricao())) {
             MessageUtil.messageError(MessageUtil.CAMPOS_OBRIGATORIOS);
         } else if (atuacao.getId() == null) {
-            new AtuacaoDAO().salvar(atuacao);
+            AtuacaoDAO.getInstance().salvar(atuacao);
             MessageUtil.messageInformation("Nova atuação foi cadastrado com sucesso!");
             btNovoActionEvent(ae);
         } else {
-            new AtuacaoDAO().editar(atuacao);
+            AtuacaoDAO.getInstance().editar(atuacao);
             MessageUtil.messageInformation("Atuação foi editado com sucesso!");
             btNovoActionEvent(ae);
         }
@@ -81,7 +81,7 @@ public class ManterAtuacaoController implements Initializable {
     private void miExcluirActionEvent(ActionEvent ae) {
         if (MessageUtil.confirmMessage("Você realmente deseja excluir essa atuação?")) {
             atuacao = tvAtuacao.getSelectionModel().getSelectedItem();
-            new AtuacaoDAO().excluir(atuacao);
+            AtuacaoDAO.getInstance().excluir(atuacao);
             btNovoActionEvent(ae);
         }
     }

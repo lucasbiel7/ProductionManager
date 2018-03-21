@@ -20,6 +20,20 @@ import javax.persistence.criteria.Predicate;
  */
 public class UsuarioDAO extends GenericaDAO<Usuario> {
 
+    private static UsuarioDAO usuarioDAO;
+
+    private UsuarioDAO() {
+        super();
+    }
+
+    public static UsuarioDAO getInstance() {
+        if (usuarioDAO == null) {
+            usuarioDAO = new UsuarioDAO();
+        }
+        usuarioDAO.initConfiguration();
+        return usuarioDAO;
+    }
+
     public Usuario login(String cpf, String password) {
         criteriaQuery.where(
                 criteriaBuilder.and(
@@ -27,8 +41,7 @@ public class UsuarioDAO extends GenericaDAO<Usuario> {
                 criteriaBuilder.equal(root.get("senha"), password)
         );
         try {
-            entity=getEntityManager().createQuery(criteriaQuery).getSingleResult();
-            getEntityManager().close();
+            entity = getEntityManager().createQuery(criteriaQuery).getSingleResult();
             return entity;
         } catch (NoResultException e) {
             return null;
@@ -39,7 +52,7 @@ public class UsuarioDAO extends GenericaDAO<Usuario> {
         criteriaQuery.where(criteriaBuilder.equal(root.get("id"), usuario.getId()));
         root.fetch("atuando", JoinType.LEFT);
         entity = getEntityManager().createQuery(criteriaQuery).getSingleResult();
-        getEntityManager().close();
+
         return entity;
     }
 
@@ -59,7 +72,7 @@ public class UsuarioDAO extends GenericaDAO<Usuario> {
         }
         criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
         entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
-        getEntityManager().close();
+
         return entitys;
     }
 

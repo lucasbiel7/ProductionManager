@@ -14,4 +14,18 @@ import br.com.stefanini.model.entity.Atuacao;
  */
 public class AtuacaoDAO extends GenericaDAO<Atuacao> {
 
+    private static AtuacaoDAO atuacaoDAO;
+
+    private AtuacaoDAO() {
+        super();
+    }
+
+    public static AtuacaoDAO getInstance() {
+        if (atuacaoDAO == null) {
+            atuacaoDAO = new AtuacaoDAO();
+        }
+        atuacaoDAO.initConfiguration();
+        return atuacaoDAO;
+    }
+
 }

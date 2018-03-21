@@ -76,7 +76,7 @@ public class ManterParametroController implements Initializable {
         if (parametro.getTipoParametro() == null || parametro.getValor() == null) {
             MessageUtil.messageError("É necessário preencher todos campos obrigatórios!");
         } else {
-            new ParametroDAO().salvar(parametro);
+            ParametroDAO.getInstance().salvar(parametro);
             new Alert(Alert.AlertType.INFORMATION, "Parâmetro cadastro com sucesso.").show();
             atualizarTabelas();
         }
@@ -90,6 +90,6 @@ public class ManterParametroController implements Initializable {
     }
 
     private void atualizarTabelas() {
-        gridParametro.getItems().setAll(new ParametroDAO().buscaParametrosRecentes());
+        gridParametro.getItems().setAll(ParametroDAO.getInstance().buscaParametrosRecentes());
     }
 }

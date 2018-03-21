@@ -14,4 +14,18 @@ import br.com.stefanini.model.entity.ModificacaoAtividade;
  */
 public class ModificacaoAtividadeDAO extends GenericaDAO<ModificacaoAtividade> {
 
+    private static ModificacaoAtividadeDAO modificacaoAtividadeDAO;
+
+    private ModificacaoAtividadeDAO() {
+        super();
+    }
+
+    public static ModificacaoAtividadeDAO getInstance() {
+        if (modificacaoAtividadeDAO == null) {
+            modificacaoAtividadeDAO = new ModificacaoAtividadeDAO();
+        }
+        modificacaoAtividadeDAO.initConfiguration();
+        return modificacaoAtividadeDAO;
+    }
+
 }

@@ -19,30 +19,44 @@ import javax.persistence.Query;
  * @author usuario
  */
 public class ParametroDAO extends GenericaDAO<Parametro> {
-    public List<Parametro> buscaParametrosRecentes(){
+
+    private static ParametroDAO parametroDAO;
+
+    private ParametroDAO() {
+        super();
+    }
+
+    public static ParametroDAO getInstance() {
+        if (parametroDAO == null) {
+            parametroDAO = new ParametroDAO();
+        }
+        parametroDAO.initConfiguration();
+        return parametroDAO;
+    }
+
+    public List<Parametro> buscaParametrosRecentes() {
         String hql = "SELECT param FROM " + Parametro.class.getName() + " param ORDER BY param.dtInclusao DESC";
         Query query = getEntityManager().createQuery(hql);
         List<Parametro> parametros = query.getResultList();
         List<Parametro> parametrosRecentes = new ArrayList<>();
-        parametrosRecentes.add(parametros.stream().filter(param -> param.getTipoParametro()==TipoParametro.CONTRATO).findFirst().orElse(null));
-        parametrosRecentes.add(parametros.stream().filter(param -> param.getTipoParametro()==TipoParametro.REPASSE).findFirst().orElse(null));
-        getEntityManager().close();
+        parametrosRecentes.add(parametros.stream().filter(param -> param.getTipoParametro() == TipoParametro.CONTRATO).findFirst().orElse(null));
+        parametrosRecentes.add(parametros.stream().filter(param -> param.getTipoParametro() == TipoParametro.REPASSE).findFirst().orElse(null));
+
         return parametrosRecentes;
     }
-    
-    public Parametro buscaParametroRecente(TipoParametro tipoParametro){
+
+    public Parametro buscaParametroRecente(TipoParametro tipoParametro) {
         String hql = "SELECT param FROM " + Parametro.class.getName() + " param WHERE param.tipoParametro= :tipoParametro ORDER BY param.dtInclusao DESC";
         Query query = getEntityManager().createQuery(hql);
         query.setParameter("tipoParametro", tipoParametro);
-        query.setMaxResults(1); 
-        try{
-            entity=(Parametro) query.getSingleResult();
-            getEntityManager().close();
+        query.setMaxResults(1);
+        try {
+            entity = (Parametro) query.getSingleResult();
+
             return entity;
-        }catch(NoResultException nre){
+        } catch (NoResultException nre) {
             return new Parametro(0.0, tipoParametro);
         }
-        
+
     }
 }
-

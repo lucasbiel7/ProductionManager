@@ -57,14 +57,14 @@ public class ManterPacoteController implements Initializable {
         // TODO
         tcDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         tcModulo.setCellValueFactory(new PropertyValueFactory<>("modulo"));
-        cbProjeto.getItems().addAll(new ProjetoDAO().pegarTodos());
+        cbProjeto.getItems().addAll(ProjetoDAO.getInstance().pegarTodos());
         btNovoActionEvent(null);
     }
 
     @FXML
     private void cbProjetoActionEvent(ActionEvent ae) {
         if (cbProjeto.getValue() != null) {
-            cbModulo.getItems().setAll(new ModuloDAO().pegarPorProjeto(cbProjeto.getValue()));
+            cbModulo.getItems().setAll(ModuloDAO.getInstance().pegarPorProjeto(cbProjeto.getValue()));
         } else {
             cbModulo.getItems().clear();
         }
@@ -74,7 +74,7 @@ public class ManterPacoteController implements Initializable {
     private void btNovoActionEvent(ActionEvent ae) {
         pacote = new Pacote();
         carregarDados();
-        tvPacote.getItems().setAll(new PacoteDAO().pegarTodos());
+        tvPacote.getItems().setAll(PacoteDAO.getInstance().pegarTodos());
     }
 
     @FXML
@@ -86,10 +86,10 @@ public class ManterPacoteController implements Initializable {
             return;
         }
         if (pacote.getId() == null) {
-            new PacoteDAO().salvar(pacote);
+            PacoteDAO.getInstance().salvar(pacote);
             MessageUtil.messageInformation("Um novo pacote foi cadastrado com sucesso!");
         } else {
-            new PacoteDAO().editar(pacote);
+            PacoteDAO.getInstance().editar(pacote);
             MessageUtil.messageInformation("O pacote foi editado com sucwsso!");
         }
         btNovoActionEvent(ae);
@@ -105,7 +105,7 @@ public class ManterPacoteController implements Initializable {
     private void miExcluirActionEvent(ActionEvent ae) {
         if (MessageUtil.confirmMessage("Você realmente deseja excluir este pacote?")) {
             pacote = tvPacote.getSelectionModel().getSelectedItem();
-            new PacoteDAO().excluir(pacote);
+            PacoteDAO.getInstance().excluir(pacote);
             btNovoActionEvent(ae);
         }
     }

@@ -129,7 +129,7 @@ public class ManterAtividadeController implements Initializable {
                 if (apPrincipal.getUserData() instanceof Atividade) {
                     ManterAtividadeController.this.atividade = (Atividade) apPrincipal.getUserData();
                     if (atividade.getId() != null) {
-                        atividade = new AtividadeDAO().carregarArtefatos(atividade);
+                        atividade = AtividadeDAO.getInstance().carregarArtefatos(atividade);
                     }
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(atividade.getPrevisaoInicio());
@@ -151,8 +151,8 @@ public class ManterAtividadeController implements Initializable {
         Calendar calendar = Calendar.getInstance();
         spAno.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(calendar.get(Calendar.YEAR), Integer.MAX_VALUE, calendar.get(Calendar.YEAR)));
           
-        cbProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
-        cbOrdemServico.getItems().setAll(new OrdemServicoDAO().pegarTodos());
+        cbProjeto.getItems().setAll(ProjetoDAO.getInstance().pegarTodos());
+        cbOrdemServico.getItems().setAll(OrdemServicoDAO.getInstance().pegarTodos());
         cbMes.getItems().setAll(Mes.values());
         lvArtefatosDisponiveis.getItems().setAll(Artefato.values());
         lvArtefatosDisponiveis.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -195,7 +195,7 @@ public class ManterAtividadeController implements Initializable {
     @FXML
     private void cbProjetoActionEvent(ActionEvent ae) {
         if (cbProjeto.getValue() != null) {
-            cbModulo.getItems().setAll(new ModuloDAO().pegarPorProjeto(cbProjeto.getValue()));
+            cbModulo.getItems().setAll(ModuloDAO.getInstance().pegarPorProjeto(cbProjeto.getValue()));
         } else {
             cbModulo.getItems().clear();
         }
@@ -204,7 +204,7 @@ public class ManterAtividadeController implements Initializable {
     @FXML
     private void cbModuloActionEvent(ActionEvent ae) {
         if (cbModulo.getValue() != null) {
-            cbPacote.getItems().setAll(new PacoteDAO().pegarPorModulo(cbModulo.getValue()));
+            cbPacote.getItems().setAll(PacoteDAO.getInstance().pegarPorModulo(cbModulo.getValue()));
         } else {
             cbPacote.getItems().clear();
         }
@@ -324,7 +324,7 @@ public class ManterAtividadeController implements Initializable {
                 && (dpInicioTeste.getValue().isAfter(dpFimTeste.getValue()))) {
             MessageUtil.messageError("A data de término deve ser maior que a data inicial do Teste e Homologação");
         } else if (atividade.getId() == null) {
-            new AtividadeDAO().salvar(atividade);
+            AtividadeDAO.getInstance().salvar(atividade);
             if (OrigemAtividade.S == atividade.getOrigemAtividade()) {
                 ProgressoAtividade servico = new ProgressoAtividade();
                 servico.getId().setAtividade(atividade);
@@ -332,12 +332,12 @@ public class ManterAtividadeController implements Initializable {
                 servico.getId().setProgresso(100.0);
                 servico.setFaturamento(Faturamento.EF);
                 servico.setDataDoProgresso(new Date());
-                new ProgressoAtividadeDAO().salvar(servico);
+                ProgressoAtividadeDAO.getInstance().salvar(servico);
             }
             MessageUtil.messageInformation("Atividade foi cadastrada com sucesso!");
             stage.close();
         } else {
-            new AtividadeDAO().editar(atividade);
+            AtividadeDAO.getInstance().editar(atividade);
             MessageUtil.messageInformation("Atividade foi editada com sucesso!");
             stage.close();
         }

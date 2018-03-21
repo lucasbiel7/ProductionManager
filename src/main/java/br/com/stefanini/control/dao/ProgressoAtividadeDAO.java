@@ -25,11 +25,25 @@ import javax.persistence.criteria.Predicate;
  */
 public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
 
+    private static ProgressoAtividadeDAO progressoAtividadeDAO;
+
+    public static ProgressoAtividadeDAO getInstance() {
+        if (progressoAtividadeDAO == null) {
+            progressoAtividadeDAO = new ProgressoAtividadeDAO();
+        }
+        progressoAtividadeDAO.initConfiguration();
+        return progressoAtividadeDAO;
+    }
+
+    private ProgressoAtividadeDAO() {
+        super();
+    }
+
     public List<ProgressoAtividade> pegarPorAtividadeTipo(Atividade atividade, TipoAtividade tipoAtividade) {
         criteriaQuery.where(criteriaBuilder.and(criteriaBuilder.equal(root.get("atividade"), atividade), criteriaBuilder.equal(root.get("tipoAtividade"), tipoAtividade)));
         criteriaQuery.orderBy(criteriaBuilder.desc(root.get("dataDoProgresso")));
         entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
-        getEntityManager().close();
+
         return entitys;
     }
 
@@ -39,13 +53,13 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
                         Double.class);
         typedQuery.setParameter("atividade", atividade);
         typedQuery.setParameter("tipoAtividade", tipoAtividade);
-        double valor ;
-        try{
-            valor= typedQuery.setMaxResults(1).getSingleResult();
-        }catch(NoResultException e){
-            valor=0d;
+        double valor;
+        try {
+            valor = typedQuery.setMaxResults(1).getSingleResult();
+        } catch (NoResultException e) {
+            valor = 0d;
         }
-        getEntityManager().close();
+
         return valor;
     }
 
@@ -60,7 +74,7 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         criterios.add(criteriaBuilder.equal(root.get("faturamento"), Faturamento.EF));
         criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
         entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
-        getEntityManager().close();
+
         return entitys;
     }
 
@@ -72,7 +86,7 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
             getEntityManager().flush();
         }
         getEntityManager().getTransaction().commit();
-        getEntityManager().close();
+
     }
 
     public List<ProgressoAtividade> pegarProgressoAtividade(int data, TipoAtividade tipoAtividade, String idProjeto, String idModulo, String idPacote) {
@@ -103,8 +117,8 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         if (!StringUtil.isEmpty(idPacote)) {
             query.setParameter("paramIDPacote", idPacote);
         }
-        entitys =query.getResultList();
-        getEntityManager().close();
+        entitys = query.getResultList();
+
         return entitys;
     }
 

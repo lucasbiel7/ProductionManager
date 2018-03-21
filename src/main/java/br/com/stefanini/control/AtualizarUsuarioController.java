@@ -89,12 +89,12 @@ public class AtualizarUsuarioController implements Initializable {
                 if (apPrincipal.getUserData() instanceof Usuario) {
                     pfSenha.setPromptText("Para manter sua senha deixe este campo vazio");
                     usuario = (Usuario) apPrincipal.getUserData();
-                    usuario = new UsuarioDAO().pegarAtuacoes(usuario);
+                    usuario = UsuarioDAO.getInstance().pegarAtuacoes(usuario);
                     carregarDados();
                 }
             }
         });
-        lvAtuacao.getItems().setAll(new AtuacaoDAO().pegarTodos());
+        lvAtuacao.getItems().setAll(AtuacaoDAO.getInstance().pegarTodos());
         lvAtuacao.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         lvAtuando.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
@@ -141,7 +141,7 @@ public class AtualizarUsuarioController implements Initializable {
             }
             usuario.setSenha(SecurityUtil.encript(pfSenha.getText()));
             usuario.setAtivado(true);
-            new UsuarioDAO().salvar(usuario);
+            UsuarioDAO.getInstance().salvar(usuario);
             MessageUtil.messageInformation("Usuario foi cadastrado com sucesso!");
             stage.close();
         } else {
@@ -152,7 +152,7 @@ public class AtualizarUsuarioController implements Initializable {
                 }
                 usuario.setSenha(pfSenha.getText());
             }
-            new UsuarioDAO().editar(usuario);
+            UsuarioDAO.getInstance().editar(usuario);
             MessageUtil.messageInformation("Usuário foi editado com sucesso!");
             stage.close();
         }
@@ -193,7 +193,7 @@ public class AtualizarUsuarioController implements Initializable {
             tfEmail.setText(usuario.getPessoa().getEmail());
             cbPerfil.getSelectionModel().select(usuario.getPerfil());
             
-            lvAtuacao.getItems().setAll(new AtuacaoDAO().pegarTodos());
+            lvAtuacao.getItems().setAll(AtuacaoDAO.getInstance().pegarTodos());
             lvAtuacao.getItems().removeAll(usuario.getAtuando().stream().map(Atuando::getId).map(AtuadoID::getAtuacao).collect(Collectors.toList()));
             lvAtuando.getItems().setAll(usuario.getAtuando().stream().map(Atuando::getId).map(AtuadoID::getAtuacao).collect(Collectors.toList()));
         } else {

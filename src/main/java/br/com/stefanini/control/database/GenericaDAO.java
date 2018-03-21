@@ -22,7 +22,7 @@ import javax.persistence.criteria.Root;
  */
 public class GenericaDAO<Entity extends BaseEntity> {
 
-    private final EntityManager entityManager;
+    private static final EntityManager entityManager;
     protected Entity entity;
     protected List<Entity> entitys;
     protected Class<Entity> classe;
@@ -31,8 +31,22 @@ public class GenericaDAO<Entity extends BaseEntity> {
     protected CriteriaQuery<Entity> criteriaQuery;
     protected Root<Entity> root;
 
-    public GenericaDAO() {
+    static {
         entityManager = Banco.getEntityManagerFactory().createEntityManager();
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if (entityManager != null) {
+                if (entityManager.isOpen()) {
+                    entityManager.close();
+                }
+            }
+        }));
+    }
+
+    protected GenericaDAO() {
+        initConfiguration();
+    }
+
+    public final void initConfiguration() {
         classe = (Class<Entity>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         criteriaBuilder = entityManager.getCriteriaBuilder();
         criteriaQuery = criteriaBuilder.createQuery(classe);
@@ -44,7 +58,7 @@ public class GenericaDAO<Entity extends BaseEntity> {
         entityManager.persist(entity);
         entityManager.flush();
         entityManager.getTransaction().commit();
-        entityManager.close();
+
     }
 
     public void editar(Entity entity) {
@@ -52,7 +66,7 @@ public class GenericaDAO<Entity extends BaseEntity> {
         entityManager.merge(entity);
         entityManager.flush();
         entityManager.getTransaction().commit();
-        entityManager.close();
+
     }
 
     public void excluir(Entity entity) {
@@ -61,18 +75,15 @@ public class GenericaDAO<Entity extends BaseEntity> {
         entityManager.remove(entity);
         entityManager.flush();
         entityManager.getTransaction().commit();
-        entityManager.close();
     }
 
     public Entity pegarPorId(Serializable id) {
         entity = entityManager.find(classe, id);
-        entityManager.close();
         return entity;
     }
 
     public List<Entity> pegarTodos() {
         entitys = entityManager.createQuery(criteriaQuery).getResultList();
-        entityManager.close();
         return entitys;
     }
 

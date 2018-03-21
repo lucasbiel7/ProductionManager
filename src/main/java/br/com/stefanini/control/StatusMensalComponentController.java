@@ -130,7 +130,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
     @FXML
     private void btAdicionarAction() {
         if (null != custoMes.getId()) {
-            Custo custo = new CustoDAO().pegarPorId(custoMes.getId());
+            Custo custo = CustoDAO.getInstance().pegarPorId(custoMes.getId());
             params.put("custo", custo);
         } else {
             Custo custo = new Custo();
