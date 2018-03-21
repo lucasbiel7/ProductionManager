@@ -140,18 +140,20 @@ public class StatusMensalComponentController extends ControllerBase implements I
         gerenciadorDeJanela.abrirModal("CustoModal", params, "Custo");
         gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
         Custo custoAux = (Custo) params.get("CustoAux");
+        Double resultadoTecnico = 0.0;
         if (custoAux != null) {
             lbCustoPlanejado.setText("Custo Técnico Planejado: " + DoubleConverter.doubleToString(custoAux.getCustoTecnicoPlanejado()));
             lbCustoRealizado.setText("Custo Técnico Realizado: " + DoubleConverter.doubleToString(custoAux.getCustoTecnicoRealizado()));
-        }
-        Double resultadoTecnico = 0.0;
-        if (custoAux.getCustoTecnicoRealizado() > 0.0) {
+        
+            if (custoAux.getCustoTecnicoRealizado() > 0.0) {
             resultadoTecnico = repasse - custoAux.getCustoTecnicoRealizado();
             lbResultadoTecnico.setText("Resultado Técnico: " + DoubleConverter.doubleToString(resultadoTecnico));
-        } else {
-            resultadoTecnico = repasse - custoAux.getCustoTecnicoPlanejado();
-            lbResultadoTecnico.setText("Resultado Técnico: " + DoubleConverter.doubleToString(resultadoTecnico));
+            } else {
+                resultadoTecnico = repasse - custoAux.getCustoTecnicoPlanejado();
+                lbResultadoTecnico.setText("Resultado Técnico: " + DoubleConverter.doubleToString(resultadoTecnico));
+            }
         }
+        
         Double porcentagem = 26.5;
         Double custoComercial = ((contrato * porcentagem) / 100) + repasse;
         Double resultadoComercial = contrato - custoComercial;
