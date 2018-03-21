@@ -52,8 +52,8 @@
                               <Label fx:id="lbCliente" prefHeight="17.0" prefWidth="429.0" text="Cliente: BDMG" textFill="#3b0edd" />
                               <Label fx:id="lbProjeto" prefHeight="17.0" prefWidth="388.0" text="Projeto:" />
                               <Label fx:id="lbTipoPF" prefHeight="17.0" prefWidth="317.0" text="Tipo de Contagem PF:" textFill="#3b0edd" />
-                              <Label fx:id="lbCustoPlanejado" prefHeight="17.0" prefWidth="314.0" text="Custo Técnico Planejado:" />
-                              <Label fx:id="lbCustoRealizado" prefHeight="17.0" prefWidth="302.0" text="Custo Técnico Realizado:" textFill="#3b0edd" />
+                              <Label fx:id="lbCustoPlanejado" prefHeight="17.0" prefWidth="314.0" text="Téc. Planejado:" />
+                              <Label fx:id="lbCustoRealizado" prefHeight="17.0" prefWidth="302.0" text="Téc. Realizado:" textFill="#3b0edd" />
                               <Label fx:id="lbRepasse" prefHeight="17.0" prefWidth="358.0" text="Repasse:" />
                               <Label fx:id="lbResultadoTecnico" prefHeight="17.0" prefWidth="348.0" text="Resultado Técnico:" textFill="#3b0edd" />
                               <Label fx:id="lbFaturamento" prefHeight="17.0" prefWidth="411.0" text="Faturamento:" />

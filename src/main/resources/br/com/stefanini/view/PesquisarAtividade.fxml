@@ -93,7 +93,7 @@
       </TableView>
       <Button layoutX="1236.0" layoutY="201.0" mnemonicParsing="false" onAction="#btPesquisarAction" text="Pesquisar" />
       <Line endX="1170.0" layoutX="115.5" layoutY="185.0" startX="-100.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="41.0" />
-      <Button fx:id="btVisualizar" layoutX="1138.0" layoutY="201.0" mnemonicParsing="false" onAction="#visualizarAction" text="Faturamento">
+      <Button fx:id="btVisualizar" layoutX="1036.0" layoutY="201.0" mnemonicParsing="false" onAction="#visualizarAction" text="Faturamento">
          <tooltip>
             <Tooltip text="Visualizar atividade para faturamento" />
          </tooltip></Button>
@@ -114,5 +114,6 @@
             <Label fx:id="lbTotalDetalhada" text="0" GridPane.columnIndex="3" />
          </children>
       </GridPane>
+      <Button fx:id="idLimpar" layoutX="1134.0" layoutY="201.0" mnemonicParsing="false" onAction="#buttonLimpar" text="Limpar Filtros" />
    </children>
 </AnchorPane>

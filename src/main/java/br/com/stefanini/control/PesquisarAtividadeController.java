@@ -244,6 +244,15 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
             }
         });
     }
+    
+    @FXML
+    private void buttonLimpar() {
+        cbModulo.setValue(null);
+        cbPacote.setValue(null);
+        txAtividade.setText("");
+        cbSituacao.setValue(null);
+        cbFaturamento.setValue(null);
+    }
 
     @FXML
     private void btPesquisarAction() {
@@ -287,7 +296,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
             ativ.getPacote().getModulo().setProjeto(new Projeto());
         }
 
-        if (StringUtil.isEmpty(txAtividade.getText())) {
+        if (!StringUtil.isEmpty(txAtividade.getText())) {
             ativ.setDescricao(txAtividade.getText());
         }
         if (cbSituacao.getValue() != null) {
@@ -418,6 +427,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         cbPacote.setValue(null);
         cbProjeto.getItems().setAll(ProjetoDAO.getInstance().pegarTodos());
         cbProjeto.setValue(projeto);
+        cbProjetoAction();
         txAtividade.setText("");
         cbSituacao.getItems().setAll(SituacaoAtividade.values());
         cbFaturamento.getItems().setAll(Faturamento.values());

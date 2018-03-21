@@ -142,8 +142,8 @@ public class StatusMensalComponentController extends ControllerBase implements I
         Custo custoAux = (Custo) params.get("CustoAux");
         Double resultadoTecnico = 0.0;
         if (custoAux != null) {
-            lbCustoPlanejado.setText("Custo Técnico Planejado: " + DoubleConverter.doubleToString(custoAux.getCustoTecnicoPlanejado()));
-            lbCustoRealizado.setText("Custo Técnico Realizado: " + DoubleConverter.doubleToString(custoAux.getCustoTecnicoRealizado()));
+            lbCustoPlanejado.setText("Téc. Planejado: " + DoubleConverter.doubleToString(custoAux.getCustoTecnicoPlanejado()));
+            lbCustoRealizado.setText("Téc. Realizado: " + DoubleConverter.doubleToString(custoAux.getCustoTecnicoRealizado()));
         
             if (custoAux.getCustoTecnicoRealizado() > 0.0) {
             resultadoTecnico = repasse - custoAux.getCustoTecnicoRealizado();
@@ -260,8 +260,8 @@ public class StatusMensalComponentController extends ControllerBase implements I
             lbProjeto.setText("Projeto: " + projetoObject.getDescricao());
         }
         if (!(0.0 == contagemEstimada) && !(0.0 == contagemDetalhada)) {
-            lbCustoPlanejado.setText("Custo Técnico Planejado: " + DoubleConverter.doubleToString(custoMes.getCustoTecnicoPlanejado()));
-            lbCustoRealizado.setText("Custo Técnico Realizado: " + DoubleConverter.doubleToString(custoMes.getCustoTecnicoRealizado()));
+            lbCustoPlanejado.setText("Téc. Planejado: " + DoubleConverter.doubleToString(custoMes.getCustoTecnicoPlanejado()));
+            lbCustoRealizado.setText("Téc. Realizado: " + DoubleConverter.doubleToString(custoMes.getCustoTecnicoRealizado()));
 
             Double resultadoTecnico = 0.0;
             if (custoMes.getCustoTecnicoRealizado() > 0.0) {
