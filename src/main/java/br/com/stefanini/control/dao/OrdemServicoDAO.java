@@ -12,6 +12,20 @@ import br.com.stefanini.model.entity.OrdemServico;
  *
  * @author lucas
  */
-public class OrdemServicoDAO extends GenericaDAO<OrdemServico>{
-    
+public class OrdemServicoDAO extends GenericaDAO<OrdemServico> {
+
+    private OrdemServicoDAO() {
+        super();
+    }
+
+    private static OrdemServicoDAO ordemServicoDAO;
+
+    public static OrdemServicoDAO getInstance() {
+        if (ordemServicoDAO == null) {
+            ordemServicoDAO = new OrdemServicoDAO();
+        }
+        ordemServicoDAO.initConfiguration();
+        return ordemServicoDAO;
+    }
+
 }

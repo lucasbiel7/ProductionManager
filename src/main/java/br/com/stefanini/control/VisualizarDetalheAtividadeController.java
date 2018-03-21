@@ -315,7 +315,6 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
     private TableColumn<ProgressoAtividade, Double> tcPfEstimada;
     @FXML
     private TableColumn<ProgressoAtividade, Double> tcPfDetalhada;
-    
 
     @FXML
     private TableColumn<ProgressoAtividade, String> tcValorContratoDetalhada;
@@ -327,7 +326,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
 
     @FXML
     private TableColumn<ProgressoAtividade, String> tcValorRepassseEstimada;
-    
+
     @FXML
     private Label lbTotalRegistros;
     @FXML
@@ -344,8 +343,8 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
     private Label lbTotalAlieDetalhadaRepasse;
 
     private void calcularTotais() {
-        Parametro paramContrato = new ParametroDAO().buscaParametroRecente(TipoParametro.CONTRATO);
-        Parametro paramRepasse = new ParametroDAO().buscaParametroRecente(TipoParametro.REPASSE);
+        Parametro paramContrato = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.CONTRATO);
+        Parametro paramRepasse = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.REPASSE);
 
         Double totalPfEstimadaLev = 0.0;
         Double totalPfDetalhadaLev = 0.0;
@@ -361,7 +360,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         lbTotalDetalhadaContratoLev.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramContrato.getValor()));
         lbTotalDetalhadaRepasseLev.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramRepasse.getValor()));
         lbQtdLev.setText(String.valueOf(tvLev.getItems().size()));
-        
+
         Double totalPfEstimadaDev = 0.0;
         Double totalPfDetalhadaDev = 0.0;
         for (ProgressoAtividade progresso : tvDev.getItems()) {
@@ -392,20 +391,20 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         lbTotalDetalhadaRepasseTst.setText(DoubleConverter.doubleToString(totalPfDetalhadaTst * .25 * paramRepasse.getValor()));
         lbQtdTst.setText(String.valueOf(tvTst.getItems().size()));
         //Calcular ALI-AIE
-        Double totalPFAieEstimada =tvAli.getItems().stream().mapToDouble(t ->t.getId().getAtividade().getContagemEstimada()).sum();
-        Double totalPFAieDetalhada = tvAli.getItems().stream().mapToDouble(t ->t.getId().getAtividade().getContagemDetalhada()).sum();
+        Double totalPFAieEstimada = tvAli.getItems().stream().mapToDouble(t -> t.getId().getAtividade().getContagemEstimada()).sum();
+        Double totalPFAieDetalhada = tvAli.getItems().stream().mapToDouble(t -> t.getId().getAtividade().getContagemDetalhada()).sum();
         lbTotalRegistros.setText(String.valueOf(tvAli.getItems().size()));
         lbTotalPfAlieDetalhada.setText(String.valueOf(totalPFAieDetalhada));
         lbTotalPfAlieEstimada.setText(String.valueOf(totalPFAieEstimada));
-        lbTotalAlieDetalhadaContrato.setText(DoubleConverter.doubleToString(totalPFAieDetalhada*paramContrato.getValor()));
-        lbTotalAlieDetalhadaRepasse.setText(DoubleConverter.doubleToString(totalPFAieDetalhada*paramRepasse.getValor()));
-        lbTotalAlieEstimadaContrato.setText(DoubleConverter.doubleToString(totalPFAieEstimada*paramContrato.getValor()));
-        lbTotalAlieEstimadaRepasse.setText(DoubleConverter.doubleToString(totalPFAieEstimada*paramRepasse.getValor()));
+        lbTotalAlieDetalhadaContrato.setText(DoubleConverter.doubleToString(totalPFAieDetalhada * paramContrato.getValor()));
+        lbTotalAlieDetalhadaRepasse.setText(DoubleConverter.doubleToString(totalPFAieDetalhada * paramRepasse.getValor()));
+        lbTotalAlieEstimadaContrato.setText(DoubleConverter.doubleToString(totalPFAieEstimada * paramContrato.getValor()));
+        lbTotalAlieEstimadaRepasse.setText(DoubleConverter.doubleToString(totalPFAieEstimada * paramRepasse.getValor()));
         //Total geral
-        lbTotalEstimadaoContrato.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramContrato.getValor() + totalPfEstimadaDev * .4 * paramContrato.getValor() + totalPfEstimadaTst * .25 * paramContrato.getValor()+ totalPFAieEstimada*paramContrato.getValor()));
-        lbTotalEstimadaoRepasse.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramRepasse.getValor() + totalPfEstimadaDev * .4 * paramRepasse.getValor() + totalPfEstimadaTst * .25 * paramRepasse.getValor()+ totalPFAieEstimada*paramRepasse.getValor()));
-        lbTotalDetalhadoContrato.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramContrato.getValor() + totalPfDetalhadaDev * .4 * paramContrato.getValor() + totalPfDetalhadaTst * .25 * paramContrato.getValor()+ totalPFAieDetalhada*paramContrato.getValor()));
-        lbTotalDetalhadoRepasse.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramRepasse.getValor() + totalPfDetalhadaDev * .4 * paramRepasse.getValor() + totalPfDetalhadaTst * .25 * paramRepasse.getValor()+ totalPFAieDetalhada*paramContrato.getValor()));
+        lbTotalEstimadaoContrato.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramContrato.getValor() + totalPfEstimadaDev * .4 * paramContrato.getValor() + totalPfEstimadaTst * .25 * paramContrato.getValor() + totalPFAieEstimada * paramContrato.getValor()));
+        lbTotalEstimadaoRepasse.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramRepasse.getValor() + totalPfEstimadaDev * .4 * paramRepasse.getValor() + totalPfEstimadaTst * .25 * paramRepasse.getValor() + totalPFAieEstimada * paramRepasse.getValor()));
+        lbTotalDetalhadoContrato.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramContrato.getValor() + totalPfDetalhadaDev * .4 * paramContrato.getValor() + totalPfDetalhadaTst * .25 * paramContrato.getValor() + totalPFAieDetalhada * paramContrato.getValor()));
+        lbTotalDetalhadoRepasse.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramRepasse.getValor() + totalPfDetalhadaDev * .4 * paramRepasse.getValor() + totalPfDetalhadaTst * .25 * paramRepasse.getValor() + totalPFAieDetalhada * paramContrato.getValor()));
 
     }
 
@@ -419,9 +418,9 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
             lbDetalhamento.setText(buildLabelDetalhamento((Date) params.get("data")));
             gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
             lbProjetoModulo.setText("");
-            tvLev.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.LE));
-            tvDev.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
-            tvTst.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.TE));
+            tvLev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.LE));
+            tvDev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
+            tvTst.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.TE));
             calcularTotais();
 
         });
@@ -457,7 +456,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         if (progressoAtividades.isEmpty()) {
             MessageUtil.messageError("Não existe progressos para faturar.");
         } else {
-            new ProgressoAtividadeDAO().faturar(progressoAtividades);
+            ProgressoAtividadeDAO.getInstance().faturar(progressoAtividades);
             MessageUtil.confirmMessage("Faturamento realizado com sucesso.");
             retornarTelaPesquisa();
         }
@@ -528,10 +527,10 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
         lbDetalhamento.setText(buildLabelDetalhamento((Date) params.get("data")));
         lbProjetoModulo.setText("");
-        tvLev.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.LE));
-        tvDev.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
-        tvAli.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
-        tvTst.getItems().setAll(new ProgressoAtividadeDAO().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.TE));
+        tvLev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.LE));
+        tvDev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
+        tvAli.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
+        tvTst.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.TE));
         calcularTotais();
         colAcoesLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, ProgressoAtividade> param) -> new SimpleObjectProperty<>(param.getValue()));
         colAcoesLev.setCellFactory((TableColumn<ProgressoAtividade, ProgressoAtividade> param) -> new TableCell<ProgressoAtividade, ProgressoAtividade>() {
@@ -622,8 +621,8 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
             }
 
         });
-        valorContrato = new ParametroDAO().buscaParametroRecente(TipoParametro.CONTRATO).getValor();
-        valorRepasse = new ParametroDAO().buscaParametroRecente(TipoParametro.REPASSE).getValor();
+        valorContrato =  ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.CONTRATO).getValor();
+        valorRepasse =  ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.REPASSE).getValor();
         colIdLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param1) -> {
             return new SimpleStringProperty(String.valueOf(tvLev.getItems().indexOf(param1.getValue()) + 1));
         });
@@ -688,20 +687,20 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         });
         tcAtividade.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(param.getValue().getId().getAtividade().getDescricao()));
         tcNome.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(param.getValue().getId().getAtividade().getNomeAli()));
-        tcNome.setCellFactory((TableColumn<ProgressoAtividade, String> param) -> new TableCell<ProgressoAtividade, String>(){
+        tcNome.setCellFactory((TableColumn<ProgressoAtividade, String> param) -> new TableCell<ProgressoAtividade, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 if (empty) {
                     setGraphic(null);
                     setText("");
-                }else{
-                    if (item==null || item.isEmpty()) {
+                } else {
+                    if (item == null || item.isEmpty()) {
                         setGraphic(null);
                         setText("");
-                    }else{
-                        ListView<String> alies=new ListView<>();
+                    } else {
+                        ListView<String> alies = new ListView<>();
                         alies.getItems().setAll(item.split(Atividade.SCAPE));
-                        alies.setPrefHeight(alies.getItems().size()*25);
+                        alies.setPrefHeight(alies.getItems().size() * 25);
                         setGraphic(alies);
                     }
                 }

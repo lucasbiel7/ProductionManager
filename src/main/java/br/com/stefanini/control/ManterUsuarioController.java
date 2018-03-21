@@ -95,7 +95,7 @@ public class ManterUsuarioController implements Initializable {
 
         });
         gerenciadorDeJanela = new GerenciadorDeJanela();
-        tvUsuario.getItems().setAll(new UsuarioDAO().pegarTodos());
+        tvUsuario.getItems().setAll(UsuarioDAO.getInstance().pegarTodos());
         cbPerfil.getItems().setAll(TipoPerfil.values());
         tcNome.setCellValueFactory((TableColumn.CellDataFeatures<Usuario, String> param) -> new SimpleStringProperty(param.getValue().getPessoa().getNome()));
         tcCPF.setCellValueFactory((TableColumn.CellDataFeatures<Usuario, String> param) -> new SimpleStringProperty(param.getValue().getPessoa().getCpf()));
@@ -140,17 +140,17 @@ public class ManterUsuarioController implements Initializable {
 
                         params.put("Item", item);
                         gerenciadorDeJanela.abrirModal("AtualizarUsuario", params, "Editar Usuário");
-                        tvUsuario.getItems().setAll(new UsuarioDAO().pegarTodos());
+                        tvUsuario.getItems().setAll(UsuarioDAO.getInstance().pegarTodos());
                     });
                     btAlterarStatus.setOnAction((ActionEvent event) -> {
                         item.setAtivado(!item.isAtivado());
-                        new UsuarioDAO().editar(item);
-                        tvUsuario.getItems().setAll(new UsuarioDAO().pegarTodos());
+                        UsuarioDAO.getInstance().editar(item);
+                        tvUsuario.getItems().setAll(UsuarioDAO.getInstance().pegarTodos());
                     });
                     btExcluir.setOnAction((ActionEvent event) -> {
                         if (MessageUtil.confirmMessage("Você realmente deseja excluir este usuário?")) {
-                            new UsuarioDAO().excluir(item);
-                            tvUsuario.getItems().setAll(new UsuarioDAO().pegarTodos());
+                            UsuarioDAO.getInstance().excluir(item);
+                            tvUsuario.getItems().setAll(UsuarioDAO.getInstance().pegarTodos());
                         }
                     });
                 }
@@ -177,7 +177,7 @@ public class ManterUsuarioController implements Initializable {
         usuario.getPessoa().setNome(tfNome.getText());
         usuario.getPessoa().setEmail(tfEmail.getText());
         usuario.getPessoa().setCpf(mtfCpf.getText());
-        tvUsuario.getItems().setAll(new UsuarioDAO().pesquisarUsuario(usuario));
+        tvUsuario.getItems().setAll(UsuarioDAO.getInstance().pesquisarUsuario(usuario));
     }
 
     @FXML
@@ -185,6 +185,6 @@ public class ManterUsuarioController implements Initializable {
         Usuario usuario = new Usuario();
         params.put("Item", usuario);
         gerenciadorDeJanela.abrirModal("AtualizarUsuario", params, "Incluir Usuário");
-        tvUsuario.getItems().setAll(new UsuarioDAO().pegarTodos());
+        tvUsuario.getItems().setAll(UsuarioDAO.getInstance().pegarTodos());
     }
 }

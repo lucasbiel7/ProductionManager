@@ -16,10 +16,23 @@ import java.util.List;
  */
 public class PacoteDAO extends GenericaDAO<Pacote> {
 
+    private PacoteDAO() {
+        super();
+    }
+
+    private static PacoteDAO pacoteDAO;
+
+    public static PacoteDAO getInstance() {
+        if (pacoteDAO == null) {
+            pacoteDAO = new PacoteDAO();
+        }
+        pacoteDAO.initConfiguration();
+        return pacoteDAO;
+    }
+
     public List<Pacote> pegarPorModulo(Modulo modulo) {
         criteriaQuery.where(criteriaBuilder.equal(root.get("modulo"), modulo));
         entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
-        getEntityManager().close();
         return entitys;
     }
 

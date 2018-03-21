@@ -85,7 +85,7 @@ public class CustoController implements Initializable {
         }else{
             custo.setCustoTecnicoRealizado(Double.parseDouble(tfCustoRealizado.getText()));
         }
-        CustoDAO custoDao = new CustoDAO();
+        CustoDAO custoDao = CustoDAO.getInstance();
         if(null == custo.getId()){
             custoDao.salvar(custo);
             new Alert(Alert.AlertType.INFORMATION, "Custo cadastro com sucesso.").show();

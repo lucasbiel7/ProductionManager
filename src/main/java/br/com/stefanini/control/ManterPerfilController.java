@@ -44,7 +44,7 @@ public class ManterPerfilController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tcDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
-        tvPerfil.getItems().setAll(new PerfilDAO().pegarTodos());
+        tvPerfil.getItems().setAll(PerfilDAO.getInstance().pegarTodos());
         btNovoActionEvent(null);
     }
 
@@ -53,17 +53,17 @@ public class ManterPerfilController implements Initializable {
         if (!StringUtil.isEmpty(tfDescricao.getText())) {
             perfil.setDescricao(tfDescricao.getText());
             if (perfil.getId() != null) {
-                new PerfilDAO().editar(perfil);
+                PerfilDAO.getInstance().editar(perfil);
                 MessageUtil.messageInformation("Perfil editado com sucesso!");
             } else {
-                new PerfilDAO().salvar(perfil);
+                PerfilDAO.getInstance().salvar(perfil);
                 MessageUtil.messageInformation("Perfil cadastrado com sucesso!");
             }
             btNovoActionEvent(ae);
         } else {
             MessageUtil.messageError(MessageUtil.CAMPOS_OBRIGATORIOS);
         }
-        tvPerfil.getItems().setAll(new PerfilDAO().pegarTodos());
+        tvPerfil.getItems().setAll(PerfilDAO.getInstance().pegarTodos());
     }
 
     @FXML
@@ -86,8 +86,8 @@ public class ManterPerfilController implements Initializable {
     private void miExcluirActionEvent(ActionEvent ae) {
         if (MessageUtil.confirmMessage("Você realmente deseja excluir este perfil?")) {
             perfil = tvPerfil.getSelectionModel().getSelectedItem();
-            new PerfilDAO().excluir(perfil);
-            tvPerfil.getItems().setAll(new PerfilDAO().pegarTodos());
+            PerfilDAO.getInstance().excluir(perfil);
+            tvPerfil.getItems().setAll(PerfilDAO.getInstance().pegarTodos());
             btNovoActionEvent(ae);
         }
     }

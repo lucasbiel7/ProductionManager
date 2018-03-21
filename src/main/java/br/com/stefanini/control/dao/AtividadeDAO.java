@@ -21,10 +21,23 @@ import javax.persistence.criteria.Predicate;
  */
 public class AtividadeDAO extends GenericaDAO<Atividade> {
 
+    private static AtividadeDAO atividadeDAO;
+    
+    private AtividadeDAO(){
+        super();
+    }
+    
+    public static AtividadeDAO getInstance(){
+        if (atividadeDAO==null) {
+            atividadeDAO=new AtividadeDAO();
+        }
+        atividadeDAO.initConfiguration();
+        return atividadeDAO;
+    }
+    
     public List<Atividade> pegarPorMes(Date data) {
         criteriaQuery.where(criteriaBuilder.equal(root.<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
         entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
-        getEntityManager().close();
         return entitys;
     }
 
@@ -58,7 +71,7 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
         criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
 
         entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
-        getEntityManager().close();
+        
         return entitys;
     }
     
@@ -94,7 +107,7 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
             query.setParameter("idProjeto", idProjeto);
         }
         entitys=query.getResultList();
-        getEntityManager().close();
+        
         return entitys;
     }
 
@@ -102,7 +115,7 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
         criteriaQuery.where(criteriaBuilder.equal(root.get("id"), atividade.getId()));
         root.fetch("atividadeArtefatos", JoinType.LEFT);
         entity = getEntityManager().createQuery(criteriaQuery).getSingleResult();
-        getEntityManager().close();
+        
         return entity;
     }
 }

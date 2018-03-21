@@ -109,12 +109,12 @@ public class PainelDeControleController extends ControllerBase implements Initia
                         stage = (Stage) newWindows;
                         stage.setResizable(true);
                         stage.setMaximized(true);
-                        Platform.runLater(()-> stage.setMaximized(true));
+                        Platform.runLater(() -> stage.setMaximized(true));
                     }
                 });
             }
         });
-        filtroProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
+        filtroProjeto.getItems().setAll(ProjetoDAO.getInstance().pegarTodos());
     }
 
     @FXML
@@ -161,33 +161,31 @@ public class PainelDeControleController extends ControllerBase implements Initia
         params.put("modulo", idModulo);
         params.put("projeto", idProjeto);
         params.put("projetoObject", projeto);
-        
+
         //PARAMETRO ATIVIDADES
-        List<Atividade> atividades = new AtividadeDAO().buscarAtividade(idProjeto, idModulo, idPacote, spAno.getValue());
+        List<Atividade> atividades = AtividadeDAO.getInstance().buscarAtividade(idProjeto, idModulo, idPacote, spAno.getValue());
         params.put("atividades", atividades);
-        
+
         //PARAMETRO VALORES RECENTES
-        
-        Double paramContrato = new ParametroDAO().buscaParametroRecente(TipoParametro.CONTRATO).getValor();
-        Double paramRepasse = new ParametroDAO().buscaParametroRecente(TipoParametro.REPASSE).getValor();
+        Double paramContrato = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.CONTRATO).getValor();
+        Double paramRepasse = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.REPASSE).getValor();
         params.put("paramContrato", paramContrato);
         params.put("paramRepasse", paramRepasse);
-        
+
         //PARAMETRO PROGRESSOS
-        
-        List<ProgressoAtividade> levantamentosAno = new ProgressoAtividadeDAO().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.LE, idProjeto, idModulo, idPacote);
-        List<ProgressoAtividade> desenvolvimentosAno = new ProgressoAtividadeDAO().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.DE, idProjeto, idModulo, idPacote);
-        List<ProgressoAtividade> testesAno = new ProgressoAtividadeDAO().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.TE, idProjeto, idModulo, idPacote); 
+        List<ProgressoAtividade> levantamentosAno = ProgressoAtividadeDAO.getInstance().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.LE, idProjeto, idModulo, idPacote);
+        List<ProgressoAtividade> desenvolvimentosAno = ProgressoAtividadeDAO.getInstance().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.DE, idProjeto, idModulo, idPacote);
+        List<ProgressoAtividade> testesAno = ProgressoAtividadeDAO.getInstance().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.TE, idProjeto, idModulo, idPacote);
         params.put("levantamentosAno", levantamentosAno);
         params.put("desenvolvimentosAno", desenvolvimentosAno);
         params.put("testesAno", testesAno);
-        
+
     }
 
     @FXML
     private void carregaModulos() {
         if (filtroProjeto.getValue() != null) {
-            filtroModulo.getItems().setAll(new ModuloDAO().pegarPorProjeto(filtroProjeto.getValue()));
+            filtroModulo.getItems().setAll(ModuloDAO.getInstance().pegarPorProjeto(filtroProjeto.getValue()));
         } else {
             filtroModulo.getItems().clear();
         }
@@ -196,7 +194,7 @@ public class PainelDeControleController extends ControllerBase implements Initia
     @FXML
     private void carregaPacotes() {
         if (filtroModulo.getValue() != null) {
-            filtroPacote.getItems().setAll(new PacoteDAO().pegarPorModulo(filtroModulo.getValue()));
+            filtroPacote.getItems().setAll(PacoteDAO.getInstance().pegarPorModulo(filtroModulo.getValue()));
         } else {
             filtroPacote.getItems().clear();
         }
@@ -220,7 +218,7 @@ public class PainelDeControleController extends ControllerBase implements Initia
     @FXML
     private void cabecalhoMouseEvent(MouseEvent mouseEvent) {
         spContainer.setContent(apMeses);
-        filtroProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
+        filtroProjeto.getItems().setAll(ProjetoDAO.getInstance().pegarTodos());
         buttonPesquisar();
     }
 
@@ -263,7 +261,7 @@ public class PainelDeControleController extends ControllerBase implements Initia
     private void miManterParametroActionEvent(ActionEvent ae) {
         spContainer.setContent(gerenciadorDeJanela.carregarComponente("ManterParametro"));
     }
-    
+
     public void teste() {
         if (gerenciadorDeJanela != null) {
             Platform.runLater(() -> {
@@ -277,7 +275,7 @@ public class PainelDeControleController extends ControllerBase implements Initia
             int coluna = 0;
             montarParametro();
             while (calendar.get(Calendar.YEAR) <= spAno.getValue()) {
-                Custo custo =  new CustoDAO().buscarCustoMes(calendar.getTime());
+                Custo custo = CustoDAO.getInstance().buscarCustoMes(calendar.getTime());
                 params.put("Custo", custo);
                 params.put("data", calendar.getTime());
                 final int index = coluna + (linha * 3);

@@ -16,10 +16,23 @@ import java.util.List;
  */
 public class ModuloDAO extends GenericaDAO<Modulo> {
 
+    private static ModuloDAO moduloDAO;
+
+    private ModuloDAO() {
+        super();
+    }
+
+    public static ModuloDAO getInstance() {
+        if (moduloDAO == null) {
+            moduloDAO = new ModuloDAO();
+        }
+        moduloDAO.initConfiguration();
+        return moduloDAO;
+    }
+
     public List<Modulo> pegarPorProjeto(Projeto projeto) {
         criteriaQuery.where(criteriaBuilder.equal(root.get("projeto"), projeto));
         entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
-        getEntityManager().close();
         return entitys;
     }
 

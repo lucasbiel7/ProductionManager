@@ -14,4 +14,17 @@ import br.com.stefanini.model.entity.Perfil;
  */
 public class PerfilDAO extends GenericaDAO<Perfil> {
 
+    private static PerfilDAO perfilDAO;
+
+    private PerfilDAO() {
+        super();
+    }
+
+    public static PerfilDAO getInstance() {
+        if (perfilDAO == null) {
+            perfilDAO = new PerfilDAO();
+        }
+        perfilDAO.initConfiguration();
+        return perfilDAO;
+    }
 }

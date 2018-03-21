@@ -217,7 +217,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                     btEditar.setOnAction((ActionEvent event) -> {
                         if (atividade.getPrevisaoInicio() == null) {
                             atividade.setPrevisaoInicio(param);
-                            new AtividadeDAO().editar(atividade);
+                            AtividadeDAO.getInstance().editar(atividade);
                         }
                         params.put("Atividade", atividade);
                         gerenciadorDeJanela.abrirModal("ManterAtividade", params, "Início");
@@ -231,7 +231,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                     btExcluir.setOnAction((ActionEvent event) -> {
                         if (MessageUtil.confirmMessage("Deseja realmente excluir a atividade?")) {
                             try {
-                                new AtividadeDAO().excluir(atividade);
+                                AtividadeDAO.getInstance().excluir(atividade);
                             } catch (Exception e) {
                                 if (e instanceof PersistenceException
                                         && e.getCause() instanceof ConstraintViolationException) {
@@ -251,7 +251,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
 
     @FXML
     private void btPesquisarAction() {
-        List<Atividade> atividades = new AtividadeDAO().pegarPorAtividade(buildAtividadeFromfxml(), param);
+        List<Atividade> atividades = AtividadeDAO.getInstance().pegarPorAtividade(buildAtividadeFromfxml(), param);
         tvAtividade.getItems().setAll(atividades);
         buildTotais(atividades);
     }
@@ -313,7 +313,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
     @FXML
     private void cbProjetoAction() {
         if (cbProjeto.getValue() != null) {
-            cbModulo.getItems().setAll(new ModuloDAO().pegarPorProjeto(cbProjeto.getValue()));
+            cbModulo.getItems().setAll(ModuloDAO.getInstance().pegarPorProjeto(cbProjeto.getValue()));
         } else {
             cbModulo.getItems().clear();
         }
@@ -322,7 +322,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
     @FXML
     private void cbModuloAction() {
         if (cbModulo.getValue() != null) {
-            cbPacote.getItems().setAll(new PacoteDAO().pegarPorModulo(cbModulo.getValue()));
+            cbPacote.getItems().setAll(PacoteDAO.getInstance().pegarPorModulo(cbModulo.getValue()));
         } else {
             cbPacote.getItems().clear();
         }
@@ -420,7 +420,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         lbPesquisa.setText(buildLabel(param));
         cbModulo.setValue(null);
         cbPacote.setValue(null);
-        cbProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
+        cbProjeto.getItems().setAll(ProjetoDAO.getInstance().pegarTodos());
         cbProjeto.setValue(projeto);
         txAtividade.setText("");
         cbSituacao.getItems().setAll(SituacaoAtividade.values());
@@ -444,10 +444,10 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
             if (empty) {
                 setGraphic(null);
             } else {
-                if(item.getOrigemAtividade()==null || item.getOrigemAtividade()==OrigemAtividade.P){
+                if (item.getOrigemAtividade() == null || item.getOrigemAtividade() == OrigemAtividade.P) {
                     Spinner<Double> spDados = new Spinner<>();
                     if (item.getProgresso(tipoAtividade) == null) {
-                        item.setProgresso(new ProgressoAtividadeDAO().pegarUtualProgressoPorAtividadeTipo(item, this.tipoAtividade), tipoAtividade);
+                        item.setProgresso(ProgressoAtividadeDAO.getInstance().pegarUtualProgressoPorAtividadeTipo(item, this.tipoAtividade), tipoAtividade);
                     }
                     double initValue = 0;
                     if (item.getProgresso(tipoAtividade) != null) {
@@ -465,12 +465,12 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                                 if (newValue == 100d) {
                                     if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
                                         progressoAtividade.setFaturamento(Faturamento.EF);
-                                        new ProgressoAtividadeDAO().salvar(progressoAtividade);
+                                        ProgressoAtividadeDAO.getInstance().salvar(progressoAtividade);
                                         item.setProgresso(progressoAtividade.getId().getProgresso(), tipoAtividade);
                                         ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getId().getProgresso());
                                     }
                                 } else {
-                                    new ProgressoAtividadeDAO().salvar(progressoAtividade);
+                                    ProgressoAtividadeDAO.getInstance().salvar(progressoAtividade);
                                     item.setProgresso(progressoAtividade.getId().getProgresso(), tipoAtividade);
                                     ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getId().getProgresso());
                                 }
@@ -480,11 +480,11 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                     spDados.setDisable(this.disabled);
                     setGraphic(spDados);
                     setText(null);
-                }else{
+                } else {
                     setGraphic(null);
                     setText(" - ");
                     setAlignment(Pos.CENTER);
-                    setTooltip(new Tooltip("Não possui esta fase"));   
+                    setTooltip(new Tooltip("Não possui esta fase"));
                 }
             }
         }

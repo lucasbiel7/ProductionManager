@@ -55,7 +55,7 @@ public class ManterModuloController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        cbProjeto.getItems().setAll(new ProjetoDAO().pegarTodos());
+        cbProjeto.getItems().setAll(ProjetoDAO.getInstance().pegarTodos());
         tcDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         tcProjeto.setCellValueFactory(new PropertyValueFactory<>("projeto"));
         tcProjeto.setCellFactory((TableColumn<Modulo, Projeto> param) -> new TableCell<Modulo, Projeto>() {
@@ -88,11 +88,11 @@ public class ManterModuloController implements Initializable {
         if (StringUtil.isEmpty(modulo.getDescricao()) || modulo.getProjeto() == null) {
             MessageUtil.messageError("É necessário preencher todos campos obrigatórios!");
         } else if (modulo.getId() == null) {
-            new ModuloDAO().salvar(modulo);
+            ModuloDAO.getInstance().salvar(modulo);
             new Alert(Alert.AlertType.INFORMATION, "Modulo cadastro com sucesso.").show();
             atualizarTabelas();
         } else {
-            new ModuloDAO().editar(modulo);
+            ModuloDAO.getInstance().editar(modulo);
             new Alert(Alert.AlertType.INFORMATION, "Modulo editado com sucesso.").show();
             atualizarTabelas();
         }
@@ -105,7 +105,7 @@ public class ManterModuloController implements Initializable {
 
     private void atualizarTabelas() {
         btNovoActionEvent(null);
-        tvModulo.getItems().setAll(new ModuloDAO().pegarTodos());
+        tvModulo.getItems().setAll( ModuloDAO.getInstance().pegarTodos());
     }
 
     @FXML
@@ -118,7 +118,7 @@ public class ManterModuloController implements Initializable {
     private void miExcluirActionEvent(ActionEvent ae) {
         if (MessageUtil.confirmMessage("Você realmente deseja excluir esse modulo?")) {
             modulo = tvModulo.getSelectionModel().getSelectedItem();
-            new ModuloDAO().excluir(modulo);
+            ModuloDAO.getInstance().excluir(modulo);
             atualizarTabelas();
         }
     }

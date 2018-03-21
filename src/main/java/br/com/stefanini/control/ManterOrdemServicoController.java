@@ -51,7 +51,7 @@ public class ManterOrdemServicoController implements Initializable {
     @FXML
     private void btNovoActionEvent(ActionEvent ae) {
         ordemServico = new OrdemServico();
-        tvOrdemServico.getItems().setAll(new OrdemServicoDAO().pegarTodos());
+        tvOrdemServico.getItems().setAll(OrdemServicoDAO.getInstance().pegarTodos());
         carregarDados();
     }
 
@@ -61,11 +61,11 @@ public class ManterOrdemServicoController implements Initializable {
         if (StringUtil.isEmpty(ordemServico.getDescricao())) {
             MessageUtil.messageError(MessageUtil.CAMPOS_OBRIGATORIOS);
         } else if (ordemServico.getId() == null) {
-            new OrdemServicoDAO().salvar(ordemServico);
+            OrdemServicoDAO.getInstance().salvar(ordemServico);
             MessageUtil.messageInformation("Uma nova ordem de serviço foi adicionada com sucesso!");
             btNovoActionEvent(ae);
         } else {
-            new OrdemServicoDAO().editar(ordemServico);
+            OrdemServicoDAO.getInstance().editar(ordemServico);
             MessageUtil.messageInformation("Uma ordem de serviço foi alterada com sucesso!");
             btNovoActionEvent(ae);
         }
@@ -84,7 +84,7 @@ public class ManterOrdemServicoController implements Initializable {
         if (tvOrdemServico.getSelectionModel().getSelectedItem() != null) {
             if (MessageUtil.confirmMessage("Você realmente deseja excluir está ordem de serviço?")) {
                 ordemServico = tvOrdemServico.getSelectionModel().getSelectedItem();
-                new OrdemServicoDAO().excluir(ordemServico);
+                OrdemServicoDAO.getInstance().excluir(ordemServico);
                 btNovoActionEvent(ae);
             }
         }
