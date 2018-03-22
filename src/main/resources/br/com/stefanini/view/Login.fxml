@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" fx:id="apPrincipal" prefHeight="696.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.stefanini.control.LoginController">
     <stylesheets>
@@ -16,8 +17,13 @@
       <CPFTextField fx:id="tfCPF" layoutX="334.0" layoutY="329.0" prefHeight="57.0" prefWidth="292.0" promptText="CPF" />
       <PasswordField fx:id="pfUSenha" layoutX="334.0" layoutY="403.0" prefHeight="57.0" prefWidth="292.0" promptText="Senha" />
       <Label alignment="CENTER" layoutX="327.0" layoutY="238.0" lineSpacing="1.0" prefHeight="71.0" prefWidth="306.0" styleClass="logo" stylesheets="@styles/Styles.css" text="11BARRA11" textAlignment="CENTER" />
-      <Label fx:id="lbDataVersao" layoutX="22.0" layoutY="648.0" styleClass="font-image" text="Data atual:10/02/2018 versão: 1.0" />
-      <Button defaultButton="true" layoutX="334.0" layoutY="473.0" mnemonicParsing="false" onAction="#btLoginActionEvent" prefHeight="57.0" prefWidth="292.0" text="Entrar" />
+      <Label fx:id="lbDataVersao" layoutX="22.0" layoutY="636.0" styleClass="font-image" text="Data atual:10/02/2018 versão: 1.0" />
+      <Button fx:id="btEntrar" defaultButton="true" layoutX="334.0" layoutY="473.0" mnemonicParsing="false" onAction="#btLoginActionEvent" prefHeight="57.0" prefWidth="292.0" text="Entrar" />
+      <Label fx:id="lbInformation" layoutX="22.0" layoutY="653.0" styleClass="label-bold" text="VERSÃO DESCONTINUADA!" textFill="WHITE" visible="false">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
    <styleClass>
       <String fx:value="mainFxmlClass" />

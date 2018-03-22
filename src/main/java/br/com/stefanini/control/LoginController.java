@@ -6,7 +6,9 @@ package br.com.stefanini.control;
  * and open the template in the editor.
  */
 import br.com.stefanini.control.dao.UsuarioDAO;
+import br.com.stefanini.control.dao.VersaoDAO;
 import br.com.stefanini.model.entity.Usuario;
+import br.com.stefanini.model.entity.Versao;
 import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.SecurityUtil;
@@ -21,6 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -43,9 +46,14 @@ public class LoginController implements Initializable {
     private PasswordField pfUSenha;
     @FXML
     private Label lbDataVersao;
+    @FXML
+    private Label lbInformation;
+    @FXML
+    private Button btEntrar;
 
     private Stage stage;
     private GerenciadorDeJanela gerenciadorDeJanela;
+    private final Double nrVersaoAtual = 1.0;
 
     Map<String, Object> params = new HashMap<>();
 
@@ -56,7 +64,9 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(() -> {
             params = (Map<String, Object>) apPrincipal.getUserData();
-            gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+            if(params != null){
+                gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+            }
         });
          apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
                 if (newValue != null) {
@@ -75,7 +85,15 @@ public class LoginController implements Initializable {
                 }
 
             });
-        lbDataVersao.setText("Data atual: " + DateUtil.toDateFormater(new Date()) + " Versão: ");
+        Versao versao = VersaoDAO.getInstance().getVersaoAtual();
+        if(!nrVersaoAtual.equals(versao.getNrVersao())){
+            MessageUtil.messageInformation("A versão utilizada foi descontinuada! Entrar em contato com o administrador do sistema.");
+            tfCPF.setDisable(true);
+            pfUSenha.setDisable(true);
+            btEntrar.setDisable(true);
+            lbInformation.setVisible(true);
+        } 
+        lbDataVersao.setText("Data atual: " + DateUtil.toDateFormater(new Date()) + " Versão: " + nrVersaoAtual);  
     }
 
     @FXML
