@@ -67,9 +67,9 @@ public class AtualizarUsuarioController implements Initializable {
     private AnchorPane apPrincipal;
 
     private Stage stage;
-    
+
     private GerenciadorDeJanela gerenciadorDeJanela;
-    
+
     Map<String, Object> params = new HashMap<>();
 
     /**
@@ -114,7 +114,7 @@ public class AtualizarUsuarioController implements Initializable {
         usuario.getPessoa().setEmail(tfEmail.getText());
         usuario.getPessoa().setNome(tfNome.getText());
         usuario.setPerfil(cbPerfil.getSelectionModel().getSelectedItem());
-        usuario.setSenha(pfSenha.getText());
+//        usuario.setSenha(SecurityUtil.encript(pfSenha.getText()));
         List<Atuando> atuandoLista = new ArrayList<>();
         for (Atuacao atuacao : lvAtuando.getItems()) {
             Atuando atuando = new Atuando();
@@ -150,7 +150,7 @@ public class AtualizarUsuarioController implements Initializable {
                     MessageUtil.messageError("Sua confirmação de senha deve ser igual a sua senha.");
                     return;
                 }
-                usuario.setSenha(pfSenha.getText());
+                usuario.setSenha(SecurityUtil.encript(pfSenha.getText()));
             }
             UsuarioDAO.getInstance().editar(usuario);
             MessageUtil.messageInformation("Usuário foi editado com sucesso!");
@@ -192,7 +192,8 @@ public class AtualizarUsuarioController implements Initializable {
             mtfCPF.setText(usuario.getPessoa().getCpf());
             tfEmail.setText(usuario.getPessoa().getEmail());
             cbPerfil.getSelectionModel().select(usuario.getPerfil());
-            
+            pfSenha.clear();
+            pfConfirmarSenha.clear();
             lvAtuacao.getItems().setAll(AtuacaoDAO.getInstance().pegarTodos());
             lvAtuacao.getItems().removeAll(usuario.getAtuando().stream().map(Atuando::getId).map(AtuadoID::getAtuacao).collect(Collectors.toList()));
             lvAtuando.getItems().setAll(usuario.getAtuando().stream().map(Atuando::getId).map(AtuadoID::getAtuacao).collect(Collectors.toList()));
@@ -201,13 +202,15 @@ public class AtualizarUsuarioController implements Initializable {
         }
 
     }
-    
+
     public void teste() {
         params = (Map<String, Object>) apPrincipal.getUserData();
         usuario = (Usuario) params.get("Item");
+        if (usuario == null) {
+            usuario = new Usuario();
+        }
         gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
         stage = (Stage) params.get("modalStage");
         carregarDados();
-        params.put("Item", new Usuario());
     }
 }
