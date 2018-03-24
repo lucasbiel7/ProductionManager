@@ -96,7 +96,7 @@ public class Usuario extends BaseEntity<String> {
         this.ativado = ativado;
     }
 
-    @OneToMany(mappedBy = "id.usuario",fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = Atuando.class)
+    @OneToMany(mappedBy = "id.usuario",fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Atuando.class)
     public List<Atuando> getAtuando() {
         return atuando;
     }
