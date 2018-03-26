@@ -100,6 +100,9 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
 
     @FXML
     private TableColumn<Atividade, String> colId;
+    
+    @FXML
+    private TableColumn<Atividade, String> colTa;
 
     @FXML
     private TableColumn<Atividade, OrdemServico> colOs;
@@ -157,6 +160,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         colId.setCellValueFactory((TableColumn.CellDataFeatures<Atividade, String> param1) -> {
             return new SimpleStringProperty(String.valueOf(tvAtividade.getItems().indexOf(param1.getValue()) + 1));
         });
+        colTa.setCellValueFactory(new PropertyValueFactory<>("tpAtividade"));
         colOs.setCellValueFactory(new PropertyValueFactory<>("ordemServico"));
         colAtividade.setCellValueFactory(new PropertyValueFactory<>("descricao"));
 

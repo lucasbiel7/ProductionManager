@@ -325,6 +325,7 @@ public class ManterAtividadeController implements Initializable {
                 && (dpInicioTeste.getValue().isAfter(dpFimTeste.getValue()))) {
             MessageUtil.messageError("A data de término deve ser maior que a data inicial do Teste e Homologação");
         } else if (atividade.getId() == null) {
+            atividade.setTpAtividade(TipoAtividade.I);
             AtividadeDAO.getInstance().salvar(atividade);
             if (OrigemAtividade.S == atividade.getOrigemAtividade()) {
                 ProgressoAtividade servico = new ProgressoAtividade();

@@ -52,7 +52,8 @@
       <Label fx:id="lbPesquisa" layoutX="28.0" layoutY="14.0" text="Atividade(s) de &lt;&lt;mes&gt;&gt;/&lt;&lt;ano&gt;&gt;" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
       <TableView fx:id="tvAtividade" layoutX="15.0" layoutY="235.0" prefHeight="442.0" prefWidth="1297.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="235.0">
         <columns>
-          <TableColumn fx:id="colId" prefWidth="43.0" text="Número" />
+          <TableColumn fx:id="colId" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" text="Número" />
+            <TableColumn fx:id="colTa" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="TA" />
           <TableColumn fx:id="colOs" prefWidth="157.0" text="Ordem Serviço" />
             <TableColumn fx:id="colAtividade" prefWidth="316.0" text="Atividade" />
             <TableColumn minWidth="0.0" prefWidth="198.0" text="Contagem de Pontos de Função">

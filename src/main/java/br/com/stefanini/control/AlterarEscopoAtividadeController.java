@@ -91,6 +91,7 @@ public class AlterarEscopoAtividadeController implements Initializable {
         modificacaoAtividade.setTipoAtividade(rbLevantamento.isSelected() ? TipoAtividade.LE : rbDesenvolvimento.isSelected() ? TipoAtividade.DE : TipoAtividade.TE);
         modificacaoAtividade.setDescricaoModificacao(taDescricao.getText());
         modificacaoAtividade.setDataModificacao(new Date());
+        modificacaoAtividade.setTpAtividade(TipoAtividade.A);
         ModificacaoAtividadeDAO.getInstance().salvar(modificacaoAtividade);
         MessageUtil.messageInformation("Foi adicionado uma alteração de escopo!");
         stage.close();

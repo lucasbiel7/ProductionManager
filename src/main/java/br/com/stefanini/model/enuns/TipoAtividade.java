@@ -10,7 +10,7 @@ package br.com.stefanini.model.enuns;
  * @author lucas
  */
 public enum TipoAtividade {
-    LE("Levantamento"),DE("Desenvolvimento"),TE("Teste e Homologação"), SE("Serviço");
+    LE("Levantamento"),DE("Desenvolvimento"),TE("Teste e Homologação"), SE("Serviço"), I("Inclusão"), A("Alteração");
     private String descricao;
 
     private TipoAtividade(String descricao) {

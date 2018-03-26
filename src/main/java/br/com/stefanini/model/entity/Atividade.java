@@ -44,6 +44,7 @@ public class Atividade extends BaseEntity<String> {
 
     public static final String PEGAR_POR_DIA = "Atividade.pegarPorMes";
 
+    private TipoAtividade tpAtividade;
     private OrigemAtividade origemAtividade;
     private String descricao;
     private Double contagemEstimada;
@@ -239,6 +240,17 @@ public class Atividade extends BaseEntity<String> {
     public void setNomeAli(String nomeAli) {
         this.nomeAli = nomeAli;
     }
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "TP_ATIVIDADE")
+    public TipoAtividade getTpAtividade() {
+        return tpAtividade;
+    }
+
+    public void setTpAtividade(TipoAtividade tpAtividade) {
+        this.tpAtividade = tpAtividade;
+    }
+    
 
     private Double progressoDE;
     private Double progressoLE;
