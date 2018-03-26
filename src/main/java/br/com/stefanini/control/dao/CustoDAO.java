@@ -7,8 +7,11 @@ package br.com.stefanini.control.dao;
 
 import br.com.stefanini.control.database.GenericaDAO;
 import br.com.stefanini.model.entity.Custo;
+import br.com.stefanini.model.util.StringUtil;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
 /**
@@ -30,17 +33,80 @@ public class CustoDAO extends GenericaDAO<Custo>{
         custoDAO.initConfiguration();
         return custoDAO;
     }
-    public Custo buscarCustoMes(Date dtInclusao){
-        String hql = "SELECT c FROM " + Custo.class.getName() + " c WHERE c.dtInclusao= :dtInclusao ORDER BY c.id DESC";
-        Query query = getEntityManager().createQuery(hql);
-        query.setParameter("dtInclusao", dtInclusao);
-        query.setMaxResults(1); 
-        try{
-            entity =  (Custo) query.getSingleResult();         
-            return entity;
-        }catch(NoResultException nre){
-            return new Custo(0.0, 0.0, dtInclusao);
+    public Custo buscarCustoMes(Date dtInclusao, String idProjeto){
+        StringBuilder hql = new StringBuilder("SELECT c FROM " + Custo.class.getName() + " c WHERE c.dtInclusao= :dtInclusao");
+        if(StringUtil.isEmpty(idProjeto)){
+            Query query = getEntityManager().createQuery(hql.toString());
+            query.setParameter("dtInclusao", dtInclusao);
+            List<Custo> custos = query.getResultList();
+            Double custoPlanejado = 0.0;
+            Double custoRealizado = 0.0;
+            for(Custo c : custos){
+                if(c.getCustoTecnicoPlanejado() != null){
+                    custoPlanejado += c.getCustoTecnicoPlanejado();
+                }
+                if(c.getCustoTecnicoRealizado() != null){
+                    custoRealizado += c.getCustoTecnicoRealizado();
+                }  
+            }
+//            if(entity != null){
+//                entity.setCustoTecnicoPlanejado(custoPlanejado);
+//                entity.setCustoTecnicoRealizado(custoRealizado);
+//            }
+            Custo custo = new Custo();
+            custo.setCustoTecnicoPlanejado(custoPlanejado);
+            custo.setCustoTecnicoRealizado(custoRealizado);
+            custo.setDtInclusao(dtInclusao);
+            
+            return custo;
+        }else{
+            
+                hql.append( " AND c.projeto.id= :idProjeto");
+            
+            Query query = getEntityManager().createQuery(hql.toString());
+            query.setParameter("dtInclusao", dtInclusao);
+            
+                query.setParameter("idProjeto", idProjeto);
+            
+            query.setMaxResults(1); 
+            try{
+                entity = (Custo) query.getSingleResult();
+                return entity;
+//            }catch(NonUniqueResultException nure){
+//                List<Custo> custos = query.getResultList();
+//                Double custoPlanejado = 0.0;
+//                Double custoRealizado = 0.0;
+//                for(Custo c : custos){
+//                    if(c.getCustoTecnicoPlanejado() != null){
+//                        custoPlanejado += c.getCustoTecnicoPlanejado();
+//                    }
+//                    if(c.getCustoTecnicoRealizado() != null){
+//                        custoRealizado += c.getCustoTecnicoRealizado();
+//                    }  
+//                }
+//                Custo custo = new Custo();
+//                custo.setCustoTecnicoPlanejado(custoPlanejado);
+//                custo.setCustoTecnicoRealizado(custoRealizado);
+//                custo.setDtInclusao(dtInclusao);
+//                return custo;
+            }catch(NoResultException nre){
+                Custo c = new Custo(0.0, 0.0, dtInclusao);
+//                c.setProjeto(null);
+                return c;
+            }
+                
         }
-        
     }
+//        query.setMaxResults(1); 
+//        try{
+//            entity = (Custo) query.getSingleResult();
+//            return entity;
+//        }
+//        catch(NoResultException nre){
+//            Custo c = new Custo(0.0, 0.0, dtInclusao);
+//            c.setProjeto(null);
+//            return c;
+//        }
+        
+//    }
 }

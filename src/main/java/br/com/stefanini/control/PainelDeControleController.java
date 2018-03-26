@@ -34,6 +34,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -42,6 +43,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -92,12 +94,18 @@ public class PainelDeControleController extends ControllerBase implements Initia
     ArrayList<Atividade> atividades = new ArrayList<>();
 
     Map<String, Object> params = new HashMap<>();
+    
+    @FXML
+    private Button btSair;
+    
+    private String idProjetoAux;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btSair.setTooltip(new Tooltip("Logout"));
         Calendar calendar = Calendar.getInstance();
         spAno.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, calendar.get(Calendar.YEAR)));
         apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
@@ -139,9 +147,11 @@ public class PainelDeControleController extends ControllerBase implements Initia
 
         if (filtroProjeto.getValue() != null) {
             idProjeto = filtroProjeto.getValue().getId();
+            idProjetoAux = filtroProjeto.getValue().getId();
             projeto = filtroProjeto.getValue();
         } else {
             idProjeto = "";
+            idProjetoAux = "";
             projeto = new Projeto();
         }
 
@@ -275,7 +285,10 @@ public class PainelDeControleController extends ControllerBase implements Initia
             int coluna = 0;
             montarParametro();
             while (calendar.get(Calendar.YEAR) <= spAno.getValue()) {
-                Custo custo = CustoDAO.getInstance().buscarCustoMes(calendar.getTime());
+                Custo custo = CustoDAO.getInstance().buscarCustoMes(calendar.getTime(), idProjetoAux);
+                if(custo == null){
+                    custo = new Custo();
+                }
                 params.put("Custo", custo);
                 params.put("data", calendar.getTime());
                 final int index = coluna + (linha * 3);

@@ -8,10 +8,13 @@ package br.com.stefanini.model.entity;
 import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,9 +28,10 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "TB_CUSTO", catalog = Config.SCHEMA)
 public class Custo extends BaseEntity<String> {
 
-    private Double custoTecnicoPlanejado;
-    private Double custoTecnicoRealizado;
+    private Double custoTecnicoPlanejado = 0.0;
+    private Double custoTecnicoRealizado = 0.0;
     private Date dtInclusao;
+    private Projeto projeto;
 
     public Custo() {
     }
@@ -73,6 +77,16 @@ public class Custo extends BaseEntity<String> {
 
     public void setDtInclusao(Date dtInclusao) {
         this.dtInclusao = dtInclusao;
+    }
+    
+    @OneToOne(targetEntity = Projeto.class, optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_PROJETO", referencedColumnName = "ID_PROJETO")
+    public Projeto getProjeto() {
+        return projeto;
+    }
+
+    public void setProjeto(Projeto projeto) {
+        this.projeto = projeto;
     }
     
 }

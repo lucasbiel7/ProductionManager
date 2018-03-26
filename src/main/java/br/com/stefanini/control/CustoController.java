@@ -7,6 +7,7 @@ package br.com.stefanini.control;
 
 import br.com.stefanini.control.dao.CustoDAO;
 import br.com.stefanini.model.entity.Custo;
+import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
@@ -38,6 +39,7 @@ public class CustoController implements Initializable {
     @FXML
     private TextField tfCustoRealizado;
     private Custo custo;
+    private Projeto projeto;
     private Stage stage;
     private GerenciadorDeJanela gerenciadorDeJanela;
     Map<String,Object> params = new HashMap<>();
@@ -58,6 +60,7 @@ public class CustoController implements Initializable {
         gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
         dtInclusao = (Date) params.get("dtInclusao");
         custo = (Custo) params.get("custo");
+        projeto = (Projeto) params.get("projeto");
         stage = (Stage) params.get("modalStage");
         if(null != custo.getCustoTecnicoPlanejado()){
             tfCustoPlanejado.setText(String.valueOf(custo.getCustoTecnicoPlanejado()));
@@ -75,6 +78,7 @@ public class CustoController implements Initializable {
     @FXML
     private void salvarCusto() {
         custo.setDtInclusao(dtInclusao);
+        custo.setProjeto(projeto);
         if(StringUtil.isEmpty(tfCustoPlanejado.getText())){
             custo.setCustoTecnicoPlanejado(0.0);
         }else{

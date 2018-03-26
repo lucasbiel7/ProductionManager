@@ -129,7 +129,10 @@ public class StatusMensalComponentController extends ControllerBase implements I
 
     @FXML
     private void btAdicionarAction() {
-        if (null != custoMes.getId()) {
+        if (null == projetoObject.getDescricao()) {
+            MessageUtil.messageInformation("Favor pesquisar com um projeto selecionado para atualizar custos.");
+        } else {
+            if (null != custoMes.getId()) {
             Custo custo = CustoDAO.getInstance().pegarPorId(custoMes.getId());
             params.put("custo", custo);
         } else {
@@ -137,6 +140,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
             params.put("custo", custo);
         }
         params.put("dtInclusao", inicio);
+        params.put("projeto", projetoObject);
         gerenciadorDeJanela.abrirModal("CustoModal", params, "Custo");
         gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
         Custo custoAux = (Custo) params.get("CustoAux");
@@ -159,7 +163,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         Double resultadoComercial = contrato - custoComercial;
         Double resultadoCombinado = resultadoTecnico + resultadoComercial;
         lbResultadoCombinado.setText("Resultado Combinado: " + DoubleConverter.doubleToString(resultadoCombinado));
-
+        }
     }
 
     public void teste() {
@@ -311,6 +315,17 @@ public class StatusMensalComponentController extends ControllerBase implements I
                     lbRentabilidade.setText("Rentabilidade: " + DoubleConverter.doubleToString(rentabilidade) + "%");
                 }
             }
+        }else{
+            lbCustoPlanejado.setText("Téc. Planejado: ");
+            lbCustoRealizado.setText("Téc. Realizado: ");
+            lbResultadoTecnico.setText("Resultado Técnico: ");
+            lbRentabilidade.setText("Rentabilidade: ");
+            lbTipoPF.setText("Tipo de Contagem PF: ");
+            lbCustoComercial.setText("Custo Comercial: ");
+            lbResultadoComercial.setText("Resultado Comercial: ");
+            lbResultadoCombinado.setText("Resultado Combinado: ");
+            lbRepasse.setText("Repasse: ");
+            lbFaturamento.setText("Faturamento: ");
         }
     }
 
