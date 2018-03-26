@@ -160,6 +160,15 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
 
     @FXML
     private TableColumn<ProgressoAtividade, OrdemServico> colOsDev;
+    
+    @FXML
+    private TableColumn<ProgressoAtividade, String> colTaLev;
+    
+    @FXML
+    private TableColumn<ProgressoAtividade, String> colTaDev;
+    
+    @FXML
+    private TableColumn<ProgressoAtividade, String> colTaTeste;
 
     @FXML
     private TableColumn<ProgressoAtividade, Modulo> colModDev;
@@ -747,6 +756,9 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
             return new SimpleStringProperty(String.valueOf(tvServico.getItems().indexOf(param1.getValue()) + 1));
         });
         colOsDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, OrdemServico> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getOrdemServico()));
+        colTaLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getTpAtividade().toString()));
+        colTaDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getTpAtividade().toString()));
+        colTaTeste.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getTpAtividade().toString()));
         colModDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, Modulo> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getPacote().getModulo()));
         colProDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, Projeto> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getPacote().getModulo().getProjeto()));
         colPacoteDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, Pacote> param) -> new SimpleObjectProperty<>(param.getValue().getId().getAtividade().getPacote()));
