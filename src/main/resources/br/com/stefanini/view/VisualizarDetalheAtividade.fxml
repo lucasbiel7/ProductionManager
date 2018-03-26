@@ -82,7 +82,7 @@
       <TableView fx:id="tvLev" layoutX="23.0" layoutY="178.0" prefHeight="200.0" prefWidth="599.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
         <columns>
           <TableColumn fx:id="colIdLev" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
-            <TableColumn fx:id="colTaLev" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="TA" />
+            <TableColumn fx:id="colTaLev" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="Tipo" />
           <TableColumn fx:id="colOsLev" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Ordem de Serviço" />
             <TableColumn fx:id="colModLev" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Módulo" />
             <TableColumn fx:id="colProLev" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Projeto" />
@@ -148,7 +148,7 @@
       <TableView fx:id="tvDev" layoutX="20.0" layoutY="451.0" prefHeight="200.0" prefWidth="599.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <columns>
             <TableColumn fx:id="colIdDev" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
-            <TableColumn fx:id="colTaDev" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="TA" />
+            <TableColumn fx:id="colTaDev" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="Tipo" />
             <TableColumn fx:id="colOsDev" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Ordem de Serviço" />
             <TableColumn fx:id="colModDev" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Módulo" />
             <TableColumn fx:id="colProDev" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Projeto" />
@@ -214,7 +214,7 @@
       <TableView fx:id="tvTst" layoutX="15.0" layoutY="984.0" prefHeight="200.0" prefWidth="599.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <columns>
             <TableColumn fx:id="colIdTst" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
-            <TableColumn fx:id="colTaTeste" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="TA" />
+            <TableColumn fx:id="colTaTeste" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="Tipo" />
             <TableColumn fx:id="colOsTst" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Ordem de Serviço" />
             <TableColumn fx:id="colModTst" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Módulo" />
             <TableColumn fx:id="colProTst" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Projeto" />
