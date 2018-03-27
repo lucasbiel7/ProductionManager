@@ -49,7 +49,7 @@ public class DoubleConverter extends StringConverter<Double> {
 
     public static Double stringToDouble(String string) {
         try {
-            return (Double) df.parse(string);
+            return ((Number) df.parse(string)).doubleValue();
         } catch (ParseException ex) {
             Logger.getLogger(DoubleConverter.class.getName()).log(Level.SEVERE, null, ex);
             return 0.0;

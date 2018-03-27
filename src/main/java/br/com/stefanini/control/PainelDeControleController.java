@@ -23,6 +23,7 @@ import br.com.stefanini.model.enuns.TipoParametro;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -175,7 +176,10 @@ public class PainelDeControleController extends ControllerBase implements Initia
         //PARAMETRO ATIVIDADES
         List<Atividade> atividades = AtividadeDAO.getInstance().buscarAtividade(idProjeto, idModulo, idPacote, spAno.getValue());
         params.put("atividades", atividades);
-
+        
+        List<ProgressoAtividade> progressos = ProgressoAtividadeDAO.getInstance().faturadosEEmFaturamento(spAno.getValue());
+        params.put("progressos", progressos);
+        
         //PARAMETRO VALORES RECENTES
         Double paramContrato = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.CONTRATO).getValor();
         Double paramRepasse = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.REPASSE).getValor();
@@ -283,6 +287,8 @@ public class PainelDeControleController extends ControllerBase implements Initia
             calendar.set(Calendar.DAY_OF_MONTH, 1);
             int linha = 0;
             int coluna = 0;
+//            List<ProgressoAtividade> faturadosEmFaturamento = ProgressoAtividadeDAO.getInstance().faturadosEEmFaturamento(calendar.getTime(), TipoAtividade.LE);
+//            params.put("faturadosEmFaturamento", faturadosEmFaturamento);
             montarParametro();
             while (calendar.get(Calendar.YEAR) <= spAno.getValue()) {
                 Custo custo = CustoDAO.getInstance().buscarCustoMes(calendar.getTime(), idProjetoAux);

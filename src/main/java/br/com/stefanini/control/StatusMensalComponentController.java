@@ -6,10 +6,13 @@
 package br.com.stefanini.control;
 
 import br.com.stefanini.control.dao.CustoDAO;
+import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.Custo;
 import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.entity.Projeto;
+import br.com.stefanini.model.enuns.Faturamento;
+import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.MessageUtil;
@@ -45,6 +48,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
     private String idPacote;
     private Projeto projetoObject;
     private List<Atividade> atividades = new ArrayList<>();
+    private List<ProgressoAtividade> progressos = new ArrayList<>();
     private Double paramContrato;
     private Double paramRepasse;
     private List<ProgressoAtividade> levantamentosAno = new ArrayList<>();
@@ -69,10 +73,13 @@ public class StatusMensalComponentController extends ControllerBase implements I
     private Label lbValorContratoDetalhada;
     @FXML
     private Label lbValorRepasseDetalhada;
-    @FXML
-    private Label lbTotal;
+    
+    //    @FXML
+    //    private Label lbTotal;
+    
     @FXML
     private Label lbLevantamento;
+    
     @FXML
     private Label lbDesenvolvimento;
     @FXML
@@ -175,52 +182,96 @@ public class StatusMensalComponentController extends ControllerBase implements I
         idPacote = (String) param.get("pacote");
         projetoObject = (Projeto) param.get("projetoObject");
         atividades = (List<Atividade>) param.get("atividades");
+        progressos = (List<ProgressoAtividade>) param.get("progressos");
         paramContrato = (Double) param.get("paramContrato");
         paramRepasse = (Double) param.get("paramRepasse");
         levantamentosAno = (List<ProgressoAtividade>) param.get("levantamentosAno");
         desenvolvimentosAno = (List<ProgressoAtividade>) param.get("desenvolvimentosAno");
         testesAno = (List<ProgressoAtividade>) param.get("testesAno");
 
-        List<Atividade> atividadesMes = new ArrayList<>();
+//        List<Atividade> atividadesMes = new ArrayList<>();
         String dataParam = DateUtil.formatterDate(inicio, "yyyy-MM-dd");
-        for (Atividade atv : atividades) {
-            String dataBanco = DateUtil.formatterDate(atv.getPrevisaoInicio(), "yyyy-MM-dd");
-            if (dataBanco.equals(dataParam)) {
-                atividadesMes.add(atv);
-            }
-        }
+//        for (Atividade atv : atividades) {
+//            String dataBanco = DateUtil.formatterDate(atv.getPrevisaoInicio(), "yyyy-MM-dd");
+//            if (dataBanco.equals(dataParam)) {
+//                atividadesMes.add(atv);
+//            }
+//        }
 
+        Double contagemEstimadaLev = 0.0;
+        Double contagemDetalhadaLev = 0.0;
         List<ProgressoAtividade> levantamentosMes = new ArrayList<>();
         for (ProgressoAtividade progress : levantamentosAno) {
             String dataBanco = DateUtil.formatterDate(progress.getId().getAtividade().getPrevisaoInicio(), "yyyy-MM-dd");
-            if (dataBanco.equals(dataParam)) {
+            if ((dataBanco.equals(dataParam)) 
+                    && ((progress.getFaturamento().equals(Faturamento.EF)) 
+                    || (progress.getFaturamento().equals(Faturamento.FO)))) {
                 levantamentosMes.add(progress);
+                if(progress.getId().getAtividade().getContagemEstimada() > 0){
+                    contagemEstimadaLev += progress.getId().getAtividade().getContagemEstimada() * .35;
+                }
+                if(progress.getId().getAtividade().getContagemDetalhada() > 0){
+                    contagemDetalhadaLev += progress.getId().getAtividade().getContagemDetalhada()* .35;
+                }
             }
         }
 
+        Double contagemEstimadaDev = 0.0;
+        Double contagemDetalhadaDev = 0.0;
         List<ProgressoAtividade> desenvolvimenetosMes = new ArrayList<>();
         for (ProgressoAtividade progress : desenvolvimentosAno) {
             String dataBanco = DateUtil.formatterDate(progress.getId().getAtividade().getPrevisaoInicio(), "yyyy-MM-dd");
-            if (dataBanco.equals(dataParam)) {
+            if ((dataBanco.equals(dataParam)) 
+                    && ((progress.getFaturamento().equals(Faturamento.EF)) 
+                    || (progress.getFaturamento().equals(Faturamento.FO)))) {
                 desenvolvimenetosMes.add(progress);
+                if(progress.getId().getAtividade().getContagemEstimada() > 0){
+                    contagemEstimadaDev += progress.getId().getAtividade().getContagemEstimada() * .4;
+                }
+                if(progress.getId().getAtividade().getContagemDetalhada() > 0){
+                    contagemDetalhadaDev += progress.getId().getAtividade().getContagemDetalhada()* .4;
+                } 
             }
         }
 
+        Double contagemEstimadaTest = 0.0;
+        Double contagemDetalhadaTest = 0.0;
         List<ProgressoAtividade> testesMes = new ArrayList<>();
         for (ProgressoAtividade progress : testesAno) {
             String dataBanco = DateUtil.formatterDate(progress.getId().getAtividade().getPrevisaoInicio(), "yyyy-MM-dd");
-            if (dataBanco.equals(dataParam)) {
+            if ((dataBanco.equals(dataParam)) 
+                    && ((progress.getFaturamento().equals(Faturamento.EF)) 
+                    || (progress.getFaturamento().equals(Faturamento.FO)))) {
                 testesMes.add(progress);
+                
+                if(progress.getId().getAtividade().getContagemEstimada() > 0){
+                    contagemEstimadaTest += progress.getId().getAtividade().getContagemEstimada() * .25;
+                }
+                if(progress.getId().getAtividade().getContagemDetalhada() > 0){
+                    contagemDetalhadaTest += progress.getId().getAtividade().getContagemDetalhada()* .25;
+                } 
+                
+                
             }
         }
+        Double contagemEstimada = contagemEstimadaLev + contagemEstimadaDev + contagemEstimadaTest;
+        Double contagemDetalhada = contagemDetalhadaLev + contagemDetalhadaDev + contagemDetalhadaTest;
+        
+        
+//        List<ProgressoAtividade> values = new ArrayList<>();
+//        for (ProgressoAtividade progress : testesAno) {
+//            String dataBanco = DateUtil.formatterDate(progress.getId().getAtividade().getPrevisaoInicio(), "yyyy-MM-dd");
+//            if (dataBanco.equals(dataParam)) {
+//                values.add(progress);
+//            }
+//        }
 
         //        PARTE 1
-        Double contagemEstimada = 0.0;
-        Double contagemDetalhada = 0.0;
-        for (Atividade atv : atividadesMes) {
-            contagemEstimada += atv.getContagemEstimada();
-            contagemDetalhada += atv.getContagemDetalhada();
-        }
+//        Double contagemEstimada = 0.0;
+//        for (Atividade atv : atividadesMes) {
+//            contagemEstimada += atv.getContagemEstimada();
+//            contagemDetalhada += atv.getContagemDetalhada();
+//        }
         Double totalContratoEstimada = 0.0;
         Double totalRepasseEstimada = 0.0;
         Double totalContratoDetalhada = 0.0;
@@ -228,7 +279,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         int qtdLevantamentoLabel = 0;
         int qtdDesenvolvimentoLabel = 0;
         int qtdTesteLabel = 0;
-        if (!atividadesMes.isEmpty()) {
+//        if (!atividadesMes.isEmpty()) {
             totalContratoEstimada = contagemEstimada * paramContrato;
             totalRepasseEstimada = contagemEstimada * paramRepasse;
 
@@ -240,13 +291,13 @@ public class StatusMensalComponentController extends ControllerBase implements I
             qtdTesteLabel = testesMes.size();
             repasse = totalRepasseDetalhada;
             contrato = totalContratoDetalhada;
-        }
+//        }
 
         lbTitulo.setText(new SimpleDateFormat("MM - MMMM").format(inicio));
-        lbTotal.setText(" - Total: " + String.valueOf(atividadesMes.size()));
-        lbLevantamento.setText(" - Levantamentos 100%: " + qtdLevantamentoLabel);
-        lbDesenvolvimento.setText(" - Desenvolvimento 100% : " + qtdDesenvolvimentoLabel);
-        lbTeste.setText(" - Testes/Homologação 100% : " + qtdTesteLabel);
+//        lbTotal.setText(" - Total: " + String.valueOf(atividadesMes.size()));
+        lbLevantamento.setText("Levantamentos: " + qtdLevantamentoLabel);
+        lbDesenvolvimento.setText("Desenvolvimento: " + qtdDesenvolvimentoLabel);
+        lbTeste.setText("Testes/Homologação: " + qtdTesteLabel);
 
         lbPfEstimada.setText("Pontos de função: " + contagemEstimada);
         lbValorContratoEstimada.setText("Valor Contrato: " + DoubleConverter.doubleToString(totalContratoEstimada));

@@ -487,11 +487,21 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                             progressoAtividade.getId().setTipoAtividade(this.tipoAtividade);
                             if (newValue > oldValue) {
                                 if (newValue == 100d) {
-                                    if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
-                                        progressoAtividade.setFaturamento(Faturamento.EF);
-                                        ProgressoAtividadeDAO.getInstance().salvar(progressoAtividade);
-                                        item.setProgresso(progressoAtividade.getId().getProgresso(), tipoAtividade);
-                                        ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getId().getProgresso());
+                                    if(this.tipoAtividade.equals(TipoAtividade.TE)){
+                                        if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
+                                            progressoAtividade.getId().getAtividade().setFimAtividade(new Date());
+                                            progressoAtividade.setFaturamento(Faturamento.EF);
+                                            ProgressoAtividadeDAO.getInstance().salvar(progressoAtividade);
+                                            item.setProgresso(progressoAtividade.getId().getProgresso(), tipoAtividade);
+                                            ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getId().getProgresso());
+                                        }
+                                    }else{
+                                        if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
+                                            progressoAtividade.setFaturamento(Faturamento.EF);
+                                            ProgressoAtividadeDAO.getInstance().salvar(progressoAtividade);
+                                            item.setProgresso(progressoAtividade.getId().getProgresso(), tipoAtividade);
+                                            ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getId().getProgresso());
+                                        }
                                     }
                                 } else {
                                     ProgressoAtividadeDAO.getInstance().salvar(progressoAtividade);

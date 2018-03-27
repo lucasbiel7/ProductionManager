@@ -83,8 +83,8 @@ public class CustoController implements Initializable {
             custo.setCustoTecnicoPlanejado(0.0);
         }else{
             String auxPlanejado = tfCustoPlanejado.getText();
-            auxPlanejado.replaceAll("[,]*[.]*", "");
-            custo.setCustoTecnicoPlanejado(DoubleConverter.stringToDouble(auxPlanejado));
+            String replace = auxPlanejado.replaceAll("[,]*[.]*", "");
+            custo.setCustoTecnicoPlanejado(DoubleConverter.stringToDouble(replace));
         }
         
         if(StringUtil.isEmpty(tfCustoRealizado.getText())){

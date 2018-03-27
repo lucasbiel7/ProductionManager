@@ -68,14 +68,13 @@
                         </VBox>
                         <VBox alignment="TOP_CENTER" prefWidth="5000.0">
                            <children>
-                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="5000.0" styleClass="label-bold" text="Atividades">
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="5000.0" styleClass="label-bold" text="Previsão/Faturados">
                                  <font>
                                     <Font size="14.0" />
                                  </font></Label>
-                              <Label fx:id="lbTotal" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Total :" textFill="#3b0edd" />
-                              <Label fx:id="lbLevantamento" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Levantamentos 100% :" />
-                              <Label fx:id="lbDesenvolvimento" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Desenvolvimento 100% :" textFill="#3b0edd" />
-                              <Label fx:id="lbTeste" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Testes/Homologação 100% :" />
+                              <Label fx:id="lbLevantamento" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Levantamento:" />
+                              <Label fx:id="lbDesenvolvimento" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Desenvolvimento:" textFill="#3b0edd" />
+                              <Label fx:id="lbTeste" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Testes/Homologação:" />
                               <Label />
                               <Label alignment="CENTER" prefHeight="17.0" prefWidth="5000.0" styleClass="label-bold" text="Estimada">
                                  <font>

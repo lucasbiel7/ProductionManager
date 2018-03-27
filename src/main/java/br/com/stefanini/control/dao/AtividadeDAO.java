@@ -41,44 +41,6 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
         entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
         return entitys;
     }
-
-    public void updateProximoMes(Date data){
-        StringBuilder sb = new StringBuilder("SELECT a FROM " + Atividade.class.getName() + " a WHERE a.previsaoInicio= :data" );
-        Query query = getEntityManager().createQuery(sb.toString());
-        query.setParameter("data", data);
-        List<Atividade> atividades = query.getResultList();
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(data);
-        c.set(Calendar.MONTH, c.get(Calendar.MONTH) + 1);
-        Date dataProx = c.getTime();
-        
-        getEntityManager().getTransaction().begin();
-        for(Atividade atv : atividades){
-            Atividade a = new Atividade();
-            a.setAliDetalhada(atv.getAliDetalhada());
-            a.setAliEstimada(atv.getAliEstimada());
-            a.setAtividadeArtefatos(new ArrayList<>());
-            a.getAtividadeArtefatos().addAll(atv.getAtividadeArtefatos());
-            a.setContagemDetalhada(atv.getContagemDetalhada());
-            a.setContagemEstimada(atv.getContagemEstimada());
-            a.setDescricao(atv.getDescricao());
-            a.setFaturamento(atv.getFaturamento());
-            a.setNomeAli(atv.getNomeAli());
-            a.setOrdemServico(atv.getOrdemServico());
-            a.setOrigemAtividade(atv.getOrigemAtividade());
-            a.setPacote(atv.getPacote());
-            a.setPrevisaoInicio(dataProx);
-//            a.setProgresso();
-            a.setProgressos(new ArrayList<>());
-            a.getProgressos().addAll(atv.getProgressos());
-            a.setSituacaoAtividade(atv.getSituacaoAtividade());
-            a.setTpAtividade(atv.getTpAtividade());
-            getEntityManager().persist(a);
-            getEntityManager().flush();
-        }
-        getEntityManager().getTransaction().commit();
-    }
     
     public List<Atividade> pegarPorAtividade(Atividade atividade, Date data) {
         List<Predicate> criterios = new ArrayList<>();

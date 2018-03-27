@@ -92,6 +92,7 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
 
         return entitys;
     }
+    
 
     public void faturar(List<ProgressoAtividade> progressos,Date data) {
         getEntityManager().getTransaction().begin();
@@ -135,6 +136,13 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         entitys = query.getResultList();
 
         return entitys;
+    }
+    
+    public List<ProgressoAtividade> faturadosEEmFaturamento(int data) {
+        StringBuilder hql = new StringBuilder("SELECT pa FROM " + ProgressoAtividade.class.getName()).append(" pa WHERE YEAR(pa.id.atividade.fimAtividade)= :data");
+        Query query = getEntityManager().createQuery(hql.toString());
+        query.setParameter("data", data);
+        return query.getResultList();
     }
 
 }

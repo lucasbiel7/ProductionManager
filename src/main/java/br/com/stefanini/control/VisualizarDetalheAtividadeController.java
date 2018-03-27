@@ -5,7 +5,6 @@
  */
 package br.com.stefanini.control;
 
-import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.ParametroDAO;
 import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
 import br.com.stefanini.model.entity.Atividade;
@@ -17,7 +16,6 @@ import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.enuns.TipoParametro;
-import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.GeradorPlanilha;
 import br.com.stefanini.model.util.MessageUtil;

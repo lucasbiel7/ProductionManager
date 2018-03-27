@@ -185,6 +185,16 @@ public class Atividade extends BaseEntity<String> {
     public void setPrevisaoInicio(Date previsaoInicio) {
         this.previsaoInicio = previsaoInicio;
     }
+    
+    @Column(name = "DT_FIM_ATIVIDADE")
+    @Temporal(TemporalType.DATE)
+    public Date getFimAtividade() {
+        return fimAtividade;
+    }
+
+    public void setFimAtividade(Date fimAtividade) {
+        this.fimAtividade = fimAtividade;
+    }
 
     @OneToMany(mappedBy = "id.atividade", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<AtividadeArtefatos> getAtividadeArtefatos() {
