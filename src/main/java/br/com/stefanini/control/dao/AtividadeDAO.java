@@ -7,6 +7,7 @@ package br.com.stefanini.control.dao;
 
 import br.com.stefanini.control.database.GenericaDAO;
 import br.com.stefanini.model.entity.Atividade;
+import br.com.stefanini.model.entity.AtividadeArtefatos;
 import br.com.stefanini.model.util.StringUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,8 +56,26 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
         
         getEntityManager().getTransaction().begin();
         for(Atividade atv : atividades){
-            atv.setPrevisaoInicio(dataProx);
-            getEntityManager().merge(atv);
+            Atividade a = new Atividade();
+            a.setAliDetalhada(atv.getAliDetalhada());
+            a.setAliEstimada(atv.getAliEstimada());
+            a.setAtividadeArtefatos(new ArrayList<>());
+            a.getAtividadeArtefatos().addAll(atv.getAtividadeArtefatos());
+            a.setContagemDetalhada(atv.getContagemDetalhada());
+            a.setContagemEstimada(atv.getContagemEstimada());
+            a.setDescricao(atv.getDescricao());
+            a.setFaturamento(atv.getFaturamento());
+            a.setNomeAli(atv.getNomeAli());
+            a.setOrdemServico(atv.getOrdemServico());
+            a.setOrigemAtividade(atv.getOrigemAtividade());
+            a.setPacote(atv.getPacote());
+            a.setPrevisaoInicio(dataProx);
+//            a.setProgresso();
+            a.setProgressos(new ArrayList<>());
+            a.getProgressos().addAll(atv.getProgressos());
+            a.setSituacaoAtividade(atv.getSituacaoAtividade());
+            a.setTpAtividade(atv.getTpAtividade());
+            getEntityManager().persist(a);
             getEntityManager().flush();
         }
         getEntityManager().getTransaction().commit();
