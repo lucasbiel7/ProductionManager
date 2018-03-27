@@ -155,7 +155,7 @@ public class ProgressoAtividade extends BaseEntity<ProgressoAtividadeId> {
     }
     
     
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Column(name = "DT_FATURAMENTO")
     public Date getDataFaturamento() {
         return dataFaturamento;

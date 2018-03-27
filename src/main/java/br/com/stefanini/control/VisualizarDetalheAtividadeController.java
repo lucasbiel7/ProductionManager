@@ -526,9 +526,8 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         if (progressoAtividades.isEmpty()) {
             MessageUtil.messageError("Não existe progressos para faturar.");
         } else {
-            ProgressoAtividadeDAO.getInstance().faturar(progressoAtividades);
-            AtividadeDAO.getInstance().updateProximoMes(DateUtil.truncateDate((Date) params.get("data")));
-            MessageUtil.confirmMessage("Faturamento realizado com sucesso.");
+            ProgressoAtividadeDAO.getInstance().faturar(progressoAtividades,(Date)params.get("data"));
+            MessageUtil.messageInformation("Faturamento realizado com sucesso.");
             retornarTelaPesquisa();
         }
     }

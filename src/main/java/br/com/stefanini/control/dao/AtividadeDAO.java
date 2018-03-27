@@ -7,7 +7,6 @@ package br.com.stefanini.control.dao;
 
 import br.com.stefanini.control.database.GenericaDAO;
 import br.com.stefanini.model.entity.Atividade;
-import br.com.stefanini.model.entity.AtividadeArtefatos;
 import br.com.stefanini.model.util.StringUtil;
 import java.util.ArrayList;
 import java.util.Calendar;

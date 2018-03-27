@@ -54,6 +54,7 @@ public class Atividade extends BaseEntity<String> {
     private Faturamento faturamento;
     private SituacaoAtividade situacaoAtividade;
     private Date previsaoInicio;
+    private Date fimAtividade;
     private List<AtividadeArtefatos> atividadeArtefatos;
     private Double aliEstimada;
     private Double aliDetalhada;
@@ -240,7 +241,7 @@ public class Atividade extends BaseEntity<String> {
     public void setNomeAli(String nomeAli) {
         this.nomeAli = nomeAli;
     }
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "TP_ATIVIDADE")
     public TipoAtividade getTpAtividade() {
@@ -250,13 +251,11 @@ public class Atividade extends BaseEntity<String> {
     public void setTpAtividade(TipoAtividade tpAtividade) {
         this.tpAtividade = tpAtividade;
     }
-    
 
     private Double progressoDE;
     private Double progressoLE;
     private Double progressoTE;
 
-   
     public Double getProgresso(TipoAtividade tipoAtividade) {
         switch (tipoAtividade) {
             case DE:
@@ -282,6 +281,5 @@ public class Atividade extends BaseEntity<String> {
                 break;
         }
     }
-    
-    
+
 }

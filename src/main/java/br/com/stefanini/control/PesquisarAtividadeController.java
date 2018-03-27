@@ -365,7 +365,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
         Calendar c = Calendar.getInstance();
         c.setTime(param);
-        c.set(Calendar.MONTH, c.get(Calendar.MONTH) + 1);
+        c.set(Calendar.MONTH, c.get(Calendar.MONTH));
         Date dataProx = c.getTime();
         params.put("data", dataProx);
         scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarFaturados", params));
