@@ -446,8 +446,9 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         lbTotalDetalhadaRepasseTst.setText(DoubleConverter.doubleToString(totalPfDetalhadaTst * .25 * paramRepasse.getValor()));
         lbQtdTst.setText(String.valueOf(tvTst.getItems().size()));
         //Calcular ALI-AIE
-        Double totalPFAieEstimada = tvAli.getItems().stream().mapToDouble(t -> t.getId().getAtividade().getContagemEstimada()).sum();
-        Double totalPFAieDetalhada = tvAli.getItems().stream().mapToDouble(t -> t.getId().getAtividade().getContagemDetalhada()).sum();
+        Double totalPFAieEstimada = tvAli.getItems().stream().mapToDouble(t -> t.getId().getAtividade().getAliEstimada()).sum();
+        Double totalPFAieDetalhada = tvAli.getItems().stream().mapToDouble(t -> t.getId().getAtividade().getAliDetalhada()).sum();
+
         lbTotalRegistros.setText(String.valueOf(tvAli.getItems().size()));
         lbTotalPfAlieDetalhada.setText(String.valueOf(totalPFAieDetalhada));
         lbTotalPfAlieEstimada.setText(String.valueOf(totalPFAieEstimada));
