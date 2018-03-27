@@ -5,7 +5,6 @@
  */
 package br.com.stefanini.control;
 
-import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.ParametroDAO;
 import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
 import br.com.stefanini.model.entity.Atividade;
@@ -17,7 +16,6 @@ import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.enuns.TipoParametro;
-import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.GeradorPlanilha;
 import br.com.stefanini.model.util.MessageUtil;
@@ -28,7 +26,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +59,7 @@ import javafx.stage.Stage;
  *
  * @author rkkitagawa
  */
-public class VisualizarDetalheAtividadeController extends ControllerBase implements Initializable {
+public class VisualizarFaturadosController extends ControllerBase implements Initializable {
 
     @FXML
     private Label lbProjetoModulo;
@@ -75,9 +72,6 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
 
     @FXML
     private Button btPlanilhaSTEFANINI;
-
-    @FXML
-    private Button btFaturar;
 
     @FXML
     private Button btCancelar;
@@ -487,10 +481,10 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
             lbDetalhamento.setText(buildLabelDetalhamento((Date) params.get("data")));
             gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
             lbProjetoModulo.setText("");
-            tvLev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.LE));
-            tvDev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
-            tvTst.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.TE));
-            tvServico.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.SE));
+            tvLev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarFaturadosPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.LE));
+            tvDev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarFaturadosPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
+            tvTst.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarFaturadosPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.TE));
+            tvServico.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarFaturadosPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.SE));
             calcularTotais();
         });
     }
@@ -517,22 +511,6 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
     }
 
     @FXML
-    private void faturarAction() {
-        List<ProgressoAtividade> progressoAtividades = new ArrayList<>();
-        progressoAtividades.addAll(tvLev.getItems().stream().collect(Collectors.toList()));
-        progressoAtividades.addAll(tvDev.getItems().stream().collect(Collectors.toList()));
-        progressoAtividades.addAll(tvTst.getItems().stream().collect(Collectors.toList()));
-        if (progressoAtividades.isEmpty()) {
-            MessageUtil.messageError("Não existe progressos para faturar.");
-        } else {
-            ProgressoAtividadeDAO.getInstance().faturar(progressoAtividades);
-            AtividadeDAO.getInstance().updateProximoMes(DateUtil.truncateDate((Date) params.get("data")));
-            MessageUtil.confirmMessage("Faturamento realizado com sucesso.");
-            retornarTelaPesquisa();
-        }
-    }
-
-    @FXML
     private void cancelarAction() {
         retornarTelaPesquisa();
     }
@@ -548,7 +526,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
             try {
                 Files.createDirectories(p);
             } catch (IOException ex) {
-                Logger.getLogger(VisualizarDetalheAtividadeController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VisualizarFaturadosController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -597,11 +575,11 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
         lbDetalhamento.setText(buildLabelDetalhamento((Date) params.get("data")));
         lbProjetoModulo.setText("");
-        tvLev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.LE));
-        tvDev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
-        tvAli.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
-        tvTst.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.TE));
-        tvServico.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.SE));
+        tvLev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarFaturadosPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.LE));
+        tvDev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarFaturadosPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
+        tvAli.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarFaturadosPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
+        tvTst.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarFaturadosPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.TE));
+        tvServico.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarFaturadosPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.SE));
         calcularTotais();
         colAcoesLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, ProgressoAtividade> param) -> new SimpleObjectProperty<>(param.getValue()));
         colAcoesLev.setCellFactory((TableColumn<ProgressoAtividade, ProgressoAtividade> param) -> new TableCell<ProgressoAtividade, ProgressoAtividade>() {

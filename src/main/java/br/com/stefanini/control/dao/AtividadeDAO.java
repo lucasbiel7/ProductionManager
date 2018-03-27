@@ -9,6 +9,7 @@ import br.com.stefanini.control.database.GenericaDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.util.StringUtil;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
@@ -41,6 +42,26 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
         return entitys;
     }
 
+    public void updateProximoMes(Date data){
+        StringBuilder sb = new StringBuilder("SELECT a FROM " + Atividade.class.getName() + " a WHERE a.previsaoInicio= :data" );
+        Query query = getEntityManager().createQuery(sb.toString());
+        query.setParameter("data", data);
+        List<Atividade> atividades = query.getResultList();
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(data);
+        c.set(Calendar.MONTH, c.get(Calendar.MONTH) + 1);
+        Date dataProx = c.getTime();
+        
+        getEntityManager().getTransaction().begin();
+        for(Atividade atv : atividades){
+            atv.setPrevisaoInicio(dataProx);
+            getEntityManager().merge(atv);
+            getEntityManager().flush();
+        }
+        getEntityManager().getTransaction().commit();
+    }
+    
     public List<Atividade> pegarPorAtividade(Atividade atividade, Date data) {
         List<Predicate> criterios = new ArrayList<>();
         criterios.add(criteriaBuilder.equal(root.<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
@@ -48,7 +69,7 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
         if (atividade.getPacote().getModulo().getProjeto().getId() != null) {
             criterios.add(criteriaBuilder.equal(root.get("pacote").get("modulo").get("projeto"), atividade.getPacote().getModulo().getProjeto()));
         }
-
+ 
         if (atividade.getPacote().getModulo().getId() != null) {
             criterios.add(criteriaBuilder.equal(root.get("pacote").get("modulo"), atividade.getPacote().getModulo()));
         }

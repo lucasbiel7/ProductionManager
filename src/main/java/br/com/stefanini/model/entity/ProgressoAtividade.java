@@ -110,6 +110,8 @@ public class ProgressoAtividade extends BaseEntity<ProgressoAtividadeId> {
     private Date dataDoProgresso;
 
     private Faturamento faturamento = Faturamento.AF;
+    
+    private Date dataFaturamento;
 
     private Parametro parametroContrato;
 
@@ -150,6 +152,17 @@ public class ProgressoAtividade extends BaseEntity<ProgressoAtividadeId> {
 
     public void setFaturamento(Faturamento faturamento) {
         this.faturamento = faturamento;
+    }
+    
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DT_FATURAMENTO")
+    public Date getDataFaturamento() {
+        return dataFaturamento;
+    }
+
+    public void setDataFaturamento(Date dataFaturamento) {
+        this.dataFaturamento = dataFaturamento;
     }
 
     @ManyToOne(targetEntity = Parametro.class, optional = true)

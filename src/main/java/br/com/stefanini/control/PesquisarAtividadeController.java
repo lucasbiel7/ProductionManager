@@ -24,6 +24,7 @@ import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -358,6 +359,19 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade", params));
 
     }
+    
+        @FXML
+    private void btFaturadosAction() {
+        ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
+        Calendar c = Calendar.getInstance();
+        c.setTime(param);
+        c.set(Calendar.MONTH, c.get(Calendar.MONTH) + 1);
+        Date dataProx = c.getTime();
+        params.put("data", dataProx);
+        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarFaturados", params));
+
+    }
+    
 
     @Override
     public void buildAnalista() {

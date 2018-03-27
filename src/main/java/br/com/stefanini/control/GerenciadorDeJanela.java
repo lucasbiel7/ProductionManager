@@ -94,6 +94,9 @@ public class GerenciadorDeJanela {
             if(o instanceof VisualizarDetalheAtividadeController){
                ((VisualizarDetalheAtividadeController)o).teste();
             }
+            if(o instanceof VisualizarFaturadosController){
+               ((VisualizarFaturadosController)o).teste();
+            }
             
             if(o instanceof AtualizarUsuarioController){
                ((AtualizarUsuarioController)o).teste();

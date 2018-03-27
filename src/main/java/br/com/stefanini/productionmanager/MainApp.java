@@ -68,6 +68,7 @@ public class MainApp extends Application {
             componentes.put("ManterUsuario", init("ManterUsuario", gerenciadorDeJanela, ""));
             componentes.put("PesquisarAtividade", init("PesquisarAtividade", gerenciadorDeJanela, ""));
             componentes.put("VisualizarDetalheAtividade", init("VisualizarDetalheAtividade", gerenciadorDeJanela, ""));
+            componentes.put("VisualizarFaturados", init("VisualizarFaturados", gerenciadorDeJanela, ""));
             componentes.put("CustoModal", init("CustoModal", gerenciadorDeJanela, ""));
         } catch (IOException ex) {
             Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);

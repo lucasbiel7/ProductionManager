@@ -53,7 +53,7 @@
       <TableView fx:id="tvAtividade" layoutX="15.0" layoutY="235.0" prefHeight="442.0" prefWidth="1297.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="235.0">
         <columns>
           <TableColumn fx:id="colId" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" text="Número" />
-            <TableColumn fx:id="colTa" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="TA" />
+            <TableColumn fx:id="colTa" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="Tipo" />
           <TableColumn fx:id="colOs" prefWidth="157.0" text="Ordem Serviço" />
             <TableColumn fx:id="colAtividade" prefWidth="316.0" text="Atividade" />
             <TableColumn minWidth="0.0" prefWidth="198.0" text="Contagem de Pontos de Função">
@@ -116,5 +116,6 @@
          </children>
       </GridPane>
       <Button fx:id="idLimpar" layoutX="1134.0" layoutY="201.0" mnemonicParsing="false" onAction="#buttonLimpar" text="Limpar Filtros" />
+      <Button fx:id="btFaturados" layoutX="954.0" layoutY="201.0" mnemonicParsing="false" onAction="#btFaturadosAction" text="Faturados" />
    </children>
 </AnchorPane>

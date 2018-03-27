@@ -77,16 +77,49 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
 
         return entitys;
     }
+    
+    public List<ProgressoAtividade> pegarFaturadosPorDataTipoAtividade(Date data, TipoAtividade tipoAtividade) {
+        if (data == null) {
+            return new ArrayList<>();
+        }
+        List<Predicate> criterios = new ArrayList<>();
+        //TODO ISSUE DO LUCAS (se der bug)
+        criterios.add(criteriaBuilder.equal(root.get("id").get("atividade").<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
+        criterios.add(criteriaBuilder.equal(root.get("id").get("tipoAtividade"), tipoAtividade));
+        criterios.add(criteriaBuilder.equal(root.get("faturamento"), Faturamento.FO));
+        criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
+        entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
+
+        return entitys;
+    }
 
     public void faturar(List<ProgressoAtividade> progressos) {
+        Double lev = 0.35;
+        Double dev = 0.40;
+        Double tes = 0.25;
         getEntityManager().getTransaction().begin();
         for (ProgressoAtividade progresso : progressos) {
+            if(TipoAtividade.LE.equals(progresso.getId().getTipoAtividade())){
+                Double pf = progresso.getId().getAtividade().getContagemDetalhada();
+                pf = pf-pf*lev;
+                progresso.getId().getAtividade().setContagemDetalhada(pf);
+            }
+            if(TipoAtividade.DE.equals(progresso.getId().getTipoAtividade())){
+                Double pf = progresso.getId().getAtividade().getContagemDetalhada();
+                pf = pf-pf*dev;
+                progresso.getId().getAtividade().setContagemDetalhada(pf);
+            }
+            if(TipoAtividade.TE.equals(progresso.getId().getTipoAtividade())){
+                Double pf = progresso.getId().getAtividade().getContagemDetalhada();
+                pf = pf-pf*tes;
+                progresso.getId().getAtividade().setContagemDetalhada(pf);
+            } 
             progresso.setFaturamento(Faturamento.FO);
+            progresso.setDataFaturamento(new Date());
             getEntityManager().merge(progresso);
             getEntityManager().flush();
         }
         getEntityManager().getTransaction().commit();
-
     }
 
     public List<ProgressoAtividade> pegarProgressoAtividade(int data, TipoAtividade tipoAtividade, String idProjeto, String idModulo, String idPacote) {
