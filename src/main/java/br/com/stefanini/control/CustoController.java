@@ -83,8 +83,8 @@ public class CustoController implements Initializable {
             custo.setCustoTecnicoPlanejado(0.0);
         }else{
             String auxPlanejado = tfCustoPlanejado.getText();
-            String replace = auxPlanejado.replaceAll("[,]*[.]*", "");
-            custo.setCustoTecnicoPlanejado(DoubleConverter.stringToDouble(replace));
+            auxPlanejado.replaceAll("[,]*[.]*", "");
+            custo.setCustoTecnicoPlanejado(DoubleConverter.stringToDouble(auxPlanejado));
         }
         
         if(StringUtil.isEmpty(tfCustoRealizado.getText())){
@@ -94,13 +94,12 @@ public class CustoController implements Initializable {
             auxRealizado.replaceAll("[,]*[.]*", "");
             custo.setCustoTecnicoRealizado(DoubleConverter.stringToDouble(auxRealizado));
         }
-        CustoDAO custoDao = CustoDAO.getInstance();
         if(null == custo.getId()){
-            custoDao.salvar(custo);
+            CustoDAO.getInstance().salvar(custo);
             new Alert(Alert.AlertType.INFORMATION, "Custo cadastro com sucesso.").show();
             stage.close();
         }else{
-            custoDao.editar(custo);
+            CustoDAO.getInstance().editar(custo);
             new Alert(Alert.AlertType.INFORMATION, "Custo atualizado com sucesso.").show();
             stage.close();
         }

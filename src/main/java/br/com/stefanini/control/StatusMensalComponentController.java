@@ -6,13 +6,11 @@
 package br.com.stefanini.control;
 
 import br.com.stefanini.control.dao.CustoDAO;
-import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.Custo;
 import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.entity.Projeto;
 import br.com.stefanini.model.enuns.Faturamento;
-import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.MessageUtil;
@@ -140,8 +138,8 @@ public class StatusMensalComponentController extends ControllerBase implements I
             MessageUtil.messageInformation("Favor pesquisar com um projeto selecionado para atualizar custos.");
         } else {
             if (null != custoMes.getId()) {
-            Custo custo = CustoDAO.getInstance().pegarPorId(custoMes.getId());
-            params.put("custo", custo);
+            
+            params.put("custo", CustoDAO.getInstance().pegarPorId(custoMes.getId()));
         } else {
             Custo custo = new Custo();
             params.put("custo", custo);

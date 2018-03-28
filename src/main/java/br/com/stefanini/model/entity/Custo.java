@@ -8,13 +8,12 @@ package br.com.stefanini.model.entity;
 import br.com.stefanini.control.database.Config;
 import br.com.stefanini.model.BaseEntity;
 import java.util.Date;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -79,7 +78,7 @@ public class Custo extends BaseEntity<String> {
         this.dtInclusao = dtInclusao;
     }
     
-    @OneToOne(targetEntity = Projeto.class, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Projeto.class, optional = false)
     @JoinColumn(name = "ID_PROJETO", referencedColumnName = "ID_PROJETO")
     public Projeto getProjeto() {
         return projeto;
