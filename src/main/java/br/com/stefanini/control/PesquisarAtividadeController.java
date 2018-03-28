@@ -93,8 +93,8 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
     @FXML
     private ComboBox<SituacaoAtividade> cbSituacao;
 
-    @FXML
-    private ComboBox<Faturamento> cbFaturamento;
+//    @FXML
+//    private ComboBox<Faturamento> cbFaturamento;
 
     @FXML
     private TableView<Atividade> tvAtividade;
@@ -188,14 +188,14 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                     Button btIncluirPendencia = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/sino.png"), 15, 15, true, true)));
                     Button btRemoverPendencia = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/block.png"), 15, 15, true, true)));
                     Button btVisualizarPendencia = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/visualizar.png"), 15, 15, true, true)));
-                    Button btEnviarParaFaturamento = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/enviar.png"), 15, 15, true, true)));
+//                    Button btEnviarParaFaturamento = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/enviar.png"), 15, 15, true, true)));
                     Button btExcluir = new Button("", new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/excluir.png"), 15, 15, true, true)));
                     btEditar.setTooltip(new Tooltip("Editar Atividade"));
                     btAlteracaoEscopo.setTooltip(new Tooltip("Alteração de Escopo Após aprovação"));
                     btIncluirPendencia.setTooltip(new Tooltip("Incluir Pendência na atividade"));
                     btRemoverPendencia.setTooltip(new Tooltip("Remover Pendência da atividade"));
                     btVisualizarPendencia.setTooltip(new Tooltip("Visualizar Pendências da Atividade"));
-                    btEnviarParaFaturamento.setTooltip(new Tooltip("Enviar para faturamento"));
+//                    btEnviarParaFaturamento.setTooltip(new Tooltip("Enviar para faturamento"));
                     btExcluir.setTooltip(new Tooltip("Excluir atividade"));
 
                     btAlteracaoEscopo.setOnAction((ActionEvent event) -> {
@@ -209,16 +209,16 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
 //                        stage1.showAndWait();
 //                        carregarTabela();
                     });
-                    btEnviarParaFaturamento.setOnAction((ActionEvent event) -> {
-                        params.put("Atividade", atividade);
-                        gerenciadorDeJanela.abrirModal("FaturarAtividade", params, "Faturar atividade");
-                        btPesquisarAction();
+//                    btEnviarParaFaturamento.setOnAction((ActionEvent event) -> {
+//                        params.put("Atividade", atividade);
+//                        gerenciadorDeJanela.abrirModal("FaturarAtividade", params, "Faturar atividade");
+//                        btPesquisarAction();
 //                        Stage stage = gerenciadorDeJanela.mostrarJanela(new Stage(), gerenciadorDeJanela.carregarComponente("FaturarAtividade", atividade), "Faturar atividade");
 //                        stage.initOwner(PesquisarAtividadeController.this.stage);
 //                        stage.initModality(Modality.WINDOW_MODAL);
 //                        stage.showAndWait();
 //                        carregarTabela();
-                    });
+//                    });
                     btEditar.setOnAction((ActionEvent event) -> {
                         if (atividade.getPrevisaoInicio() == null) {
                             atividade.setPrevisaoInicio(param);
@@ -242,7 +242,8 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                             btPesquisarAction();
                         }
                     });
-                    hBox.getChildren().addAll(btEditar, btAlteracaoEscopo, btIncluirPendencia, btRemoverPendencia, btVisualizarPendencia, btEnviarParaFaturamento, btExcluir);
+//                    hBox.getChildren().addAll(btEditar, btAlteracaoEscopo, btIncluirPendencia, btRemoverPendencia, btVisualizarPendencia, btEnviarParaFaturamento, btExcluir);
+                    hBox.getChildren().addAll(btEditar, btAlteracaoEscopo, btIncluirPendencia, btRemoverPendencia, btVisualizarPendencia, btExcluir);
                     setGraphic(hBox);
                 }
 
@@ -256,12 +257,12 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         cbPacote.setValue(null);
         txAtividade.setText("");
         cbSituacao.setValue(null);
-        cbFaturamento.setValue(null);
+//        cbFaturamento.setValue(null);
     }
 
     @FXML
     private void btPesquisarAction() {
-        List<Atividade> atividades = AtividadeDAO.getInstance().pegarPorAtividade(buildAtividadeFromfxml(), param);
+        List<Atividade> atividades = AtividadeDAO.getInstance().pesquisarAtividades(buildAtividadeFromfxml(), param);
         tvAtividade.getItems().setAll(atividades);
         buildTotais(atividades);
     }
@@ -307,9 +308,9 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         if (cbSituacao.getValue() != null) {
             ativ.setSituacaoAtividade(cbSituacao.getValue());
         }
-        if (cbFaturamento.getValue() != null) {
-            ativ.setFaturamento(cbFaturamento.getValue());
-        }
+//        if (cbFaturamento.getValue() != null) {
+//            ativ.setFaturamento(cbFaturamento.getValue());
+//        }
 
         return ativ;
     }
@@ -448,7 +449,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         cbProjetoAction();
         txAtividade.setText("");
         cbSituacao.getItems().setAll(SituacaoAtividade.values());
-        cbFaturamento.getItems().setAll(Faturamento.values());
+//        cbFaturamento.getItems().setAll(Faturamento.values());
         btPesquisarAction();
     }
 

@@ -7,6 +7,8 @@ package br.com.stefanini.control.dao;
 
 import br.com.stefanini.control.database.GenericaDAO;
 import br.com.stefanini.model.entity.Atividade;
+import br.com.stefanini.model.enuns.SituacaoAtividade;
+import br.com.stefanini.model.util.DateUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -118,5 +120,39 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
         entity = getEntityManager().createQuery(criteriaQuery).getSingleResult();
         
         return entity;
+    }
+    
+    public List<Atividade> pesquisarAtividades(Atividade atividade, Date data) {
+        List<Predicate> criterios = new ArrayList<>();
+        criterios.add(criteriaBuilder.lessThanOrEqualTo(root.<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
+        
+        if (atividade.getPacote().getModulo().getProjeto().getId() != null) {
+            criterios.add(criteriaBuilder.equal(root.get("pacote").get("modulo").get("projeto"), atividade.getPacote().getModulo().getProjeto()));
+        }
+        if (atividade.getPacote().getModulo().getId() != null) {
+            criterios.add(criteriaBuilder.equal(root.get("pacote").get("modulo"), atividade.getPacote().getModulo()));
+        }
+        if (atividade.getPacote().getId() != null) {
+            criterios.add(criteriaBuilder.equal(root.get("pacote"), atividade.getPacote()));
+        }
+        if (!StringUtil.isEmpty(atividade.getDescricao())) {
+            criterios.add(criteriaBuilder.like(root.get("descricao"), atividade.getDescricao() + "%"));
+        }
+        if (atividade.getSituacaoAtividade() != null) {
+            criterios.add(criteriaBuilder.equal(root.get("situacaoAtividade"), atividade.getSituacaoAtividade()));
+        }
+
+        criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
+        entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
+//        String dataParam = DateUtil.formatterDate(data, "yyyy-MM-dd");
+//        if(entitys.size() > 0){
+//            for(Atividade a : entitys){
+//                String dataBanco = DateUtil.formatterDate(a.getPrevisaoInicio(), "yyyy-MM-dd");
+//                if(!(dataParam.equals(dataBanco)) && (SituacaoAtividade.F.equals(a.getSituacaoAtividade()))){
+//                    entitys.remove(a);
+//                }
+//            }
+//        }
+        return entitys;
     }
 }

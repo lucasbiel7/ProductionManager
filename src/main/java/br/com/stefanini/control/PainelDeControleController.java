@@ -5,7 +5,6 @@
  */
 package br.com.stefanini.control;
 
-import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.CustoDAO;
 import br.com.stefanini.control.dao.ModuloDAO;
 import br.com.stefanini.control.dao.PacoteDAO;
@@ -23,7 +22,6 @@ import br.com.stefanini.model.enuns.TipoParametro;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

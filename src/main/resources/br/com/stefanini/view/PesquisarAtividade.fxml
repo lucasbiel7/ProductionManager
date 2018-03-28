@@ -41,12 +41,12 @@
             <Label text="Pacote:" GridPane.rowIndex="2" />
             <Label text="Atividade:" GridPane.columnIndex="2" />
             <Label text="Situação da Atividade:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Label text="Faturamento:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label text="Faturamento:" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <ComboBox fx:id="cbProjeto" onAction="#cbProjetoAction" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="1" />
             <ComboBox fx:id="cbModulo" onAction="#cbModuloAction" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ComboBox fx:id="cbPacote" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <ComboBox fx:id="cbSituacao" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <ComboBox fx:id="cbFaturamento" prefWidth="250.0" promptText="Selecione..." GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <ComboBox fx:id="cbFaturamento" prefWidth="250.0" promptText="Selecione..." visible="false" GridPane.columnIndex="3" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Label fx:id="lbPesquisa" layoutX="28.0" layoutY="14.0" text="Atividade(s) de &lt;&lt;mes&gt;&gt;/&lt;&lt;ano&gt;&gt;" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
