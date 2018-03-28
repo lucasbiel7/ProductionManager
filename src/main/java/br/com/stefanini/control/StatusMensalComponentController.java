@@ -179,7 +179,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         idModulo = (String) param.get("modulo");
         idPacote = (String) param.get("pacote");
         projetoObject = (Projeto) param.get("projetoObject");
-        atividades = (List<Atividade>) param.get("atividades");
+//        atividades = (List<Atividade>) param.get("atividades");
         progressos = (List<ProgressoAtividade>) param.get("progressos");
         paramContrato = (Double) param.get("paramContrato");
         paramRepasse = (Double) param.get("paramRepasse");
@@ -187,15 +187,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         desenvolvimentosAno = (List<ProgressoAtividade>) param.get("desenvolvimentosAno");
         testesAno = (List<ProgressoAtividade>) param.get("testesAno");
 
-//        List<Atividade> atividadesMes = new ArrayList<>();
         String dataParam = DateUtil.formatterDate(inicio, "yyyy-MM-dd");
-//        for (Atividade atv : atividades) {
-//            String dataBanco = DateUtil.formatterDate(atv.getPrevisaoInicio(), "yyyy-MM-dd");
-//            if (dataBanco.equals(dataParam)) {
-//                atividadesMes.add(atv);
-//            }
-//        }
-
         Double contagemEstimadaLev = 0.0;
         Double contagemDetalhadaLev = 0.0;
         List<ProgressoAtividade> levantamentosMes = new ArrayList<>();
@@ -248,28 +240,12 @@ public class StatusMensalComponentController extends ControllerBase implements I
                 if(progress.getId().getAtividade().getContagemDetalhada() > 0){
                     contagemDetalhadaTest += progress.getId().getAtividade().getContagemDetalhada()* .25;
                 } 
-                
-                
             }
         }
         Double contagemEstimada = contagemEstimadaLev + contagemEstimadaDev + contagemEstimadaTest;
         Double contagemDetalhada = contagemDetalhadaLev + contagemDetalhadaDev + contagemDetalhadaTest;
-        
-        
-//        List<ProgressoAtividade> values = new ArrayList<>();
-//        for (ProgressoAtividade progress : testesAno) {
-//            String dataBanco = DateUtil.formatterDate(progress.getId().getAtividade().getPrevisaoInicio(), "yyyy-MM-dd");
-//            if (dataBanco.equals(dataParam)) {
-//                values.add(progress);
-//            }
-//        }
 
         //        PARTE 1
-//        Double contagemEstimada = 0.0;
-//        for (Atividade atv : atividadesMes) {
-//            contagemEstimada += atv.getContagemEstimada();
-//            contagemDetalhada += atv.getContagemDetalhada();
-//        }
         Double totalContratoEstimada = 0.0;
         Double totalRepasseEstimada = 0.0;
         Double totalContratoDetalhada = 0.0;
@@ -277,7 +253,6 @@ public class StatusMensalComponentController extends ControllerBase implements I
         int qtdLevantamentoLabel = 0;
         int qtdDesenvolvimentoLabel = 0;
         int qtdTesteLabel = 0;
-//        if (!atividadesMes.isEmpty()) {
             totalContratoEstimada = contagemEstimada * paramContrato;
             totalRepasseEstimada = contagemEstimada * paramRepasse;
 
@@ -289,19 +264,17 @@ public class StatusMensalComponentController extends ControllerBase implements I
             qtdTesteLabel = testesMes.size();
             repasse = totalRepasseDetalhada;
             contrato = totalContratoDetalhada;
-//        }
 
         lbTitulo.setText(new SimpleDateFormat("MM - MMMM").format(inicio));
-//        lbTotal.setText(" - Total: " + String.valueOf(atividadesMes.size()));
         lbLevantamento.setText("Levantamentos: " + qtdLevantamentoLabel);
         lbDesenvolvimento.setText("Desenvolvimento: " + qtdDesenvolvimentoLabel);
         lbTeste.setText("Testes/Homologação: " + qtdTesteLabel);
 
-        lbPfEstimada.setText("Pontos de função: " + contagemEstimada);
+        lbPfEstimada.setText("Pontos de função: " + DoubleConverter.doubleToString(contagemEstimada));
         lbValorContratoEstimada.setText("Valor Contrato: " + DoubleConverter.doubleToString(totalContratoEstimada));
         lbValorRepasseEstimada.setText("Valor Repasse: " + DoubleConverter.doubleToString(totalRepasseEstimada));
 
-        lbPfDetalhada.setText("Pontos de função: " + contagemDetalhada);
+        lbPfDetalhada.setText("Pontos de função: " + DoubleConverter.doubleToString(contagemDetalhada));
         lbValorContratoDetalhada.setText("Valor Contrato: " + DoubleConverter.doubleToString(totalContratoDetalhada));
         lbValorRepasseDetalhada.setText("Valor Repasse: " + DoubleConverter.doubleToString(totalRepasseDetalhada));
 

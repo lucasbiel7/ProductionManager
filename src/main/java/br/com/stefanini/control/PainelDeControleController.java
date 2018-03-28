@@ -174,8 +174,8 @@ public class PainelDeControleController extends ControllerBase implements Initia
         params.put("projetoObject", projeto);
 
         //PARAMETRO ATIVIDADES
-        List<Atividade> atividades = AtividadeDAO.getInstance().buscarAtividade(idProjeto, idModulo, idPacote, spAno.getValue());
-        params.put("atividades", atividades);
+//        List<Atividade> atividades = AtividadeDAO.getInstance().buscarAtividade(idProjeto, idModulo, idPacote, spAno.getValue());
+//        params.put("atividades", atividades);
         
         List<ProgressoAtividade> progressos = ProgressoAtividadeDAO.getInstance().faturadosEEmFaturamento(spAno.getValue());
         params.put("progressos", progressos);
