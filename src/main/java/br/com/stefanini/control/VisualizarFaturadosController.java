@@ -505,7 +505,7 @@ public class VisualizarFaturadosController extends ControllerBase implements Ini
         if (date == null) {
             return null;
         }
-        StringBuilder sb = new StringBuilder("Detalhamento de ");
+        StringBuilder sb = new StringBuilder("Aprovados de ");
         sb.append(new SimpleDateFormat("MM/YYYY").format(date));
         return sb.toString();
     }
@@ -833,7 +833,6 @@ public class VisualizarFaturadosController extends ControllerBase implements Ini
         colEstimativaRepasseTst.setStyle("-fx-alignment: CENTER_RIGHT");
         colDetalhadaContratoTst.setStyle("-fx-alignment: CENTER_RIGHT");
         colDetalhadaRepasseTst.setStyle("-fx-alignment: CENTER_RIGHT");
-
     }
 
     @Override

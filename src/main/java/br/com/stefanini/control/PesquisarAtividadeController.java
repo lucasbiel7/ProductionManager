@@ -278,7 +278,6 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         }
         lbTotalEstimada.setText(String.valueOf(countEstimada));
         lbTotalDetalhada.setText(String.valueOf(countDetalhada));
-
     }
 
     private Atividade buildAtividadeFromfxml() {
@@ -367,10 +366,16 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         Calendar c = Calendar.getInstance();
         c.setTime(param);
         c.set(Calendar.MONTH, c.get(Calendar.MONTH));
-        Date dataProx = c.getTime();
-        params.put("data", dataProx);
-        scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarFaturados", params));
-
+        params.put("data", c.getTime());
+        List<ProgressoAtividade> lev = ProgressoAtividadeDAO.getInstance().pegarFaturadosPorDataTipoAtividade(c.getTime(), TipoAtividade.LE);
+        List<ProgressoAtividade> dev = ProgressoAtividadeDAO.getInstance().pegarFaturadosPorDataTipoAtividade(c.getTime(), TipoAtividade.DE);
+        List<ProgressoAtividade> tes = ProgressoAtividadeDAO.getInstance().pegarFaturadosPorDataTipoAtividade(c.getTime(), TipoAtividade.TE);
+        List<ProgressoAtividade> ser = ProgressoAtividadeDAO.getInstance().pegarFaturadosPorDataTipoAtividade(c.getTime(), TipoAtividade.SE);
+        if(lev.isEmpty() && dev.isEmpty() && tes.isEmpty() && ser.isEmpty()){
+            MessageUtil.messageInformation("Não houve faturamentos neste mês");
+        }else{
+            scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarFaturados", params));
+        }
     }
 
     @Override
@@ -450,6 +455,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         cbSituacao.getItems().setAll(SituacaoAtividade.values());
 //        cbFaturamento.getItems().setAll(Faturamento.values());
         btPesquisarAction();
+        
     }
 
     //Classe para renderizar os spinners
@@ -498,7 +504,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                                     if (this.tipoAtividade.equals(TipoAtividade.DE) && item.getProgresso(TipoAtividade.LE) != 100d) {
                                         MessageUtil.messageInformation("Você não pode finalizar essa atividade com a anterior incompleta.");
                                         btPesquisarAction();
-                                    }else if (this.tipoAtividade.equals(TipoAtividade.TE) && item.getProgresso(TipoAtividade.DE) != 100d){
+                                    } else if (this.tipoAtividade.equals(TipoAtividade.TE) && item.getProgresso(TipoAtividade.DE) != 100d){
                                         MessageUtil.messageInformation("Você não pode finalizar essa atividade com a anterior incompleta.");
                                         btPesquisarAction();
                                     } else if (this.tipoAtividade.equals(TipoAtividade.TE)) {

@@ -403,8 +403,12 @@ public class ManterAtividadeController implements Initializable {
             if (null != atividade.getId()) {
                 atividade = AtividadeDAO.getInstance().carregarArtefatos(atividade);
                 cbTipoAtividade.setDisable(true);
+                spAno.setDisable(true);
+                cbMes.setDisable(true);
             } else {
                 cbTipoAtividade.setDisable(false);
+                spAno.setDisable(false);
+                cbMes.setDisable(false);
             }
             gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
             stage = (Stage) params.get("modalStage");

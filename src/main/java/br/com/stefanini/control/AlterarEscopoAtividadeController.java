@@ -8,10 +8,12 @@ package br.com.stefanini.control;
 import br.com.stefanini.control.dao.ModificacaoAtividadeDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.ModificacaoAtividade;
+import br.com.stefanini.model.enuns.Mes;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +23,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -35,6 +40,10 @@ import javafx.stage.Window;
  */
 public class AlterarEscopoAtividadeController implements Initializable {
 
+    @FXML
+    private ComboBox<Mes> cbMes;
+    @FXML
+    private Spinner<Integer> spAno;
     @FXML
     private AnchorPane apPrincipal;
     @FXML
@@ -77,8 +86,14 @@ public class AlterarEscopoAtividadeController implements Initializable {
                 });
                 params = (Map) apPrincipal.getUserData();
                 load();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(atividade.getPrevisaoInicio());
+                ((SpinnerValueFactory.IntegerSpinnerValueFactory) spAno.getValueFactory()).setMin(calendar.get(Calendar.YEAR));
             }
         });
+        cbMes.getItems().setAll(Mes.values());
+        Calendar calendar = Calendar.getInstance();
+        spAno.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(calendar.get(Calendar.YEAR), Integer.MAX_VALUE, calendar.get(Calendar.YEAR)));
     }
 
     @FXML
@@ -90,6 +105,11 @@ public class AlterarEscopoAtividadeController implements Initializable {
         ModificacaoAtividade modificacaoAtividade = new ModificacaoAtividade(atividade);
         modificacaoAtividade.setTipoAtividade(rbLevantamento.isSelected() ? TipoAtividade.LE : rbDesenvolvimento.isSelected() ? TipoAtividade.DE : TipoAtividade.TE);
         modificacaoAtividade.setDescricaoModificacao(taDescricao.getText());
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, spAno.getValue());
+        calendar.set(Calendar.MONTH, cbMes.getSelectionModel().getSelectedIndex());
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        modificacaoAtividade.setPrevisaoInicio(calendar.getTime());
         modificacaoAtividade.setDataModificacao(new Date());
         modificacaoAtividade.setTpAtividade(TipoAtividade.A);
         ModificacaoAtividadeDAO.getInstance().salvar(modificacaoAtividade);
