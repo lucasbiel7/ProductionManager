@@ -444,8 +444,20 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         lbTotalDetalhadaRepasseTst.setText(DoubleConverter.doubleToString(totalPfDetalhadaTst * .25 * paramRepasse.getValor()));
         lbQtdTst.setText(String.valueOf(tvTst.getItems().size()));
         //Calcular ALI-AIE
-        Double totalPFAieEstimada = tvAli.getItems().stream().mapToDouble(t -> t.getId().getAtividade().getAliEstimada()).sum();
-        Double totalPFAieDetalhada = tvAli.getItems().stream().mapToDouble(t -> t.getId().getAtividade().getAliDetalhada()).sum();
+        Double totalPFAieEstimada = 0.0;
+        Double totalPFAieDetalhada = 0.0;
+        for(ProgressoAtividade a : tvAli.getItems()){
+            if(a.getId().getAtividade().getAliEstimada() == null){
+                a.getId().getAtividade().setAliEstimada(0d);
+            }
+            if(a.getId().getAtividade().getAliDetalhada()== null){
+                a.getId().getAtividade().setAliDetalhada(0d);
+            }
+            totalPFAieEstimada += a.getId().getAtividade().getAliEstimada();
+            totalPFAieDetalhada += a.getId().getAtividade().getAliDetalhada();
+        }
+//        Double totalPFAieEstimada = tvAli.getItems().stream().mapToDouble(t -> t.getId().getAtividade().getAliEstimada()).sum();
+//        Double totalPFAieDetalhada = tvAli.getItems().stream().mapToDouble(t -> t.getId().getAtividade().getAliDetalhada()).sum();
 
         lbTotalRegistros.setText(String.valueOf(tvAli.getItems().size()));
         lbTotalPfAlieDetalhada.setText(String.valueOf(totalPFAieDetalhada));

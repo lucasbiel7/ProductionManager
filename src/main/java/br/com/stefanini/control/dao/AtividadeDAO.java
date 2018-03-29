@@ -143,16 +143,25 @@ public class AtividadeDAO extends GenericaDAO<Atividade> {
         }
 
         criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
-        entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
-//        String dataParam = DateUtil.formatterDate(data, "yyyy-MM-dd");
-//        if(entitys.size() > 0){
-//            for(Atividade a : entitys){
-//                String dataBanco = DateUtil.formatterDate(a.getPrevisaoInicio(), "yyyy-MM-dd");
-//                if(!(dataParam.equals(dataBanco)) && (SituacaoAtividade.F.equals(a.getSituacaoAtividade()))){
-//                    entitys.remove(a);
-//                }
-//            }
-//        }
-        return entitys;
+        String dataParam = DateUtil.formatterDate(data, "yyyy-MM-dd");
+        List<Atividade> resultado = getEntityManager().createQuery(criteriaQuery).getResultList();
+        if(atividade.getSituacaoAtividade() != null && atividade.getSituacaoAtividade().equals(SituacaoAtividade.F)){
+            List<Atividade> atividades = new ArrayList<>();
+            for(Atividade a : resultado){
+                String dataBanco = DateUtil.formatterDate(a.getPrevisaoInicio(), "yyyy-MM-dd");
+                if(dataParam.equals(dataBanco)){
+                    atividades.add(a);
+                }
+            }
+            return atividades;
+        }else{
+            List<Atividade> atividades = new ArrayList<>();
+            for(Atividade a : resultado){
+                if(!(SituacaoAtividade.F.equals(a.getSituacaoAtividade()))){
+                    atividades.add(a);
+                }
+            }
+        return atividades;
+        }
     }
 }

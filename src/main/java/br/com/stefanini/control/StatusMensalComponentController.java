@@ -6,7 +6,6 @@
 package br.com.stefanini.control;
 
 import br.com.stefanini.control.dao.CustoDAO;
-import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.Custo;
 import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.entity.Projeto;
@@ -46,7 +45,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
     private String idPacote;
     private Projeto projetoObject;
 //    private List<Atividade> atividades = new ArrayList<>();
-    private List<ProgressoAtividade> progressos = new ArrayList<>();
+//    private List<ProgressoAtividade> progressos = new ArrayList<>();
     private Double paramContrato;
     private Double paramRepasse;
     private List<ProgressoAtividade> levantamentosAno = new ArrayList<>();
@@ -180,7 +179,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         idPacote = (String) param.get("pacote");
         projetoObject = (Projeto) param.get("projetoObject");
 //        atividades = (List<Atividade>) param.get("atividades");
-        progressos = (List<ProgressoAtividade>) param.get("progressos");
+//        progressos = (List<ProgressoAtividade>) param.get("progressos");
         paramContrato = (Double) param.get("paramContrato");
         paramRepasse = (Double) param.get("paramRepasse");
         levantamentosAno = (List<ProgressoAtividade>) param.get("levantamentosAno");
@@ -188,8 +187,8 @@ public class StatusMensalComponentController extends ControllerBase implements I
         testesAno = (List<ProgressoAtividade>) param.get("testesAno");
 
         String dataParam = DateUtil.formatterDate(inicio, "yyyy-MM-dd");
-        Double estimadaLevPrevisao = 0.0;
-        Double detalhadaLevPrevisao = 0.0;
+//        Double estimadaLevPrevisao = 0.0;
+//        Double detalhadaLevPrevisao = 0.0;
         Double estimadaLevFaturado = 0.0;
         Double detalhadaLevFaturado = 0.0;
         List<ProgressoAtividade> levantamentosMesPrevisao = new ArrayList<>();
@@ -200,8 +199,8 @@ public class StatusMensalComponentController extends ControllerBase implements I
                     && ((progress.getFaturamento().equals(Faturamento.EF)) 
                     || (progress.getFaturamento().equals(Faturamento.FO)))) {
                 levantamentosMesPrevisao.add(progress);
-                estimadaLevPrevisao += progress.getId().getAtividade().getContagemEstimada() * .35;
-                detalhadaLevPrevisao += progress.getId().getAtividade().getContagemDetalhada()* .35;
+//                estimadaLevPrevisao += progress.getId().getAtividade().getContagemEstimada() * .35;
+//                detalhadaLevPrevisao += progress.getId().getAtividade().getContagemDetalhada()* .35;
             }
             if((dataBanco.equals(dataParam)) && (progress.getFaturamento().equals(Faturamento.FO))){
                 levantamentosMesFaturado.add(progress);
@@ -210,8 +209,8 @@ public class StatusMensalComponentController extends ControllerBase implements I
             }
         }
 
-        Double estimadaDevPrevisao = 0.0;
-        Double detalhadaDevPrevisao = 0.0;
+//        Double estimadaDevPrevisao = 0.0;
+//        Double detalhadaDevPrevisao = 0.0;
         Double estimadaDevFaturado = 0.0;
         Double detalhadaDevFaturado = 0.0;
         List<ProgressoAtividade> desenvolvimenetosMesPrevisao = new ArrayList<>();
@@ -222,8 +221,8 @@ public class StatusMensalComponentController extends ControllerBase implements I
                     && ((progress.getFaturamento().equals(Faturamento.EF)) 
                     || (progress.getFaturamento().equals(Faturamento.FO)))) {
                 desenvolvimenetosMesPrevisao.add(progress);
-                estimadaDevPrevisao += progress.getId().getAtividade().getContagemEstimada() * .4;
-                detalhadaDevPrevisao += progress.getId().getAtividade().getContagemDetalhada()* .4;
+//                estimadaDevPrevisao += progress.getId().getAtividade().getContagemEstimada() * .4;
+//                detalhadaDevPrevisao += progress.getId().getAtividade().getContagemDetalhada()* .4;
             }
             if ((dataBanco.equals(dataParam)) && (progress.getFaturamento().equals(Faturamento.FO))) {
                 desenvolvimenetosMesFaturado.add(progress);
@@ -232,8 +231,8 @@ public class StatusMensalComponentController extends ControllerBase implements I
             }
         }
 
-        Double estimadaTestPrevisao = 0.0;
-        Double detalhadaTestPrevisao = 0.0;
+//        Double estimadaTestPrevisao = 0.0;
+//        Double detalhadaTestPrevisao = 0.0;
         Double estimadaTestFaturado = 0.0;
         Double detalhadaTestFaturado = 0.0;
         List<ProgressoAtividade> testesMesPrevisao = new ArrayList<>();
@@ -244,8 +243,8 @@ public class StatusMensalComponentController extends ControllerBase implements I
                     && ((progress.getFaturamento().equals(Faturamento.EF)) 
                     || (progress.getFaturamento().equals(Faturamento.FO)))) {
                 testesMesPrevisao.add(progress);
-                estimadaTestPrevisao += progress.getId().getAtividade().getContagemEstimada() * .25;
-                detalhadaTestPrevisao += progress.getId().getAtividade().getContagemDetalhada()* .25;
+//                estimadaTestPrevisao += progress.getId().getAtividade().getContagemEstimada() * .25;
+//                detalhadaTestPrevisao += progress.getId().getAtividade().getContagemDetalhada()* .25;
             }
             if ((dataBanco.equals(dataParam)) 
                     && (progress.getFaturamento().equals(Faturamento.FO))) {

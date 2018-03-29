@@ -99,6 +99,10 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         for (ProgressoAtividade progresso : progressos) {
             progresso.setFaturamento(Faturamento.FO);
             progresso.setDataFaturamento(data);
+            if(progresso.getId().getTipoAtividade().equals(TipoAtividade.TE) 
+                    && progresso.getFaturamento().equals(Faturamento.FO)){
+                progresso.getId().getAtividade().setFaturamento(Faturamento.FO);
+            }
             getEntityManager().merge(progresso);
             getEntityManager().flush();
         }

@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -95,13 +96,12 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
 
 //    @FXML
 //    private ComboBox<Faturamento> cbFaturamento;
-
     @FXML
     private TableView<Atividade> tvAtividade;
 
     @FXML
     private TableColumn<Atividade, String> colId;
-    
+
     @FXML
     private TableColumn<Atividade, String> colTa;
 
@@ -250,7 +250,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
             }
         });
     }
-    
+
     @FXML
     private void buttonLimpar() {
         cbModulo.setValue(null);
@@ -360,8 +360,8 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarDetalheAtividade", params));
 
     }
-    
-        @FXML
+
+    @FXML
     private void btFaturadosAction() {
         ScrollPane scrollPane = (ScrollPane) gerenciadorDeJanela.procurarComponente("spContainer", apPrincipal);
         Calendar c = Calendar.getInstance();
@@ -372,7 +372,6 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         scrollPane.setContent(gerenciadorDeJanela.carregarComponente("VisualizarFaturados", params));
 
     }
-    
 
     @Override
     public void buildAnalista() {
@@ -480,23 +479,39 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                     }
                     spDados.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(initValue, 100d, initValue, 5d));
                     spDados.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
-                        if (!Objects.equals(oldValue, newValue)) {
+                        if (oldValue.doubleValue()!=newValue.doubleValue()) {
                             ProgressoAtividade progressoAtividade = new ProgressoAtividade();
                             progressoAtividade.getId().setAtividade(item);
                             progressoAtividade.setDataDoProgresso(new Date());
                             progressoAtividade.getId().setProgresso(newValue);
                             progressoAtividade.getId().setTipoAtividade(this.tipoAtividade);
                             if (newValue > oldValue) {
+                                if (newValue < 100d && this.tipoAtividade.equals(TipoAtividade.LE)) {
+                                    progressoAtividade.getId().getAtividade().setSituacaoAtividade(SituacaoAtividade.L);
+                                } else if (newValue < 100d && this.tipoAtividade.equals(TipoAtividade.DE)) {
+                                    progressoAtividade.getId().getAtividade().setSituacaoAtividade(SituacaoAtividade.D);
+                                } else if (newValue < 100d && this.tipoAtividade.equals(TipoAtividade.TE)) {
+                                    progressoAtividade.getId().getAtividade().setSituacaoAtividade(SituacaoAtividade.T);
+                                }
+
                                 if (newValue == 100d) {
-                                    if(this.tipoAtividade.equals(TipoAtividade.TE)){
+                                    if (this.tipoAtividade.equals(TipoAtividade.DE) && item.getProgresso(TipoAtividade.LE) != 100d) {
+                                        MessageUtil.messageInformation("Você não pode finalizar essa atividade com a anterior incompleta.");
+                                        btPesquisarAction();
+                                    }else if (this.tipoAtividade.equals(TipoAtividade.TE) && item.getProgresso(TipoAtividade.DE) != 100d){
+                                        MessageUtil.messageInformation("Você não pode finalizar essa atividade com a anterior incompleta.");
+                                        btPesquisarAction();
+                                    } else if (this.tipoAtividade.equals(TipoAtividade.TE)) {
                                         if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
                                             progressoAtividade.getId().getAtividade().setFimAtividade(new Date());
+                                            progressoAtividade.getId().getAtividade().setSituacaoAtividade(SituacaoAtividade.F);
+                                            progressoAtividade.getId().getAtividade().setFaturamento(Faturamento.EF);
                                             progressoAtividade.setFaturamento(Faturamento.EF);
                                             ProgressoAtividadeDAO.getInstance().salvar(progressoAtividade);
                                             item.setProgresso(progressoAtividade.getId().getProgresso(), tipoAtividade);
                                             ((SpinnerValueFactory.DoubleSpinnerValueFactory) spDados.getValueFactory()).setMin(progressoAtividade.getId().getProgresso());
                                         }
-                                    }else{
+                                    } else {
                                         if (MessageUtil.confirmMessage("Deseja realmente finalizar essa atividade e enviar para faturamento?")) {
                                             progressoAtividade.setFaturamento(Faturamento.EF);
                                             ProgressoAtividadeDAO.getInstance().salvar(progressoAtividade);
