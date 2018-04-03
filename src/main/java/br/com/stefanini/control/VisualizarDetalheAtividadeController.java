@@ -53,6 +53,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 /**
@@ -395,6 +396,8 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
     private Label lbDetalhadaContratoServico;
     @FXML
     private Label lbDetalhadaRepasseServico;
+    
+    private DirectoryChooser dcChooser;
 
     private void calcularTotais() {
         Parametro paramContrato = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.CONTRATO);
@@ -504,6 +507,8 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
             tvServico.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.SE));
             calcularTotais();
         });
+        dcChooser=new DirectoryChooser();
+        dcChooser.setTitle("Selecionar a pasta");
     }
 
     private String buildProjetoModulo(List<Atividade> atividades) {
@@ -574,11 +579,12 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
                 lbTotalDetalhadoContrato.getText(),
                 lbTotalEstimadaoRepasse.getText(),
                 lbTotalDetalhadoRepasse.getText(),
-                true));
+                true),dcChooser.showDialog(tvAli.getScene().getWindow()));
+        
         if (file == null) {
             MessageUtil.messageError("Erro ao gerar planilha STEFANINI");
         } else {
-            MessageUtil.confirmMessage("Planilha gerada com sucesso: " + file);
+            MessageUtil.messageInformation("Planilha gerada com sucesso: " + file);
         }
     }
 
@@ -593,11 +599,11 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
                 lbTotalDetalhadoContrato.getText(),
                 lbTotalEstimadaoRepasse.getText(),
                 lbTotalDetalhadoRepasse.getText(),
-                false));
+                false),dcChooser.showDialog(tvAli.getScene().getWindow()));
         if (file == null) {
             MessageUtil.messageError("Erro ao gerar planilha BDMG");
         } else {
-            MessageUtil.confirmMessage("Planilha gerada com sucesso: " + file);
+            MessageUtil.messageInformation("Planilha gerada com sucesso: " + file);
         }
 
     }

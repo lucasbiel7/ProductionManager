@@ -9,6 +9,7 @@ import br.com.stefanini.control.dao.ParametroDAO;
 import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.enuns.TipoParametro;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,6 +34,7 @@ import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
 
 /**
  *
@@ -160,105 +162,108 @@ public class GeradorPlanilha {
         return sb.toString();
     }
 
-    public static String gerarDetalhamento(PlanilhaDetalhes planilhaDetalhes) {
+    public static String gerarDetalhamento(PlanilhaDetalhes planilhaDetalhes, File file) {
         try {
-            valorContrato = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.CONTRATO).getValor();
-            valorRepasse = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.REPASSE).getValor();
-            String fileName = "C:\\planilhas\\" + buildLabelDetalhamento(planilhaDetalhes.getData(), (planilhaDetalhes.isRepasse() ? "STEFANINI" : "BDMG"), ".xls");
-            FileOutputStream fileOut = new FileOutputStream(fileName);
-            HSSFWorkbook workbook = new HSSFWorkbook();
-            CreationHelper ch = workbook.getCreationHelper();
+            if (file != null) {
+                valorContrato = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.CONTRATO).getValor();
+                valorRepasse = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.REPASSE).getValor();
 
-            HSSFFont zehn = workbook.createFont();
-            zehn.setFontHeightInPoints((short) 10);
-            CellStyle cellZehnM = workbook.createCellStyle();
-            cellZehnM.setFont(zehn);
-            cellZehnM.setBorderTop(BorderStyle.THIN);
-            cellZehnM.setTopBorderColor(HSSFColor.BLACK.index);
-            cellZehnM.setBorderBottom(BorderStyle.THIN);
-            cellZehnM.setBottomBorderColor(HSSFColor.BLACK.index);
-            cellZehnM.setBorderLeft(BorderStyle.THIN);
-            cellZehnM.setLeftBorderColor(HSSFColor.BLACK.index);
-            cellZehnM.setBorderRight(BorderStyle.THIN);
-            cellZehnM.setRightBorderColor(HSSFColor.BLACK.index);
-            cellZehnM.setDataFormat(ch.createDataFormat().getFormat("R$#,##0.00"));
+                String fileName = file.getAbsolutePath() + "/" + buildLabelDetalhamento(planilhaDetalhes.getData(), (planilhaDetalhes.isRepasse() ? "STEFANINI" : "BDMG"), ".xls");
+                FileOutputStream fileOut = new FileOutputStream(fileName);
+                HSSFWorkbook workbook = new HSSFWorkbook();
+                CreationHelper ch = workbook.getCreationHelper();
 
-            CellStyle cellZehnN = workbook.createCellStyle();
-            cellZehnN.setFont(zehn);
-            cellZehnN.setBorderTop(BorderStyle.THIN);
-            cellZehnN.setTopBorderColor(HSSFColor.BLACK.index);
-            cellZehnN.setBorderBottom(BorderStyle.THIN);
-            cellZehnN.setBottomBorderColor(HSSFColor.BLACK.index);
-            cellZehnN.setBorderLeft(BorderStyle.THIN);
-            cellZehnN.setLeftBorderColor(HSSFColor.BLACK.index);
-            cellZehnN.setBorderRight(BorderStyle.THIN);
-            cellZehnN.setRightBorderColor(HSSFColor.BLACK.index);
-            cellZehnN.setDataFormat(ch.createDataFormat().getFormat("0"));
+                HSSFFont zehn = workbook.createFont();
+                zehn.setFontHeightInPoints((short) 10);
+                CellStyle cellZehnM = workbook.createCellStyle();
+                cellZehnM.setFont(zehn);
+                cellZehnM.setBorderTop(BorderStyle.THIN);
+                cellZehnM.setTopBorderColor(HSSFColor.BLACK.index);
+                cellZehnM.setBorderBottom(BorderStyle.THIN);
+                cellZehnM.setBottomBorderColor(HSSFColor.BLACK.index);
+                cellZehnM.setBorderLeft(BorderStyle.THIN);
+                cellZehnM.setLeftBorderColor(HSSFColor.BLACK.index);
+                cellZehnM.setBorderRight(BorderStyle.THIN);
+                cellZehnM.setRightBorderColor(HSSFColor.BLACK.index);
+                cellZehnM.setDataFormat(ch.createDataFormat().getFormat("R$#,##0.00"));
 
-            CellStyle cellZehnD = workbook.createCellStyle();
-            cellZehnD.setFont(zehn);
-            cellZehnD.setBorderTop(BorderStyle.THIN);
-            cellZehnD.setTopBorderColor(HSSFColor.BLACK.index);
-            cellZehnD.setBorderBottom(BorderStyle.THIN);
-            cellZehnD.setBottomBorderColor(HSSFColor.BLACK.index);
-            cellZehnD.setBorderLeft(BorderStyle.THIN);
-            cellZehnD.setLeftBorderColor(HSSFColor.BLACK.index);
-            cellZehnD.setBorderRight(BorderStyle.THIN);
-            cellZehnD.setRightBorderColor(HSSFColor.BLACK.index);
-            cellZehnD.setDataFormat(ch.createDataFormat().getFormat("#,##0.00"));
+                CellStyle cellZehnN = workbook.createCellStyle();
+                cellZehnN.setFont(zehn);
+                cellZehnN.setBorderTop(BorderStyle.THIN);
+                cellZehnN.setTopBorderColor(HSSFColor.BLACK.index);
+                cellZehnN.setBorderBottom(BorderStyle.THIN);
+                cellZehnN.setBottomBorderColor(HSSFColor.BLACK.index);
+                cellZehnN.setBorderLeft(BorderStyle.THIN);
+                cellZehnN.setLeftBorderColor(HSSFColor.BLACK.index);
+                cellZehnN.setBorderRight(BorderStyle.THIN);
+                cellZehnN.setRightBorderColor(HSSFColor.BLACK.index);
+                cellZehnN.setDataFormat(ch.createDataFormat().getFormat("0"));
 
-            HSSFFont boldZehn = workbook.createFont();
-            boldZehn.setBold(true);
-            boldZehn.setFontHeightInPoints((short) 10);
-            CellStyle boldCellZehn = workbook.createCellStyle();
-            boldCellZehn.setFont(boldZehn);
-            boldCellZehn.setFont(boldZehn);
-            boldCellZehn.setBorderTop(BorderStyle.THIN);
-            boldCellZehn.setTopBorderColor(HSSFColor.BLACK.index);
-            boldCellZehn.setBorderBottom(BorderStyle.THIN);
-            boldCellZehn.setBottomBorderColor(HSSFColor.BLACK.index);
-            boldCellZehn.setBorderLeft(BorderStyle.THIN);
-            boldCellZehn.setLeftBorderColor(HSSFColor.BLACK.index);
-            boldCellZehn.setBorderRight(BorderStyle.THIN);
-            boldCellZehn.setRightBorderColor(HSSFColor.BLACK.index);
+                CellStyle cellZehnD = workbook.createCellStyle();
+                cellZehnD.setFont(zehn);
+                cellZehnD.setBorderTop(BorderStyle.THIN);
+                cellZehnD.setTopBorderColor(HSSFColor.BLACK.index);
+                cellZehnD.setBorderBottom(BorderStyle.THIN);
+                cellZehnD.setBottomBorderColor(HSSFColor.BLACK.index);
+                cellZehnD.setBorderLeft(BorderStyle.THIN);
+                cellZehnD.setLeftBorderColor(HSSFColor.BLACK.index);
+                cellZehnD.setBorderRight(BorderStyle.THIN);
+                cellZehnD.setRightBorderColor(HSSFColor.BLACK.index);
+                cellZehnD.setDataFormat(ch.createDataFormat().getFormat("#,##0.00"));
 
-            HSSFFont boldZwolf = workbook.createFont();
-            boldZwolf.setBold(true);
-            boldZwolf.setFontHeightInPoints((short) 12);
-            CellStyle boldCellZwolf = workbook.createCellStyle();
-            boldCellZwolf.setVerticalAlignment(VerticalAlignment.CENTER);
-            boldCellZwolf.setAlignment(HorizontalAlignment.CENTER);
-            boldCellZwolf.setFont(boldZwolf);
-            boldCellZwolf.setBorderTop(BorderStyle.MEDIUM);
-            boldCellZwolf.setTopBorderColor(HSSFColor.BLACK.index);
-            boldCellZwolf.setBorderBottom(BorderStyle.MEDIUM);
-            boldCellZwolf.setBottomBorderColor(HSSFColor.BLACK.index);
-            boldCellZwolf.setBorderLeft(BorderStyle.MEDIUM);
-            boldCellZwolf.setLeftBorderColor(HSSFColor.BLACK.index);
-            boldCellZwolf.setBorderRight(BorderStyle.MEDIUM);
-            boldCellZwolf.setRightBorderColor(HSSFColor.BLACK.index);
-            boldCellZwolf.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            boldCellZwolf.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+                HSSFFont boldZehn = workbook.createFont();
+                boldZehn.setBold(true);
+                boldZehn.setFontHeightInPoints((short) 10);
+                CellStyle boldCellZehn = workbook.createCellStyle();
+                boldCellZehn.setFont(boldZehn);
+                boldCellZehn.setFont(boldZehn);
+                boldCellZehn.setBorderTop(BorderStyle.THIN);
+                boldCellZehn.setTopBorderColor(HSSFColor.BLACK.index);
+                boldCellZehn.setBorderBottom(BorderStyle.THIN);
+                boldCellZehn.setBottomBorderColor(HSSFColor.BLACK.index);
+                boldCellZehn.setBorderLeft(BorderStyle.THIN);
+                boldCellZehn.setLeftBorderColor(HSSFColor.BLACK.index);
+                boldCellZehn.setBorderRight(BorderStyle.THIN);
+                boldCellZehn.setRightBorderColor(HSSFColor.BLACK.index);
 
-            HSSFSheet sheetDetalhamento = workbook.createSheet(buildLabelDetalhamento(planilhaDetalhes.getData(), "Detalhamento de ", ""));
-            montarDetalhamento(workbook, planilhaDetalhes, sheetDetalhamento, planilhaDetalhes.isRepasse());
+                HSSFFont boldZwolf = workbook.createFont();
+                boldZwolf.setBold(true);
+                boldZwolf.setFontHeightInPoints((short) 12);
+                CellStyle boldCellZwolf = workbook.createCellStyle();
+                boldCellZwolf.setVerticalAlignment(VerticalAlignment.CENTER);
+                boldCellZwolf.setAlignment(HorizontalAlignment.CENTER);
+                boldCellZwolf.setFont(boldZwolf);
+                boldCellZwolf.setBorderTop(BorderStyle.MEDIUM);
+                boldCellZwolf.setTopBorderColor(HSSFColor.BLACK.index);
+                boldCellZwolf.setBorderBottom(BorderStyle.MEDIUM);
+                boldCellZwolf.setBottomBorderColor(HSSFColor.BLACK.index);
+                boldCellZwolf.setBorderLeft(BorderStyle.MEDIUM);
+                boldCellZwolf.setLeftBorderColor(HSSFColor.BLACK.index);
+                boldCellZwolf.setBorderRight(BorderStyle.MEDIUM);
+                boldCellZwolf.setRightBorderColor(HSSFColor.BLACK.index);
+                boldCellZwolf.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                boldCellZwolf.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 
-            HSSFSheet sheetLevantamento = workbook.createSheet("Levantamento - 35%");
-            montarProgressoAtividade(sheetLevantamento, planilhaDetalhes.getLev(), boldCellZwolf, cellZehnM, cellZehnD, cellZehnN, planilhaDetalhes.isRepasse(), TipoAtividade.LE);
+                HSSFSheet sheetDetalhamento = workbook.createSheet(buildLabelDetalhamento(planilhaDetalhes.getData(), "Detalhamento de ", ""));
+                montarDetalhamento(workbook, planilhaDetalhes, sheetDetalhamento, planilhaDetalhes.isRepasse());
 
-            HSSFSheet sheetDesenvolvimento = workbook.createSheet("Desenvolvimento - 40%");
-            montarProgressoAtividade(sheetDesenvolvimento, planilhaDetalhes.getDev(), boldCellZwolf, cellZehnM, cellZehnD, cellZehnN, planilhaDetalhes.isRepasse(), TipoAtividade.DE);
-            HSSFSheet sheetHomologacao = workbook.createSheet("Teste e Homologação - 25%");
-            montarProgressoAtividade(sheetHomologacao, planilhaDetalhes.getTst(), boldCellZwolf, cellZehnM, cellZehnD, cellZehnN, planilhaDetalhes.isRepasse(), TipoAtividade.TE);
+                HSSFSheet sheetLevantamento = workbook.createSheet("Levantamento - 35%");
+                montarProgressoAtividade(sheetLevantamento, planilhaDetalhes.getLev(), boldCellZwolf, cellZehnM, cellZehnD, cellZehnN, planilhaDetalhes.isRepasse(), TipoAtividade.LE);
 
-            workbook.write(fileOut);
-            fileOut.flush();
-            fileOut.close();
-            return fileName;
+                HSSFSheet sheetDesenvolvimento = workbook.createSheet("Desenvolvimento - 40%");
+                montarProgressoAtividade(sheetDesenvolvimento, planilhaDetalhes.getDev(), boldCellZwolf, cellZehnM, cellZehnD, cellZehnN, planilhaDetalhes.isRepasse(), TipoAtividade.DE);
+                HSSFSheet sheetHomologacao = workbook.createSheet("Teste e Homologação - 25%");
+                montarProgressoAtividade(sheetHomologacao, planilhaDetalhes.getTst(), boldCellZwolf, cellZehnM, cellZehnD, cellZehnN, planilhaDetalhes.isRepasse(), TipoAtividade.TE);
+
+                workbook.write(fileOut);
+                fileOut.flush();
+                fileOut.close();
+                return fileName;
+            }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LoggerFactory.logger(GeradorPlanilha.class).error(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            LoggerFactory.logger(GeradorPlanilha.class).error(e.getMessage());
         }
         return null;
     }

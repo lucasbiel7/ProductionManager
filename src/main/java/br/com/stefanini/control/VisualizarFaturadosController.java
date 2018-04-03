@@ -20,6 +20,7 @@ import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.GeradorPlanilha;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.PlanilhaDetalhes;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -52,6 +53,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 /**
@@ -392,6 +394,8 @@ public class VisualizarFaturadosController extends ControllerBase implements Ini
     @FXML
     private Label lbDetalhadaRepasseServico;
 
+    private DirectoryChooser chooser;
+    
     private void calcularTotais() {
         Parametro paramContrato = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.CONTRATO);
         Parametro paramRepasse = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.REPASSE);
@@ -476,6 +480,8 @@ public class VisualizarFaturadosController extends ControllerBase implements Ini
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+       chooser=new DirectoryChooser();
+       chooser.setTitle("Selecione o caminho");
         Platform.runLater(() -> {
             params = (Map<String, Object>) apPrincipal.getUserData();
             lbDetalhamento.setText(buildLabelDetalhamento((Date) params.get("data")));
@@ -520,20 +526,8 @@ public class VisualizarFaturadosController extends ControllerBase implements Ini
         scrollPane.setContent(gerenciadorDeJanela.carregarComponente("PesquisarAtividade", params));
     }
 
-    void criarPasta() {
-        Path p = Paths.get("//planilhas");
-        if (!Files.isDirectory(p)) {
-            try {
-                Files.createDirectories(p);
-            } catch (IOException ex) {
-                Logger.getLogger(VisualizarFaturadosController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
     @FXML
     private void gerarPlanilhaSTEFANINIAction() {
-        criarPasta();
         String file = new GeradorPlanilha().gerarDetalhamento(new PlanilhaDetalhes((Date) params.get("data"),
                 tvLev.getItems().stream().collect(Collectors.toList()),
                 tvDev.getItems().stream().collect(Collectors.toList()),
@@ -542,17 +536,17 @@ public class VisualizarFaturadosController extends ControllerBase implements Ini
                 lbTotalDetalhadoContrato.getText(),
                 lbTotalEstimadaoRepasse.getText(),
                 lbTotalDetalhadoRepasse.getText(),
-                true));
+                true),chooser.showDialog(tvAli.getScene().getWindow()));
         if (file == null) {
             MessageUtil.messageError("Erro ao gerar planilha STEFANINI");
         } else {
-            MessageUtil.confirmMessage("Planilha gerada com sucesso: " + file);
+            MessageUtil.messageInformation("Planilha gerada com sucesso: " + file);
         }
     }
 
     @FXML
     private void gerarPlanilhaBDMGAction() {
-        criarPasta();
+        File directory = chooser.showDialog(tvAli.getScene().getWindow());
         String file = new GeradorPlanilha().gerarDetalhamento(new PlanilhaDetalhes((Date) params.get("data"),
                 tvLev.getItems().stream().collect(Collectors.toList()),
                 tvDev.getItems().stream().collect(Collectors.toList()),
@@ -561,13 +555,12 @@ public class VisualizarFaturadosController extends ControllerBase implements Ini
                 lbTotalDetalhadoContrato.getText(),
                 lbTotalEstimadaoRepasse.getText(),
                 lbTotalDetalhadoRepasse.getText(),
-                false));
+                false),directory);
         if (file == null) {
             MessageUtil.messageError("Erro ao gerar planilha BDMG");
         } else {
-            MessageUtil.confirmMessage("Planilha gerada com sucesso: " + file);
+            MessageUtil.messageInformation("Planilha gerada com sucesso: " + file);
         }
-
     }
 
     public void teste() {
