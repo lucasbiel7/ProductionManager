@@ -541,6 +541,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         progressoAtividades.addAll(tvLev.getItems().stream().collect(Collectors.toList()));
         progressoAtividades.addAll(tvDev.getItems().stream().collect(Collectors.toList()));
         progressoAtividades.addAll(tvTst.getItems().stream().collect(Collectors.toList()));
+        progressoAtividades.addAll(tvServico.getItems().stream().collect(Collectors.toList()));
         if (progressoAtividades.isEmpty()) {
             MessageUtil.messageError("Não existe progressos para faturar.");
         } else {
