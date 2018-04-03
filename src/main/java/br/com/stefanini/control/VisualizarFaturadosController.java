@@ -20,8 +20,11 @@ import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.GeradorPlanilha;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.PlanilhaDetalhes;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -540,7 +543,15 @@ public class VisualizarFaturadosController extends ControllerBase implements Ini
         if (file == null) {
             MessageUtil.messageError("Erro ao gerar planilha STEFANINI");
         } else {
-            MessageUtil.messageInformation("Planilha gerada com sucesso: " + file);
+             if(MessageUtil.confirmMessage("Planilha gerada com sucesso: " + file+" Deseja abrir o documento")){
+                try {
+                    Desktop.getDesktop().browse(new URI(file));
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(VisualizarDetalheAtividadeController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(VisualizarDetalheAtividadeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
 
@@ -559,7 +570,15 @@ public class VisualizarFaturadosController extends ControllerBase implements Ini
         if (file == null) {
             MessageUtil.messageError("Erro ao gerar planilha BDMG");
         } else {
-            MessageUtil.messageInformation("Planilha gerada com sucesso: " + file);
+             if(MessageUtil.confirmMessage("Planilha gerada com sucesso: " + file+" Deseja abrir o documento")){
+                try {
+                    Desktop.getDesktop().browse(new URI(file));
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(VisualizarDetalheAtividadeController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(VisualizarDetalheAtividadeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
 

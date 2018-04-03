@@ -20,7 +20,10 @@ import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.GeradorPlanilha;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.PlanilhaDetalhes;
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -557,20 +560,10 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         scrollPane.setContent(gerenciadorDeJanela.carregarComponente("PesquisarAtividade", params));
     }
 
-    void criarPasta() {
-        Path p = Paths.get("//planilhas");
-        if (!Files.isDirectory(p)) {
-            try {
-                Files.createDirectories(p);
-            } catch (IOException ex) {
-                Logger.getLogger(VisualizarDetalheAtividadeController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+
 
     @FXML
     private void gerarPlanilhaSTEFANINIAction() {
-        criarPasta();
         String file = new GeradorPlanilha().gerarDetalhamento(new PlanilhaDetalhes((Date) params.get("data"),
                 tvLev.getItems().stream().collect(Collectors.toList()),
                 tvDev.getItems().stream().collect(Collectors.toList()),
@@ -584,13 +577,20 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         if (file == null) {
             MessageUtil.messageError("Erro ao gerar planilha STEFANINI");
         } else {
-            MessageUtil.messageInformation("Planilha gerada com sucesso: " + file);
+             if(MessageUtil.confirmMessage("Planilha gerada com sucesso: " + file+" Deseja abrir o documento")){
+                try {
+                    Desktop.getDesktop().browse(new URI(file));
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(VisualizarDetalheAtividadeController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(VisualizarDetalheAtividadeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
 
     @FXML
     private void gerarPlanilhaBDMGAction() {
-        criarPasta();
         String file = new GeradorPlanilha().gerarDetalhamento(new PlanilhaDetalhes((Date) params.get("data"),
                 tvLev.getItems().stream().collect(Collectors.toList()),
                 tvDev.getItems().stream().collect(Collectors.toList()),
@@ -603,7 +603,15 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         if (file == null) {
             MessageUtil.messageError("Erro ao gerar planilha BDMG");
         } else {
-            MessageUtil.messageInformation("Planilha gerada com sucesso: " + file);
+            if(MessageUtil.confirmMessage("Planilha gerada com sucesso: " + file+" Deseja abrir o documento")){
+                try {
+                    Desktop.getDesktop().browse(new URI(file));
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(VisualizarDetalheAtividadeController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(VisualizarDetalheAtividadeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
 
     }

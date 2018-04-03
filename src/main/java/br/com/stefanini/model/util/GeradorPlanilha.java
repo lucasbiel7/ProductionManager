@@ -168,7 +168,7 @@ public class GeradorPlanilha {
                 valorContrato = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.CONTRATO).getValor();
                 valorRepasse = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.REPASSE).getValor();
 
-                String fileName = file.getAbsolutePath() + "/" + buildLabelDetalhamento(planilhaDetalhes.getData(), (planilhaDetalhes.isRepasse() ? "STEFANINI" : "BDMG"), ".xls");
+                String fileName = file.getAbsolutePath().replace("\\", "/") + "/" + buildLabelDetalhamento(planilhaDetalhes.getData(), (planilhaDetalhes.isRepasse() ? "STEFANINI" : "BDMG"), ".xls");
                 FileOutputStream fileOut = new FileOutputStream(fileName);
                 HSSFWorkbook workbook = new HSSFWorkbook();
                 CreationHelper ch = workbook.getCreationHelper();
