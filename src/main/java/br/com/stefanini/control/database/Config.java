@@ -11,5 +11,5 @@ package br.com.stefanini.control.database;
  */
 public interface Config {
 
-    String SCHEMA = "11barra11_prod";
+    String SCHEMA = "11barra11";
 }

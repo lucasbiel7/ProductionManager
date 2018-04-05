@@ -5,6 +5,7 @@
  */
 package br.com.stefanini.control;
 
+import br.com.stefanini.control.component.CurrencyTextField;
 import br.com.stefanini.control.component.SpinnerDouble;
 import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.ModuloDAO;
@@ -84,13 +85,13 @@ public class ManterAtividadeController implements Initializable {
     @FXML
     private ComboBox<Mes> cbMes;
     @FXML
-    private SpinnerDouble spEstimada;
+    private CurrencyTextField spEstimada;
     @FXML
-    private SpinnerDouble spDetalhada;
+    private CurrencyTextField spDetalhada;
     @FXML
-    private SpinnerDouble spAliEstimada;
+    private CurrencyTextField spAliEstimada;
     @FXML
-    private SpinnerDouble spAliDetalhada;
+    private CurrencyTextField spAliDetalhada;
     @FXML
     private ListView<Artefato> lvArtefatosDisponiveis;
     @FXML
@@ -144,10 +145,10 @@ public class ManterAtividadeController implements Initializable {
                 });
             }
         });
-        spEstimada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
-        spDetalhada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
-        spAliDetalhada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
-        spAliEstimada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
+//        spEstimada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
+//        spDetalhada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
+//        spAliDetalhada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
+//        spAliEstimada.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 9999999999.9, 0));
 
         Calendar calendar = Calendar.getInstance();
         spAno.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(calendar.get(Calendar.YEAR), Integer.MAX_VALUE, calendar.get(Calendar.YEAR)));
@@ -367,10 +368,14 @@ public class ManterAtividadeController implements Initializable {
             cbMes.setEditable(false);
             tfAtividade.setText(atividade.getDescricao());
             cbOrdemServico.getSelectionModel().select(atividade.getOrdemServico());
-            spDetalhada.getValueFactory().setValue(atividade.getContagemDetalhada() == null ? 0d : atividade.getContagemDetalhada());
-            spEstimada.getValueFactory().setValue(atividade.getContagemEstimada() == null ? 0d : atividade.getContagemEstimada());
-            spAliDetalhada.getValueFactory().setValue(atividade.getAliDetalhada() == null ? 0 : atividade.getAliDetalhada());
-            spAliEstimada.getValueFactory().setValue(atividade.getAliEstimada() == null ? 0 : atividade.getAliEstimada());
+            spDetalhada.setValue(atividade.getContagemDetalhada() == null ? 0d : atividade.getContagemDetalhada());
+            spEstimada.setValue(atividade.getContagemEstimada() == null ? 0d : atividade.getContagemEstimada());
+            spAliDetalhada.setValue(atividade.getAliDetalhada() == null ? 0d : atividade.getAliDetalhada());
+            spAliEstimada.setValue(atividade.getAliEstimada() == null ? 0d : atividade.getAliEstimada());
+//            spDetalhada.getValueFactory().setValue(atividade.getContagemDetalhada() == null ? 0d : atividade.getContagemDetalhada());
+//            spEstimada.getValueFactory().setValue(atividade.getContagemEstimada() == null ? 0d : atividade.getContagemEstimada());
+//            spAliDetalhada.getValueFactory().setValue(atividade.getAliDetalhada() == null ? 0 : atividade.getAliDetalhada());
+//            spAliEstimada.getValueFactory().setValue(atividade.getAliEstimada() == null ? 0 : atividade.getAliEstimada());
             if (atividade.getId() != null) {
                 lvArtefatosSelecionados.getItems().setAll(atividade.getAtividadeArtefatos().stream().map(AtividadeArtefatos::getId).map(AtividadeArtefatos.AtividadeArtefatosId::getArtefato).collect(Collectors.toList()));
                 lvArtefatosDisponiveis.getItems().removeAll(lvArtefatosSelecionados.getItems());

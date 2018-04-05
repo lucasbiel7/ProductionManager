@@ -195,6 +195,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         List<ProgressoAtividade> levantamentosMesFaturado = new ArrayList<>();
         for (ProgressoAtividade progress : levantamentosAno) {
             String dataBanco = DateUtil.formatterDate(progress.getId().getAtividade().getPrevisaoInicio(), "yyyy-MM-dd");
+            String dataBancoAux = DateUtil.formatterDate(progress.getDataFaturamento(), "yyyy-MM-dd");
             if ((dataBanco.equals(dataParam)) 
                     && ((progress.getFaturamento().equals(Faturamento.EF)) 
                     || (progress.getFaturamento().equals(Faturamento.FO)))) {
@@ -202,7 +203,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
 //                estimadaLevPrevisao += progress.getId().getAtividade().getContagemEstimada() * .35;
 //                detalhadaLevPrevisao += progress.getId().getAtividade().getContagemDetalhada()* .35;
             }
-            if((dataBanco.equals(dataParam)) && (progress.getFaturamento().equals(Faturamento.FO))){
+            if((dataBancoAux.equals(dataParam)) && (progress.getFaturamento().equals(Faturamento.FO))){
                 levantamentosMesFaturado.add(progress);
                 estimadaLevFaturado += progress.getId().getAtividade().getContagemEstimada() * .35;
                 detalhadaLevFaturado += progress.getId().getAtividade().getContagemDetalhada()* .35;

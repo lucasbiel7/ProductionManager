@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import br.com.stefanini.control.component.SpinnerDouble?>
+<?import br.com.stefanini.control.component.CurrencyTextField?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -68,9 +68,9 @@
                                     <Label text="Ordem de serviço:" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                                     <ComboBox fx:id="cbOrdemServico" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="7" />
                                     <Label text="Pontos de função - Estimada:" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                                    <SpinnerDouble fx:id="spEstimada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                                    <CurrencyTextField fx:id="spEstimada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="8" />
                                     <Label text="Pontos de função - Detalhada:" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                                    <SpinnerDouble fx:id="spDetalhada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                                    <CurrencyTextField fx:id="spDetalhada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="9" />
                                     <Label text="Mês" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="3" />
                                     <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="4" />
@@ -86,8 +86,8 @@
                                     <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="11" />
                                     <Label text="ALI/AIE - Estimada:" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                                     <Label text="ALI/AIE - Detalhada:" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-                                    <SpinnerDouble fx:id="spAliEstimada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-                                    <SpinnerDouble fx:id="spAliDetalhada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+                                    <CurrencyTextField fx:id="spAliEstimada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+                                    <CurrencyTextField fx:id="spAliDetalhada" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="11" />
                                     <Label styleClass="obrigatorio" text="*" GridPane.rowIndex="2" />
                                     <Label text="Tipo da atividade:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <ComboBox fx:id="cbTipoAtividade" prefWidth="300.0" promptText="Selecione..." GridPane.columnIndex="2" GridPane.rowIndex="2" />
