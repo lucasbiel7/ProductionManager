@@ -476,7 +476,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         lbTotalEstimadaoContrato.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramContrato.getValor() + totalPfEstimadaDev * .4 * paramContrato.getValor() + totalPfEstimadaTst * .25 * paramContrato.getValor() + totalPFAieEstimada * paramContrato.getValor()));
         lbTotalEstimadaoRepasse.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramRepasse.getValor() + totalPfEstimadaDev * .4 * paramRepasse.getValor() + totalPfEstimadaTst * .25 * paramRepasse.getValor() + totalPFAieEstimada * paramRepasse.getValor()));
         lbTotalDetalhadoContrato.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramContrato.getValor() + totalPfDetalhadaDev * .4 * paramContrato.getValor() + totalPfDetalhadaTst * .25 * paramContrato.getValor() + totalPFAieDetalhada * paramContrato.getValor()));
-        lbTotalDetalhadoRepasse.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramRepasse.getValor() + totalPfDetalhadaDev * .4 * paramRepasse.getValor() + totalPfDetalhadaTst * .25 * paramRepasse.getValor() + totalPFAieDetalhada * paramContrato.getValor()));
+        lbTotalDetalhadoRepasse.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramRepasse.getValor() + totalPfDetalhadaDev * .4 * paramRepasse.getValor() + totalPfDetalhadaTst * .25 * paramRepasse.getValor() + totalPFAieDetalhada * paramRepasse.getValor()));
 
         Double totalPFServicoEstimada = tvServico.getItems().stream().mapToDouble(t -> t.getId().getAtividade().getContagemEstimada()).sum();
         Double totalPFServicoDetalhada = tvServico.getItems().stream().mapToDouble(t -> t.getId().getAtividade().getContagemDetalhada()).sum();
@@ -491,7 +491,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         lbTotalEstimadaoContrato.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramContrato.getValor() + totalPfEstimadaDev * .4 * paramContrato.getValor() + totalPfEstimadaTst * .25 * paramContrato.getValor() + totalPFAieEstimada * paramContrato.getValor()+ totalPFServicoEstimada * paramContrato.getValor() ) );
         lbTotalEstimadaoRepasse.setText(DoubleConverter.doubleToString(totalPfEstimadaLev * .35 * paramRepasse.getValor() + totalPfEstimadaDev * .4 * paramRepasse.getValor() + totalPfEstimadaTst * .25 * paramRepasse.getValor() + totalPFAieEstimada * paramRepasse.getValor()+ totalPFServicoEstimada * paramRepasse.getValor()));
         lbTotalDetalhadoContrato.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramContrato.getValor() + totalPfDetalhadaDev * .4 * paramContrato.getValor() + totalPfDetalhadaTst * .25 * paramContrato.getValor() + totalPFAieDetalhada * paramContrato.getValor()+totalPFServicoDetalhada * paramContrato.getValor()));
-        lbTotalDetalhadoRepasse.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramRepasse.getValor() + totalPfDetalhadaDev * .4 * paramRepasse.getValor() + totalPfDetalhadaTst * .25 * paramRepasse.getValor() + totalPFAieDetalhada * paramContrato.getValor()+totalPFServicoDetalhada * paramRepasse.getValor()));
+        lbTotalDetalhadoRepasse.setText(DoubleConverter.doubleToString(totalPfDetalhadaLev * .35 * paramRepasse.getValor() + totalPfDetalhadaDev * .4 * paramRepasse.getValor() + totalPfDetalhadaTst * .25 * paramRepasse.getValor() + totalPFAieDetalhada * paramRepasse.getValor()+totalPFServicoDetalhada * paramRepasse.getValor()));
     }
 
     /**
