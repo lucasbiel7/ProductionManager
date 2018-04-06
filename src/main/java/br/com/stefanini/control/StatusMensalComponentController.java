@@ -51,6 +51,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
     private List<ProgressoAtividade> levantamentosAno = new ArrayList<>();
     private List<ProgressoAtividade> desenvolvimentosAno = new ArrayList<>();
     private List<ProgressoAtividade> testesAno = new ArrayList<>();
+    private List<ProgressoAtividade> servicosAno = new ArrayList<>();
 
     @FXML
     private AnchorPane apPrincipal;
@@ -185,6 +186,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         levantamentosAno = (List<ProgressoAtividade>) param.get("levantamentosAno");
         desenvolvimentosAno = (List<ProgressoAtividade>) param.get("desenvolvimentosAno");
         testesAno = (List<ProgressoAtividade>) param.get("testesAno");
+        servicosAno = (List<ProgressoAtividade>) param.get("servicosAno");
 
         String dataParam = DateUtil.formatterDate(inicio, "yyyy-MM-dd");
 //        Double estimadaLevPrevisao = 0.0;
@@ -214,6 +216,9 @@ public class StatusMensalComponentController extends ControllerBase implements I
 //        Double detalhadaDevPrevisao = 0.0;
         Double estimadaDevFaturado = 0.0;
         Double detalhadaDevFaturado = 0.0;
+        Double estimadaAliFaturado = 0.0;
+        Double detalhadaAliFaturado = 0.0;
+        
         List<ProgressoAtividade> desenvolvimenetosMesPrevisao = new ArrayList<>();
         List<ProgressoAtividade> desenvolvimenetosMesFaturado = new ArrayList<>();
         for (ProgressoAtividade progress : desenvolvimentosAno) {
@@ -230,6 +235,9 @@ public class StatusMensalComponentController extends ControllerBase implements I
                 desenvolvimenetosMesFaturado.add(progress);
                 estimadaDevFaturado += progress.getId().getAtividade().getContagemEstimada() * .4;
                 detalhadaDevFaturado += progress.getId().getAtividade().getContagemDetalhada()* .4;
+                estimadaAliFaturado += progress.getId().getAtividade().getAliEstimada();
+                detalhadaAliFaturado += progress.getId().getAtividade().getAliDetalhada();
+                
             }
         }
 
@@ -256,9 +264,20 @@ public class StatusMensalComponentController extends ControllerBase implements I
                 detalhadaTestFaturado += progress.getId().getAtividade().getContagemDetalhada()* .25;
             }
         }
+        
+        Double estimadaServFaturado = 0.0;
+        Double detalhadaServFaturado = 0.0;
+        for (ProgressoAtividade progress : servicosAno) {
+            String dataBancoAux = DateUtil.formatterDate(progress.getDataFaturamento(), "yyyy-MM-dd");
+            if ((dataBancoAux.equals(dataParam)) 
+                    && (progress.getFaturamento().equals(Faturamento.FO))) {
+                estimadaServFaturado += progress.getId().getAtividade().getContagemEstimada();
+                detalhadaServFaturado += progress.getId().getAtividade().getContagemDetalhada();
+            }
+        }
 
-        Double contagemEstimada = estimadaLevFaturado + estimadaDevFaturado + estimadaTestFaturado;
-        Double contagemDetalhada = detalhadaLevFaturado + detalhadaDevFaturado + detalhadaTestFaturado;
+        Double contagemEstimada = estimadaLevFaturado + estimadaDevFaturado + estimadaAliFaturado + estimadaTestFaturado + estimadaServFaturado;
+        Double contagemDetalhada = detalhadaLevFaturado + detalhadaDevFaturado + detalhadaAliFaturado + detalhadaTestFaturado + detalhadaServFaturado;
 
         //        PARTE 1
         Double totalContratoEstimada = contagemEstimada * paramContrato;

@@ -188,10 +188,11 @@ public class PainelDeControleController extends ControllerBase implements Initia
         List<ProgressoAtividade> levantamentosAno = ProgressoAtividadeDAO.getInstance().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.LE, idProjeto, idModulo, idPacote);
         List<ProgressoAtividade> desenvolvimentosAno = ProgressoAtividadeDAO.getInstance().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.DE, idProjeto, idModulo, idPacote);
         List<ProgressoAtividade> testesAno = ProgressoAtividadeDAO.getInstance().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.TE, idProjeto, idModulo, idPacote);
+        List<ProgressoAtividade> servicosAno = ProgressoAtividadeDAO.getInstance().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.SE, idProjeto, idModulo, idPacote);
         params.put("levantamentosAno", levantamentosAno);
         params.put("desenvolvimentosAno", desenvolvimentosAno);
         params.put("testesAno", testesAno);
-
+        params.put("servicosAno", servicosAno);
     }
 
     @FXML
