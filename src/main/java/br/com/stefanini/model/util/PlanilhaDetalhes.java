@@ -18,7 +18,9 @@ public class PlanilhaDetalhes {
     private Date data;
     private List<ProgressoAtividade> lev;
     private List<ProgressoAtividade> dev;
-    private List<ProgressoAtividade> tst;       
+    private List<ProgressoAtividade> tst;    
+    private List<ProgressoAtividade> serv; 
+
     private Double totalEstimadaContrato;
     private Double totalDetalhadaContrato;
     private Double totalEstimadaRepasse;
@@ -28,11 +30,12 @@ public class PlanilhaDetalhes {
     public PlanilhaDetalhes() {
     }
 
-    public PlanilhaDetalhes(Date data, List<ProgressoAtividade> lev, List<ProgressoAtividade> dev, List<ProgressoAtividade> tst, String totalEstimadaContrato, String totalDetalhadaContrato, String totalEstimadaRepasse, String totalDetalhadaRepasse, boolean repasse) {
+    public PlanilhaDetalhes(Date data, List<ProgressoAtividade> lev, List<ProgressoAtividade> dev, List<ProgressoAtividade> tst, List<ProgressoAtividade> serv, String totalEstimadaContrato, String totalDetalhadaContrato, String totalEstimadaRepasse, String totalDetalhadaRepasse, boolean repasse) {
         this.data = data;
         this.lev = lev;
         this.dev = dev;
         this.tst = tst;
+        this.serv = serv;
         this.totalEstimadaContrato = Double.parseDouble(totalEstimadaContrato.replace(".","").replace(",","."));
         this.totalDetalhadaContrato = Double.parseDouble(totalDetalhadaContrato.replace(".","").replace(",","."));
         this.totalEstimadaRepasse = Double.parseDouble(totalEstimadaRepasse.replace(".","").replace(",","."));
@@ -96,6 +99,14 @@ public class PlanilhaDetalhes {
      */
     public void setTst(List<ProgressoAtividade> tst) {
         this.tst = tst;
+    }
+    
+    public List<ProgressoAtividade> getServ() {
+        return serv;
+    }
+
+    public void setServ(List<ProgressoAtividade> serv) {
+        this.serv = serv;
     }
 
     /**

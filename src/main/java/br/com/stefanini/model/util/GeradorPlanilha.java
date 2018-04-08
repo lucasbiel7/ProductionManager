@@ -249,11 +249,12 @@ public class GeradorPlanilha {
 
                 HSSFSheet sheetLevantamento = workbook.createSheet("Levantamento - 35%");
                 montarProgressoAtividade(sheetLevantamento, planilhaDetalhes.getLev(), boldCellZwolf, cellZehnM, cellZehnD, cellZehnN, planilhaDetalhes.isRepasse(), TipoAtividade.LE);
-
                 HSSFSheet sheetDesenvolvimento = workbook.createSheet("Desenvolvimento - 40%");
                 montarProgressoAtividade(sheetDesenvolvimento, planilhaDetalhes.getDev(), boldCellZwolf, cellZehnM, cellZehnD, cellZehnN, planilhaDetalhes.isRepasse(), TipoAtividade.DE);
                 HSSFSheet sheetHomologacao = workbook.createSheet("Teste e Homologação - 25%");
                 montarProgressoAtividade(sheetHomologacao, planilhaDetalhes.getTst(), boldCellZwolf, cellZehnM, cellZehnD, cellZehnN, planilhaDetalhes.isRepasse(), TipoAtividade.TE);
+                HSSFSheet sheetConsultoria = workbook.createSheet("Consultoria");
+                montarProgressoAtividade(sheetConsultoria, planilhaDetalhes.getServ(), boldCellZwolf, cellZehnM, cellZehnD, cellZehnN, planilhaDetalhes.isRepasse(), TipoAtividade.SE);
 
                 workbook.write(fileOut);
                 fileOut.flush();
@@ -652,6 +653,8 @@ public class GeradorPlanilha {
                 return 0.4;
             case TE:
                 return 0.25;
+            case SE:
+                return 1;
             default:
                 return 0.0;
         }

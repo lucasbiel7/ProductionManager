@@ -20,6 +20,7 @@ import br.com.stefanini.model.enuns.Faturamento;
 import br.com.stefanini.model.enuns.OrigemAtividade;
 import br.com.stefanini.model.enuns.SituacaoAtividade;
 import br.com.stefanini.model.enuns.TipoAtividade;
+import br.com.stefanini.model.util.DoubleConverter;
 import br.com.stefanini.model.util.MessageUtil;
 import br.com.stefanini.model.util.StringUtil;
 import java.net.URL;
@@ -29,9 +30,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -276,8 +275,8 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
                 countDetalhada += atividade.getContagemDetalhada();
             }
         }
-        lbTotalEstimada.setText(String.valueOf(countEstimada));
-        lbTotalDetalhada.setText(String.valueOf(countDetalhada));
+        lbTotalEstimada.setText(DoubleConverter.doubleToString(countEstimada));
+        lbTotalDetalhada.setText(DoubleConverter.doubleToString(countDetalhada));
     }
 
     private Atividade buildAtividadeFromfxml() {
