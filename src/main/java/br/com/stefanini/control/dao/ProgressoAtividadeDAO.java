@@ -142,6 +142,38 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         return entitys;
     }
     
+    public List<ProgressoAtividade> pegarTodosNaoFaturados(String idProjeto, String idModulo, String idPacote) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" SELECT pa FROM ProgressoAtividade pa WHERE pa.faturamento NOT IN('FO')");
+//        sb.append(" AND pa.id.progresso =:paramProgresso ");
+        if (!StringUtil.isEmpty(idProjeto)) {
+            sb.append(" AND pa.id.atividade.pacote.modulo.projeto.id =:paramIdProjeto ");
+        }
+        if (!StringUtil.isEmpty(idModulo)) {
+            sb.append(" AND pa.id.atividade.pacote.modulo.id =:paramIdModulo ");
+        }
+        if (!StringUtil.isEmpty(idPacote)) {
+            sb.append(" AND pa.id.atividade.pacote.id =:paramIDPacote ");
+        }
+        sb.append(" group by pa.id.atividade");
+        Query query = getEntityManager().createQuery(sb.toString());
+//        query.setParameter("paramData", data);
+//        query.setParameter("paramProgresso", 100.0);
+
+        if (!StringUtil.isEmpty(idProjeto)) {
+            query.setParameter("paramIdProjeto", idProjeto);
+        }
+        if (!StringUtil.isEmpty(idModulo)) {
+            query.setParameter("paramIdModulo", idModulo);
+        }
+        if (!StringUtil.isEmpty(idPacote)) {
+            query.setParameter("paramIDPacote", idPacote);
+        }
+        entitys = query.getResultList();
+
+        return entitys;
+    }
+    
     public List<ProgressoAtividade> faturadosEEmFaturamento(int data) {
         StringBuilder hql = new StringBuilder("SELECT pa FROM " + ProgressoAtividade.class.getName()).append(" pa WHERE YEAR(pa.id.atividade.fimAtividade)= :data");
         Query query = getEntityManager().createQuery(hql.toString());

@@ -35,7 +35,7 @@
                      <children>
                         <VBox fx:id="vbPlanejamento" alignment="CENTER" prefWidth="5000.0" GridPane.columnIndex="1">
                            <children>
-                              <Label alignment="CENTER" contentDisplay="TOP" prefHeight="17.0" prefWidth="209.0" styleClass="label-bold" text="Planejamento/Realizado">
+                              <Label fx:id="lbPlanejamentoRealizado" alignment="CENTER" contentDisplay="TOP" prefHeight="17.0" prefWidth="209.0" styleClass="label-bold">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -75,22 +75,23 @@
                               <Label fx:id="lbLevantamento" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Levantamento:" />
                               <Label fx:id="lbDesenvolvimento" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Desenvolvimento:" textFill="#3b0edd" />
                               <Label fx:id="lbTeste" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Testes/Homologação:" />
-                              <Label />
-                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="5000.0" styleClass="label-bold" text="Estimada">
+                              <Label fx:id="lbTotalPf" prefHeight="17.0" prefWidth="449.0" text="Total PF:" />
+                              <Label fx:id="lbTituloEstimada" alignment="CENTER" prefHeight="17.0" prefWidth="5000.0" styleClass="label-bold" text="Estimada">
                                  <font>
                                     <Font size="14.0" />
                                  </font></Label>
                               <Label fx:id="lbPfEstimada" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Pontos de função:  " textFill="#3b0edd" />
                               <Label fx:id="lbValorContratoEstimada" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Valor Contrato:" />
                               <Label fx:id="lbValorRepasseEstimada" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Valor Repasse:" textFill="#3b0edd" />
-                              <Label />
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="5000.0" styleClass="label-bold" text="Detalhada">
+                              <Label fx:id="lbTituloDetalhada" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="5000.0" styleClass="label-bold" text="Detalhada">
                                  <font>
                                     <Font size="14.0" />
                                  </font></Label>
                               <Label fx:id="lbPfDetalhada" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Pontos de função:  " textFill="#3b0edd" />
                               <Label fx:id="lbValorContratoDetalhada" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Valor Contrato:" />
                               <Label fx:id="lbValorRepasseDetalhada" contentDisplay="CENTER" prefHeight="17.0" prefWidth="300.0" text="Valor Repasse:" textFill="#3b0edd" />
+                              <Label />
+                              <Label />
                            </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

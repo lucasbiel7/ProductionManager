@@ -5,6 +5,7 @@
  */
 package br.com.stefanini.control;
 
+import br.com.stefanini.control.dao.AtividadeDAO;
 import br.com.stefanini.control.dao.CustoDAO;
 import br.com.stefanini.control.dao.ModuloDAO;
 import br.com.stefanini.control.dao.PacoteDAO;
@@ -172,8 +173,8 @@ public class PainelDeControleController extends ControllerBase implements Initia
         params.put("projetoObject", projeto);
 
         //PARAMETRO ATIVIDADES
-//        List<Atividade> atividades = AtividadeDAO.getInstance().buscarAtividade(idProjeto, idModulo, idPacote, spAno.getValue());
-//        params.put("atividades", atividades);
+        List<Atividade> atividades = AtividadeDAO.getInstance().buscarAtividade(idProjeto, idModulo, idPacote, spAno.getValue());
+        params.put("atividades", atividades);
         
 //        List<ProgressoAtividade> progressos = ProgressoAtividadeDAO.getInstance().faturadosEEmFaturamento(spAno.getValue());
 //        params.put("progressos", progressos);
@@ -189,10 +190,12 @@ public class PainelDeControleController extends ControllerBase implements Initia
         List<ProgressoAtividade> desenvolvimentosAno = ProgressoAtividadeDAO.getInstance().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.DE, idProjeto, idModulo, idPacote);
         List<ProgressoAtividade> testesAno = ProgressoAtividadeDAO.getInstance().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.TE, idProjeto, idModulo, idPacote);
         List<ProgressoAtividade> servicosAno = ProgressoAtividadeDAO.getInstance().pegarProgressoAtividade(spAno.getValue(), TipoAtividade.SE, idProjeto, idModulo, idPacote);
+        List<ProgressoAtividade> naoFaturados = ProgressoAtividadeDAO.getInstance().pegarTodosNaoFaturados(idProjeto, idModulo, idPacote);
         params.put("levantamentosAno", levantamentosAno);
         params.put("desenvolvimentosAno", desenvolvimentosAno);
         params.put("testesAno", testesAno);
         params.put("servicosAno", servicosAno);
+        params.put("naoFaturados", naoFaturados);
     }
 
     @FXML
