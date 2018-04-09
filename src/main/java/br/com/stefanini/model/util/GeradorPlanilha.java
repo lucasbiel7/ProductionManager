@@ -423,7 +423,7 @@ public class GeradorPlanilha {
         montarSubDetalhamento(sheet, ch, planilhaDetalhes.getDev(), boldCellZehnCenterGrey, boldCellZehnNbLeft, cellZehnNbM, cellZehnNbD, cellZehnNbN, repasse, TipoAtividade.DE, (repasse ? 16 : 13));
         montarAliAie(sheet, planilhaDetalhes.getTst(), boldCellZehnCenterGrey, boldCellZehnNbLeft, cellZehnNbM, cellZehnNbD, cellZehnNbN, repasse, (repasse ? 22 : 18));
         montarSubDetalhamento(sheet, ch, planilhaDetalhes.getTst(), boldCellZehnCenterGrey, boldCellZehnNbLeft, cellZehnNbM, cellZehnNbD, cellZehnNbN, repasse, TipoAtividade.TE, (repasse ? 27 : 22));
-//        montarSubDetalhamento(sheet, ch, planilhaDetalhes.getTst(), boldCellZehnCenterGrey, boldCellZehnNbLeft, cellZehnNbM, cellZehnNbD, cellZehnNbN, repasse, TipoAtividade.TE, (repasse?22:18));
+        montarSubDetalhamento(sheet, ch, planilhaDetalhes.getServ(), boldCellZehnCenterGrey, boldCellZehnNbLeft, cellZehnNbM, cellZehnNbD, cellZehnNbN, repasse, TipoAtividade.SE, (repasse? 33:27));
         sheet.autoSizeColumn(0);
         sheet.autoSizeColumn(1);
         sheet.autoSizeColumn(2);
@@ -488,7 +488,7 @@ public class GeradorPlanilha {
         HSSFRow row = sheet.createRow((short) (initRow));
         HSSFCell cell = row.createCell((short) 0);
         cell.setCellStyle(boldCellZehnCenterGrey);
-        cell.setCellValue(tipoAtividade.toString());
+        cell.setCellValue(tipoAtividade==null?"No title":tipoAtividade.getPqp());
 
         Double pfE = 0.0, pfD = 0.0;
         for (ProgressoAtividade progressoAtividade : lista) {
