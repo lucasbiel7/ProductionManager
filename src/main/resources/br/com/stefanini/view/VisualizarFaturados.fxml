@@ -418,17 +418,17 @@
             <ComboBox fx:id="cbMes" prefHeight="25.0" prefWidth="117.0" promptText="Mês..." GridPane.columnIndex="3" />
          </children>
       </GridPane>
-      <GridPane layoutX="600.0" layoutY="40.0">
+      <GridPane layoutX="601.0" layoutY="40.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="73.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="10.0" prefWidth="127.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="101.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="10.0" prefWidth="99.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" onAction="#btFiltrarAction" prefHeight="25.0" prefWidth="67.0" text="FILTRAR" GridPane.columnIndex="1" />
-            <Button mnemonicParsing="false" onAction="#btLimparAction" prefWidth="69.0" text="LIMPAR" />
+            <Button mnemonicParsing="false" onAction="#btFiltrarAction" prefHeight="25.0" prefWidth="90.0" text="Pesquisar" GridPane.columnIndex="1" />
+            <Button mnemonicParsing="false" onAction="#btLimparAction" prefHeight="25.0" prefWidth="96.0" text="Limpar Filtros" />
          </children>
       </GridPane>
    </children>
