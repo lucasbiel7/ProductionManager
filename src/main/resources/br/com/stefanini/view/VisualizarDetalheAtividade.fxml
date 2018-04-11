@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -19,13 +20,9 @@
             <Font name="System Bold" size="20.0" />
          </font></Label>
       <Line endX="1301.0" layoutY="35.0" startX="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-      <Label fx:id="lbProjetoModulo" layoutX="14.0" layoutY="41.0" text="&lt;&lt;Projeto&gt;&gt; - &lt;&lt;Módulo&gt;&gt;">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font></Label>
-      <Button fx:id="btPlanilhaBDMG" layoutX="497.0" layoutY="43.0" mnemonicParsing="false" onAction="#gerarPlanilhaBDMGAction" text="Gerar Planilha - BDMG" />
-      <Button fx:id="btPlanilhaSTEFANINI" layoutX="659.0" layoutY="43.0" mnemonicParsing="false" onAction="#gerarPlanilhaSTEFANINIAction" text="Gerar Planilha - STEFANINI" />
-      <Button fx:id="btFaturar" layoutX="1175.0" layoutY="43.0" mnemonicParsing="false" onAction="#faturarAction" text="Faturar" />
+      <Button fx:id="btPlanilhaBDMG" layoutX="925.0" layoutY="43.0" mnemonicParsing="false" onAction="#gerarPlanilhaBDMGAction" text="Gerar Planilha - BDMG" />
+      <Button fx:id="btPlanilhaSTEFANINI" layoutX="1070.0" layoutY="43.0" mnemonicParsing="false" onAction="#gerarPlanilhaSTEFANINIAction" text="Gerar Planilha - STEFANINI" />
+      <Button fx:id="btFaturar" layoutX="866.0" layoutY="43.0" mnemonicParsing="false" onAction="#faturarAction" text="Faturar" />
       <Button fx:id="btCancelar" layoutX="1240.0" layoutY="43.0" mnemonicParsing="false" onAction="#cancelarAction" text="Cancelar" />
       <Line endX="1301.0" layoutY="75.0" startX="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
       <GridPane layoutX="14.0" layoutY="76.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
@@ -403,6 +400,36 @@
             <Label fx:id="lbTotalAlieEstimadaRepasse" GridPane.columnIndex="6" />
             <Label fx:id="lbTotalAlieDetalhadaContrato" GridPane.columnIndex="7" />
             <Label fx:id="lbTotalAlieDetalhadaRepasse" GridPane.columnIndex="8" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="25.0" layoutY="40.0" prefHeight="30.0" prefWidth="606.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <ComboBox fx:id="cbProjeto" onAction="#cbProjetoAction" prefHeight="25.0" prefWidth="144.0" promptText="Projeto..." />
+            <ComboBox fx:id="cbModulo" onAction="#cbModuloAction" prefHeight="25.0" prefWidth="144.0" promptText="Módulo..." GridPane.columnIndex="1" />
+            <ComboBox fx:id="cbPacote" prefHeight="25.0" prefWidth="143.0" promptText="Pacote..." GridPane.columnIndex="2" />
+            <ComboBox fx:id="cbMes" prefHeight="25.0" prefWidth="117.0" promptText="Mês..." GridPane.columnIndex="3" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="611.0" layoutY="40.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="73.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="10.0" prefWidth="127.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Button mnemonicParsing="false" onAction="#btFiltrarAction" prefHeight="25.0" prefWidth="67.0" text="FILTRAR" GridPane.columnIndex="1" />
+            <Button mnemonicParsing="false" onAction="#btLimparAction" prefWidth="69.0" text="LIMPAR" />
          </children>
       </GridPane>
    </children>

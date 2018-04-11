@@ -5,8 +5,11 @@
  */
 package br.com.stefanini.control;
 
+import br.com.stefanini.control.dao.ModuloDAO;
+import br.com.stefanini.control.dao.PacoteDAO;
 import br.com.stefanini.control.dao.ParametroDAO;
 import br.com.stefanini.control.dao.ProgressoAtividadeDAO;
+import br.com.stefanini.control.dao.ProjetoDAO;
 import br.com.stefanini.model.entity.Atividade;
 import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.OrdemServico;
@@ -14,6 +17,8 @@ import br.com.stefanini.model.entity.Pacote;
 import br.com.stefanini.model.entity.Parametro;
 import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.entity.Projeto;
+import br.com.stefanini.model.enuns.Faturamento;
+import br.com.stefanini.model.enuns.Mes;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.enuns.TipoParametro;
 import br.com.stefanini.model.util.DoubleConverter;
@@ -25,11 +30,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +48,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
@@ -67,7 +71,13 @@ import javafx.stage.Stage;
 public class VisualizarDetalheAtividadeController extends ControllerBase implements Initializable {
 
     @FXML
-    private Label lbProjetoModulo;
+    private ComboBox<Mes> cbMes;
+    @FXML
+    private ComboBox<Projeto> cbProjeto;
+    @FXML
+    private ComboBox<Modulo> cbModulo;
+    @FXML
+    private ComboBox<Pacote> cbPacote;
 
     @FXML
     private Label lbDetalhamento;
@@ -402,6 +412,96 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
     
     private DirectoryChooser dcChooser;
 
+    @FXML
+    private void btLimparAction(){
+        cbProjeto.setValue(null);
+        cbModulo.setValue(null);
+        cbPacote.setValue(null);
+        cbMes.setValue(null);
+    }
+    
+    @FXML
+    private void cbProjetoAction() {
+        if (cbProjeto.getValue() != null) {
+            cbModulo.getItems().setAll(ModuloDAO.getInstance().pegarPorProjeto(cbProjeto.getValue()));
+        } else {
+            cbModulo.getItems().clear();
+        }
+    }
+    
+    @FXML
+    private void cbModuloAction() {
+        if (cbModulo.getValue() != null) {
+            cbPacote.getItems().setAll(PacoteDAO.getInstance().pegarPorModulo(cbModulo.getValue()));
+        } else {
+            cbPacote.getItems().clear();
+        }
+    }
+    
+    private Atividade buildAtividadeFiltro() {
+        Atividade ativ = new Atividade();
+
+        if (cbPacote.getValue() != null) {
+            ativ.setPacote(cbPacote.getValue());
+        } else {
+            ativ.setPacote(new Pacote());
+        }
+
+        if (cbModulo.getValue() != null) {
+            ativ.getPacote().setModulo(cbModulo.getValue());
+        } else {
+            ativ.getPacote().setModulo(new Modulo());
+        }
+
+        if (cbProjeto.getValue() != null) {
+            ativ.getPacote().getModulo().setProjeto(cbProjeto.getValue());
+        } else {
+            ativ.getPacote().getModulo().setProjeto(new Projeto());
+        }
+
+        return ativ;
+    }
+    
+    @FXML
+    private void btFiltrarAction() {
+        Calendar c = Calendar.getInstance();
+        c.setTime((Date) params.get("data"));
+        if(cbMes.getValue() != null){
+            c.set(Calendar.MONTH, cbMes.getSelectionModel().getSelectedIndex());
+        }else{
+            c.set(Calendar.MONTH, c.get(Calendar.MONTH));
+        }
+        List<ProgressoAtividade> lev = ProgressoAtividadeDAO.getInstance().pesquisaFasesComFiltros(c.getTime(), buildAtividadeFiltro(), TipoAtividade.LE, Faturamento.EF);
+        List<ProgressoAtividade> dev = ProgressoAtividadeDAO.getInstance().pesquisaFasesComFiltros(c.getTime(), buildAtividadeFiltro(), TipoAtividade.DE, Faturamento.EF);
+        List<ProgressoAtividade> tes = ProgressoAtividadeDAO.getInstance().pesquisaFasesComFiltros(c.getTime(), buildAtividadeFiltro(), TipoAtividade.TE, Faturamento.EF);
+        List<ProgressoAtividade> ser = ProgressoAtividadeDAO.getInstance().pesquisaFasesComFiltros(c.getTime(), buildAtividadeFiltro(), TipoAtividade.SE, Faturamento.EF);
+
+        tvLev.getItems().setAll(lev);
+        tvDev.getItems().setAll(dev);
+        tvAli.getItems().setAll(dev);
+        tvTst.getItems().setAll(tes);
+        tvServico.getItems().setAll(ser);
+        calcularTotais();
+        String projeto;
+        String modulo;
+        String pacote;
+        if (cbPacote.getValue() != null){
+            pacote = buildAtividadeFiltro().getPacote().getDescricao();
+            modulo = buildAtividadeFiltro().getPacote().getModulo().getDescricao();
+            projeto = buildAtividadeFiltro().getPacote().getModulo().getProjeto().getDescricao();
+            lbDetalhamento.setText(buildLabelDetalhamento(c.getTime())+" - "+projeto+"/"+modulo+"/"+pacote);
+        } else if (cbModulo.getValue() != null){
+            modulo = buildAtividadeFiltro().getPacote().getModulo().getDescricao();
+            projeto = buildAtividadeFiltro().getPacote().getModulo().getProjeto().getDescricao();
+            lbDetalhamento.setText(buildLabelDetalhamento(c.getTime())+" - "+projeto+"/"+modulo);
+        } else if (cbProjeto.getValue() != null){
+            projeto = buildAtividadeFiltro().getPacote().getModulo().getProjeto().getDescricao();
+            lbDetalhamento.setText(buildLabelDetalhamento(c.getTime())+" - "+projeto);
+        } else {
+            lbDetalhamento.setText(buildLabelDetalhamento(c.getTime()));
+        }     
+    }
+    
     private void calcularTotais() {
         Parametro paramContrato = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.CONTRATO);
         Parametro paramRepasse = ParametroDAO.getInstance().buscaParametroRecente(TipoParametro.REPASSE);
@@ -501,15 +601,17 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(() -> {
             params = (Map<String, Object>) apPrincipal.getUserData();
-            lbDetalhamento.setText(buildLabelDetalhamento((Date) params.get("data")));
             gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
-            lbProjetoModulo.setText("");
+            lbDetalhamento.setText("Faturamento");
+//            lbDetalhamento.setText(buildLabelDetalhamento((Date) params.get("data")));
+//            lbProjetoModulo.setText("");
             tvLev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.LE));
             tvDev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
             tvTst.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.TE));
             tvServico.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.SE));
             calcularTotais();
         });
+        cbMes.getItems().setAll(Mes.values());
         dcChooser=new DirectoryChooser();
         dcChooser.setTitle("Selecionar a pasta");
     }
@@ -530,7 +632,7 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
         if (date == null) {
             return null;
         }
-        StringBuilder sb = new StringBuilder("Detalhamento de ");
+        StringBuilder sb = new StringBuilder("Faturamento de ");
         sb.append(new SimpleDateFormat("MM/YYYY").format(date));
         return sb.toString();
     }
@@ -622,8 +724,10 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
     public void teste() {
         params = (Map<String, Object>) apPrincipal.getUserData();
         gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+        btLimparAction();
+        cbProjeto.getItems().setAll(ProjetoDAO.getInstance().pegarTodos());
+        cbProjetoAction();
         lbDetalhamento.setText(buildLabelDetalhamento((Date) params.get("data")));
-        lbProjetoModulo.setText("");
         tvLev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.LE));
         tvDev.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));
         tvAli.getItems().setAll(ProgressoAtividadeDAO.getInstance().pegarEmFaturamentoPorDataTipoAtividade((Date) params.get("data"), TipoAtividade.DE));

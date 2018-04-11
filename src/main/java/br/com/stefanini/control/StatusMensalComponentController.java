@@ -546,6 +546,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         lbValorRepasseDetalhada.setVisible(false);
         lbValorRepasseEstimada.setVisible(false);
         gpLayout.getChildren().remove(vbPlanejamento);
+        lbTotalPf.setVisible(false);
     }
 
     @Override
@@ -553,6 +554,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         lbValorRepasseDetalhada.setVisible(false);
         lbValorRepasseEstimada.setVisible(false);
         gpLayout.getChildren().remove(vbPlanejamento);
+        lbTotalPf.setVisible(false);
     }
 
     @Override
@@ -560,6 +562,8 @@ public class StatusMensalComponentController extends ControllerBase implements I
         lbValorRepasseDetalhada.setVisible(false);
         lbValorRepasseEstimada.setVisible(false);
         gpLayout.getChildren().remove(vbPlanejamento);
+        lbTotalPf.setVisible(false);
+        
     }
 
     @Override
@@ -567,6 +571,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         lbValorRepasseDetalhada.setVisible(false);
         lbValorRepasseEstimada.setVisible(false);
         gpLayout.getChildren().remove(vbPlanejamento);
+        lbTotalPf.setVisible(false);
     }
 
     @Override
@@ -591,6 +596,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         lbValorRepasseDetalhada.setVisible(false);
         lbValorRepasseEstimada.setVisible(false);
         gpLayout.getChildren().remove(vbPlanejamento);
+        lbTotalPf.setVisible(false);
     }
 
 }

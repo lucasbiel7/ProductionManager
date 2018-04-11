@@ -93,6 +93,33 @@ public class ProgressoAtividadeDAO extends GenericaDAO<ProgressoAtividade> {
         return entitys;
     }
     
+    public List<ProgressoAtividade> pesquisaFasesComFiltros(Date data, Atividade atv, TipoAtividade tipoAtividade, Faturamento faturamento) {
+        List<Predicate> criterios = new ArrayList<>();
+        if(faturamento.equals(Faturamento.FO)){
+            // FATURADOS
+            criterios.add(criteriaBuilder.equal(root.<java.sql.Date>get("dataFaturamento"), new java.sql.Date(data.getTime())));
+        }else{
+            // EM FATURAMENTO
+            criterios.add(criteriaBuilder.lessThanOrEqualTo(root.get("id").get("atividade").<java.sql.Date>get("previsaoInicio"), new java.sql.Date(data.getTime())));
+        }
+        
+        criterios.add(criteriaBuilder.equal(root.get("id").get("tipoAtividade"), tipoAtividade));
+        criterios.add(criteriaBuilder.equal(root.get("faturamento"), faturamento));
+        if (atv.getPacote().getModulo().getProjeto().getId() != null) {
+            criterios.add(criteriaBuilder.equal(root.get("id").get("atividade").get("pacote").get("modulo").get("projeto"), atv.getPacote().getModulo().getProjeto()));
+        }
+        if (atv.getPacote().getModulo().getId() != null) {
+            criterios.add(criteriaBuilder.equal(root.get("id").get("atividade").get("pacote").get("modulo"), atv.getPacote().getModulo()));
+        }
+        if (atv.getPacote().getId() != null) {
+            criterios.add(criteriaBuilder.equal(root.get("id").get("atividade").get("pacote"), atv.getPacote()));
+        }
+        criteriaQuery.where(criteriaBuilder.and(criterios.toArray(new Predicate[]{})));
+        entitys = getEntityManager().createQuery(criteriaQuery).getResultList();
+
+        return entitys;
+    }
+    
 
     public void faturar(List<ProgressoAtividade> progressos,Date data) {
         getEntityManager().getTransaction().begin();

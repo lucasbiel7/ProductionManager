@@ -139,6 +139,9 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
 
     @FXML
     private Button btVisualizar;
+    
+    @FXML
+    private Button btFaturados;
 
     Map<String, Object> params = new HashMap<>();
 
@@ -385,6 +388,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, false));
         colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, true));
         btVisualizar.setVisible(false);
+        btFaturados.setVisible(false);
     }
 
     @Override
@@ -395,6 +399,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, true));
         colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, true));
         btVisualizar.setVisible(true);
+        btFaturados.setVisible(true);
     }
 
     @Override
@@ -405,6 +410,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, true));
         colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, true));
         btVisualizar.setVisible(false);
+        btFaturados.setVisible(false);
     }
 
     @Override
@@ -415,7 +421,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, true));
         colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, false));
         btVisualizar.setVisible(false);
-
+        btFaturados.setVisible(false);
     }
 
     @Override
@@ -426,7 +432,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, false));
         colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, false));
         btVisualizar.setVisible(true);
-
+        btFaturados.setVisible(true);
     }
 
     @Override
@@ -437,6 +443,7 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, true));
         colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, true));
         btVisualizar.setVisible(false);
+        btFaturados.setVisible(false);
     }
 
     public void teste() {
