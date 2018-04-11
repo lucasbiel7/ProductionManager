@@ -34,6 +34,10 @@ abstract class ControllerBase {
             case QUALIDADE:
                 buildQualidade();
                 break;
+                
+            case ADMINISTRADOR:
+                buildAdministrador();
+                break;
         }
     }
         
@@ -43,5 +47,6 @@ abstract class ControllerBase {
     abstract public void buildDesenvolvedor();
     abstract public void buildGerente();
     abstract public void buildQualidade();
+    abstract public void buildAdministrador();
     
 }

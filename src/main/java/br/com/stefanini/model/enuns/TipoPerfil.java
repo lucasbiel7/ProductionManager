@@ -15,7 +15,8 @@ public enum TipoPerfil {
     ANALISTA("Analista"),
     BANCO_DADOS("Banco de Dados"),
     DESENVOLVEDOR("Desenvolvedor"),
-    QUALIDADE("Qualidade");
+    QUALIDADE("Qualidade"),
+    ADMINISTRADOR("Administrador");
     
     public String descricao;
     

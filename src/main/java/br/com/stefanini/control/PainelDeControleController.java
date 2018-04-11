@@ -18,6 +18,7 @@ import br.com.stefanini.model.entity.Modulo;
 import br.com.stefanini.model.entity.Pacote;
 import br.com.stefanini.model.entity.ProgressoAtividade;
 import br.com.stefanini.model.entity.Projeto;
+import br.com.stefanini.model.entity.Usuario;
 import br.com.stefanini.model.enuns.TipoAtividade;
 import br.com.stefanini.model.enuns.TipoParametro;
 import java.net.URL;
@@ -36,6 +37,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -57,6 +59,11 @@ import javafx.stage.Window;
  */
 public class PainelDeControleController extends ControllerBase implements Initializable {
 
+    @FXML
+    private Usuario usuario;
+    @FXML
+    private Label lbNome;
+    
     @FXML
     private AnchorPane apPrincipal;
 
@@ -109,8 +116,11 @@ public class PainelDeControleController extends ControllerBase implements Initia
         Calendar calendar = Calendar.getInstance();
         spAno.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, calendar.get(Calendar.YEAR)));
         apPrincipal.sceneProperty().addListener((ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) -> {
+            Map param = (Map) apPrincipal.getUserData();
             params = (Map<String, Object>) apPrincipal.getUserData();
             gerenciadorDeJanela = (GerenciadorDeJanela) params.get("gerenciador");
+            usuario = (Usuario) param.get("usuario");
+            lbNome.setText("Usuário: " + usuario.getPessoa().getNome() + " - " + usuario.getPerfil());
             if (newValue != null) {
                 newValue.windowProperty().addListener((ObservableValue<? extends Window> observable1, Window oldValue1, Window newWindows) -> {
                     if (newWindows != null) {
@@ -347,12 +357,17 @@ public class PainelDeControleController extends ControllerBase implements Initia
 
     @Override
     public void buildGerente() {
-        visibilidadeMenu(true);
+        visibilidadeMenu(false);
     }
 
     @Override
     public void buildQualidade() {
         visibilidadeMenu(false);
+    }
+
+    @Override
+    public void buildAdministrador() {
+        visibilidadeMenu(true);
     }
 
 }

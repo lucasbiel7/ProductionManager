@@ -81,7 +81,7 @@
                   <Line endX="1200.0" layoutX="115.0" layoutY="122.0" startX="-100.0" />
                   <Button fx:id="idPesquisar" layoutX="1235.0" layoutY="129.0" mnemonicParsing="false" onAction="#buttonPesquisar" text="Pesquisar" />
                   <Button fx:id="idLimpar" layoutX="1136.0" layoutY="129.0" mnemonicParsing="false" onAction="#buttonLimpar" text="Limpar Filtros" />
-                  <Button fx:id="btSair" layoutX="1288.0" layoutY="2.0" mnemonicParsing="false" onAction="#btSair">
+                  <Button fx:id="btSair" layoutX="1288.0" layoutY="8.0" mnemonicParsing="false" onAction="#btSair">
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -106,5 +106,10 @@
             </ImageView>
          </graphic></Label>
       <ProgressIndicator fx:id="piLoader" style="-fx-background-color: white;" visible="false" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="101.0" />
+      <Label fx:id="lbNome" alignment="CENTER" layoutX="16.0" layoutY="121.0" prefHeight="27.0" prefWidth="1366.0" styleClass="label-bold" text="Nome">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

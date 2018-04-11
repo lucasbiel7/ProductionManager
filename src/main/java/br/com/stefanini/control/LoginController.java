@@ -99,9 +99,10 @@ public class LoginController implements Initializable {
     @FXML
     private void btLoginActionEvent(ActionEvent ae) {
         Usuario usuario = UsuarioDAO.getInstance().login(tfCPF.getText(), SecurityUtil.encript(pfUSenha.getText()));
+        params.put("usuario", usuario);
         if (usuario != null) {
             gerenciadorDeJanela.getMain().user = usuario;
-             gerenciadorDeJanela.trocarCena(gerenciadorDeJanela.carregarComponente("PainelDeControle"), "PainelDeControle");
+             gerenciadorDeJanela.trocarCena(gerenciadorDeJanela.carregarComponente("PainelDeControle", params), "PainelDeControle");
         } else {
             MessageUtil.messageError("Favor verificar usuário e/ou senha informada, não foi localizado na base de dados.");
         }

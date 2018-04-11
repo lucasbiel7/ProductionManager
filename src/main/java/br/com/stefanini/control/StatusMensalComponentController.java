@@ -599,4 +599,21 @@ public class StatusMensalComponentController extends ControllerBase implements I
         lbTotalPf.setVisible(false);
     }
 
+    @Override
+    public void buildAdministrador() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        String dataParam = DateUtil.formatterDate(calendar.getTime(), "yyyy-MM-dd");
+        String dataAux = DateUtil.formatterDate(inicio, "yyyy-MM-dd");
+        if(dataParam.equals(dataAux)){
+            lbValorRepasseDetalhada.setVisible(true);
+        } else if(DateUtil.truncateDate(inicio).before(DateUtil.truncateDate(calendar.getTime()))){
+            lbValorRepasseDetalhada.setVisible(true);
+            // lbValorRepasseEstimada.setVisible(false);
+        } else{
+            lbValorRepasseDetalhada.setVisible(true);
+            lbValorRepasseEstimada.setVisible(true);
+        } 
+    }
+
 }

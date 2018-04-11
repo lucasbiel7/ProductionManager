@@ -1149,4 +1149,56 @@ public class VisualizarDetalheAtividadeController extends ControllerBase impleme
 //        lbTotalEstimadaoRepasse.setVisible(false);
 
     }
+    
+    @Override
+    public void buildAdministrador() {
+        colEstimativaRepasseLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemEstimada() * .35 * valorRepasse)));
+        colDetalhadaRepasseLev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemDetalhada() * .35 * valorRepasse)));
+
+        colEstimativaRepasseDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemEstimada() * .4 * valorRepasse)));
+        colDetalhadaRepasseDev.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemDetalhada() * .4 * valorRepasse)));
+
+        colEstimativaRepasseTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemEstimada() * .25 * valorRepasse)));
+        colDetalhadaRepasseTst.setCellValueFactory((TableColumn.CellDataFeatures<ProgressoAtividade, String> param) -> new SimpleStringProperty(DoubleConverter.doubleToString(param.getValue().getId().getAtividade().getContagemDetalhada() * .25 * valorRepasse)));
+        lbTxTotalDetalhadoRepasse.setVisible(true);
+        lbTotalDetalhadoRepasse.setVisible(true);
+        lbTxTotalEstimadaoRepasse.setVisible(true);
+        lbTotalEstimadaoRepasse.setVisible(true);
+        btPlanilhaSTEFANINI.setVisible(true);
+        btPlanilhaBDMG.setVisible(true);
+//        btFaturar.setVisible(true);
+//        
+//        lbTotalEstimativaRepasseLev.setVisible(true);
+//        lbTotalDetalhadaRepasseLev.setVisible(true);
+        colAcoesLev.setCellFactory((TableColumn<ProgressoAtividade, ProgressoAtividade> param) -> new TableCell<ProgressoAtividade, ProgressoAtividade>() {
+
+            @Override
+            protected void updateItem(ProgressoAtividade item, boolean empty) {
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    HBox gerenciadorLayout = new HBox();
+                    Button btExcluir = new Button();
+                    ImageView ivExcluir = new ImageView(new Image(getClass().getResourceAsStream(GerenciadorDeJanela.PACOTE_VIEW + "image/excluir.png")));
+                    ivExcluir.setFitHeight(15d);
+                    ivExcluir.setFitWidth(15d);
+                    btExcluir.setGraphic(ivExcluir);
+                    btExcluir.setVisible(true);
+                    gerenciadorLayout.setSpacing(5);
+                    gerenciadorLayout.setAlignment(Pos.CENTER);
+                    gerenciadorLayout.getChildren().addAll(btExcluir);
+                    setGraphic(gerenciadorLayout);
+                    setAlignment(Pos.CENTER);
+                    btExcluir.setTooltip(new Tooltip("Excluir"));
+                    btExcluir.setOnAction((ActionEvent event) -> {
+                        if (MessageUtil.confirmMessage("Você realmente deseja excluir este Progresso?")) {
+                            tvLev.getItems().remove(item);
+                            calcularTotais();
+                        }
+                    });
+                }
+            }
+        });
+    }
 }

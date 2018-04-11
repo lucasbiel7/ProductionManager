@@ -445,6 +445,17 @@ public class PesquisarAtividadeController extends ControllerBase implements Init
         btVisualizar.setVisible(false);
         btFaturados.setVisible(false);
     }
+    
+    @Override
+    public void buildAdministrador() {
+        btAdd.setVisible(true);
+        colAcoes.setVisible(true);
+        colHomologacao.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.TE, false));
+        colLevantamento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.LE, false));
+        colDesenvolvimento.setCellFactory((TableColumn<Atividade, Atividade> param1) -> new TableCellFases(TipoAtividade.DE, false));
+        btVisualizar.setVisible(true);
+        btFaturados.setVisible(true);
+    }
 
     public void teste() {
         params = (Map) apPrincipal.getUserData();
