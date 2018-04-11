@@ -53,7 +53,7 @@ public class LoginController implements Initializable {
 
     private Stage stage;
     private GerenciadorDeJanela gerenciadorDeJanela;
-    private final Double nrVersaoAtual = 1.0;
+    private final Double nrVersaoAtual = 1.1;
 
     Map<String, Object> params = new HashMap<>();
 

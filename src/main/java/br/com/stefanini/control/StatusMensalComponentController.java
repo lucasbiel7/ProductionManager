@@ -608,7 +608,7 @@ public class StatusMensalComponentController extends ControllerBase implements I
         if(dataParam.equals(dataAux)){
             lbValorRepasseDetalhada.setVisible(true);
         } else if(DateUtil.truncateDate(inicio).before(DateUtil.truncateDate(calendar.getTime()))){
-            lbValorRepasseDetalhada.setVisible(true);
+            lbValorRepasseDetalhada.setVisible(false);
             // lbValorRepasseEstimada.setVisible(false);
         } else{
             lbValorRepasseDetalhada.setVisible(true);
